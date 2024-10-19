@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Stdlib os - Tender Docs</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Tender Docs</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../.." class="nav-link">Tender</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Pages</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../builtins/" class="dropdown-item">Builtin Functions Documentation</a>
+</li>
+                                    
+<li>
+    <a href="../formatting/" class="dropdown-item">Formatting</a>
+</li>
+                                    
+<li>
+    <a href="../operators/" class="dropdown-item">Operators</a>
+</li>
+                                    
+<li>
+    <a href="../runtime-types/" class="dropdown-item">Tender Runtime Types</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-audio/" class="dropdown-item">Stdlib audio</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-base64/" class="dropdown-item">Stdlib base64</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-bufio/" class="dropdown-item">Stdlib bufio</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-canvas/" class="dropdown-item">Stdlib canvas</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-colors/" class="dropdown-item">colors Module</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-crypto/" class="dropdown-item">Stdlib crypto</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-dll/" class="dropdown-item">Stdlib dll</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-fmt/" class="dropdown-item">Stdlib fmt</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-gzip/" class="dropdown-item">Stdlib gzip</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-hex/" class="dropdown-item">Stdlib hex</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-http/" class="dropdown-item">Stdlib http</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-image/" class="dropdown-item">Stdlib image</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-io/" class="dropdown-item">Stdlib io</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-json/" class="dropdown-item">Stdlib json</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-math/" class="dropdown-item">math Module</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-net/" class="dropdown-item">Stdlib net</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Stdlib os</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-path/" class="dropdown-item">Stdlib path</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-rand/" class="dropdown-item">Stdlib rand</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-strings/" class="dropdown-item">Stdlib strings</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-tar/" class="dropdown-item">Stdlib tar</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-times/" class="dropdown-item">times Module</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-websocket/" class="dropdown-item">Stdlib websocket</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-zip/" class="dropdown-item">Stdlib zip</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib/" class="dropdown-item">Standard Library</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../stdlib-net/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../stdlib-path/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="2"><a href="#os-module-documentation" class="nav-link">OS Module Documentation</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="2"><a href="#constants" class="nav-link">Constants</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="2"><a href="#functions" class="nav-link">Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="2"><a href="#file" class="nav-link">File</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="2"><a href="#process" class="nav-link">Process</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="2"><a href="#processstate" class="nav-link">ProcessState</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="2"><a href="#fileinfo" class="nav-link">FileInfo</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="2"><a href="#command" class="nav-link">Command</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h2 id="os-module-documentation">OS Module Documentation</h2>
+<p>The <code>os</code> module provides functions for operating system functionality.</p>
+<h2 id="constants">Constants</h2>
+<ul>
+<li><code>o_rdonly</code></li>
+<li><code>o_wronly</code></li>
+<li><code>o_rdwr</code></li>
+<li><code>o_append</code></li>
+<li><code>o_create</code></li>
+<li><code>o_excl</code></li>
+<li><code>o_sync</code></li>
+<li><code>o_trunc</code></li>
+<li><code>mode_dir</code></li>
+<li><code>mode_append</code></li>
+<li><code>mode_exclusive</code></li>
+<li><code>mode_temporary</code></li>
+<li><code>mode_symlink</code></li>
+<li><code>mode_device</code></li>
+<li><code>mode_named_pipe</code></li>
+<li><code>mode_socket</code></li>
+<li><code>mode_setuid</code></li>
+<li><code>mode_setgui</code></li>
+<li><code>mode_char_device</code></li>
+<li><code>mode_sticky</code></li>
+<li><code>mode_irregular</code></li>
+<li><code>mode_type</code></li>
+<li><code>mode_perm</code></li>
+<li><code>seek_set</code></li>
+<li><code>seek_cur</code></li>
+<li><code>seek_end</code></li>
+<li><code>path_separator</code></li>
+<li><code>path_list_separator</code></li>
+<li><code>dev_null</code></li>
+</ul>
+<h2 id="functions">Functions</h2>
+<ul>
+<li><code>args() =&gt; [string]</code>: returns command-line arguments, starting with the
+  program name.</li>
+<li><code>chdir(dir string) =&gt; error</code>: changes the current working directory to the
+  named directory.</li>
+<li><code>chmod(name string, mode int) =&gt; error</code>: changes the mode of the named file
+  to mode.</li>
+<li><code>chown(name string, uid int, gid int) =&gt; error</code>: changes the numeric uid and
+  gid of the named file.</li>
+<li><code>clearenv()</code>: deletes all environment variables.</li>
+<li><code>environ() =&gt; [string]</code>: returns a copy of strings representing the
+  environment.</li>
+<li><code>exit(code int)</code>: causes the current program to exit with the given status
+  code.</li>
+<li><code>expand_env(s string) =&gt; string</code>: replaces ${var} or $var in the string
+  according to the values of the current environment variables.</li>
+<li><code>getegid() =&gt; int</code>: returns the numeric effective group id of the caller.</li>
+<li><code>getenv(key string) =&gt; string</code>: retrieves the value of the environment
+  variable named by the key.</li>
+<li><code>geteuid() =&gt; int</code>: returns the numeric effective user id of the caller.</li>
+<li><code>getgid() =&gt; int</code>: returns the numeric group id of the caller.</li>
+<li><code>getgroups() =&gt; [int]/error</code>: returns a list of the numeric ids of groups
+  that the caller belongs to.</li>
+<li><code>getpagesize() =&gt; int</code>: returns the underlying system's memory page size.</li>
+<li><code>getpid() =&gt; int</code>: returns the process id of the caller.</li>
+<li><code>getppid() =&gt; int</code>: returns the process id of the caller's parent.</li>
+<li><code>getuid() =&gt; int</code>: returns the numeric user id of the caller.</li>
+<li><code>getwd() =&gt; string/error</code>: returns a rooted path name corresponding to the
+  current directory.</li>
+<li><code>hostname() =&gt; string/error</code>: returns the host name reported by the kernel.</li>
+<li><code>lchown(name string, uid int, gid int) =&gt; error</code>: changes the numeric uid
+  and gid of the named file.</li>
+<li><code>link(oldname string, newname string) =&gt; error</code>: creates newname as a hard
+  link to the oldname file.</li>
+<li><code>lookup_env(key string) =&gt; string/false</code>: retrieves the value of the
+  environment variable named by the key.</li>
+<li><code>mkdir(name string, perm int) =&gt; error</code>: creates a new directory with the
+  specified name and permission bits (before umask).</li>
+<li><code>mkdir_all(name string, perm int) =&gt; error</code>: creates a directory named path,
+  along with any necessary parents, and returns null, or else returns an error.</li>
+<li><code>read_file(name string) =&gt; bytes/error</code>: reads the contents of a file into
+  a byte array</li>
+<li><code>readlink(name string) =&gt; string/error</code>: returns the destination of the
+  named symbolic link.</li>
+<li><code>remove(name string) =&gt; error</code>: removes the named file or (empty) directory.</li>
+<li><code>remove_all(name string) =&gt; error</code>: removes path and any children it
+  contains.</li>
+<li><code>rename(oldpath string, newpath string) =&gt; error</code>: renames (moves) oldpath
+  to newpath.</li>
+<li><code>setenv(key string, value string) =&gt; error</code>: sets the value of the
+  environment variable named by the key.</li>
+<li><code>stat(filename string) =&gt; FileInfo/error</code>: returns a file info structure
+  describing the file</li>
+<li><code>symlink(oldname string newname string) =&gt; error</code>: creates newname as a
+  symbolic link to oldname.</li>
+<li><code>temp_dir() =&gt; string</code>: returns the default directory to use for temporary
+  files.</li>
+<li><code>truncate(name string, size int) =&gt; error</code>: changes the size of the named
+  file.</li>
+<li><code>unsetenv(key string) =&gt; error</code>: unsets a single environment variable.</li>
+<li><code>create(name string) =&gt; File/error</code>: creates the named file with mode 0666
+  (before umask), truncating it if it already exists.</li>
+<li><code>open(name string) =&gt; File/error</code>: opens the named file for reading. If
+  successful, methods on the returned file can be used for reading; the
+  associated file descriptor has mode O_RDONLY.</li>
+<li><code>open_file(name string, flag int, perm int) =&gt; File/error</code>: is the
+  generalized open call; most users will use Open or Create instead. It opens
+  the named file with specified flag (O_RDONLY etc.) and perm (before umask),
+  if applicable.</li>
+<li><code>find_process(pid int) =&gt; Process/error</code>: looks for a running process by its
+  pid.</li>
+<li><code>start_process(name string, argv [string], dir string, env [string]) =&gt; Process/error</code>:
+  starts a new process with the program, arguments and attributes specified by
+  name, argv and attr. The argv slice will become os.Args in the new process,
+  so it normally starts with the program name.</li>
+<li><code>exec_look_path(file string) =&gt; string/error</code>: searches for an executable
+  named file in the directories named by the PATH environment variable.</li>
+<li><code>exec(name string, args...) =&gt; Command/error</code>: returns the Command to execute
+  the named program with the given arguments.</li>
+</ul>
+<h2 id="file">File</h2>
+<pre><code class="language-golang">file := os.create(&quot;myfile&quot;)
+file.write_string(&quot;some data&quot;)
+file.close()
+</code></pre>
+<ul>
+<li><code>chdir() =&gt; true/error</code>: changes the current working directory to the file,</li>
+<li><code>chown(uid int, gid int) =&gt; true/error</code>: changes the numeric uid and gid of
+  the named file.</li>
+<li><code>close() =&gt; error</code>: closes the File, rendering it unusable for I/O.</li>
+<li><code>name() =&gt; string</code>: returns the name of the file as presented to Open.</li>
+<li><code>readdirnames(n int) =&gt; [string]/error</code>: reads and returns a slice of names
+  from the directory.</li>
+<li><code>sync() =&gt; error</code>: commits the current contents of the file to stable storage.</li>
+<li><code>write(bytes) =&gt; int/error</code>: writes len(b) bytes to the File.</li>
+<li><code>write_string(string) =&gt; int/error</code>: is like 'write', but writes the contents
+  of string s rather than a slice of bytes.</li>
+<li><code>read(bytes) =&gt; int/error</code>: reads up to len(b) bytes from the File.</li>
+<li><code>stat() =&gt; FileInfo/error</code>: returns a file info structure describing the file</li>
+<li><code>chmod(mode int) =&gt; error</code>: changes the mode of the file to mode.</li>
+<li><code>seek(offset int, whence int) =&gt; int/error</code>: sets the offset for the next
+  Read or Write on file to offset, interpreted according to whence: 0 means
+  relative to the origin of the file, 1 means relative to the current offset,
+  and 2 means relative to the end.</li>
+</ul>
+<h2 id="process">Process</h2>
+<pre><code class="language-golang">proc := start_process(&quot;app&quot;, [&quot;arg1&quot;, &quot;arg2&quot;], &quot;dir&quot;, [])
+proc.wait()
+</code></pre>
+<ul>
+<li><code>kill() =&gt; error</code>: causes the Process to exit immediately.</li>
+<li><code>release() =&gt; error</code>: releases any resources associated with the process,
+  rendering it unusable in the future.</li>
+<li><code>signal(signal int) =&gt; error</code>: sends a signal to the Process.</li>
+<li><code>wait() =&gt; ProcessState/error</code>: waits for the Process to exit, and then
+  returns a ProcessState describing its status and an error, if any.</li>
+</ul>
+<h2 id="processstate">ProcessState</h2>
+<pre><code class="language-golang">proc := start_process(&quot;app&quot;, [&quot;arg1&quot;, &quot;arg2&quot;], &quot;dir&quot;, [])
+stat := proc.wait()
+pid := stat.pid()
+</code></pre>
+<ul>
+<li><code>exited() =&gt; bool</code>: reports whether the program has exited.</li>
+<li><code>pid() =&gt; int</code>: returns the process id of the exited process.</li>
+<li><code>string() =&gt; string</code>: returns a string representation of the process.</li>
+<li><code>success() =&gt; bool</code>: reports whether the program exited successfully, such as
+  with exit status 0 on Unix.</li>
+</ul>
+<pre><code class="language-golang">cmd := exec.command(&quot;echo&quot;, [&quot;foo&quot;, &quot;bar&quot;])
+output := cmd.output()
+</code></pre>
+<h2 id="fileinfo">FileInfo</h2>
+<ul>
+<li><code>name</code>: name of the file the info describes</li>
+<li><code>mtime</code>: time the file was last modified</li>
+<li><code>size</code>: file size in bytes</li>
+<li><code>mode</code>: file permissions as in int, comparable to octal permissions</li>
+<li><code>directory</code>: boolean indicating if the file is a directory</li>
+</ul>
+<h2 id="command">Command</h2>
+<ul>
+<li><code>combined_output() =&gt; bytes/error</code>: runs the command and returns its combined
+  standard output and standard error.</li>
+<li><code>output() =&gt; bytes/error</code>: runs the command and returns its standard output.</li>
+<li><code>run() =&gt; error</code>: starts the specified command and waits for it to complete.</li>
+<li><code>start() =&gt; error</code>: starts the specified command but does not wait for it to
+  complete.</li>
+<li><code>wait() =&gt; error</code>: waits for the command to exit and waits for any copying to
+  stdin or copying from stdout or stderr to complete.</li>
+<li><code>set_path(path string)</code>: sets the path of the command to run.</li>
+<li><code>set_dir(dir string)</code>: sets the working directory of the process.</li>
+<li><code>set_env(env [string])</code>: sets the environment of the process.</li>
+<li><code>process() =&gt; Process</code>: returns the underlying process, once started.</li>
+</ul></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
