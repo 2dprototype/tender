@@ -156,6 +156,10 @@
 <li>
     <a href="../stdlib/" class="dropdown-item">Standard Library</a>
 </li>
+                                    
+<li>
+    <a href="../tutorial/" class="dropdown-item">Getting Started</a>
+</li>
                                 </ul>
                             </li>
                         </ul>
@@ -196,10 +200,6 @@
             
             <li class="nav-item" data-bs-level="1"><a href="#colors-module" class="nav-link">colors Module</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#functions" class="nav-link">Functions</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
             <li class="nav-item" data-bs-level="2"><a href="#constants" class="nav-link">Constants</a>
               <ul class="nav flex-column">
               </ul>
@@ -212,83 +212,18 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="colors-module">colors Module</h1>
-<p>The <code>colors</code> module provides functions and constants for printing colored text to the terminal.</p>
-<h2 id="functions">Functions</h2>
-<ul>
-<li><code>print(...args)</code>: Prints the given arguments to the terminal without a newline character, with support for colored text.</li>
-<li><code>println(...args)</code>: Prints the given arguments to the terminal with a newline character at the end, with support for colored text.</li>
-</ul>
+<p>The <code>colors</code> module provides IOWriter for printing colored text to the terminal.</p>
 <h2 id="constants">Constants</h2>
 <ul>
-<li><code>reset</code>: Resets the text color to the default.</li>
-<li>Regular Colors:</li>
-<li><code>black</code></li>
-<li><code>red</code></li>
-<li><code>green</code></li>
-<li><code>yellow</code></li>
-<li><code>blue</code></li>
-<li><code>purple</code></li>
-<li><code>cyan</code></li>
-<li><code>white</code></li>
-<li>Bold Colors:</li>
-<li><code>bblack</code></li>
-<li><code>bred</code></li>
-<li><code>bgreen</code></li>
-<li><code>byellow</code></li>
-<li><code>bblue</code></li>
-<li><code>bpurple</code></li>
-<li><code>bcyan</code></li>
-<li><code>bwhite</code></li>
-<li>Underline Colors:</li>
-<li><code>ublack</code></li>
-<li><code>ured</code></li>
-<li><code>ugreen</code></li>
-<li><code>uyellow</code></li>
-<li><code>ublue</code></li>
-<li><code>upurple</code></li>
-<li><code>ucyan</code></li>
-<li><code>uwhite</code></li>
-<li>Background Colors:</li>
-<li><code>on_black</code></li>
-<li><code>on_red</code></li>
-<li><code>on_green</code></li>
-<li><code>on_yellow</code></li>
-<li><code>on_blue</code></li>
-<li><code>on_purple</code></li>
-<li><code>on_cyan</code></li>
-<li><code>on_white</code></li>
-<li>High Intensity Colors:</li>
-<li><code>iblack</code></li>
-<li><code>ired</code></li>
-<li><code>igreen</code></li>
-<li><code>iyellow</code></li>
-<li><code>iblue</code></li>
-<li><code>ipurple</code></li>
-<li><code>icyan</code></li>
-<li><code>iwhite</code></li>
-<li>Bold High Intensity Colors:</li>
-<li><code>biblack</code></li>
-<li><code>bired</code></li>
-<li><code>bigreen</code></li>
-<li><code>biyellow</code></li>
-<li><code>biblue</code></li>
-<li><code>bipurple</code></li>
-<li><code>bicyan</code></li>
-<li><code>biwhite</code></li>
-<li>High Intensity Background Colors:</li>
-<li><code>on_iblack</code></li>
-<li><code>on_ired</code></li>
-<li><code>on_igreen</code></li>
-<li><code>on_iyellow</code></li>
-<li><code>on_iblue</code></li>
-<li><code>on_ipurple</code></li>
-<li><code>on_icyan</code></li>
-<li><code>on_iwhite</code></li>
+<li><code>colors.stdout</code>: <code>&amp;stdlib.IOWriter{}</code></li>
+<li><code>colors.stderr</code>: <code>&amp;stdlib.IOWriter{}</code></li>
 </ul>
 <h3 id="example-usage">Example Usage</h3>
-<pre><code class="language-go">import &quot;colors&quot; as color
+<pre><code class="language-go">import &quot;fmt&quot;
+import &quot;colors&quot;
 
-color.println(color.green + &quot;hello&quot; + color.reset)
+fmt.fprint(colors.stdout, &quot;Hello&quot;.red, &quot;World&quot;.green, &quot;\n&quot;)
+fmt.fprintln(colors.stderr, &quot;Hello&quot;.red, &quot;World&quot;.green)
 </code></pre></div>
             </div>
         </div>

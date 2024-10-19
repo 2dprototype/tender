@@ -156,6 +156,10 @@
 <li>
     <a href="../stdlib/" class="dropdown-item">Standard Library</a>
 </li>
+                                    
+<li>
+    <a href="../tutorial/" class="dropdown-item">Getting Started</a>
+</li>
                                 </ul>
                             </li>
                         </ul>
@@ -205,10 +209,6 @@
               </ul>
             </li>
             <li class="nav-item" data-bs-level="2"><a href="#print" class="nav-link">print</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#printf" class="nav-link">printf</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -312,7 +312,15 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#is_bigint" class="nav-link">is_bigint</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-bs-level="2"><a href="#is_float" class="nav-link">is_float</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#is_bigfloat" class="nav-link">is_bigfloat</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -387,10 +395,6 @@
 <h2 id="print">print</h2>
 <p>Prints the provided arguments without adding a new line.</p>
 <pre><code class="language-golang">print(&quot;Hello, World!&quot;) // Output: Hello, World!
-</code></pre>
-<h2 id="printf">printf</h2>
-<p>Formats and prints the provided arguments according to the format specifier.</p>
-<pre><code class="language-golang">printf(&quot;Hello, %s!&quot;, &quot;World&quot;) // Output: Hello, World!
 </code></pre>
 <h2 id="println">println</h2>
 <p>Prints the provided arguments followed by a new line.</p>
@@ -537,8 +541,12 @@ v = char(null, false)  // v == false
 <p>Returns <code>true</code> if the object's type is cycle. Or it returns <code>false</code>.</p>
 <h2 id="is_int">is_int</h2>
 <p>Returns <code>true</code> if the object's type is int. Or it returns <code>false</code>.</p>
+<h2 id="is_bigint">is_bigint</h2>
+<p>Returns <code>true</code> if the object's type is bigint. Or it returns <code>false</code>.</p>
 <h2 id="is_float">is_float</h2>
 <p>Returns <code>true</code> if the object's type is float. Or it returns <code>false</code>.</p>
+<h2 id="is_bigfloat">is_bigfloat</h2>
+<p>Returns <code>true</code> if the object's type is bigfloat. Or it returns <code>false</code>.</p>
 <h2 id="is_string">is_string</h2>
 <p>Returns <code>true</code> if the object's type is string. Or it returns <code>false</code>.</p>
 <h2 id="is_bool">is_bool</h2>

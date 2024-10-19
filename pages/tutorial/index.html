@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Formatting - Tender Docs</title>
+        <title>Getting Started - Tender Docs</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -46,7 +46,7 @@
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">Formatting</a>
+    <a href="../formatting/" class="dropdown-item">Formatting</a>
 </li>
                                     
 <li>
@@ -158,7 +158,7 @@
 </li>
                                     
 <li>
-    <a href="../tutorial/" class="dropdown-item">Getting Started</a>
+    <a href="./" class="dropdown-item active" aria-current="page">Getting Started</a>
 </li>
                                 </ul>
                             </li>
@@ -171,12 +171,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../builtins/" class="nav-link">
+                                <a rel="prev" href="../stdlib/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../operators/" class="nav-link">
+                                <a rel="next" class="nav-link disabled">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -198,45 +198,49 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#formatting" class="nav-link">Formatting</a>
+            <li class="nav-item" data-bs-level="1"><a href="#getting-started" class="nav-link">Getting Started</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#the-verbs" class="nav-link">The verbs</a>
-              <ul class="nav flex-column">
-              </ul>
-            </li>
-            <li class="nav-item" data-bs-level="2"><a href="#general" class="nav-link">General</a>
+            <li class="nav-item" data-bs-level="2"><a href="#1-variables-in-tender" class="nav-link">1. Variables in Tender</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#boolean" class="nav-link">Boolean</a>
+            <li class="nav-item" data-bs-level="2"><a href="#2-data-types" class="nav-link">2. Data Types</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#integer" class="nav-link">Integer</a>
+            <li class="nav-item" data-bs-level="2"><a href="#3-arrays-and-maps" class="nav-link">3. Arrays and Maps</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#float" class="nav-link">Float</a>
+            <li class="nav-item" data-bs-level="2"><a href="#4-control-flow-statements" class="nav-link">4. Control Flow Statements</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#string-and-bytes" class="nav-link">String and Bytes</a>
+            <li class="nav-item" data-bs-level="2"><a href="#5-loops" class="nav-link">5. Loops</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#default-format-for-v" class="nav-link">Default format for %v</a>
+            <li class="nav-item" data-bs-level="2"><a href="#6-functions-in-tender" class="nav-link">6. Functions in Tender</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#compound-objects" class="nav-link">Compound Objects</a>
+            <li class="nav-item" data-bs-level="2"><a href="#7-closures" class="nav-link">7. Closures</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#width-and-precision" class="nav-link">Width and Precision</a>
+            <li class="nav-item" data-bs-level="2"><a href="#8-recursion-and-tail-call-optimization" class="nav-link">8. Recursion and Tail-Call Optimization</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#other-flags" class="nav-link">Other flags</a>
+            <li class="nav-item" data-bs-level="2"><a href="#9-slicing-strings-and-arrays" class="nav-link">9. Slicing Strings and Arrays</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#10-type-conversion" class="nav-link">10. Type Conversion</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#12-built-in-functions" class="nav-link">12. Built-in Functions</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -247,108 +251,227 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="formatting">Formatting</h1>
-<p>The format 'verbs' are derived from Go's but are simpler.</p>
-<h2 id="the-verbs">The verbs</h2>
-<h2 id="general">General</h2>
-<pre><code>%v  the value in a default format
-%T  a Go-syntax representation of the type of the value
-%%  a literal percent sign; consumes no value
+<h1 id="getting-started">Getting Started</h1>
+<p>Welcome to <strong>Tender</strong>, a flexible programming language designed for simplicity and power. Let’s dive in!</p>
+<hr />
+<h2 id="1-variables-in-tender"><strong>1. Variables in Tender</strong></h2>
+<p>In Tender, variables are defined using the <code>:=</code> operator along with <code>var</code>. You don’t need to declare the type explicitly—Tender infers the type based on the assigned value.</p>
+<h3 id="example-variable-declaration"><strong>Example: Variable Declaration</strong></h3>
+<pre><code class="language-go">name := &quot;Alice&quot;    // String variable  
+age := 30          // Integer variable  
+pi := 3.14         // Floating-point variable  
+is_admin := false  // Boolean variable
+var year = bigint(2024) //bigint datatype
 </code></pre>
-<h2 id="boolean">Boolean</h2>
-<pre><code>%t  the word true or false
+<h3 id="reassigning-variables"><strong>Reassigning Variables</strong></h3>
+<p>Variables in Tender are <strong>dynamically typed</strong>, meaning you can assign a value of a different type to an existing variable.</p>
+<pre><code class="language-go">age = &quot;Thirty&quot;  // Now 'age' holds a String instead of an Integer
+println(age)    // Output: Thirty
 </code></pre>
-<h2 id="integer">Integer</h2>
-<pre><code>%b  base 2
-%c  the character represented by the corresponding Unicode code point
-%d  base 10
-%o  base 8
-%O  base 8 with 0o prefix
-%q  a single-quoted character literal safely escaped with Go syntax.
-%x  base 16, with lower-case letters for a-f
-%X  base 16, with upper-case letters for A-F
-%U  Unicode format: U+1234; same as &quot;U+%04X&quot;
+<hr />
+<h2 id="2-data-types"><strong>2. Data Types</strong></h2>
+<p>Tender supports several primitive data types:</p>
+<table>
+<thead>
+<tr>
+<th><strong>Type</strong></th>
+<th><strong>Example</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>string</td>
+<td><code>"Hello"</code></td>
+<td>Sequence of characters.</td>
+</tr>
+<tr>
+<td>int</td>
+<td><code>42</code></td>
+<td>Whole numbers.</td>
+</tr>
+<tr>
+<td>float</td>
+<td><code>-19.84</code></td>
+<td>Numbers with decimal points.</td>
+</tr>
+<tr>
+<td>bool</td>
+<td><code>true</code> / <code>false</code></td>
+<td>Logical values.</td>
+</tr>
+<tr>
+<td>char</td>
+<td><code>'A'</code></td>
+<td>Single character.</td>
+</tr>
+<tr>
+<td>time</td>
+<td><code>time()</code></td>
+<td>time (<code>time.Time</code> in Go)</td>
+</tr>
+<tr>
+<td>bigint</td>
+<td><code>bigint(42)</code></td>
+<td>Arbitrary-precision integer.</td>
+</tr>
+<tr>
+<td>bigfloat</td>
+<td><code>bigfloat(1000.11)</code></td>
+<td>Arbitrary-precision float.</td>
+</tr>
+</tbody>
+</table>
+<hr />
+<h2 id="3-arrays-and-maps"><strong>3. Arrays and Maps</strong></h2>
+<h3 id="arrays"><strong>Arrays</strong></h3>
+<p>Arrays hold an ordered list of values. They can contain elements of any type.  </p>
+<pre><code class="language-go">fruits := [&quot;Apple&quot;, &quot;Banana&quot;, &quot;Cherry&quot;]  
+println(fruits[0])  // Output: Apple
 </code></pre>
-<h2 id="float">Float</h2>
-<pre><code>%b  decimalless scientific notation with exponent a power of two,
-in the manner of Go's strconv.FormatFloat with the 'b' format,
-e.g. -123456p-78
-%e  scientific notation, e.g. -1.234456e+78
-%E  scientific notation, e.g. -1.234456E+78
-%f  decimal point but no exponent, e.g. 123.456
-%F  synonym for %f
-%g  %e for large exponents, %f otherwise. Precision is discussed below.
-%G  %E for large exponents, %F otherwise
-%x  hexadecimal notation (with decimal power of two exponent), e.g. -0x1.23abcp+20
-%X  upper-case hexadecimal notation, e.g. -0X1.23ABCP+20
+<h3 id="maps"><strong>Maps</strong></h3>
+<p>Maps are key-value pairs, similar to dictionaries in other languages.  </p>
+<pre><code class="language-go">person := {name: &quot;Alice&quot;, age: 30, is_admin: true}  
+println(person[&quot;name&quot;])  // Output: Alice
 </code></pre>
-<h2 id="string-and-bytes">String and Bytes</h2>
-<pre><code>%s  the uninterpreted bytes of the string or slice
-%q  a double-quoted string safely escaped with Go syntax
-%x  base 16, lower-case, two characters per byte
-%X  base 16, upper-case, two characters per byte
+<hr />
+<h2 id="4-control-flow-statements"><strong>4. Control Flow Statements</strong></h2>
+<h3 id="ifelse-statements"><strong>If/Else Statements</strong></h3>
+<p>Tender supports <code>if/else</code> for decision-making. You can include an <strong>init statement</strong> before the condition.  </p>
+<pre><code class="language-go">if age := 30; age &gt; 18 {
+    println(&quot;Adult&quot;)
+}
+else {
+    println(&quot;Minor&quot;)
+}
 </code></pre>
-<h2 id="default-format-for-v">Default format for %v</h2>
-<pre><code>Bool:                    %t
-Int:                     %d
-Float:                   %g
-String:                  %s
+<hr />
+<h2 id="5-loops"><strong>5. Loops</strong></h2>
+<h3 id="for-loop"><strong>For Loop</strong></h3>
+<p>The <code>for</code> loop is used to iterate over arrays or perform repeated actions.  </p>
+<pre><code class="language-go">numbers := [1, 2, 3, 4]
+for i := 0; i &lt; len(numbers); i++ {
+    println(numbers[i])
+}
 </code></pre>
-<h2 id="compound-objects">Compound Objects</h2>
-<pre><code>Array:              [elem0 elem1 ...]
-Maps:               {key1:value1 key2:value2 ...}
+<h3 id="for-each-loop"><strong>For-Each Loop</strong></h3>
+<pre><code class="language-go">var fruits = [&quot;mango&quot;, &quot;apple&quot;, &quot;banana&quot;]
+
+for i, fruit in fruits {
+    if fruit == apple {
+        continue
+    }
+    else if fruit i == fruits.length {
+        break
+    }
+    println(fruit)
+}
 </code></pre>
-<h2 id="width-and-precision">Width and Precision</h2>
-<p>Width is specified by an optional decimal number immediately preceding the verb.
-If absent, the width is whatever is necessary to represent the value.</p>
-<p>Precision is specified after the (optional) width by a period followed by a
-decimal number. If no period is present, a default precision is used. A period
-with no following number specifies a precision of zero.
-Examples:</p>
-<pre><code>%f     default width, default precision
-%9f    width 9, default precision
-%.2f   default width, precision 2
-%9.2f  width 9, precision 2
-%9.f   width 9, precision 0
+<h3 id="for-condition"><strong>For-condition</strong></h3>
+<pre><code class="language-go">for true {
+    println(fruit)
+}
 </code></pre>
-<p>Width and precision are measured in units of Unicode code points.  Either or
-both of the flags may be replaced with the character '*', causing their values
-to be obtained from the next operand (preceding the one to format), which must
-be of type Int.</p>
-<p>For most values, width is the minimum number of runes to output, padding the
-formatted form with spaces if necessary.</p>
-<p>For Strings and Bytes, however, precision limits the length of the input to be
-formatted (not the size of the output), truncating if necessary. Normally it is
-measured in units of Unicode code points, but for these types when formatted
-with the %x or %X format it is measured in bytes.</p>
-<p>For floating-point values, width sets the minimum width of the field and
-precision sets the number of places after the decimal, if appropriate, except
-that for %g/%G precision sets the maximum number of significant digits
-(trailing zeros are removed).</p>
-<p>For example, given 12.345 the format %6.3f prints 12.345 while %.3g prints 12.3.</p>
-<p>The default precision for %e, %f and %#g is 6; for %g it is the smallest number
-of digits necessary to identify the value uniquely.</p>
-<p>For complex numbers, the width and precision apply to the two components
-independently and the result is parenthesized, so %f applied to 1.2+3.4i
-produces (1.200000+3.400000i).</p>
-<h2 id="other-flags">Other flags</h2>
-<pre><code>+   always print a sign for numeric values;
-guarantee ASCII-only output for %q (%+q)
--   pad with spaces on the right rather than the left (left-justify the field)
-#   alternate format: add leading 0b for binary (%#b), 0 for octal (%#o),
-0x or 0X for hex (%#x or %#X);
-for %q, print a raw (backquoted) string if strconv.CanBackquote returns true;
-always print a decimal point for %e, %E, %f, %F, %g and %G;
-do not remove trailing zeros for %g and %G;
-write e.g. U+0078 'x' if the character is printable for %U (%#U).
-' ' (space) leave a space for elided sign in numbers (% d);
-put spaces between bytes printing strings or slices in hex (% x, % X)
-0   pad with leading zeros rather than spaces;
-for numbers, this moves the padding after the sign
+<h3 id="for-infinity"><strong>For-infinity</strong></h3>
+<pre><code class="language-go">for {}
 </code></pre>
-<p>Flags are ignored by verbs that do not expect them.
-For example there is no alternate decimal format, so %#d and %d behave
-identically.</p></div>
+<hr />
+<h2 id="6-functions-in-tender"><strong>6. Functions in Tender</strong></h2>
+<p>Functions are defined using the <code>fn</code> keyword. Functions can take arguments and return values.</p>
+<h3 id="defining-a-function"><strong>Defining a Function</strong></h3>
+<pre><code class="language-go">greet := fn(name) {
+    return &quot;Hello, &quot; + name
+}
+println(greet(&quot;Alice&quot;))  // Output: Hello, Alice
+</code></pre>
+<p><em>or</em></p>
+<pre><code class="language-go">fn greet(name) {
+    return &quot;Hello, &quot; + name
+}
+println(greet(&quot;Alice&quot;))  // Output: Hello, Alice
+</code></pre>
+<h3 id="passing-functions-as-arguments"><strong>Passing Functions as Arguments</strong></h3>
+<p>Tender supports higher-order functions—functions that take other functions as parameters.  </p>
+<pre><code class="language-go">each := fn(arr, action) {
+    for x in arr {
+        action(x)
+    }
+}
+each([1, 2, 3], fn(n) {
+    println(n)
+})
+</code></pre>
+<hr />
+<h2 id="7-closures"><strong>7. Closures</strong></h2>
+<p>Closures are functions that capture variables from their outer scope.  </p>
+<pre><code class="language-go">counter := fn() {
+    count := 0
+    return fn() {
+        count += 1
+        return count
+    }
+}
+next := counter()
+println(next())  // Output: 1
+println(next())  // Output: 2
+</code></pre>
+<hr />
+<h2 id="8-recursion-and-tail-call-optimization"><strong>8. Recursion and Tail-Call Optimization</strong></h2>
+<p>Tender supports recursion and optimizes tail-recursive calls for better performance.  </p>
+<pre><code class="language-go">factorial := fn(n, acc) {
+    if n == 0 {
+        return acc
+    }
+    return factorial(n - 1, acc * n)
+}
+println(factorial(5, 1))  // Output: 120
+</code></pre>
+<hr />
+<h2 id="9-slicing-strings-and-arrays"><strong>9. Slicing Strings and Arrays</strong></h2>
+<p>You can extract parts of strings or arrays using <strong>slices</strong>.  </p>
+<pre><code class="language-go">str := &quot;hello world&quot;
+println(str[0:5])  // Output: hello
+
+arr := [10, 20, 30, 40, 50]
+println(arr[1:4])  // Output: [20, 30, 40]
+</code></pre>
+<hr />
+<h2 id="10-type-conversion"><strong>10. Type Conversion</strong></h2>
+<p>Tender provides built-in functions to convert between data types.  </p>
+<pre><code class="language-go">str_num := string(42)  // &quot;42&quot;
+int_num := int(&quot;99&quot;)   // 99
+float_num := float(3)  // 3.0
+bool_val := bool(1)    // true
+</code></pre>
+<h2 id="12-built-in-functions"><strong>12. Built-in Functions</strong></h2>
+<table>
+<thead>
+<tr>
+<th><strong>Function</strong></th>
+<th><strong>Description</strong></th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>println()</code></td>
+<td>Prints output to the console.</td>
+</tr>
+<tr>
+<td><code>len()</code></td>
+<td>Returns the length of an array or string.</td>
+</tr>
+<tr>
+<td><code>append()</code></td>
+<td>Adds elements to an array.</td>
+</tr>
+<tr>
+<td>more...</td>
+<td></td>
+</tr>
+</tbody>
+</table>
+<p>See all <a href="../builtins/">builtin functions</a>!</p>
+<hr /></div>
             </div>
         </div>
 

@@ -156,6 +156,10 @@
 <li>
     <a href="../stdlib/" class="dropdown-item">Standard Library</a>
 </li>
+                                    
+<li>
+    <a href="../tutorial/" class="dropdown-item">Getting Started</a>
+</li>
                                 </ul>
                             </li>
                         </ul>
@@ -222,8 +226,10 @@
 <h1 id="tender-runtime-types">Tender Runtime Types</h1>
 <ul>
 <li><strong>Int</strong>: signed 64bit integer</li>
+<li><strong>BigInt</strong>: arbitrary-precision integer (big integer)</li>
 <li><strong>String</strong>: string</li>
 <li><strong>Float</strong>: 64bit floating point</li>
+<li><strong>BigFloat</strong>: arbitrary-precision floating point (big float)</li>
 <li><strong>Bool</strong>: boolean</li>
 <li><strong>Char</strong>: character (<code>rune</code> in Go)</li>
 <li><strong>Bytes</strong>: byte array (<code>[]byte</code> in Go)</li>
@@ -270,6 +276,20 @@
 <td style="text-align: center;"><strong>X</strong></td>
 </tr>
 <tr>
+<td style="text-align: center;">BigInt</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">!IsFalsy()</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;"><strong>X</strong></td>
+<td style="text-align: center;"><strong>X</strong></td>
+<td style="text-align: center;"><strong>X</strong></td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;"><strong>X</strong></td>
+<td style="text-align: center;"><strong>X</strong></td>
+</tr>
+<tr>
 <td style="text-align: center;">String</td>
 <td style="text-align: center;"><em>strconv</em></td>
 <td style="text-align: center;">-</td>
@@ -294,6 +314,20 @@
 <td style="text-align: center;"><strong>X</strong></td>
 <td style="text-align: center;"><strong>X</strong></td>
 <td style="text-align: center;"><strong>X</strong></td>
+<td style="text-align: center;"><strong>X</strong></td>
+<td style="text-align: center;"><strong>X</strong></td>
+</tr>
+<tr>
+<td style="text-align: center;">BigFloat</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;"></td>
+<td style="text-align: center;">!IsFalsy()</td>
+<td style="text-align: center;">-</td>
+<td style="text-align: center;"><strong>X</strong></td>
+<td style="text-align: center;"><strong>X</strong></td>
+<td style="text-align: center;"><strong>X</strong></td>
+<td style="text-align: center;">-</td>
 <td style="text-align: center;"><strong>X</strong></td>
 <td style="text-align: center;"><strong>X</strong></td>
 </tr>
@@ -449,8 +483,10 @@ should evaluate to <code>false</code> (e.g. for condition expression of <code>if
 <ul>
 <li><code>is_string(x)</code>: returns <code>true</code> if <code>x</code> is string; <code>false</code> otherwise</li>
 <li><code>is_int(x)</code>: returns <code>true</code> if <code>x</code> is int; <code>false</code> otherwise</li>
+<li><code>is_bigint(x)</code>: returns <code>true</code> if <code>x</code> is bigint; <code>false</code> otherwise</li>
 <li><code>is_bool(x)</code>: returns <code>true</code> if <code>x</code> is bool; <code>false</code> otherwise</li>
 <li><code>is_float(x)</code>: returns <code>true</code> if <code>x</code> is float; <code>false</code> otherwise</li>
+<li><code>is_bigfloat(x)</code>: returns <code>true</code> if <code>x</code> is bigfloat; <code>false</code> otherwise</li>
 <li><code>is_char(x)</code>: returns <code>true</code> if <code>x</code> is char; <code>false</code> otherwise</li>
 <li><code>is_bytes(x)</code>: returns <code>true</code> if <code>x</code> is bytes; <code>false</code> otherwise</li>
 <li><code>is_array(x)</code>: return <code>true</code> if <code>x</code> is array; <code>false</code> otherwise</li>

@@ -156,6 +156,10 @@
 <li>
     <a href="../stdlib/" class="dropdown-item">Standard Library</a>
 </li>
+                                    
+<li>
+    <a href="../tutorial/" class="dropdown-item">Getting Started</a>
+</li>
                                 </ul>
                             </li>
                         </ul>
@@ -233,6 +237,19 @@
 <h4 id="scanln"><code>scanln()</code></h4>
 <p>Reads a line from standard input.</p>
 <p>Returns the input as a <code>string</code>.</p>
+<h4 id="fprintiowriter-args"><code>fprint(IOWriter, args...)</code></h4>
+<p>Prints the arguments to standard output without a newline using IOWriter.</p>
+<ul>
+<li><code>IOWriter</code>: stdlib.IOWriter object.</li>
+<li><code>args</code>: The objects to format.</li>
+</ul>
+<h4 id="fprintlniowriter-args"><code>fprintln(IOWriter, args...)</code></h4>
+<p>Prints the arguments to standard output with a newline using IOWriter.</p>
+<ul>
+<li><code>IOWriter</code>: stdlib.IOWriter object.</li>
+<li><code>args</code>: The objects to format.</li>
+</ul>
+<p>Returns the formatted string as a <code>string</code>.</p>
 <h3 id="example-usage">Example Usage</h3>
 <pre><code class="language-go">import &quot;fmt&quot;
 
@@ -252,6 +269,15 @@ println(formatted_string)
 // Scanln example
 input := fmt.scanln()
 println(&quot;You entered: &quot;, input)
+</code></pre>
+<h4 id="fprint-fprintln-example"><code>fprint, fprintln</code> Example</h4>
+<pre><code class="language-go">import &quot;fmt&quot;
+import &quot;colors&quot;
+import &quot;os&quot;
+
+fmt.fprint(colors.stdout, &quot;Hello&quot;.red, &quot;World&quot;.green, &quot;\n&quot;)
+fmt.fprintln(colors.stderr, &quot;Hello&quot;.red, &quot;World&quot;.green)
+fmt.fprintln(os.stdout, &quot;Hello&quot;.red, &quot;World&quot;.green, &quot;\n&quot;)
 </code></pre></div>
             </div>
         </div>
