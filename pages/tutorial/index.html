@@ -42,7 +42,7 @@
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../builtins/" class="dropdown-item">Builtin Functions Documentation</a>
+    <a href="../builtins/" class="dropdown-item">Builtins</a>
 </li>
                                     
 <li>
@@ -54,7 +54,7 @@
 </li>
                                     
 <li>
-    <a href="../runtime-types/" class="dropdown-item">Tender Runtime Types</a>
+    <a href="../runtime-types/" class="dropdown-item">Runtime Types</a>
 </li>
                                     
 <li>
@@ -74,7 +74,11 @@
 </li>
                                     
 <li>
-    <a href="../stdlib-colors/" class="dropdown-item">colors Module</a>
+    <a href="../stdlib-cmplx/" class="dropdown-item">Stdlib cmplx</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-colors/" class="dropdown-item">Stdlib colors</a>
 </li>
                                     
 <li>
@@ -114,7 +118,7 @@
 </li>
                                     
 <li>
-    <a href="../stdlib-math/" class="dropdown-item">math Module</a>
+    <a href="../stdlib-math/" class="dropdown-item">Stdlib math</a>
 </li>
                                     
 <li>
@@ -142,7 +146,7 @@
 </li>
                                     
 <li>
-    <a href="../stdlib-times/" class="dropdown-item">times Module</a>
+    <a href="../stdlib-times/" class="dropdown-item">Stdlin times</a>
 </li>
                                     
 <li>
@@ -262,6 +266,7 @@ age := 30          // Integer variable
 pi := 3.14         // Floating-point variable  
 is_admin := false  // Boolean variable
 var year = bigint(2024) //bigint datatype
+var c = complex(pi, age) //complex datatype
 </code></pre>
 <h3 id="reassigning-variables"><strong>Reassigning Variables</strong></h3>
 <p>Variables in Tender are <strong>dynamically typed</strong>, meaning you can assign a value of a different type to an existing variable.</p>
@@ -319,6 +324,11 @@ println(age)    // Output: Thirty
 <td>bigfloat</td>
 <td><code>bigfloat(1000.11)</code></td>
 <td>Arbitrary-precision float.</td>
+</tr>
+<tr>
+<td>complex</td>
+<td><code>complex(1, 2)</code></td>
+<td>Complex number (<code>complex128</code> in go).</td>
 </tr>
 </tbody>
 </table>

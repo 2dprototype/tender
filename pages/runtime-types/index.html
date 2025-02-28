@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Tender Runtime Types - Tender Docs</title>
+        <title>Runtime Types - Tender Docs</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -42,7 +42,7 @@
                                 <ul class="dropdown-menu">
                                     
 <li>
-    <a href="../builtins/" class="dropdown-item">Builtin Functions Documentation</a>
+    <a href="../builtins/" class="dropdown-item">Builtins</a>
 </li>
                                     
 <li>
@@ -54,7 +54,7 @@
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">Tender Runtime Types</a>
+    <a href="./" class="dropdown-item active" aria-current="page">Runtime Types</a>
 </li>
                                     
 <li>
@@ -74,7 +74,11 @@
 </li>
                                     
 <li>
-    <a href="../stdlib-colors/" class="dropdown-item">colors Module</a>
+    <a href="../stdlib-cmplx/" class="dropdown-item">Stdlib cmplx</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-colors/" class="dropdown-item">Stdlib colors</a>
 </li>
                                     
 <li>
@@ -114,7 +118,7 @@
 </li>
                                     
 <li>
-    <a href="../stdlib-math/" class="dropdown-item">math Module</a>
+    <a href="../stdlib-math/" class="dropdown-item">Stdlib math</a>
 </li>
                                     
 <li>
@@ -142,7 +146,7 @@
 </li>
                                     
 <li>
-    <a href="../stdlib-times/" class="dropdown-item">times Module</a>
+    <a href="../stdlib-times/" class="dropdown-item">Stdlin times</a>
 </li>
                                     
 <li>
@@ -198,7 +202,7 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#tender-runtime-types" class="nav-link">Tender Runtime Types</a>
+            <li class="nav-item" data-bs-level="1"><a href="#runtime-types" class="nav-link">Runtime Types</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-bs-level="2"><a href="#type-conversioncoercion-table" class="nav-link">Type Conversion/Coercion Table</a>
               <ul class="nav flex-column">
@@ -223,13 +227,14 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="tender-runtime-types">Tender Runtime Types</h1>
+<h1 id="runtime-types">Runtime Types</h1>
 <ul>
 <li><strong>Int</strong>: signed 64bit integer</li>
 <li><strong>BigInt</strong>: arbitrary-precision integer (big integer)</li>
 <li><strong>String</strong>: string</li>
 <li><strong>Float</strong>: 64bit floating point</li>
 <li><strong>BigFloat</strong>: arbitrary-precision floating point (big float)</li>
+<li><strong>Complex</strong>: complex numbers (<code>complex128</code> in go)</li>
 <li><strong>Bool</strong>: boolean</li>
 <li><strong>Char</strong>: character (<code>rune</code> in Go)</li>
 <li><strong>Bytes</strong>: byte array (<code>[]byte</code> in Go)</li>
@@ -487,6 +492,7 @@ should evaluate to <code>false</code> (e.g. for condition expression of <code>if
 <li><code>is_bool(x)</code>: returns <code>true</code> if <code>x</code> is bool; <code>false</code> otherwise</li>
 <li><code>is_float(x)</code>: returns <code>true</code> if <code>x</code> is float; <code>false</code> otherwise</li>
 <li><code>is_bigfloat(x)</code>: returns <code>true</code> if <code>x</code> is bigfloat; <code>false</code> otherwise</li>
+<li><code>is_complex(x)</code>: returns <code>true</code> if <code>x</code> is complex; <code>false</code> otherwise</li>
 <li><code>is_char(x)</code>: returns <code>true</code> if <code>x</code> is char; <code>false</code> otherwise</li>
 <li><code>is_bytes(x)</code>: returns <code>true</code> if <code>x</code> is bytes; <code>false</code> otherwise</li>
 <li><code>is_array(x)</code>: return <code>true</code> if <code>x</code> is array; <code>false</code> otherwise</li>

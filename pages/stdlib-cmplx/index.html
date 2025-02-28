@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Stdlib tar - Tender Docs</title>
+        <title>Stdlib cmplx - Tender Docs</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -74,7 +74,7 @@
 </li>
                                     
 <li>
-    <a href="../stdlib-cmplx/" class="dropdown-item">Stdlib cmplx</a>
+    <a href="./" class="dropdown-item active" aria-current="page">Stdlib cmplx</a>
 </li>
                                     
 <li>
@@ -142,7 +142,7 @@
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">Stdlib tar</a>
+    <a href="../stdlib-tar/" class="dropdown-item">Stdlib tar</a>
 </li>
                                     
 <li>
@@ -175,12 +175,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../stdlib-strings/" class="nav-link">
+                                <a rel="prev" href="../stdlib-canvas/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../stdlib-times/" class="nav-link">
+                                <a rel="next" href="../stdlib-colors/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -202,8 +202,12 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="2"><a href="#tar-module-documentation" class="nav-link">Tar Module Documentation</a>
+            <li class="nav-item" data-bs-level="1"><a href="#stdlib-cmplx" class="nav-link">Stdlib cmplx</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#functions" class="nav-link">Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -211,41 +215,131 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h2 id="tar-module-documentation">Tar Module Documentation</h2>
-<p>The <code>tar</code> module provides functions for creating and reading TAR archives.</p>
-<h3 id="functions">Functions</h3>
+<h1 id="stdlib-cmplx">Stdlib cmplx</h1>
+<p>The <code>cmplx</code> module provides a suite of functions for performing operations on complex numbers. These functions allow you to create, manipulate, and compute advanced mathematical expressions using complex arithmetic.</p>
+<h2 id="functions">Functions</h2>
 <ul>
-<li><code>writer()</code>: Returns a writer object for creating a new TAR archive. The writer object provides methods for adding files and closing the TAR archive.</li>
-<li><code>create(filename, content)</code>: Creates a new file entry in the TAR archive with the specified filename and content.</li>
-<li><code>bytes()</code>: Returns the byte representation of the created TAR archive.</li>
 <li>
-<p><code>close()</code>: Closes the TAR archive writer.</p>
+<p><strong><code>new(real, imag)</code></strong><br />
+  Creates a new complex number from the given real and imaginary parts.</p>
 </li>
 <li>
-<p><code>reader(data)</code>: Returns an array containing information about each file in the TAR archive.</p>
+<p><strong><code>conj(c)</code></strong><br />
+  Returns the complex conjugate of the complex number <code>c</code>.</p>
 </li>
-<li>Each element in the array represents a file and contains the following attributes:<ul>
-<li><code>name</code>: Name of the file.</li>
-<li><code>mode</code>: Permission mode of the file.</li>
-<li><code>size</code>: Size of the file.</li>
-<li><code>data</code>: Content of the file.</li>
-</ul>
+<li>
+<p><strong><code>abs(c)</code></strong><br />
+  Returns the modulus (absolute value) of the complex number <code>c</code>.</p>
 </li>
-</ul>
-<h3 id="example-usage">Example Usage</h3>
-<pre><code class="language-go">import &quot;tar&quot;
-import &quot;io&quot;
-
-// Create a new TAR archive
-writer := tar.writer()
-writer.create(&quot;hello.txt&quot;, &quot;hello world&quot;)
-writer.close()
-
-io.writefile(&quot;hello.tar&quot;, writer.bytes())
-
-// Reading TAR
-reader := tar.reader(io.readfile(&quot;hello.tar&quot;))
-</code></pre></div>
+<li>
+<p><strong><code>arg(c)</code></strong><br />
+  Returns the phase (argument) of the complex number <code>c</code> in radians.</p>
+</li>
+<li>
+<p><strong><code>sin(c)</code></strong><br />
+  Returns the sine of the complex number <code>c</code>.</p>
+</li>
+<li>
+<p><strong><code>cos(c)</code></strong><br />
+  Returns the cosine of the complex number <code>c</code>.</p>
+</li>
+<li>
+<p><strong><code>acos(c)</code></strong><br />
+  Returns the arc cosine (inverse cosine) of the complex number <code>c</code>.</p>
+</li>
+<li>
+<p><strong><code>acosh(c)</code></strong><br />
+  Returns the hyperbolic arc cosine of the complex number <code>c</code>.</p>
+</li>
+<li>
+<p><strong><code>asin(c)</code></strong><br />
+  Returns the arc sine (inverse sine) of the complex number <code>c</code>.</p>
+</li>
+<li>
+<p><strong><code>asinh(c)</code></strong><br />
+  Returns the hyperbolic arc sine of the complex number <code>c</code>.</p>
+</li>
+<li>
+<p><strong><code>atan(c)</code></strong><br />
+  Returns the arc tangent (inverse tangent) of the complex number <code>c</code>.</p>
+</li>
+<li>
+<p><strong><code>atanh(c)</code></strong><br />
+  Returns the hyperbolic arc tangent of the complex number <code>c</code>.</p>
+</li>
+<li>
+<p><strong><code>cosh(c)</code></strong><br />
+  Returns the hyperbolic cosine of the complex number <code>c</code>.</p>
+</li>
+<li>
+<p><strong><code>cot(c)</code></strong><br />
+  Returns the cotangent of the complex number <code>c</code> (defined as 1/tan(c)).</p>
+</li>
+<li>
+<p><strong><code>exp(c)</code></strong><br />
+  Returns the exponential function (e^c) of the complex number <code>c</code>.</p>
+</li>
+<li>
+<p><strong><code>inf()</code></strong><br />
+  Returns an infinite complex number.</p>
+</li>
+<li>
+<p><strong><code>isinf(c)</code></strong><br />
+  Reports whether the complex number <code>c</code> is infinite; returns <code>true</code> if it is, otherwise <code>false</code>.</p>
+</li>
+<li>
+<p><strong><code>isnan(c)</code></strong><br />
+  Reports whether the complex number <code>c</code> is NaN (not a number); returns <code>true</code> if it is, otherwise <code>false</code>.</p>
+</li>
+<li>
+<p><strong><code>log(c)</code></strong><br />
+  Returns the natural logarithm of the complex number <code>c</code>.</p>
+</li>
+<li>
+<p><strong><code>log10(c)</code></strong><br />
+  Returns the base-10 logarithm of the complex number <code>c</code>.</p>
+</li>
+<li>
+<p><strong><code>nan()</code></strong><br />
+  Returns a complex number representing NaN.</p>
+</li>
+<li>
+<p><strong><code>phase(c)</code></strong><br />
+  Alias for <code>arg(c)</code>; returns the phase (argument) of the complex number <code>c</code>.</p>
+</li>
+<li>
+<p><strong><code>polar(c)</code></strong><br />
+  Returns the polar coordinates of the complex number <code>c</code> as a map with keys:  </p>
+</li>
+<li><code>r</code>: The modulus (absolute value)  </li>
+<li>
+<p><code>theta</code>: The angle in radians</p>
+</li>
+<li>
+<p><strong><code>pow(x, y)</code></strong><br />
+  Returns the result of raising the complex number <code>x</code> to the power of complex number <code>y</code>.</p>
+</li>
+<li>
+<p><strong><code>rect(r, theta)</code></strong><br />
+  Returns the complex number corresponding to the given polar coordinates <code>r</code> and <code>theta</code>.</p>
+</li>
+<li>
+<p><strong><code>sinh(c)</code></strong><br />
+  Returns the hyperbolic sine of the complex number <code>c</code>.</p>
+</li>
+<li>
+<p><strong><code>sqrt(c)</code></strong><br />
+  Returns the square root of the complex number <code>c</code>.</p>
+</li>
+<li>
+<p><strong><code>tan(c)</code></strong><br />
+  Returns the tangent of the complex number <code>c</code>.</p>
+</li>
+<li>
+<p><strong><code>tanh(c)</code></strong><br />
+  Returns the hyperbolic tangent of the complex number <code>c</code>.</p>
+</li>
+</ul></div>
             </div>
         </div>
 
