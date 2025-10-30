@@ -78,15 +78,15 @@
 </li>
                                     
 <li>
-    <a href="../stdlib-colors/" class="dropdown-item">Stdlib colors</a>
+    <a href="../stdlib-colors/" class="dropdown-item">colors Module Documentation</a>
 </li>
                                     
 <li>
-    <a href="../stdlib-crypto/" class="dropdown-item">Stdlib crypto</a>
+    <a href="../stdlib-crypto/" class="dropdown-item">Crypto Module Documentation</a>
 </li>
                                     
 <li>
-    <a href="../stdlib-dll/" class="dropdown-item">Stdlib dll</a>
+    <a href="../stdlib-dll/" class="dropdown-item">dll Module Documentation</a>
 </li>
                                     
 <li>
@@ -154,6 +154,10 @@
 </li>
                                     
 <li>
+    <a href="../stdlib-xml/" class="dropdown-item">xml Module Documentation</a>
+</li>
+                                    
+<li>
     <a href="../stdlib-zip/" class="dropdown-item">Stdlib zip</a>
 </li>
                                     
@@ -212,62 +216,95 @@
                     <div class="col-md-9" role="main">
 
 <h2 id="image-module-documentation">image Module Documentation</h2>
-<p>The <code>image</code> module provides functionalities for working with images, including loading, decoding, creating new images, and encoding images into various formats.</p>
-<h3 id="functions">Functions</h3>
+<p>The <code>image</code> module provides comprehensive functionalities for working with images, including loading, decoding, creating new images, applying filters, and encoding images into various formats.</p>
+<h3 id="module-functions">Module Functions</h3>
 <h4 id="newwidth-height"><code>new(width, height)</code></h4>
-<p>Creates a new image with the specified width and height.</p>
-<ul>
-<li><code>width</code>: Width of the new image.</li>
-<li><code>height</code>: Height of the new image.</li>
-</ul>
+<p>Creates a new image with the specified width and height.
+- <code>width</code>: Width of the new image (integer)
+- <code>height</code>: Height of the new image (integer)</p>
 <h4 id="loadpath"><code>load(path)</code></h4>
-<p>Loads an image from the specified file path.</p>
-<ul>
-<li><code>path</code>: Path to the image file.</li>
-</ul>
+<p>Loads an image from the specified file path.
+- <code>path</code>: Path to the image file (string)</p>
 <h4 id="decodeimage_data"><code>decode(image_data)</code></h4>
-<p>Decodes image data into an image object.</p>
-<ul>
-<li><code>image_data</code>: Byte array containing image data.</li>
-</ul>
+<p>Decodes image data into an image object.
+- <code>image_data</code>: Byte array containing image data (bytes)</p>
 <h4 id="formats"><code>formats</code></h4>
-<p>Array containing supported image formats: PNG, JPEG, BMP, TIFF, and WebP.</p>
-<h3 id="image-functions">Image Functions</h3>
+<p>Array containing supported image formats: <code>["png", "jpeg", "bmp", "tiff", "webp"]</code></p>
+<h3 id="image-object-functions">Image Object Functions</h3>
 <h4 id="encodeformat"><code>encode(format)</code></h4>
-<p>Encodes the image into the specified format.</p>
-<ul>
-<li><code>format</code>: Format to encode the image (e.g., "png", "jpeg", "bmp", "tiff").</li>
-</ul>
+<p>Encodes the image into the specified format and returns byte data.
+- <code>format</code>: Format to encode the image ("png", "jpeg", "bmp", "tiff")</p>
 <h4 id="bounds"><code>bounds()</code></h4>
-<p>Returns the bounding rectangle of the image.</p>
+<p>Returns the bounding rectangle of the image as an object with:
+- <code>min</code>: Object with <code>x</code>, <code>y</code> coordinates
+- <code>max</code>: Object with <code>x</code>, <code>y</code> coordinates<br />
+- <code>size</code>: Object with <code>width</code>, <code>height</code> dimensions</p>
 <h4 id="atx-y"><code>at(x, y)</code></h4>
-<p>Returns the color of the pixel at the specified coordinates.</p>
-<ul>
-<li><code>x</code>: X-coordinate of the pixel.</li>
-<li><code>y</code>: Y-coordinate of the pixel.</li>
-</ul>
+<p>Returns the color of the pixel at the specified coordinates as RGBA array.
+- <code>x</code>: X-coordinate of the pixel (integer)
+- <code>y</code>: Y-coordinate of the pixel (integer)</p>
 <h4 id="pixels"><code>pixels()</code></h4>
-<p>Returns the total number of pixels in the image.</p>
+<p>Returns the total number of pixels in the image (integer).</p>
 <h4 id="get_pixels"><code>get_pixels()</code></h4>
-<p>Returns an array containing the pixel values of the image.</p>
+<p>Returns a flat array containing all pixel values of the image.</p>
 <h4 id="set_pixelspixels"><code>set_pixels(pixels)</code></h4>
-<p>Sets the pixel values of the image from the given array.</p>
-<ul>
-<li><code>pixels</code>: Array containing pixel values.</li>
-</ul>
+<p>Sets the pixel values of the image from the given array.
+- <code>pixels</code>: Array containing pixel values (array)</p>
 <h4 id="setx-y-color"><code>set(x, y, color)</code></h4>
-<p>Sets the color of the pixel at the specified coordinates.</p>
-<ul>
-<li><code>x</code>: X-coordinate of the pixel.</li>
-<li><code>y</code>: Y-coordinate of the pixel.</li>
-<li><code>color</code>: Array containing RGBA values of the color.</li>
-</ul>
+<p>Sets the color of the pixel at the specified coordinates.
+- <code>x</code>: X-coordinate of the pixel (integer)
+- <code>y</code>: Y-coordinate of the pixel (integer)
+- <code>color</code>: Array containing RGBA values <code>[red, green, blue, alpha]</code> (array)</p>
 <h4 id="savepath-format"><code>save(path, format)</code></h4>
-<p>Saves the image to the specified file path and format.</p>
-<ul>
-<li><code>path</code>: Path to save the image.</li>
-<li><code>format</code>: Format to save the image (e.g., "png", "jpeg", "bmp", "tiff").</li>
-</ul>
+<p>Saves the image to the specified file path and format.
+- <code>path</code>: Path to save the image (string)
+- <code>format</code>: Format to save the image ("png", "jpeg", "bmp", "tiff")</p>
+<h3 id="image-filters">Image Filters</h3>
+<p>The <code>filters</code> object provides various image filter operations that return new filtered images:</p>
+<h4 id="blurradius"><code>blur(radius)</code></h4>
+<p>Applies Gaussian blur with specified radius.
+- <code>radius</code>: Blur radius (integer)</p>
+<h4 id="bnwthreshold"><code>bnw(threshold)</code></h4>
+<p>Converts image to black and white using luminance threshold.
+- <code>threshold</code>: Luminance threshold (0-255)</p>
+<h4 id="glitchmax_shift"><code>glitch(max_shift)</code></h4>
+<p>Applies glitch effect by randomly shifting RGB channels.
+- <code>max_shift</code>: Maximum pixel shift amount (integer)</p>
+<h4 id="invert"><code>invert()</code></h4>
+<p>Inverts all colors in the image.</p>
+<h4 id="grayscale"><code>grayscale()</code></h4>
+<p>Converts image to grayscale.</p>
+<h4 id="sepia"><code>sepia()</code></h4>
+<p>Applies sepia tone filter.</p>
+<h4 id="brightnessoffset"><code>brightness(offset)</code></h4>
+<p>Adjusts brightness by adding offset to each channel.
+- <code>offset</code>: Brightness adjustment (-255 to 255)</p>
+<h4 id="contrastfactor"><code>contrast(factor)</code></h4>
+<p>Adjusts contrast by multiplying difference from middle gray.
+- <code>factor</code>: Contrast multiplier (float)</p>
+<h4 id="saturationfactor"><code>saturation(factor)</code></h4>
+<p>Adjusts color saturation.
+- <code>factor</code>: Saturation multiplier (0 = grayscale, 1 = original)</p>
+<h4 id="sharpen"><code>sharpen()</code></h4>
+<p>Applies sharpening filter.</p>
+<h4 id="emboss"><code>emboss()</code></h4>
+<p>Applies emboss effect.</p>
+<h4 id="edge"><code>edge()</code></h4>
+<p>Applies edge detection filter.</p>
+<h4 id="hueangle"><code>hue(angle)</code></h4>
+<p>Adjusts hue by specified angle.
+- <code>angle</code>: Hue angle in degrees (float)</p>
+<h4 id="temperatureadjustment"><code>temperature(adjustment)</code></h4>
+<p>Adjusts color temperature.
+- <code>adjustment</code>: Temperature adjustment (positive = warmer, negative = cooler)</p>
+<h4 id="vignetteintensity"><code>vignette(intensity)</code></h4>
+<p>Applies vignette (darkened edges) effect.
+- <code>intensity</code>: Vignette strength (float)</p>
+<h4 id="pixelatesize"><code>pixelate(size)</code></h4>
+<p>Creates pixelated effect with specified block size.
+- <code>size</code>: Pixel block size (integer)</p>
+<h4 id="sobel"><code>sobel()</code></h4>
+<p>Applies Sobel edge detection operator.</p>
 <h3 id="example-usage">Example Usage</h3>
 <pre><code class="language-go">import &quot;image&quot;
 
@@ -282,7 +319,24 @@ for i := 0; i &lt; 255; i++ {
 }
 
 img.save(&quot;out.png&quot;, &quot;png&quot;)
-</code></pre></div>
+</code></pre>
+<h3 id="color-representation">Color Representation</h3>
+<p>Colors are represented as arrays of 4 integers: <code>[red, green, blue, alpha]</code> where each component ranges from 0 to 255.</p>
+<h3 id="performance-notes">Performance Notes</h3>
+<ul>
+<li>All filter operations are parallelized for optimal performance</li>
+<li>Filters return new image objects and do not modify the original</li>
+<li>Large images may require significant memory and processing time</li>
+<li>The module maintains image data in RGBA format internally</li>
+</ul>
+<h3 id="supported-formats">Supported Formats</h3>
+<ul>
+<li><strong>PNG</strong>: Lossless compression with transparency support</li>
+<li><strong>JPEG</strong>: Lossy compression suitable for photographs  </li>
+<li><strong>BMP</strong>: Uncompressed bitmap format</li>
+<li><strong>TIFF</strong>: High-quality format with various compression options</li>
+<li><strong>WebP</strong>: Modern format with both lossy and lossless compression</li>
+</ul></div>
             </div>
         </div>
 

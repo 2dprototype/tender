@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Stdlib colors - Tender Docs</title>
+        <title>colors Module Documentation - Tender Docs</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -78,15 +78,15 @@
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">Stdlib colors</a>
+    <a href="./" class="dropdown-item active" aria-current="page">colors Module Documentation</a>
 </li>
                                     
 <li>
-    <a href="../stdlib-crypto/" class="dropdown-item">Stdlib crypto</a>
+    <a href="../stdlib-crypto/" class="dropdown-item">Crypto Module Documentation</a>
 </li>
                                     
 <li>
-    <a href="../stdlib-dll/" class="dropdown-item">Stdlib dll</a>
+    <a href="../stdlib-dll/" class="dropdown-item">dll Module Documentation</a>
 </li>
                                     
 <li>
@@ -154,6 +154,10 @@
 </li>
                                     
 <li>
+    <a href="../stdlib-xml/" class="dropdown-item">xml Module Documentation</a>
+</li>
+                                    
+<li>
     <a href="../stdlib-zip/" class="dropdown-item">Stdlib zip</a>
 </li>
                                     
@@ -202,7 +206,7 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#stdlib-colors" class="nav-link">Stdlib colors</a>
+            <li class="nav-item" data-bs-level="1"><a href="#colors-module-documentation" class="nav-link">colors Module Documentation</a>
               <ul class="nav flex-column">
             <li class="nav-item" data-bs-level="2"><a href="#functions" class="nav-link">Functions</a>
               <ul class="nav flex-column">
@@ -215,19 +219,65 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="stdlib-colors">Stdlib colors</h1>
-<p>The <code>colors</code> module provides IOWriter for printing colored text to the terminal.</p>
+<h1 id="colors-module-documentation">colors Module Documentation</h1>
+<p>The <code>colors</code> module provides functionality for printing colored and styled text to the terminal. It includes utilities for writing to standard output and error, as well as applying rich text styles.</p>
 <h2 id="functions">Functions</h2>
+<h3 id="colorsstdout-iowriter"><code>colors.stdout() → IOWriter</code></h3>
+<p>Returns an <code>IOWriter</code> that writes to <strong>standard output</strong> (<code>stdout</code>) with color support.</p>
+<pre><code class="language-go">import &quot;colors&quot;
+
+stdout := colors.stdout()
+</code></pre>
+<hr />
+<h3 id="colorsstderr-iowriter"><code>colors.stderr() → IOWriter</code></h3>
+<p>Returns an <code>IOWriter</code> that writes to <strong>standard error</strong> (<code>stderr</code>) with color support.</p>
+<pre><code class="language-go">import &quot;colors&quot;
+
+stderr := colors.stderr()
+</code></pre>
+<hr />
+<h3 id="colorsstyletext-string-props-map-string"><code>colors.style(text: string, ...props: map) → string</code></h3>
+<p>Applies styles to a string and returns a formatted string.</p>
+<h4 id="parameters">Parameters:</h4>
 <ul>
-<li><code>colors.stdout()</code>: returns <code>&amp;stdlib.IOWriter{}</code></li>
-<li><code>colors.stderr()</code>: returns <code>&amp;stdlib.IOWriter{}</code></li>
+<li><code>text</code> — The string to style.</li>
+<li>
+<p><code>props</code> — Optional style properties as a map. Supported keys:</p>
+</li>
+<li>
+<p><code>"color"</code> — Text color (string, e.g., <code>"red"</code>, <code>"green"</code>, <code>"#ff00ff"</code>).</p>
+</li>
+<li><code>"background"</code> — Background color (string).</li>
+<li><code>"bold"</code> — Boolean, makes text bold.</li>
+<li><code>"italic"</code> — Boolean, makes text italic.</li>
+<li><code>"underline"</code> — Boolean, underlines text.</li>
+<li><code>"strikethrough"</code> — Boolean, strikes through text.</li>
+<li><code>"width"</code> — Integer, sets text width.</li>
+<li><code>"height"</code> — Integer, sets text height.</li>
+<li><code>"align"</code> — Text alignment: <code>"left"</code>, <code>"center"</code>, <code>"right"</code>.</li>
+<li><code>"border"</code> — Border style: <code>"normal"</code>, <code>"rounded"</code>, <code>"thick"</code>, <code>"double"</code>.</li>
+<li><code>"border_top"</code> — Boolean, adds a top border.</li>
+<li><code>"margin"</code> — Integer, sets margin.</li>
+<li><code>"padding"</code> — Integer, sets padding.</li>
 </ul>
-<h3 id="example-usage">Example Usage</h3>
+<h4 id="example-usage">Example Usage:</h4>
 <pre><code class="language-go">import &quot;fmt&quot;
 import &quot;colors&quot;
 
 fmt.fprint(colors.stdout(), &quot;Hello&quot;.red, &quot;World&quot;.green, &quot;\n&quot;)
 fmt.fprintln(colors.stderr(), &quot;Hello&quot;.red, &quot;World&quot;.green)
+
+fmt.fprint(colors.stdout(), colors.style(&quot;Hello&quot;, {
+    &quot;color&quot;: &quot;#ff0000&quot;,
+    &quot;bold&quot;: true,
+    &quot;underline&quot;: true
+}), &quot;\n&quot;)
+
+fmt.fprintln(colors.stderr(), colors.style(&quot;Error!&quot;, {
+    &quot;color&quot;: &quot;#00ff00&quot;,
+    &quot;background&quot;: &quot;#232323&quot;,
+    &quot;bold&quot;: true
+}))
 </code></pre></div>
             </div>
         </div>

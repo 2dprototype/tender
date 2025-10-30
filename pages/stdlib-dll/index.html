@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Stdlib dll - Tender Docs</title>
+        <title>dll Module Documentation - Tender Docs</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -78,15 +78,15 @@
 </li>
                                     
 <li>
-    <a href="../stdlib-colors/" class="dropdown-item">Stdlib colors</a>
+    <a href="../stdlib-colors/" class="dropdown-item">colors Module Documentation</a>
 </li>
                                     
 <li>
-    <a href="../stdlib-crypto/" class="dropdown-item">Stdlib crypto</a>
+    <a href="../stdlib-crypto/" class="dropdown-item">Crypto Module Documentation</a>
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">Stdlib dll</a>
+    <a href="./" class="dropdown-item active" aria-current="page">dll Module Documentation</a>
 </li>
                                     
 <li>
@@ -154,6 +154,10 @@
 </li>
                                     
 <li>
+    <a href="../stdlib-xml/" class="dropdown-item">xml Module Documentation</a>
+</li>
+                                    
+<li>
     <a href="../stdlib-zip/" class="dropdown-item">Stdlib zip</a>
 </li>
                                     
@@ -202,8 +206,36 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="2"><a href="#dll-module-documentation" class="nav-link">DLL Module Documentation</a>
+            <li class="nav-item" data-bs-level="1"><a href="#dll-module-documentation" class="nav-link">dll Module Documentation</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#core-functions" class="nav-link">Core Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#dll-object-functions" class="nav-link">DLL Object Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#procedure-object-functions" class="nav-link">Procedure Object Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#system-functions" class="nav-link">System Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#memory-management" class="nav-link">Memory Management</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#pointer-operations" class="nav-link">Pointer Operations</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#supported-argument-types" class="nav-link">Supported Argument Types</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -211,29 +243,132 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h2 id="dll-module-documentation">DLL Module Documentation</h2>
-<p>The <code>dll</code> module provides functionalities for loading and calling functions from dynamic-link libraries (DLLs) in the Windows environment.</p>
-<h3 id="functions">Functions</h3>
-<h4 id="newdll_name"><code>new(dll_name)</code></h4>
-<p>Loads a dynamic-link library (DLL) with the specified name.</p>
+<h1 id="dll-module-documentation">dll Module Documentation</h1>
+<p>The <code>dll</code> module provides comprehensive functionalities for loading, managing, and calling functions from dynamic-link libraries (DLLs) in the Windows environment, including memory management, error handling, and system API interactions.</p>
+<h2 id="core-functions">Core Functions</h2>
+<h3 id="newdll_name"><code>new(dll_name)</code></h3>
+<p>Loads a dynamic-link library using lazy loading (loads on first use).
+- <strong>Parameters</strong>: <code>dll_name</code> - Name of the DLL file to load (string)
+- <strong>Returns</strong>: DLL object with procedure access
+- <strong>Example</strong>: <code>kernel32 := dll.new("kernel32.dll")</code></p>
+<h3 id="loaddll_name"><code>load(dll_name)</code></h3>
+<p>Immediately loads a dynamic-link library.
+- <strong>Parameters</strong>: <code>dll_name</code> - Name of the DLL file to load (string)
+- <strong>Returns</strong>: DLL object with procedure access
+- <strong>Example</strong>: <code>user32 := dll.load("user32.dll")</code></p>
+<h3 id="call_dlldll_name-function_name-arguments"><code>call_dll(dll_name, function_name, arguments...)</code></h3>
+<p>Directly calls a DLL function without creating a DLL object.
+- <strong>Parameters</strong>: <code>dll_name</code> - DLL name, <code>function_name</code> - Function name, <code>arguments</code> - Function arguments
+- <strong>Returns</strong>: Function result as integer
+- <strong>Example</strong>: <code>result := dll.call_dll("kernel32.dll", "Beep", 500, 300)</code></p>
+<h2 id="dll-object-functions">DLL Object Functions</h2>
+<h3 id="procfunction_name"><code>proc(function_name)</code></h3>
+<p>Retrieves a procedure address from the loaded DLL.
+- <strong>Parameters</strong>: <code>function_name</code> - Name of the function to retrieve (string)
+- <strong>Returns</strong>: Procedure object for calling the function
+- <strong>Example</strong>: <code>message_box := user32.proc("MessageBoxW")</code></p>
+<h3 id="handle"><code>handle</code></h3>
+<p>Returns the handle to the loaded DLL.
+- <strong>Returns</strong>: DLL handle as integer
+- <strong>Example</strong>: <code>handle := kernel32.handle</code></p>
+<h3 id="name"><code>name</code></h3>
+<p>Returns the name of the loaded DLL.
+- <strong>Returns</strong>: DLL name as string
+- <strong>Example</strong>: <code>name := kernel32.name</code></p>
+<h3 id="unload"><code>unload()</code></h3>
+<p>Unloads the DLL from memory (only for DLLs loaded with <code>load()</code>).
+- <strong>Returns</strong>: Boolean indicating success
+- <strong>Example</strong>: <code>success := dll_obj.unload()</code></p>
+<h2 id="procedure-object-functions">Procedure Object Functions</h2>
+<h3 id="callarguments"><code>call(arguments...)</code></h3>
+<p>Calls the DLL function with the specified arguments.
+- <strong>Parameters</strong>: <code>arguments</code> - Function arguments (integers, floats, strings, bytes, booleans, null, or pointers)
+- <strong>Returns</strong>: Function result as integer
+- <strong>Example</strong>: <code>result := add_func.call(3, 4)</code></p>
+<h3 id="name_1"><code>name</code></h3>
+<p>Returns the name of the procedure.
+- <strong>Returns</strong>: Function name as string
+- <strong>Example</strong>: <code>func_name := proc.name</code></p>
+<h3 id="addr"><code>addr</code></h3>
+<p>Returns the memory address of the procedure.
+- <strong>Returns</strong>: Function address as integer
+- <strong>Example</strong>: <code>address := proc.addr</code></p>
+<h2 id="system-functions">System Functions</h2>
+<h3 id="last_error"><code>last_error()</code></h3>
+<p>Gets the last error code from Windows API.
+- <strong>Returns</strong>: Last error code as integer
+- <strong>Example</strong>: <code>error_code := dll.last_error()</code></p>
+<h3 id="free_libraryhandle"><code>free_library(handle)</code></h3>
+<p>Unloads a DLL from memory by handle.
+- <strong>Parameters</strong>: <code>handle</code> - DLL handle to unload
+- <strong>Returns</strong>: Boolean indicating success
+- <strong>Example</strong>: <code>success := dll.free_library(handle)</code></p>
+<h3 id="get_proc_addresshandle-proc_name"><code>get_proc_address(handle, proc_name)</code></h3>
+<p>Gets the address of a function in a loaded DLL.
+- <strong>Parameters</strong>: <code>handle</code> - DLL handle, <code>proc_name</code> - Function name
+- <strong>Returns</strong>: Function address as integer
+- <strong>Example</strong>: <code>addr := dll.get_proc_address(handle, "FunctionName")</code></p>
+<h2 id="memory-management">Memory Management</h2>
+<h3 id="memoryallocsize"><code>memory.alloc(size)</code></h3>
+<p>Allocates memory from the process heap.
+- <strong>Parameters</strong>: <code>size</code> - Number of bytes to allocate
+- <strong>Returns</strong>: Pointer object to allocated memory
+- <strong>Example</strong>: <code>mem := dll.memory.alloc(1024)</code></p>
+<h3 id="memoryfreepointer"><code>memory.free(pointer)</code></h3>
+<p>Frees previously allocated memory.
+- <strong>Parameters</strong>: <code>pointer</code> - Pointer object to free
+- <strong>Returns</strong>: Boolean indicating success
+- <strong>Example</strong>: <code>success := dll.memory.free(mem)</code></p>
+<h3 id="memorycopydest-src-size"><code>memory.copy(dest, src, size)</code></h3>
+<p>Copies memory between pointers.
+- <strong>Parameters</strong>: <code>dest</code> - Destination pointer, <code>src</code> - Source pointer, <code>size</code> - Number of bytes to copy
+- <strong>Returns</strong>: Boolean indicating success
+- <strong>Example</strong>: <code>success := dll.memory.copy(dest_ptr, src_ptr, 100)</code></p>
+<h3 id="memoryread_stringpointer-max_len"><code>memory.read_string(pointer, max_len)</code></h3>
+<p>Reads a null-terminated string from memory.
+- <strong>Parameters</strong>: <code>pointer</code> - Pointer to string data, <code>max_len</code> - Maximum length to read
+- <strong>Returns</strong>: String read from memory
+- <strong>Example</strong>: <code>text := dll.memory.read_string(str_ptr, 256)</code></p>
+<h2 id="pointer-operations">Pointer Operations</h2>
+<h3 id="pointercreateaddress"><code>pointer.create(address)</code></h3>
+<p>Creates a pointer object from an address.
+- <strong>Parameters</strong>: <code>address</code> - Memory address
+- <strong>Returns</strong>: Pointer object
+- <strong>Example</strong>: <code>ptr := dll.pointer.create(0x12345678)</code></p>
+<h3 id="pointeroffsetpointer-offset"><code>pointer.offset(pointer, offset)</code></h3>
+<p>Creates a new pointer with an offset from the original.
+- <strong>Parameters</strong>: <code>pointer</code> - Base pointer, <code>offset</code> - Byte offset
+- <strong>Returns</strong>: New pointer object
+- <strong>Example</strong>: <code>new_ptr := dll.pointer.offset(ptr, 16)</code></p>
+<h3 id="pointerread_intpointer"><code>pointer.read_int(pointer)</code></h3>
+<p>Reads a 4-byte integer from memory.
+- <strong>Parameters</strong>: <code>pointer</code> - Pointer to integer data
+- <strong>Returns</strong>: Integer value
+- <strong>Example</strong>: <code>value := dll.pointer.read_int(int_ptr)</code></p>
+<h3 id="pointerwrite_intpointer-value"><code>pointer.write_int(pointer, value)</code></h3>
+<p>Writes a 4-byte integer to memory.
+- <strong>Parameters</strong>: <code>pointer</code> - Pointer to write to, <code>value</code> - Integer value to write
+- <strong>Returns</strong>: Boolean indicating success
+- <strong>Example</strong>: <code>success := dll.pointer.write_int(int_ptr, 42)</code></p>
+<h3 id="pointerread_bytespointer-size"><code>pointer.read_bytes(pointer, size)</code></h3>
+<p>Reads bytes from memory.
+- <strong>Parameters</strong>: <code>pointer</code> - Pointer to data, <code>size</code> - Number of bytes to read
+- <strong>Returns</strong>: Byte array
+- <strong>Example</strong>: <code>data := dll.pointer.read_bytes(data_ptr, 100)</code></p>
+<h3 id="pointerwrite_bytespointer-data"><code>pointer.write_bytes(pointer, data)</code></h3>
+<p>Writes bytes to memory.
+- <strong>Parameters</strong>: <code>pointer</code> - Pointer to write to, <code>data</code> - Byte array to write
+- <strong>Returns</strong>: Boolean indicating success
+- <strong>Example</strong>: <code>success := dll.pointer.write_bytes(data_ptr, byte_data)</code></p>
+<h2 id="supported-argument-types">Supported Argument Types</h2>
 <ul>
-<li><code>dll_name</code>: Name of the DLL file to load.</li>
-</ul>
-<h4 id="loaddll_name"><code>load(dll_name)</code></h4>
-<p>Loads a dynamic-link library (DLL) with the specified name.</p>
-<ul>
-<li><code>dll_name</code>: Name of the DLL file to load.</li>
-</ul>
-<h3 id="dll-functions">DLL Functions</h3>
-<h4 id="procfunction_name"><code>proc(function_name)</code></h4>
-<p>Retrieves a procedure address from the loaded DLL.</p>
-<ul>
-<li><code>function_name</code>: Name of the function to retrieve.</li>
-</ul>
-<h4 id="callarguments"><code>call(arguments...)</code></h4>
-<p>Calls a function from the loaded DLL.</p>
-<ul>
-<li><code>arguments</code>: Arguments to pass to the function.</li>
+<li><strong>Integers</strong>: Passed directly as 32/64-bit values</li>
+<li><strong>Floats</strong>: Converted to integer representation (may lose precision)</li>
+<li><strong>Strings</strong>: Converted to UTF-16 and passed as pointers</li>
+<li><strong>Bytes</strong>: Passed as pointers to byte arrays</li>
+<li><strong>Booleans</strong>: Converted to 0 (false) or 1 (true)</li>
+<li><strong>Null</strong>: Passed as zero pointer</li>
+<li><strong>Pointers</strong>: Passed directly as memory addresses</li>
 </ul>
 <h3 id="example-usage">Example Usage</h3>
 <h4 id="example-dll-in-c">Example DLL in C</h4>

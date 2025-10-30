@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Stdlin times - Tender Docs</title>
+        <title>xml Module Documentation - Tender Docs</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -146,7 +146,7 @@
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">Stdlin times</a>
+    <a href="../stdlib-times/" class="dropdown-item">Stdlin times</a>
 </li>
                                     
 <li>
@@ -154,7 +154,7 @@
 </li>
                                     
 <li>
-    <a href="../stdlib-xml/" class="dropdown-item">xml Module Documentation</a>
+    <a href="./" class="dropdown-item active" aria-current="page">xml Module Documentation</a>
 </li>
                                     
 <li>
@@ -179,12 +179,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../stdlib-tar/" class="nav-link">
+                                <a rel="prev" href="../stdlib-websocket/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../stdlib-websocket/" class="nav-link">
+                                <a rel="next" href="../stdlib-zip/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -206,13 +206,17 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="1"><a href="#stdlin-times" class="nav-link">Stdlin times</a>
+            <li class="nav-item" data-bs-level="1"><a href="#xml-module-documentation" class="nav-link">xml Module Documentation</a>
               <ul class="nav flex-column">
-            <li class="nav-item" data-bs-level="2"><a href="#constants" class="nav-link">Constants</a>
+            <li class="nav-item" data-bs-level="2"><a href="#core-functions" class="nav-link">Core Functions</a>
               <ul class="nav flex-column">
               </ul>
             </li>
-            <li class="nav-item" data-bs-level="2"><a href="#functions" class="nav-link">Functions</a>
+            <li class="nav-item" data-bs-level="2"><a href="#xml-structure-convention" class="nav-link">XML Structure Convention</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#examples" class="nav-link">Examples</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -223,123 +227,119 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h1 id="stdlin-times">Stdlin times</h1>
-<p>The <code>times</code> module provides functions and constants for working with time-related operations.</p>
-<h2 id="constants">Constants</h2>
+<h1 id="xml-module-documentation">xml Module Documentation</h1>
+<p>The <code>xml</code> module provides comprehensive functionality for parsing, generating, and manipulating XML data. It supports both document-style and data-oriented XML processing with flexible object mapping.</p>
+<h2 id="core-functions">Core Functions</h2>
+<h3 id="decodexml_string"><code>decode(xml_string)</code></h3>
+<p>Parses XML string into Tender objects using the <code>@</code> prefix for attributes and <code>#</code> key for text content.
+- <strong>Parameters</strong>: <code>xml_string</code> - XML data as string or bytes
+- <strong>Returns</strong>: Tender object representing the XML structure
+- <strong>Example</strong>: <code>data := xml.decode("&lt;root&gt;&lt;item id='1'&gt;Text&lt;/item&gt;&lt;/root&gt;")</code></p>
+<h3 id="encodeobject"><code>encode(object)</code></h3>
+<p>Converts Tender objects into XML string using the <code>@</code> prefix for attributes and <code>#</code> key for text content.
+- <strong>Parameters</strong>: <code>object</code> - Tender object to encode as XML
+- <strong>Returns</strong>: XML string
+- <strong>Example</strong>: <code>xml_string := xml.encode(data)</code></p>
+<h3 id="escapetext"><code>escape(text)</code></h3>
+<p>Escapes XML special characters in a string.
+- <strong>Parameters</strong>: <code>text</code> - String to escape
+- <strong>Returns</strong>: Escaped string
+- <strong>Example</strong>: <code>escaped := xml.escape("AT&amp;T &lt;special&gt;")</code></p>
+<h3 id="unescapetext"><code>unescape(text)</code></h3>
+<p>Unescapes XML entities back to their original characters.
+- <strong>Parameters</strong>: <code>text</code> - String with XML entities
+- <strong>Returns</strong>: Unescaped string
+- <strong>Example</strong>: <code>original := xml.unescape("AT&amp;amp;T &amp;lt;special&amp;gt;")</code></p>
+<h2 id="xml-structure-convention">XML Structure Convention</h2>
+<p>The module uses a specific convention for representing XML in Tender objects:</p>
 <ul>
-<li><code>format_ansic</code>: time format "Mon Jan _2 15:04:05 2006"</li>
-<li><code>format_unix_date</code>: time format "Mon Jan _2 15:04:05 MST 2006"</li>
-<li><code>format_ruby_date</code>: time format "Mon Jan 02 15:04:05 -0700 2006"</li>
-<li><code>format_rfc822</code>: time format "02 Jan 06 15:04 MST"</li>
-<li><code>format_rfc822z</code>: time format "02 Jan 06 15:04 -0700"</li>
-<li><code>format_rfc850</code>: time format "Monday, 02-Jan-06 15:04:05 MST"</li>
-<li><code>format_rfc1123</code>: time format "Mon, 02 Jan 2006 15:04:05 MST"</li>
-<li><code>format_rfc1123z</code>: time format "Mon, 02 Jan 2006 15:04:05 -0700"</li>
-<li><code>format_rfc3339</code>: time format "2006-01-02T15:04:05Z07:00"</li>
-<li><code>format_rfc3339_nano</code>: time format "2006-01-02T15:04:05.999999999Z07:00"</li>
-<li><code>format_kitchen</code>: time format "3:04PM"</li>
-<li><code>format_stamp</code>: time format "Jan _2 15:04:05"</li>
-<li><code>format_stamp_milli</code>: time format "Jan _2 15:04:05.000"</li>
-<li><code>format_stamp_micro</code>: time format "Jan _2 15:04:05.000000"</li>
-<li><code>format_stamp_nano</code>: time format "Jan _2 15:04:05.000000000"</li>
-<li><code>nanosecond</code></li>
-<li><code>microsecond</code></li>
-<li><code>millisecond</code></li>
-<li><code>second</code></li>
-<li><code>minute</code></li>
-<li><code>hour</code></li>
-<li><code>january</code></li>
-<li><code>february</code></li>
-<li><code>march</code></li>
-<li><code>april</code></li>
-<li><code>may</code></li>
-<li><code>june</code></li>
-<li><code>july</code></li>
-<li><code>august</code></li>
-<li><code>september</code></li>
-<li><code>october</code></li>
-<li><code>november</code></li>
-<li><code>december</code></li>
+<li><strong>Element names</strong>: Used as object keys</li>
+<li><strong>Attributes</strong>: Prefixed with <code>@</code> (e.g., <code>{"@id": "1"}</code>)</li>
+<li><strong>Text content</strong>: Stored under <code>#</code> key</li>
+<li><strong>Multiple elements</strong>: Become arrays</li>
+<li><strong>Mixed content</strong>: Text and elements stored together</li>
 </ul>
-<h2 id="functions">Functions</h2>
-<ul>
-<li><code>sleep(duration int)</code>: pauses the current goroutine for at least the duration
-  d. A negative or zero duration causes Sleep to return immediately.</li>
-<li><code>parse_duration(s string) =&gt; int</code>: parses a duration string. A duration
-  string is a possibly signed sequence of decimal numbers, each with optional
-  fraction and a unit suffix, such as "300ms", "-1.5h" or "2h45m". Valid time
-  units are "ns", "us" (or "µs"), "ms", "s", "m", "h".</li>
-<li><code>since(t time) =&gt; int</code>: returns the time elapsed since t.</li>
-<li><code>until(t time) =&gt; int</code>: returns the duration until t.</li>
-<li><code>duration_hours(duration int) =&gt; float</code>: returns the duration as a floating
-  point number of hours.</li>
-<li><code>duration_minutes(duration int) =&gt; float</code>: returns the duration as a floating
-  point number of minutes.</li>
-<li><code>duration_nanoseconds(duration int) =&gt; int</code>: returns the duration as an
-  integer of nanoseconds.</li>
-<li><code>duration_seconds(duration int) =&gt; float</code>: returns the duration as a floating
-  point number of seconds.</li>
-<li><code>duration_string(duration int) =&gt; string</code>: returns a string representation of
-  duration.</li>
-<li><code>month_string(month int) =&gt; string</code>:  returns the English name of the month
-  ("January", "February", ...).</li>
-<li><code>date(year int, month int, day int, hour int, min int, sec int, nsec int) =&gt; time</code>:
-  returns the Time corresponding to "yyyy-mm-dd hh:mm:ss + nsec nanoseconds".
-  Current location is used.</li>
-<li><code>now() =&gt; time</code>: returns the current local time.</li>
-<li><code>parse(format string, s string) =&gt; time</code>: parses a formatted string and
-  returns the time value it represents. The layout defines the format by
-  showing how the reference time, defined to be "Mon Jan 2 15:04:05 -0700 MST
-  2006" would be interpreted if it were the value; it serves as an example of
-  the input format. The same interpretation will then be made to the input
-  string.</li>
-<li><code>unix(sec int, nsec int) =&gt; time</code>: returns the local Time corresponding to
-  the given Unix time, sec seconds and nsec nanoseconds since January 1,
-  1970 UTC.</li>
-<li><code>add(t time, duration int) =&gt; time</code>: returns the time t+d.</li>
-<li><code>add_date(t time, years int, months int, days int) =&gt; time</code>: returns the time
-  corresponding to adding the given number of years, months, and days to t. For
-  example, AddDate(-1, 2, 3) applied to January 1, 2011 returns March 4, 2010.</li>
-<li><code>sub(t time, u time) =&gt; int</code>: returns the duration t-u.</li>
-<li><code>after(t time, u time) =&gt; bool</code>: reports whether the time instant t is after
-  u.</li>
-<li><code>before(t time, u time) =&gt; bool</code>: reports whether the time instant t is
-  before u.</li>
-<li><code>time_year(t time) =&gt; int</code>: returns the year in which t occurs.</li>
-<li><code>time_month(t time) =&gt; int</code>: returns the month of the year specified by t.</li>
-<li><code>time_day(t time) =&gt; int</code>: returns the day of the month specified by t.</li>
-<li><code>time_weekday(t time) =&gt; int</code>: returns the day of the week specified by t.</li>
-<li><code>time_hour(t time) =&gt; int</code>: returns the hour within the day specified by t,
-  in the range [0, 23].</li>
-<li><code>time_minute(t time) =&gt; int</code>: returns the minute offset within the hour
-  specified by t, in the range [0, 59].</li>
-<li><code>time_second(t time) =&gt; int</code>: returns the second offset within the minute
-  specified by t, in the range [0, 59].</li>
-<li><code>time_nanosecond(t time) =&gt; int</code>: returns the nanosecond offset within the
-  second specified by t, in the range [0, 999999999].</li>
-<li><code>time_unix(t time) =&gt; int</code>: returns t as a Unix time, the number of seconds
-  elapsed since January 1, 1970 UTC. The result does not depend on the location
-  associated with t.</li>
-<li><code>time_unix_nano(t time) =&gt; int</code>: returns t as a Unix time, the number of
-  nanoseconds elapsed since January 1, 1970 UTC. The result is null if the
-  Unix time in nanoseconds cannot be represented by an int64 (a date before the
-  year 1678 or after 2262). Note that this means the result of calling UnixNano
-  on the zero Time is null. The result does not depend on the location
-  associated with t.</li>
-<li><code>time_format(t time, format) =&gt; string</code>: returns a textual representation of
-  he time value formatted according to layout, which defines the format by
-  showing how the reference time, defined to be "Mon Jan 2 15:04:05 -0700 MST
-  2006" would be displayed if it were the value; it serves as an example of the
-  desired output. The same display rules will then be applied to the time value.</li>
-<li><code>time_location(t time) =&gt; string</code>: returns the time zone name associated with
-  t.</li>
-<li><code>time_string(t time) =&gt; string</code>: returns the time formatted using the format
-  string "2006-01-02 15:04:05.999999999 -0700 MST".</li>
-<li><code>is_zero(t time) =&gt; bool</code>: reports whether t represents the zero time
-  instant, January 1, year 1, 00:00:00 UTC.</li>
-<li><code>to_local(t time) =&gt; time</code>: returns t with the location set to local time.</li>
-<li><code>to_utc(t time) =&gt; time</code>: returns t with the location set to UTC.</li>
-</ul></div>
+<h2 id="examples">Examples</h2>
+<h3 id="basic-xml-parsing">Basic XML Parsing</h3>
+<pre><code class="language-javascript">import &quot;xml&quot;
+
+// Simple XML parsing
+xml_data := `
+&lt;book id=&quot;123&quot;&gt;
+    &lt;title&gt;XML Guide&lt;/title&gt;
+    &lt;author&gt;John Doe&lt;/author&gt;
+    &lt;price currency=&quot;USD&quot;&gt;29.99&lt;/price&gt;
+&lt;/book&gt;
+`
+
+// Parse XML
+book := xml.decode(xml_data)
+println(&quot;Book title:&quot;, book.book.title)
+println(&quot;Book ID:&quot;, book.book[&quot;@id&quot;])
+println(&quot;Price:&quot;, book.book.price[&quot;#&quot;])
+println(&quot;Currency:&quot;, book.book.price[&quot;@currency&quot;])
+
+// Output structure:
+// {
+//   &quot;book&quot;: {
+//     &quot;@id&quot;: &quot;123&quot;,
+//     &quot;title&quot;: &quot;XML Guide&quot;,
+//     &quot;author&quot;: &quot;John Doe&quot;, 
+//     &quot;price&quot;: {
+//       &quot;@currency&quot;: &quot;USD&quot;,
+//       &quot;#&quot;: &quot;29.99&quot;
+//     }
+//   }
+// }
+</code></pre>
+<h3 id="xml-generation">XML Generation</h3>
+<pre><code class="language-javascript">import &quot;xml&quot;
+
+// Create data structure for XML
+data := {
+    &quot;catalog&quot;: {
+        &quot;@version&quot;: &quot;1.0&quot;,
+        &quot;book&quot;: [
+            {
+                &quot;@id&quot;: &quot;1&quot;,
+                &quot;title&quot;: &quot;First Book&quot;,
+                &quot;author&quot;: &quot;Author One&quot;,
+                &quot;price&quot;: {
+                    &quot;@currency&quot;: &quot;USD&quot;,
+                    &quot;#&quot;: &quot;19.99&quot;
+                }
+            },
+            {
+                &quot;@id&quot;: &quot;2&quot;, 
+                &quot;title&quot;: &quot;Second Book&quot;,
+                &quot;author&quot;: &quot;Author Two&quot;,
+                &quot;price&quot;: {
+                    &quot;@currency&quot;: &quot;EUR&quot;, 
+                    &quot;#&quot;: &quot;17.50&quot;
+                }
+            }
+        ]
+    }
+}
+
+// Generate XML
+xml_output := xml.encode(data)
+println(string(xml_output))
+
+// Output:
+// &lt;catalog version=&quot;1.0&quot;&gt;
+//   &lt;book id=&quot;1&quot;&gt;
+//     &lt;title&gt;First Book&lt;/title&gt;
+//     &lt;author&gt;Author One&lt;/author&gt;
+//     &lt;price currency=&quot;USD&quot;&gt;19.99&lt;/price&gt;
+//   &lt;/book&gt;
+//   &lt;book id=&quot;2&quot;&gt;
+//     &lt;title&gt;Second Book&lt;/title&gt;
+//     &lt;author&gt;Author Two&lt;/author&gt;
+//     &lt;price currency=&quot;EUR&quot;&gt;17.50&lt;/price&gt;
+//   &lt;/book&gt;
+// &lt;/catalog&gt;
+</code></pre></div>
             </div>
         </div>
 
