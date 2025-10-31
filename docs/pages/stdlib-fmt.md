@@ -1,4 +1,4 @@
-### Fmt Module Documentation
+## Stdlib `fmt`
 
 The `fmt` module provides functions for formatted I/O operations similar to those in the standard Go `fmt` package. 
 

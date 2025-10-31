@@ -1,4 +1,4 @@
-## Tar Module Documentation
+## Stdlib `tar`
 
 The `tar` module provides functions for creating and reading TAR archives.
 

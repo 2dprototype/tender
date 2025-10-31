@@ -1,4 +1,4 @@
-## JSON Module Documentation
+## Stdlib `json`
 
 The `json` module provides functionalities for playing with json!
 

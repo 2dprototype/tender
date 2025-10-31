@@ -1,4 +1,4 @@
-# Crypto Module Documentation
+## Stdlib `crypto`
 
 The `crypto` module provides comprehensive cryptographic functionalities including hashing, encryption/decryption, digital signatures, key generation, and secure random number generation.
 

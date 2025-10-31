@@ -1,4 +1,4 @@
-## Base64 Module Documentation
+## Stdlib `base64`
 
 The `base64` module provides functions for base64 encoding and decoding.
 

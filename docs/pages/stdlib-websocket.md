@@ -1,4 +1,4 @@
-### WebSocket Module Documentation
+## Stdlib `websocket`
 
 The `websocket` module provides functionalities for establishing and managing WebSocket connections using the `gorilla/websocket` library.
 

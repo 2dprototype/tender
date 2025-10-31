@@ -1,4 +1,4 @@
-## bufio Module Documentation
+## Stdlib `bufio`
 
 The `bufio` module provides functions for buffered I/O operations, particularly useful for reading input from standard input (stdin).
 

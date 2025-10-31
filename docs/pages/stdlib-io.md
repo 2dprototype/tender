@@ -1,4 +1,4 @@
-## IO Module Documentation
+## Stdlib `io`
 
 The `io` module provides functions for reading from and writing to files.
 

@@ -1,4 +1,4 @@
-## Zip Module Documentation
+## Stdlib `zip`
 
 The `zip` module provides functions for creating and reading ZIP archives.
 

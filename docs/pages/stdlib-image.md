@@ -1,4 +1,4 @@
-## image Module Documentation
+## Stdlib `image`
 
 The `image` module provides comprehensive functionalities for working with images, including loading, decoding, creating new images, applying filters, and encoding images into various formats.
 

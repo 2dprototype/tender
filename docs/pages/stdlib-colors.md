@@ -1,4 +1,4 @@
-# colors Module Documentation
+## Stdlib `colors`
 
 The `colors` module provides functionality for printing colored and styled text to the terminal. It includes utilities for writing to standard output and error, as well as applying rich text styles.
 

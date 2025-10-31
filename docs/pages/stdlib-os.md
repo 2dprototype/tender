@@ -1,4 +1,4 @@
-## OS Module Documentation
+## Stdlib `os`
 
 The `os` module provides functions for operating system functionality.
 

@@ -1,4 +1,4 @@
-# xml Module Documentation
+## Stdlib `xml`
 
 The `xml` module provides comprehensive functionality for parsing, generating, and manipulating XML data. It supports both document-style and data-oriented XML processing with flexible object mapping.
 

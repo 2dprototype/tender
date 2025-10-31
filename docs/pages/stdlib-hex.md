@@ -1,4 +1,4 @@
-## Hex Module Documentation
+## Stdlib `hex`
 
 The `hex` module provides functions for encoding and decoding data using hexadecimal representation, as well as for generating a hex dump of the data.
 

@@ -1,4 +1,4 @@
-## Canvas Module Documentation
+## Stdlib `canvas`
 
 The `canvas` module provides functionalities for creating and manipulating graphical elements.
 

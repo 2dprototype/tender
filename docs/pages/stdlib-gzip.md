@@ -1,4 +1,4 @@
-## Gzip Module Documentation
+## Stdlib `gzip`
 
 The `gzip` module provides functions for compressing and decompressing data using the gzip compression format.
 

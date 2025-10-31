@@ -1,4 +1,4 @@
-### Rand Module Documentation
+## Stdlib `rand`
 
 The `rand` module provides functions for generating random numbers and sequences, seeding the random number generator, and creating custom random number generators.
 

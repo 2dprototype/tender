@@ -1,4 +1,4 @@
-## strings Module
+## Stdlib `strings`
 
 The `strings` module provides functionalities for manipulating strings.
 

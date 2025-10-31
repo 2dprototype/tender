@@ -1,4 +1,4 @@
-### Net Module Documentation
+## Stdlib `net`
 
 The `net` module provides functionalities for network communication, including DNS lookup, TCP and UDP address resolution, and various methods for establishing network connections.
 

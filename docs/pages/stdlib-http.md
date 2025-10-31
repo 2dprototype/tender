@@ -1,4 +1,4 @@
-### HTTP Module Documentation
+## Stdlib `http`
 
 The `http` module provides functionalities for making HTTP requests. This module supports various HTTP methods including GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD, and TRACE.
 

@@ -1,4 +1,4 @@
-### Path Module Documentation
+## Stdlib `path`
 
 The `path` module provides functions for manipulating file paths and performing operations related to file paths.
 

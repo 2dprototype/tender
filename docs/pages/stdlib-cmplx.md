@@ -1,4 +1,4 @@
-# Stdlib cmplx
+# Stdlib `cmplx`
 
 The `cmplx` module provides a suite of functions for performing operations on complex numbers. These functions allow you to create, manipulate, and compute advanced mathematical expressions using complex arithmetic.
 

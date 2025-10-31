@@ -1,4 +1,4 @@
-# dll Module Documentation
+## Stdlib `dll`
 
 The `dll` module provides comprehensive functionalities for loading, managing, and calling functions from dynamic-link libraries (DLLs) in the Windows environment, including memory management, error handling, and system API interactions.
 

@@ -1,4 +1,4 @@
-## Stdlib audio
+## Stdlib `audio`
 
 The audio module provides functionalities for initializing an audio context and creating audio players for playing MP3 files.
 
