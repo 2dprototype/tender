@@ -11,7 +11,6 @@ import (
 
 	"github.com/2dprototype/tender/parser"
 	"github.com/2dprototype/tender/token"
-	"github.com/2dprototype/tender/utils"
 )
 
 
@@ -562,7 +561,7 @@ func (c *Compiler) Compile(node parser.Node) error {
 			default:
 				panic(fmt.Errorf("invalid import value type: %T", v))
 			}
-		} else if c.allowFileImport {
+		} else if c.allowFileImport { 
 			var modulePath string
 			exe, _ := os.Executable()
 			exeDir := filepath.Dir(exe)
@@ -570,42 +569,15 @@ func (c *Compiler) Compile(node parser.Node) error {
 			if !strings.HasSuffix(moduleName, ".td") {
 				moduleName += ".td"
 			}
-			
-			if strings.HasPrefix(node.ModuleName, "@") {
-				moduleName = moduleName[1:]
-				parts := strings.SplitN(moduleName, ":", 2)
-				if len(parts) != 2 {
-					return c.errorf(node, "module file format error: %s", moduleName)
+			packagePath := filepath.Join(exeDir, "pkg", moduleName)	
+			_, err := os.Stat(packagePath)
+			if os.IsNotExist(err) {
+				modulePath, err = filepath.Abs(filepath.Join(c.importDir, moduleName))
+				if err != nil {
+					return c.errorf(node, "module file path error: %s", err.Error())
 				}
-				username := parts[0]
-				repoPath := parts[1]
-				repoPaths := strings.Split(repoPath, "/")
-				repoName := repoPaths[0]
-				if len(repoPaths) == 1 {
-					modulePath = filepath.Join(exeDir, "pkg", "@" + username, repoName, "main.td")
-				} else {
-					modulePath = filepath.Join(exeDir, "pkg", "@" + username, repoPath)
-				}
-				
-				_, err := os.Stat(modulePath)
-				if os.IsNotExist(err) {
-					if err := utils.FetchTagsFromGithub(username, repoName); err != nil {
-						if err = utils.FetchFromGithub(username, repoName); err != nil {
-							fmt.Println("Error:", err)
-						}
-					}
-				}
-			} else {			
-				packagePath := filepath.Join(exeDir, "pkg", moduleName)	
-				_, err := os.Stat(packagePath)
-				if os.IsNotExist(err) {
-					modulePath, err = filepath.Abs(filepath.Join(c.importDir, moduleName))
-					if err != nil {
-						return c.errorf(node, "module file path error: %s", err.Error())
-					}
-				} else {
-					modulePath = packagePath
-				}
+			} else {
+				modulePath = packagePath
 			}
 			
 			moduleSrc, err := ioutil.ReadFile(modulePath)

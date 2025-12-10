@@ -946,30 +946,17 @@ func (o *ImmutableMap) IsFalsy() bool {
 
 // IndexGet returns the value for the given key.
 func (o *ImmutableMap) IndexGet(index Object) (res Object, err error) {
-	strIdx, ok := index.(*String)
+	strIdx, ok := ToString(index)
 	if !ok {
 		err = ErrInvalidIndexType
 		return
 	}
-	res, ok = o.Value[strIdx.Value]
+	res, ok = o.Value[strIdx]
 	if !ok {
 		res = NullValue
 	}
 	return
 }
-
-// func (o *ImmutableMap) IndexGet(index Object) (res Object, err error) {
-	// strIdx, ok := ToString(index)
-	// if !ok {
-		// err = ErrInvalidIndexType
-		// return
-	// }
-	// res, ok = o.Value[strIdx]
-	// if !ok {
-		// res = NullValue
-	// }
-	// return
-// }
 
 // Equals returns true if the value of the type is equal to the value of
 // another object.
@@ -1739,12 +1726,12 @@ func (o *Map) Equals(x Object) bool {
 
 // IndexGet returns the value for the given key.
 func (o *Map) IndexGet(index Object) (res Object, err error) {
-	strIdx, ok := index.(*String)
+	strIdx, ok := ToString(index)
 	if !ok {
 		err = ErrInvalidIndexType
 		return
 	}
-	res, ok = o.Value[strIdx.Value]
+	res, ok = o.Value[strIdx]
 	if !ok {
 		res = NullValue
 	}
@@ -1753,12 +1740,12 @@ func (o *Map) IndexGet(index Object) (res Object, err error) {
 
 // IndexSet sets the value for the given key.
 func (o *Map) IndexSet(index, value Object) (err error) {
-	strIdx, ok := index.(*String)
+	strIdx, ok := ToString(index)
 	if !ok {
 		err = ErrInvalidIndexType
 		return
 	}
-	o.Value[strIdx.Value] = value
+	o.Value[strIdx] = value
 	return nil
 }
 
