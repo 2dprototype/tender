@@ -205,16 +205,16 @@ func (f *WUIFolderSelectDialog) Copy() tender.Object {
 	return &WUIFolderSelectDialog{Value: f.Value}
 }
 
-type WUIColor struct {
-	tender.ObjectImpl
-	Value wui.Color
-}
+// type WUIColor struct {
+	// tender.ObjectImpl
+	// Value wui.Color
+// }
 
-func (c *WUIColor) TypeName() string { return "color" }
-func (c *WUIColor) String() string   { return "<color>" }
-func (c *WUIColor) Copy() tender.Object {
-	return &WUIColor{Value: c.Value}
-}
+// func (c *WUIColor) TypeName() string { return "color" }
+// func (c *WUIColor) String() string   { return "<color>" }
+// func (c *WUIColor) Copy() tender.Object {
+	// return &WUIColor{Value: c.Value}
+// }
 
 type WUIFont struct {
 	tender.ObjectImpl

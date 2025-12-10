@@ -1958,3 +1958,646 @@ func (c *WUICanvas) String() string   { return "<canvas>" }
 func (c *WUICanvas) Copy() tender.Object {
 	return &WUICanvas{Value: c.Value}
 }
+
+func (c *WUICanvas) IndexGet(index tender.Object) (res tender.Object, err error) {
+    strIdx, ok := index.(*tender.String)
+    if !ok {
+        return nil, tender.ErrInvalidIndexType
+    }
+
+    switch strIdx.Value {
+    case "arc":
+        res = &tender.BuiltinFunction{
+            Value: func(args ...tender.Object) (tender.Object, error) {
+                if len(args) != 7 {
+                    return nil, tender.ErrWrongNumArguments
+                }
+                x, _ := tender.ToInt(args[0])
+                y, _ := tender.ToInt(args[1])
+                width, _ := tender.ToInt(args[2])
+                height, _ := tender.ToInt(args[3])
+                fromClockAngle, _ := tender.ToFloat64(args[4])
+                dAngle, _ := tender.ToFloat64(args[5])
+                color, ok := extractColor(args[6])
+                if !ok {
+                    return nil, tender.ErrInvalidArgumentType{
+                        Name:     "color",
+                        Expected: "color",
+                        Found:    args[6].TypeName(),
+                    }
+                }
+                c.Value.Arc(x, y, width, height, fromClockAngle, dAngle, color)
+                return tender.NullValue, nil
+            },
+        }
+    case "clear_draw_regions":
+        res = &tender.BuiltinFunction{
+            Value: FuncAR(c.Value.ClearDrawRegions),
+        }
+    case "draw_ellipse":
+        res = &tender.BuiltinFunction{
+            Value: func(args ...tender.Object) (tender.Object, error) {
+                if len(args) != 5 {
+                    return nil, tender.ErrWrongNumArguments
+                }
+                x, _ := tender.ToInt(args[0])
+                y, _ := tender.ToInt(args[1])
+                width, _ := tender.ToInt(args[2])
+                height, _ := tender.ToInt(args[3])
+                color, ok := extractColor(args[4])
+                if !ok {
+                    return nil, tender.ErrInvalidArgumentType{
+                        Name:     "color",
+                        Expected: "color",
+                        Found:    args[4].TypeName(),
+                    }
+                }
+                c.Value.DrawEllipse(x, y, width, height, color)
+                return tender.NullValue, nil
+            },
+        }
+    case "draw_image":
+        res = &tender.BuiltinFunction{
+            Value: func(args ...tender.Object) (tender.Object, error) {
+                if len(args) != 4 {
+                    return nil, tender.ErrWrongNumArguments
+                }
+                img, ok := args[0].(*WUIImage)
+                if !ok {
+                    return nil, tender.ErrInvalidArgumentType{
+                        Name:     "image",
+                        Expected: "image",
+                        Found:    args[0].TypeName(),
+                    }
+                }
+                rect, ok := args[1].(*WUIRectangle)
+                if !ok {
+                    return nil, tender.ErrInvalidArgumentType{
+                        Name:     "rectangle",
+                        Expected: "rectangle",
+                        Found:    args[1].TypeName(),
+                    }
+                }
+                destX, _ := tender.ToInt(args[2])
+                destY, _ := tender.ToInt(args[3])
+                c.Value.DrawImage(img.Value, rect.Value, destX, destY)
+                return tender.NullValue, nil
+            },
+        }
+    case "draw_pie":
+        res = &tender.BuiltinFunction{
+            Value: func(args ...tender.Object) (tender.Object, error) {
+                if len(args) != 7 {
+                    return nil, tender.ErrWrongNumArguments
+                }
+                x, _ := tender.ToInt(args[0])
+                y, _ := tender.ToInt(args[1])
+                width, _ := tender.ToInt(args[2])
+                height, _ := tender.ToInt(args[3])
+                fromClockAngle, _ := tender.ToFloat64(args[4])
+                dAngle, _ := tender.ToFloat64(args[5])
+                color, ok := extractColor(args[6])
+                if !ok {
+                    return nil, tender.ErrInvalidArgumentType{
+                        Name:     "color",
+                        Expected: "color",
+                        Found:    args[6].TypeName(),
+                    }
+                }
+                c.Value.DrawPie(x, y, width, height, fromClockAngle, dAngle, color)
+                return tender.NullValue, nil
+            },
+        }
+    case "draw_rect":
+        res = &tender.BuiltinFunction{
+            Value: func(args ...tender.Object) (tender.Object, error) {
+                if len(args) != 5 {
+                    return nil, tender.ErrWrongNumArguments
+                }
+                x, _ := tender.ToInt(args[0])
+                y, _ := tender.ToInt(args[1])
+                width, _ := tender.ToInt(args[2])
+                height, _ := tender.ToInt(args[3])
+                color, ok := extractColor(args[4])
+                if !ok {
+                    return nil, tender.ErrInvalidArgumentType{
+                        Name:     "color",
+                        Expected: "color",
+                        Found:    args[4].TypeName(),
+                    }
+                }
+                c.Value.DrawRect(x, y, width, height, color)
+                return tender.NullValue, nil
+            },
+        }
+    case "fill_ellipse":
+        res = &tender.BuiltinFunction{
+            Value: func(args ...tender.Object) (tender.Object, error) {
+                if len(args) != 5 {
+                    return nil, tender.ErrWrongNumArguments
+                }
+                x, _ := tender.ToInt(args[0])
+                y, _ := tender.ToInt(args[1])
+                width, _ := tender.ToInt(args[2])
+                height, _ := tender.ToInt(args[3])
+                color, ok := extractColor(args[4])
+                if !ok {
+                    return nil, tender.ErrInvalidArgumentType{
+                        Name:     "color",
+                        Expected: "color",
+                        Found:    args[4].TypeName(),
+                    }
+                }
+                c.Value.FillEllipse(x, y, width, height, color)
+                return tender.NullValue, nil
+            },
+        }
+    case "fill_pie":
+        res = &tender.BuiltinFunction{
+            Value: func(args ...tender.Object) (tender.Object, error) {
+                if len(args) != 7 {
+                    return nil, tender.ErrWrongNumArguments
+                }
+                x, _ := tender.ToInt(args[0])
+                y, _ := tender.ToInt(args[1])
+                width, _ := tender.ToInt(args[2])
+                height, _ := tender.ToInt(args[3])
+                fromClockAngle, _ := tender.ToFloat64(args[4])
+                dAngle, _ := tender.ToFloat64(args[5])
+                color, ok := extractColor(args[6])
+                if !ok {
+                    return nil, tender.ErrInvalidArgumentType{
+                        Name:     "color",
+                        Expected: "color",
+                        Found:    args[6].TypeName(),
+                    }
+                }
+                c.Value.FillPie(x, y, width, height, fromClockAngle, dAngle, color)
+                return tender.NullValue, nil
+            },
+        }
+    case "fill_rect":
+        res = &tender.BuiltinFunction{
+            Value: func(args ...tender.Object) (tender.Object, error) {
+                if len(args) != 5 {
+                    return nil, tender.ErrWrongNumArguments
+                }
+                x, _ := tender.ToInt(args[0])
+                y, _ := tender.ToInt(args[1])
+                width, _ := tender.ToInt(args[2])
+                height, _ := tender.ToInt(args[3])
+                color, ok := extractColor(args[4])
+                if !ok {
+                    return nil, tender.ErrInvalidArgumentType{
+                        Name:     "color",
+                        Expected: "color",
+                        Found:    args[4].TypeName(),
+                    }
+                }
+                c.Value.FillRect(x, y, width, height, color)
+                return tender.NullValue, nil
+            },
+        }
+    case "handle":
+        res = &tender.BuiltinFunction{
+            Value: func(args ...tender.Object) (tender.Object, error) {
+                if len(args) != 0 {
+                    return nil, tender.ErrWrongNumArguments
+                }
+                return &tender.Int{Value: int64(c.Value.Handle())}, nil
+            },
+        }
+    case "height":
+        res = &tender.BuiltinFunction{
+            Value: func(args ...tender.Object) (tender.Object, error) {
+                if len(args) != 0 {
+                    return nil, tender.ErrWrongNumArguments
+                }
+                return &tender.Int{Value: int64(c.Value.Height())}, nil
+            },
+        }
+    case "line":
+        res = &tender.BuiltinFunction{
+            Value: func(args ...tender.Object) (tender.Object, error) {
+                if len(args) != 5 {
+                    return nil, tender.ErrWrongNumArguments
+                }
+                x1, _ := tender.ToInt(args[0])
+                y1, _ := tender.ToInt(args[1])
+                x2, _ := tender.ToInt(args[2])
+                y2, _ := tender.ToInt(args[3])
+                color, ok := extractColor(args[4])
+                if !ok {
+                    return nil, tender.ErrInvalidArgumentType{
+                        Name:     "color",
+                        Expected: "color",
+                        Found:    args[4].TypeName(),
+                    }
+                }
+                c.Value.Line(x1, y1, x2, y2, color)
+                return tender.NullValue, nil
+            },
+        }
+    case "polygon":
+        res = &tender.BuiltinFunction{
+            Value: func(args ...tender.Object) (tender.Object, error) {
+                if len(args) != 2 {
+                    return nil, tender.ErrWrongNumArguments
+                }
+                arr, ok := args[0].(*tender.Array)
+                if !ok {
+                    return nil, tender.ErrInvalidArgumentType{
+                        Name:     "points",
+                        Expected: "array",
+                        Found:    args[0].TypeName(),
+                    }
+                }
+                points := make([]wui.Point, len(arr.Value))
+                for i, obj := range arr.Value {
+                    pointArr, ok := obj.(*tender.Array)
+                    if !ok || len(pointArr.Value) != 2 {
+                        return nil, tender.ErrInvalidArgumentType{
+                            Name:     fmt.Sprintf("point %d", i),
+                            Expected: "array of 2 ints",
+                            Found:    obj.TypeName(),
+                        }
+                    }
+                    x, _ := tender.ToInt32(pointArr.Value[0])
+                    y, _ := tender.ToInt32(pointArr.Value[1])
+                    points[i] = wui.Point{X: x, Y: y}
+                }
+                color, ok := extractColor(args[1])
+                if !ok {
+                    return nil, tender.ErrInvalidArgumentType{
+                        Name:     "color",
+                        Expected: "color",
+                        Found:    args[1].TypeName(),
+                    }
+                }
+                c.Value.Polygon(points, color)
+                return tender.NullValue, nil
+            },
+        }
+    case "polyline":
+        res = &tender.BuiltinFunction{
+            Value: func(args ...tender.Object) (tender.Object, error) {
+                if len(args) != 2 {
+                    return nil, tender.ErrWrongNumArguments
+                }
+                arr, ok := args[0].(*tender.Array)
+                if !ok {
+                    return nil, tender.ErrInvalidArgumentType{
+                        Name:     "points",
+                        Expected: "array",
+                        Found:    args[0].TypeName(),
+                    }
+                }
+                points := make([]wui.Point, len(arr.Value))
+                for i, obj := range arr.Value {
+                    pointArr, ok := obj.(*tender.Array)
+                    if !ok || len(pointArr.Value) != 2 {
+                        return nil, tender.ErrInvalidArgumentType{
+                            Name:     fmt.Sprintf("point %d", i),
+                            Expected: "array of 2 ints",
+                            Found:    obj.TypeName(),
+                        }
+                    }
+                    x, _ := tender.ToInt32(pointArr.Value[0])
+                    y, _ := tender.ToInt32(pointArr.Value[1])
+                    points[i] = wui.Point{X: x, Y: y}
+                }
+                color, ok := extractColor(args[1])
+                if !ok {
+                    return nil, tender.ErrInvalidArgumentType{
+                        Name:     "color",
+                        Expected: "color",
+                        Found:    args[1].TypeName(),
+                    }
+                }
+                c.Value.Polyline(points, color)
+                return tender.NullValue, nil
+            },
+        }
+    case "pop_draw_region":
+        res = &tender.BuiltinFunction{
+            Value: FuncAR(c.Value.PopDrawRegion),
+        }
+    case "push_draw_region":
+        res = &tender.BuiltinFunction{
+            Value: func(args ...tender.Object) (tender.Object, error) {
+                if len(args) != 4 {
+                    return nil, tender.ErrWrongNumArguments
+                }
+                x, _ := tender.ToInt(args[0])
+                y, _ := tender.ToInt(args[1])
+                width, _ := tender.ToInt(args[2])
+                height, _ := tender.ToInt(args[3])
+                c.Value.PushDrawRegion(x, y, width, height)
+                return tender.NullValue, nil
+            },
+        }
+    case "set_font":
+        res = &tender.BuiltinFunction{
+            Value: func(args ...tender.Object) (tender.Object, error) {
+                if len(args) != 1 {
+                    return nil, tender.ErrWrongNumArguments
+                }
+                font, ok := extractFont(args[0])
+                if !ok {
+                    return nil, tender.ErrInvalidArgumentType{
+                        Name:     "font",
+                        Expected: "font",
+                        Found:    args[0].TypeName(),
+                    }
+                }
+                c.Value.SetFont(font)
+                return tender.NullValue, nil
+            },
+        }
+    case "size":
+        res = &tender.BuiltinFunction{
+            Value: func(args ...tender.Object) (tender.Object, error) {
+                if len(args) != 0 {
+                    return nil, tender.ErrWrongNumArguments
+                }
+                width, height := c.Value.Size()
+                return &tender.Array{Value: []tender.Object{
+                    &tender.Int{Value: int64(width)},
+                    &tender.Int{Value: int64(height)},
+                }}, nil
+            },
+        }
+    case "text_extent":
+        res = &tender.BuiltinFunction{
+            Value: func(args ...tender.Object) (tender.Object, error) {
+                if len(args) != 1 {
+                    return nil, tender.ErrWrongNumArguments
+                }
+                s, ok := tender.ToString(args[0])
+                if !ok {
+                    return nil, tender.ErrInvalidArgumentType{
+                        Name:     "text",
+                        Expected: "string",
+                        Found:    args[0].TypeName(),
+                    }
+                }
+                width, height := c.Value.TextExtent(s)
+                return &tender.Array{Value: []tender.Object{
+                    &tender.Int{Value: int64(width)},
+                    &tender.Int{Value: int64(height)},
+                }}, nil
+            },
+        }
+    case "text_out":
+        res = &tender.BuiltinFunction{
+            Value: func(args ...tender.Object) (tender.Object, error) {
+                if len(args) != 4 {
+                    return nil, tender.ErrWrongNumArguments
+                }
+                x, _ := tender.ToInt(args[0])
+                y, _ := tender.ToInt(args[1])
+                s, ok := tender.ToString(args[2])
+                if !ok {
+                    return nil, tender.ErrInvalidArgumentType{
+                        Name:     "text",
+                        Expected: "string",
+                        Found:    args[2].TypeName(),
+                    }
+                }
+                color, ok := extractColor(args[3])
+                if !ok {
+                    return nil, tender.ErrInvalidArgumentType{
+                        Name:     "color",
+                        Expected: "color",
+                        Found:    args[3].TypeName(),
+                    }
+                }
+                c.Value.TextOut(x, y, s, color)
+                return tender.NullValue, nil
+            },
+        }
+    case "text_rect":
+        res = &tender.BuiltinFunction{
+            Value: func(args ...tender.Object) (tender.Object, error) {
+                if len(args) != 6 {
+                    return nil, tender.ErrWrongNumArguments
+                }
+                x, _ := tender.ToInt(args[0])
+                y, _ := tender.ToInt(args[1])
+                w, _ := tender.ToInt(args[2])
+                h, _ := tender.ToInt(args[3])
+                s, ok := tender.ToString(args[4])
+                if !ok {
+                    return nil, tender.ErrInvalidArgumentType{
+                        Name:     "text",
+                        Expected: "string",
+                        Found:    args[4].TypeName(),
+                    }
+                }
+                color, ok := extractColor(args[5])
+                if !ok {
+                    return nil, tender.ErrInvalidArgumentType{
+                        Name:     "color",
+                        Expected: "color",
+                        Found:    args[5].TypeName(),
+                    }
+                }
+                c.Value.TextRect(x, y, w, h, s, color)
+                return tender.NullValue, nil
+            },
+        }
+    case "text_rect_extent":
+        res = &tender.BuiltinFunction{
+            Value: func(args ...tender.Object) (tender.Object, error) {
+                if len(args) != 2 {
+                    return nil, tender.ErrWrongNumArguments
+                }
+                s, ok := tender.ToString(args[0])
+                if !ok {
+                    return nil, tender.ErrInvalidArgumentType{
+                        Name:     "text",
+                        Expected: "string",
+                        Found:    args[0].TypeName(),
+                    }
+                }
+                givenWidth, _ := tender.ToInt(args[1])
+                width, height := c.Value.TextRectExtent(s, givenWidth)
+                return &tender.Array{Value: []tender.Object{
+                    &tender.Int{Value: int64(width)},
+                    &tender.Int{Value: int64(height)},
+                }}, nil
+            },
+        }
+    case "text_rect_format":
+        res = &tender.BuiltinFunction{
+            Value: func(args ...tender.Object) (tender.Object, error) {
+                if len(args) != 7 {
+                    return nil, tender.ErrWrongNumArguments
+                }
+                x, _ := tender.ToInt(args[0])
+                y, _ := tender.ToInt(args[1])
+                w, _ := tender.ToInt(args[2])
+                h, _ := tender.ToInt(args[3])
+                s, ok := tender.ToString(args[4])
+                if !ok {
+                    return nil, tender.ErrInvalidArgumentType{
+                        Name:     "text",
+                        Expected: "string",
+                        Found:    args[4].TypeName(),
+                    }
+                }
+                format, ok := extractFormat(args[5])
+                if !ok {
+                    return nil, tender.ErrInvalidArgumentType{
+                        Name:     "format",
+                        Expected: "format",
+                        Found:    args[5].TypeName(),
+                    }
+                }
+                color, ok := extractColor(args[6])
+                if !ok {
+                    return nil, tender.ErrInvalidArgumentType{
+                        Name:     "color",
+                        Expected: "color",
+                        Found:    args[6].TypeName(),
+                    }
+                }
+                c.Value.TextRectFormat(x, y, w, h, s, format, color)
+                return tender.NullValue, nil
+            },
+        }
+    case "width":
+        res = &tender.BuiltinFunction{
+            Value: func(args ...tender.Object) (tender.Object, error) {
+                if len(args) != 0 {
+                    return nil, tender.ErrWrongNumArguments
+                }
+                return &tender.Int{Value: int64(c.Value.Width())}, nil
+            },
+        }
+    }
+    return
+}
+
+
+// Color wrapper
+type WUIColor struct {
+	tender.ObjectImpl
+	Value wui.Color
+}
+
+func (c *WUIColor) TypeName() string { return "color" }
+func (c *WUIColor) String() string   { return fmt.Sprintf("<color r:%d g:%d b:%d>", c.Value.R(), c.Value.G(), c.Value.B()) }
+func (c *WUIColor) Copy() tender.Object {
+	return &WUIColor{Value: c.Value}
+}
+
+// Image wrapper
+type WUIImage struct {
+	tender.ObjectImpl
+	Value *wui.Image
+}
+
+func (i *WUIImage) TypeName() string { return "image" }
+func (i *WUIImage) String() string   { return "<image>" }
+func (i *WUIImage) Copy() tender.Object {
+	return &WUIImage{Value: i.Value}
+}
+
+// Rectangle wrapper
+type WUIRectangle struct {
+	tender.ObjectImpl
+	Value wui.Rectangle
+}
+
+func (r *WUIRectangle) TypeName() string { return "rectangle" }
+func (r *WUIRectangle) String() string   { 
+	x, y, w, h := r.Value.X, r.Value.Y, r.Value.Width, r.Value.Height
+	return fmt.Sprintf("<rectangle x:%d y:%d w:%d h:%d>", x, y, w, h)
+}
+func (r *WUIRectangle) Copy() tender.Object {
+	return &WUIRectangle{Value: r.Value}
+}
+
+// Format wrapper
+type WUIFormat struct {
+	tender.ObjectImpl
+	Value wui.Format
+}
+
+func (f *WUIFormat) TypeName() string { return "format" }
+func (f *WUIFormat) String() string   { return "<format>" }
+func (f *WUIFormat) Copy() tender.Object {
+	return &WUIFormat{Value: f.Value}
+}
+
+// Helper functions for extraction
+
+func extractColor(obj tender.Object) (wui.Color, bool) {
+	switch c := obj.(type) {
+	case *WUIColor:
+		return c.Value, true
+	default:
+		// Try to create color from integers or other representations
+		// For now, return a default color and false
+		return wui.Color(0), false
+	}
+}
+
+func extractFormat(obj tender.Object) (wui.Format, bool) {
+	switch f := obj.(type) {
+	case *WUIFormat:
+		return f.Value, true
+	default:
+		return wui.Format(0), false
+	}
+}
+
+// Function to create RGB color
+func wuiRGB(args ...tender.Object) (ret tender.Object, err error) {
+	if len(args) != 3 {
+		err = tender.ErrWrongNumArguments
+		return
+	}
+
+	r, ok1 := tender.ToInt(args[0])
+	g, ok2 := tender.ToInt(args[1])
+	b, ok3 := tender.ToInt(args[2])
+	
+	if !ok1 || !ok2 || !ok3 {
+		err = tender.ErrInvalidArgumentType{
+			Name:     "color components",
+			Expected: "integers",
+			Found:    fmt.Sprintf("%s, %s, %s", args[0].TypeName(), args[1].TypeName(), args[2].TypeName()),
+		}
+		return
+	}
+
+	color := wui.RGB(uint8(r), uint8(g), uint8(b))
+	return &WUIColor{Value: color}, nil
+}
+
+// Function to create rectangle
+func wuiRect(args ...tender.Object) (ret tender.Object, err error) {
+	if len(args) != 4 {
+		err = tender.ErrWrongNumArguments
+		return
+	}
+
+	x, ok1 := tender.ToInt(args[0])
+	y, ok2 := tender.ToInt(args[1])
+	width, ok3 := tender.ToInt(args[2])
+	height, ok4 := tender.ToInt(args[3])
+	
+	if !ok1 || !ok2 || !ok3 || !ok4 {
+		err = tender.ErrInvalidArgumentType{
+			Name:     "rectangle components",
+			Expected: "integers",
+			Found:    fmt.Sprintf("%s, %s, %s, %s", args[0].TypeName(), args[1].TypeName(), args[2].TypeName(), args[3].TypeName()),
+		}
+		return
+	}
+
+	rect := wui.Rect(x, y, width, height)
+	return &WUIRectangle{Value: rect}, nil
+}
