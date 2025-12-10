@@ -34,4 +34,5 @@ var BuiltinModules = map[string]map[string]tender.Object{
 	"gob":          gobModule,
 	"csv":          csvModule,
 	"xml":          xmlModule,
+	// "wui":          wuiModule,
 }
