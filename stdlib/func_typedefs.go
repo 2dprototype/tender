@@ -109,6 +109,25 @@ func FuncARB(fn func() bool) tender.CallableFunc {
 	}
 }
 
+
+func FuncABR(fn func(bool)) tender.CallableFunc {
+	return func(args ...tender.Object) (tender.Object, error) {
+		if len(args) != 1 {
+			return nil, tender.ErrWrongNumArguments
+		}
+		b, ok := tender.ToBool(args[0])
+		if !ok {
+			return nil, tender.ErrInvalidArgumentType{
+				Name:     "first",
+				Expected: "bool",
+				Found:    args[0].TypeName(),
+			}
+		}
+		fn(b)
+		return tender.NullValue, nil
+	}
+}
+
 // FuncARE transform a function of 'func() error' signature into CallableFunc
 // type.
 func FuncARE(fn func() error) tender.CallableFunc {
