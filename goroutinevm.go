@@ -63,10 +63,11 @@ func builtinGovm(args ...Object) (Object, error) {
 	
 	var callers []frame
 	cfn, compiled := fn.(*CompiledFunction)
+	// Always save callers to avoid "callers not saved" panic in recover()
+	callers = vm.callers()
+
 	if compiled {
-	gvm.VM = vm.ShallowClone()
-	} else {
-		callers = vm.callers()
+		gvm.VM = vm.ShallowClone()
 	}
 	
 	if err := vm.addChild(gvm.VM); err != nil {
@@ -271,7 +272,7 @@ func (oc objchan) close(args ...Object) (Object, error) {
 	return nil, nil
 }
 
-func WrapFuncCall(vm *VM, args ...Object) (Object, error) {
+func WrapFuncCall(vm *VM, args ...Object) (val Object, err error) {
 	if len(args) == 0 {
 		return nil, ErrWrongNumArguments
 	}
@@ -291,18 +292,19 @@ func WrapFuncCall(vm *VM, args ...Object) (Object, error) {
 	
 	var callers []frame
 	cfn, compiled := fn.(*CompiledFunction)
+	// Always save callers
+	callers = vm.callers()
+
 	if compiled {
-	gvm.VM = vm.ShallowClone()
-	} else {
-		callers = vm.callers()
+		gvm.VM = vm.ShallowClone()
 	}
 	
 	if err := vm.addChild(gvm.VM); err != nil {
 		return nil, err
 	}
 	
-	var val Object
-	var err error
+	// val and err are named return values
+
 	defer func() {
 		if perr := recover(); perr != nil {
 			if callers == nil {
@@ -333,5 +335,5 @@ func WrapFuncCall(vm *VM, args ...Object) (Object, error) {
 	}
 	
 
-	return val, nil
+	return val, err
 }	

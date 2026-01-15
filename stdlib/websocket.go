@@ -7,7 +7,32 @@ import (
 
 
 var websocketModule = map[string]tender.Object{
-	"dial": &tender.UserFunction{Value: wsDial},
+	"dial":    &tender.UserFunction{Value: wsDial},
+	"upgrade": &tender.UserFunction{Value: wsUpgrade},
+}
+
+func wsUpgrade(args ...tender.Object) (tender.Object, error) {
+	if len(args) != 2 {
+		return nil, tender.ErrWrongNumArguments
+	}
+
+	res, ok1 := args[0].(*ServerResponse)
+	req, ok2 := args[1].(*ServerRequest)
+
+	if !ok1 {
+		return nil, tender.ErrInvalidArgumentType{Name: "response", Expected: "http.ServerResponse", Found: args[0].TypeName()}
+	}
+	if !ok2 {
+		return nil, tender.ErrInvalidArgumentType{Name: "request", Expected: "http.ServerRequest", Found: args[1].TypeName()}
+	}
+
+	upgrader := websocket.Upgrader{}
+	conn, err := upgrader.Upgrade(res.W, req.R, nil)
+	if err != nil {
+		return wrapError(err), nil
+	}
+
+	return makeWsConn(*conn), nil
 }
 
 func wsDial(args ...tender.Object) (tender.Object, error) {

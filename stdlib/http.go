@@ -16,7 +16,18 @@ var httpModule = map[string]tender.Object{
 	"patch":   &tender.UserFunction{Name: "patch", Value: httpPatch},
 	"options": &tender.UserFunction{Name: "options", Value: httpOptions},
 	"head":    &tender.UserFunction{Name: "head", Value: httpHead},
-	"trace":   &tender.UserFunction{Name: "trace", Value: httpTrace},
+	"trace":            &tender.UserFunction{Name: "trace", Value: httpTrace},
+	"listen_and_serve": &tender.UserFunction{Name: "listen_and_serve", Value: httpListenAndServe},
+}
+
+type ServerResponse struct {
+	*tender.ImmutableMap
+	W http.ResponseWriter
+}
+
+type ServerRequest struct {
+	*tender.ImmutableMap
+	R *http.Request
 }
 
 // httpRequest creates an http.Request and wraps it in an object with helper methods.
@@ -223,4 +234,89 @@ func httpHead(args ...tender.Object) (tender.Object, error) {
 
 func httpTrace(args ...tender.Object) (tender.Object, error) {
 	return httpRequest("TRACE", args...)
+}
+
+func httpListenAndServe(args ...tender.Object) (tender.Object, error) {
+	if len(args) != 2 {
+		return nil, tender.ErrWrongNumArguments
+	}
+	addr, _ := tender.ToString(args[0])
+	handler := args[1]
+	if !handler.CanCall() {
+		return nil, tender.ErrInvalidArgumentType{
+			Name:     "handler",
+			Expected: "callable",
+			Found:    handler.TypeName(),
+		}
+	}
+
+	err := http.ListenAndServe(addr, http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+		req := makeServerRequest(r)
+		resp := makeServerResponse(w)
+		handler.Call(resp, req)
+	}))
+	return wrapError(err), nil
+}
+
+func makeServerRequest(r *http.Request) *ServerRequest {
+	m := &tender.ImmutableMap{
+		Value: map[string]tender.Object{
+			"method":      &tender.String{Value: r.Method},
+			"url":         &tender.UserFunction{Value: FuncARS(r.URL.String)},
+			"header":      makeHeaderMap(r.Header),
+			"remote_addr": &tender.String{Value: r.RemoteAddr},
+			"body": &tender.UserFunction{
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					b, err := ioutil.ReadAll(r.Body)
+					if err != nil {
+						return wrapError(err), nil
+					}
+					return &tender.Bytes{Value: b}, nil
+				},
+			},
+		},
+	}
+	return &ServerRequest{ImmutableMap: m, R: r}
+}
+
+func makeServerResponse(w http.ResponseWriter) *ServerResponse {
+	m := &tender.ImmutableMap{
+		Value: map[string]tender.Object{
+			"write": &tender.UserFunction{
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					if len(args) != 1 {
+						return nil, tender.ErrWrongNumArguments
+					}
+					b, _ := tender.ToByteSlice(args[0])
+					n, err := w.Write(b)
+					if err != nil {
+						return wrapError(err), nil
+					}
+					return &tender.Int{Value: int64(n)}, nil
+				},
+			},
+			"write_header": &tender.UserFunction{
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					if len(args) != 1 {
+						return nil, tender.ErrWrongNumArguments
+					}
+					code, _ := tender.ToInt(args[0])
+					w.WriteHeader(int(code))
+					return nil, nil
+				},
+			},
+			"set_header": &tender.UserFunction{
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					if len(args) != 2 {
+						return nil, tender.ErrWrongNumArguments
+					}
+					k, _ := tender.ToString(args[0])
+					v, _ := tender.ToString(args[1])
+					w.Header().Set(k, v)
+					return nil, nil
+				},
+			},
+		},
+	}
+	return &ServerResponse{ImmutableMap: m, W: w}
 }

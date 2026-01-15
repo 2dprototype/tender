@@ -5,6 +5,7 @@ import (
 	"bytes"
 	"image"
 	"image/draw"
+	"image/color"
 	_ "image/jpeg"
 	_ "golang.org/x/image/bmp"
 	_ "golang.org/x/image/tiff"
@@ -21,7 +22,7 @@ import (
 	"github.com/oakmound/shiny/screen"
 	// "golang.org/x/mobile/event/lifecycle"
 	
-	// "fmt"
+	"fmt"
 )
 
 var canvasModule = map[string]tender.Object{
@@ -34,8 +35,217 @@ var canvasModule = map[string]tender.Object{
 		NeedVMObj: true,
 		Value: canvasNewWindow,
 	},	
+	
+	//new
+	"new_linear_gradient": &tender.UserFunction{
+		Name:  "new_linear_gradient",
+		Value: canvasNewLinearGradient,
+	},
+	"new_radial_gradient": &tender.UserFunction{
+		Name:  "new_radial_gradient",
+		Value: canvasNewRadialGradient,
+	},
+	"new_conic_gradient": &tender.UserFunction{
+		Name:  "new_conic_gradient",
+		Value: canvasNewConicGradient,
+	},
+	"new_solid_pattern": &tender.UserFunction{
+		Name:  "new_solid_pattern",
+		Value: canvasNewSolidPattern,
+	},
+	"new_surface_pattern": &tender.UserFunction{
+		Name:  "new_surface_pattern",
+		Value: canvasNewSurfacePattern,
+	},
 }
 
+
+
+
+func canvasNewLinearGradient(args ...tender.Object) (tender.Object, error) {
+	if len(args) != 4 {
+		return nil, tender.ErrWrongNumArguments
+	}
+	x0, _ := tender.ToFloat64(args[0])
+	y0, _ := tender.ToFloat64(args[1])
+	x1, _ := tender.ToFloat64(args[2])
+	y1, _ := tender.ToFloat64(args[3])
+	grad := gg.NewLinearGradient(x0, y0, x1, y1)
+	return makeGradient(grad), nil
+}
+
+func canvasNewRadialGradient(args ...tender.Object) (tender.Object, error) {
+	if len(args) != 6 {
+		return nil, tender.ErrWrongNumArguments
+	}
+	x0, _ := tender.ToFloat64(args[0])
+	y0, _ := tender.ToFloat64(args[1])
+	r0, _ := tender.ToFloat64(args[2])
+	x1, _ := tender.ToFloat64(args[3])
+	y1, _ := tender.ToFloat64(args[4])
+	r1, _ := tender.ToFloat64(args[5])
+	grad := gg.NewRadialGradient(x0, y0, r0, x1, y1, r1)
+	return makeGradient(grad), nil
+}
+
+func canvasNewConicGradient(args ...tender.Object) (tender.Object, error) {
+	if len(args) != 3 {
+		return nil, tender.ErrWrongNumArguments
+	}
+	cx, _ := tender.ToFloat64(args[0])
+	cy, _ := tender.ToFloat64(args[1])
+	deg, _ := tender.ToFloat64(args[2])
+	grad := gg.NewConicGradient(cx, cy, deg)
+	return makeGradient(grad), nil
+}
+
+func canvasNewSolidPattern(args ...tender.Object) (tender.Object, error) {
+	if len(args) != 1 {
+		return nil, tender.ErrWrongNumArguments
+	}
+	c, err := toColor(args[0])
+	if err != nil {
+		return nil, err
+	}
+	pat := gg.NewSolidPattern(c)
+	return makePattern(pat), nil
+}
+
+func canvasNewSurfacePattern(args ...tender.Object) (tender.Object, error) {
+	if len(args) != 2 {
+		return nil, tender.ErrWrongNumArguments
+	}
+	// Arg 0: image bytes or image object? Ideally we accept bytes like drawimage
+	// But NewSurfacePattern needs image.Image.
+	// We can reuse imageLoad logic or decode bytes.
+	// Let's assume bytes for consistency with drawimage, OR a wrapped image object if we have one.
+	// For now let's support bytes.
+	imgBytes, _ := tender.ToByteSlice(args[0])
+	img, _, err := image.Decode(bytes.NewReader(imgBytes))
+	if err != nil {
+		return wrapError(err), nil
+	}
+
+	opVal, _ := tender.ToInt(args[1])
+	op := gg.RepeatOp(opVal)
+
+	pat := gg.NewSurfacePattern(img, op)
+	return makePattern(pat), nil
+}
+
+func makeGradient(grad gg.Gradient) *CanvasPattern {
+	return &CanvasPattern{Value: grad}
+}
+
+func makePattern(pat gg.Pattern) *CanvasPattern {
+	return &CanvasPattern{Value: pat}
+}
+
+type CanvasPattern struct {
+	tender.ObjectImpl
+	Value gg.Pattern
+}
+
+func (o *CanvasPattern) TypeName() string { return "canvas-pattern" }
+
+func (o *CanvasPattern) String() string { return "<canvas-pattern>" }
+
+func (o *CanvasPattern) Copy() tender.Object { return &CanvasPattern{Value: o.Value} }
+
+func (o *CanvasPattern) Equals(x tender.Object) bool { return o == x }
+
+func (o *CanvasPattern) IndexGet(index tender.Object) (tender.Object, error) {
+	s, ok := tender.ToString(index)
+	if !ok {
+		return nil, nil
+	}
+	switch s {
+	case "color_at":
+		return &tender.UserFunction{
+			Value: func(args ...tender.Object) (tender.Object, error) {
+				if len(args) != 2 {
+					return nil, tender.ErrWrongNumArguments
+				}
+				x, _ := tender.ToInt(args[0])
+				y, _ := tender.ToInt(args[1])
+				c := o.Value.ColorAt(x, y)
+				r, g, b, a := c.RGBA()
+				return &tender.Array{
+					Value: []tender.Object{
+						&tender.Int{Value: int64(r >> 8)},
+						&tender.Int{Value: int64(g >> 8)},
+						&tender.Int{Value: int64(b >> 8)},
+						&tender.Int{Value: int64(a >> 8)},
+					},
+				}, nil
+			},
+		}, nil
+	case "add_color_stop":
+		if grad, ok := o.Value.(gg.Gradient); ok {
+			return &tender.UserFunction{
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					if len(args) != 2 {
+						return nil, tender.ErrWrongNumArguments
+					}
+					off, _ := tender.ToFloat64(args[0])
+					c, err := toColor(args[1])
+					if err != nil {
+						return nil, err
+					}
+					grad.AddColorStop(off, c)
+					return &tender.Null{}, nil
+				},
+			}, nil
+		}
+	}
+	return nil, nil
+}
+
+func toColor(obj tender.Object) (color.Color, error) {
+	// Try string (hex/name)
+	if s, ok := tender.ToString(obj); ok {
+		// Basic hex support
+		if len(s) > 0 && s[0] == '#' {
+			// use gg's hex parsing or simple implementation
+			var r, g, b, a uint8 = 0, 0, 0, 255
+			// A simple parser for #RRGGBB or #RGB or #RRGGBBAA
+			hex := s[1:]
+			if len(hex) == 3 {
+				fmt.Sscanf(hex, "%1x%1x%1x", &r, &g, &b)
+				r |= r << 4
+				g |= g << 4
+				b |= b << 4
+			} else if len(hex) == 6 {
+				fmt.Sscanf(hex, "%02x%02x%02x", &r, &g, &b)
+			} else if len(hex) == 8 {
+				fmt.Sscanf(hex, "%02x%02x%02x%02x", &r, &g, &b, &a)
+			} else {
+				return nil, fmt.Errorf("invalid hex color format")
+			}
+			return color.RGBA{R: r, G: g, B: b, A: a}, nil
+		}
+		// If named colors support is needed, map names to colors.
+		// For now fail.
+		return nil, fmt.Errorf("unknown color string format")
+	}
+	
+	// Support array [r, g, b, a] (0-255)
+	// if arr, ok := obj.(*tender.Array); ok {
+		// if len(arr.Value) >= 3 {
+			// r, _ := tender.ToInt(arr.Value[0])
+			// g, _ := tender.ToInt(arr.Value[1])
+			// b, _ := tender.ToInt(arr.Value[2])
+			// a := 255
+			// if len(arr.Value) > 3 {
+				// av, _ := tender.ToInt(arr.Value[3])
+				// a = av
+			// }
+			// return color.RGBA{R: uint8(r), G: uint8(g), B: uint8(b), A: uint8(a)}, nil
+		// }
+	// }
+
+	return color.Black, nil
+}
 
 
 func canvasNewWindow(args ...tender.Object) (ret tender.Object, err error) {
@@ -433,7 +643,80 @@ func makeGGContext(ctx *gg.Context) *tender.ImmutableMap {
 					return makeImage(ctx.Image()), nil
 				},
 			},	
+			"linecap": &tender.UserFunction{
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					if len(args) != 1 {
+						return nil, tender.ErrWrongNumArguments
+					}
+					c, _ := tender.ToInt(args[0])
+					ctx.SetLineCap(gg.LineCap(c))
+					return nil, nil
+				},
+			},
+			"linecap_round": &tender.UserFunction{Value: FuncAR(ctx.SetLineCapRound)},
+			"linecap_butt": &tender.UserFunction{Value: FuncAR(ctx.SetLineCapButt)},
+			"linecap_square": &tender.UserFunction{Value: FuncAR(ctx.SetLineCapSquare)},
+			"linejoin": &tender.UserFunction{
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					if len(args) != 1 {
+						return nil, tender.ErrWrongNumArguments
+					}
+					c, _ := tender.ToInt(args[0])
+					ctx.SetLineJoin(gg.LineJoin(c))
+					return nil, nil
+				},
+			},
+			"linejoin_round": &tender.UserFunction{Value: FuncAR(ctx.SetLineJoinRound)},
+			"linejoin_bevel": &tender.UserFunction{Value: FuncAR(ctx.SetLineJoinBevel)},
+			"fillrule": &tender.UserFunction{
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					if len(args) != 1 {
+						return nil, tender.ErrWrongNumArguments
+					}
+					c, _ := tender.ToInt(args[0])
+					ctx.SetFillRule(gg.FillRule(c))
+					return nil, nil
+				},
+			},
+			"fillrule_winding": &tender.UserFunction{Value: FuncAR(ctx.SetFillRuleWinding)},
+			"fillrule_even_odd": &tender.UserFunction{Value: FuncAR(ctx.SetFillRuleEvenOdd)},
+			"fillstyle": &tender.UserFunction{
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					if len(args) != 1 {
+						return nil, tender.ErrWrongNumArguments
+					}
+					if cp, ok := args[0].(*CanvasPattern); ok {
+						ctx.SetFillStyle(cp.Value)
+						return nil, nil
+					}
+					return nil, tender.ErrInvalidArgumentType{Expected: "canvas-pattern"}
+				},
+			},
+			"strokestyle": &tender.UserFunction{
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					if len(args) != 1 {
+						return nil, tender.ErrWrongNumArguments
+					}
+					if cp, ok := args[0].(*CanvasPattern); ok {
+						ctx.SetStrokeStyle(cp.Value)
+						return nil, nil
+					}
+					return nil, tender.ErrInvalidArgumentType{Expected: "canvas-pattern"}
+				},
+			},
+			"set_color": &tender.UserFunction{
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					if len(args) != 1 {
+						return nil, tender.ErrWrongNumArguments
+					}
+					c, err := toColor(args[0])
+					if err != nil {
+						return nil, err
+					}
+					ctx.SetColor(c)
+					return nil, nil
+				},
+			},
 		},
 	}
 }
-
