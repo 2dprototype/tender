@@ -716,7 +716,7 @@ func (c *Compiler) compileAssign(node parser.Node, lhs, rhs []parser.Expr, op to
 	}
 
 	// +=, -=, *=, /=
-	if op != token.Assign && op != token.Define {
+	if op != token.Assign && op != token.Define && op != token.Var && op != token.Const {
 		if err := c.Compile(lhs[0]); err != nil {
 			return err
 		}

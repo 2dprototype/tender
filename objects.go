@@ -927,6 +927,9 @@ func (o *Tuple) String() string {
 	for _, e := range o.Value {
 		elements = append(elements, e.String())
 	}
+	if len(elements) == 1 {
+		return "(" + elements[0] + ",)"
+	}
 	return "(" + strings.Join(elements, ", ") + ")"
 }
 

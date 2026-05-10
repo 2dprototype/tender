@@ -683,7 +683,7 @@ func (p *Parser) parseDeclStmt() Stmt {
 		return &AssignStmt{
 			LHS:      x,
 			RHS:      []Expr{&NullLit{TokenPos: p.pos}},
-			Token:    token.Define,
+			Token:    tok,
 			TokenPos: pos,
 		}
 	}
@@ -692,7 +692,7 @@ func (p *Parser) parseDeclStmt() Stmt {
 	return &AssignStmt{
 		LHS:      x,
 		RHS:      y,
-		Token:    token.Define,
+		Token:    tok,
 		TokenPos: pos,
 	}
 }
