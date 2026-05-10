@@ -191,3 +191,11 @@ Tests whether two _(immutable)_ maps contain the same key-objects.
 - `(immutable-map) != (immutable-map) = (bool)`: inequality
 - `(immutable-map) == (map) = (bool)`: equality
 - `(immutable-map) != (map) = (bool)`: inequality
+
+## Pipe Operators
+
+### Forward Pipe
+- `x |> f`: transforms into `f(x)`. If `f` is a function call `f(a, b)`, it becomes `f(x, a, b)`.
+
+### Backward Pipe
+- `f <| x`: transforms into `f(x)`. If `f` is a function call `f(a, b)`, it becomes `f(x, a, b)`.

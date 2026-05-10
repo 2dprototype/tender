@@ -18,6 +18,24 @@ import (
 	"golang.org/x/image/math/f64"
 )
 
+var fontRegistry = make(map[string]font.Face)
+
+func LoadFont(name string, points float64, path string) error {
+	face, err := LoadFontFace(path, points)
+	if err == nil {
+		fontRegistry[name] = face
+	}
+	return err
+}
+
+func Font(name string, points float64, bytes []byte) error {
+	face, err := FontFace(bytes, points)
+	if err == nil {
+		fontRegistry[name] = face
+	}
+	return err
+}
+
 type LineCap int
 
 const (
@@ -710,6 +728,15 @@ func (dc *Context) LoadFontFace(path string, points float64) error {
 		dc.fontHeight = points * 72 / 96
 	}
 	return err
+}
+
+func (dc *Context) SetFont(name string) error {
+	if face, ok := fontRegistry[name]; ok {
+		dc.fontFace = face
+		dc.fontHeight = float64(face.Metrics().Height) / 64
+		return nil
+	}
+	return errors.New("font not found: " + name)
 }
 
 func (dc *Context) FontHeight() float64 {

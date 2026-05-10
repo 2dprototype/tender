@@ -29,6 +29,22 @@ Converts radians to degrees.
 
 - `radians`: Angle in radians.
 
+#### `load_font(name, size, src)`
+
+Loads a font and registers it under a name.
+
+- `name`: String name for the font.
+- `size`: Point size.
+- `src`: File path (string) or byte data (bytes).
+
+#### `load_fontdata(name, size, font_data)`
+
+Loads a font from binary data and registers it under a name.
+
+- `name`: String name for the font.
+- `size`: Point size.
+- `font_data`: Binary data (bytes).
+
 #### `new_window(width, height, title, update_function)`
 
 Creates a new window with the specified width, height, and title. The `update_function` is called to update the content of the window.
@@ -133,6 +149,7 @@ canvas.new_window(options, fn(w){
 - `measure_multiline_text(text)`
 - `load_fontface(font_path, size)`
 - `fontface(font_data, size)`
+- `set_font(name)`
 - `fontheight()`
 
 #### Transformation Functions

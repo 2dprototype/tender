@@ -16,6 +16,7 @@
   in Go)
 - **Time**: time (`time.Time` in Go)
 - **Error**: an error with underlying Object value of any type
+- **Tuple**: immutable ordered collection of objects (e.g. `(1, 2, "three")`)
 - **Null**: null
 
 ## Type Conversion/Coercion Table
@@ -89,6 +90,7 @@ should evaluate to `false` (e.g. for condition expression of `if` statement).
 - `is_map(x)`: return `true` if `x` is map; `false` otherwise
 - `is_immutable_map(x)`: return `true` if `x` is immutable map; `false`
   otherwise
+- `is_tuple(x)`: return `true` if `x` is tuple; `false` otherwise
 - `is_time(x)`: return `true` if `x` is time; `false` otherwise
 - `is_error(x)`: returns `true` if `x` is error; `false` otherwise
 - `is_null(x)`: returns `true` if `x` is null; `false` otherwise

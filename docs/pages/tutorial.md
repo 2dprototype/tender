@@ -28,6 +28,14 @@ age = "Thirty"  // Now 'age' holds a String instead of an Integer
 println(age)    // Output: Thirty
 ```
 
+### **Constants**
+Constants are variables that cannot be reassigned after their initial declaration. They are defined using the `const` keyword.
+
+```go
+const pi = 3.14159
+pi = 3.14 // Compile Error: cannot assign to constant 'pi'
+```
+
 ---
 
 ## **2. Data Types**  
@@ -225,5 +233,56 @@ bool_val := bool(1)    // true
 |more...||
 
 See all [builtin functions](builtins.md)!
+
+---
+
+## **13. Tuples**
+
+Tuples are immutable ordered collections of objects, similar to arrays but enclosed in parentheses `()`.
+
+```go
+t := (1, 2, "three")
+println(t[0])      // Output: 1
+println(t.length)  // Output: 3
+
+// Single-element tuple requires a trailing comma
+t1 := (10,) 
+```
+
+---
+
+## **14. Pipe Operator**
+
+The pipe operators `|>` and `<|` allow for functional-style chaining of expressions.
+
+```go
+add := fn(a, b) { return a + b }
+double := fn(x) { return x * 2 }
+
+// Forward pipe: x |> f  => f(x)
+res := 5 |> double |> double
+println(res) // Output: 20
+
+// Pipe into function call: x |> f(y) => f(x, y)
+res2 := 10 |> add(20)
+println(res2) // Output: 30
+
+// Backward pipe: f <| x => f(x)
+println <| add(1, 2) // Output: 3
+```
+
+---
+
+## **15. Embedding Files**
+
+The `embed` expression allows you to include the contents of a file as a `Bytes` object directly in your script at compile-time.
+
+```go
+// Embed a text file or binary data
+logo := embed("logo.png")
+config := embed("config.json")
+
+println(is_bytes(logo)) // Output: true
+```
 
 ---

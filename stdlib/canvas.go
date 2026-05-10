@@ -29,6 +29,51 @@ var canvasModule = map[string]tender.Object{
 	"load_image": &tender.UserFunction{Name:  "load_image", Value: imageLoad},	
 	"radians": &tender.UserFunction{Name: "radians", Value: FuncAFRF(gg.Radians)},
 	"degrees": &tender.UserFunction{Name: "degrees", Value: FuncAFRF(gg.Degrees)},
+	"load_font": &tender.UserFunction{
+		Name: "load_font",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 3 {
+				return nil, tender.ErrWrongNumArguments
+			}
+			name, _ := tender.ToString(args[0])
+			size, _ := tender.ToFloat64(args[1])
+			src := args[2]
+
+			if path, ok := tender.ToString(src); ok {
+				err := gg.LoadFont(name, size, path)
+				if err != nil {
+					return wrapError(err), nil
+				}
+			} else if data, ok := tender.ToByteSlice(src); ok {
+				err := gg.Font(name, size, data)
+				if err != nil {
+					return wrapError(err), nil
+				}
+			} else {
+				return nil, tender.ErrInvalidArgumentType{Name: "src", Expected: "string or bytes"}
+			}
+			return &tender.Null{}, nil
+		},
+	},
+	"load_fontdata": &tender.UserFunction{
+		Name: "load_fontdata",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 3 {
+				return nil, tender.ErrWrongNumArguments
+			}
+			name, _ := tender.ToString(args[0])
+			size, _ := tender.ToFloat64(args[1])
+			data, ok := tender.ToByteSlice(args[2])
+			if !ok {
+				return nil, tender.ErrInvalidArgumentType{Name: "font_data", Expected: "bytes"}
+			}
+			err := gg.Font(name, size, data)
+			if err != nil {
+				return wrapError(err), nil
+			}
+			return &tender.Null{}, nil
+		},
+	},
 	"new_window" : &tender.BuiltinFunction{
 		Name: "new_window",
 		NeedVMObj: true,
@@ -367,6 +412,9 @@ func makeGGContext(ctx *gg.Context) *tender.ImmutableMap {
 			"fontheight": &tender.UserFunction{
 				Value: FuncARF(ctx.FontHeight),
 			},	
+			"set_font": &tender.UserFunction{
+				Value: FuncASRE(ctx.SetFont),
+			},
 			"identity": &tender.UserFunction{
 				Name:  "identity",
 				Value: FuncAR(ctx.Identity),
