@@ -133,6 +133,9 @@ func (c *Compiler) Compile(node parser.Node) error {
 		if node.Token == token.LAnd || node.Token == token.LOr {
 			return c.compileLogical(node)
 		}
+		if node.Token == token.PipeL || node.Token == token.PipeR {
+			return c.compilePipe(node)
+		}
 		if node.Token == token.Less {
 			if err := c.Compile(node.RHS); err != nil {
 				return err
@@ -359,6 +362,13 @@ func (c *Compiler) Compile(node parser.Node) error {
 			}
 		}
 		c.emit(node, parser.OpArray, len(node.Elements))
+	case *parser.TupleLit:
+		for _, elem := range node.Elements {
+			if err := c.Compile(elem); err != nil {
+				return err
+			}
+		}
+		c.emit(node, parser.OpTuple, len(node.Elements))
 	case *parser.MapLit:
 		for _, elt := range node.Elements {
 			// key
@@ -687,14 +697,21 @@ func (c *Compiler) compileAssign(node parser.Node, lhs, rhs []parser.Expr, op to
 	}
 
 	symbol, depth, exists := c.symbolTable.Resolve(ident, false)
-	if op == token.Define {
+	if op == token.Define || op == token.Var || op == token.Const {
 		if depth == 0 && exists {
 			return c.errorf(node, "'%s' redeclared in this block", ident)
 		}
-		symbol = c.symbolTable.Define(ident)
+		if op == token.Const {
+			symbol = c.symbolTable.DefineConst(ident)
+		} else {
+			symbol = c.symbolTable.Define(ident)
+		}
 	} else {
 		if !exists {
 			return c.errorf(node, "unresolved reference '%s'", ident)
+		}
+		if symbol.IsConst {
+			return c.errorf(node, "cannot assign to constant '%s'", ident)
 		}
 	}
 
@@ -710,6 +727,10 @@ func (c *Compiler) compileAssign(node parser.Node, lhs, rhs []parser.Expr, op to
 		if err := c.Compile(expr); err != nil {
 			return err
 		}
+	}
+
+	if op == token.Const {
+		c.emit(node, parser.OpImmutable)
 	}
 
 	switch op {
@@ -755,7 +776,7 @@ func (c *Compiler) compileAssign(node parser.Node, lhs, rhs []parser.Expr, op to
 		if numSel > 0 {
 			c.emit(node, parser.OpSetSelLocal, symbol.Index, numSel)
 		} else {
-			if op == token.Define && !symbol.LocalAssigned {
+			if (op == token.Define || op == token.Var || op == token.Const) && !symbol.LocalAssigned {
 				c.emit(node, parser.OpDefineLocal, symbol.Index)
 			} else {
 				c.emit(node, parser.OpSetLocal, symbol.Index)
@@ -797,6 +818,31 @@ func (c *Compiler) compileLogical(node *parser.BinaryExpr) error {
 
 	c.changeOperand(jumpPos, len(c.currentInstructions()))
 	return nil
+}
+
+func (c *Compiler) compilePipe(node *parser.BinaryExpr) error {
+	var x, f parser.Expr
+	if node.Token == token.PipeR {
+		x = node.LHS
+		f = node.RHS
+	} else {
+		x = node.RHS
+		f = node.LHS
+	}
+
+	switch f := f.(type) {
+	case *parser.CallExpr:
+		// x |> f(a, b) => f(x, a, b)
+		f.Args = append([]parser.Expr{x}, f.Args...)
+		return c.Compile(f)
+	default:
+		// x |> f => f(x)
+		call := &parser.CallExpr{
+			Func: f,
+			Args: []parser.Expr{x},
+		}
+		return c.Compile(call)
+	}
 }
 
 func (c *Compiler) compileForStmt(stmt *parser.ForStmt) error {

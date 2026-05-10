@@ -68,6 +68,7 @@ func init() {
 	addBuiltinFunction("is_callable", builtinIsCallable, false)
 	addBuiltinFunction("typeof", builtinTypeOf, false)
 	addBuiltinFunction("format", builtinFormat, false)
+	addBuiltinFunction("is_tuple", builtinIsTuple, false)
 	addBuiltinFunction("range",  builtinRange, false)
 }
 
@@ -528,6 +529,16 @@ func builtinTypeOf(args ...Object) (Object, error) {
 	return &String{Value: args[0].TypeName()}, nil
 }
 
+func builtinIsTuple(args ...Object) (Object, error) {
+	if len(args) != 1 {
+		return nil, ErrWrongNumArguments
+	}
+	if _, ok := args[0].(*Tuple); ok {
+		return TrueValue, nil
+	}
+	return FalseValue, nil
+}
+
 func builtinIsString(args ...Object) (Object, error) {
 	if len(args) != 1 {
 		return nil, ErrWrongNumArguments
@@ -554,6 +565,7 @@ func builtinIsCycle(args ...Object) (Object, error) {
     var dfsArray func(*Array, *Array) bool
     var dfsImmutableMap func(*ImmutableMap, *ImmutableMap) bool
     var dfsImmutableArray func(*ImmutableArray, *ImmutableArray) bool
+    var dfsTuple func(*Tuple, *Tuple) bool
 	
     dfsMap = func(currMap, parentMap *Map) bool {
         if traversingMaps[currMap] {
@@ -704,10 +716,14 @@ func builtinIsCycle(args ...Object) (Object, error) {
         if dfsImmutableArray(obj, nil) {
             return TrueValue, nil
         }
+    case *Tuple:
+        if dfsTuple(obj, nil) {
+            return TrueValue, nil
+        }
     default:
         return nil, ErrInvalidArgumentType{
             Name:     "first",
-            Expected: "map, array, immutable-map, immutable-array",
+            Expected: "map, array, immutable-map, immutable-array, tuple",
             Found:    args[0].TypeName(),
         }
     }

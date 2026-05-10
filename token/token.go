@@ -68,6 +68,8 @@ const (
 	Semicolon    // ;
 	Colon        // :
 	Question     // ?
+	PipeL        // <|
+	PipeR        // |>
 	_operatorEnd
 	_keywordBeg
 	Break
@@ -88,6 +90,7 @@ const (
 	Import
 	As
 	Var
+	Const
 	Sysout
 	// Please
 	_keywordEnd
@@ -149,6 +152,8 @@ var tokens = [...]string{
 	Semicolon:    ";",
 	Colon:        ":",
 	Question:     "?",
+	PipeL:        "<|",
+	PipeR:        "|>",
 	Break:        "break",
 	Continue:     "continue",
 	Else:         "else",
@@ -167,6 +172,7 @@ var tokens = [...]string{
 	Import:       "import",
 	As:           "as",
 	Var:          "var",
+	Const:        "const",
 	Sysout:       "sysout",
 	// Please:       "please",
 }
@@ -191,16 +197,18 @@ const LowestPrec = 0
 // Precedence returns the precedence for the operator token.
 func (tok Token) Precedence() int {
 	switch tok {
-	case LOr:
+	case PipeL, PipeR:
 		return 1
-	case LAnd:
+	case LOr:
 		return 2
-	case Equal, NotEqual, Less, LessEq, Greater, GreaterEq:
+	case LAnd:
 		return 3
-	case Add, Sub, Or, Xor:
+	case Equal, NotEqual, Less, LessEq, Greater, GreaterEq:
 		return 4
-	case Mul, Quo, Rem, Shl, Shr, And, AndNot:
+	case Add, Sub, Or, Xor:
 		return 5
+	case Mul, Quo, Rem, Shl, Shr, And, AndNot:
+		return 6
 	}
 	return LowestPrec
 }

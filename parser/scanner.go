@@ -192,8 +192,13 @@ func (s *Scanner) Scan() (
 		case '^':
 			tok = s.switch2(token.Xor, token.XorAssign)
 		case '<':
-			tok = s.switch4(token.Less, token.LessEq, '<',
-				token.Shl, token.ShlAssign)
+			if s.ch == '|' {
+				s.next()
+				tok = token.PipeL
+			} else {
+				tok = s.switch4(token.Less, token.LessEq, '<',
+					token.Shl, token.ShlAssign)
+			}
 		case '>':
 			tok = s.switch4(token.Greater, token.GreaterEq, '>',
 				token.Shr, token.ShrAssign)
@@ -209,7 +214,12 @@ func (s *Scanner) Scan() (
 				tok = s.switch3(token.And, token.AndAssign, '&', token.LAnd)
 			}
 		case '|':
-			tok = s.switch3(token.Or, token.OrAssign, '|', token.LOr)
+			if s.ch == '>' {
+				s.next()
+				tok = token.PipeR
+			} else {
+				tok = s.switch3(token.Or, token.OrAssign, '|', token.LOr)
+			}
 		default:
 			// next reports unexpected BOMs - don't repeat
 			if ch != bom {

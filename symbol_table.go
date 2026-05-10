@@ -17,6 +17,7 @@ type Symbol struct {
 	Scope         SymbolScope
 	Index         int
 	LocalAssigned bool // if the local symbol is assigned at least once
+	IsConst       bool // if the symbol is a constant
 }
 
 // SymbolTable represents a symbol table.
@@ -60,6 +61,13 @@ func (t *SymbolTable) Define(name string) *Symbol {
 	}
 	t.store[name] = symbol
 	t.updateMaxDefs(symbol.Index + 1)
+	return symbol
+}
+
+// DefineConst adds a new constant symbol in the current scope.
+func (t *SymbolTable) DefineConst(name string) *Symbol {
+	symbol := t.Define(name)
+	symbol.IsConst = true
 	return symbol
 }
 

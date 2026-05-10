@@ -16,6 +16,7 @@ type bailout struct{}
 
 var stmtStart = map[token.Token]bool{
 	token.Var:      true,
+	token.Const:    true,
 	token.Break:    true,
 	token.Continue: true,
 	token.For:      true,
@@ -477,17 +478,7 @@ func (p *Parser) parseOperand() Expr {
 		case token.Embed:
 			return p.parseEmbedExpr()
 		case token.LParen:
-			lparen := p.pos
-			p.next()
-			p.exprLevel++
-			x := p.parseExpr()
-			p.exprLevel--
-			rparen := p.expect(token.RParen)
-			return &ParenExpr{
-				LParen: lparen,
-				Expr:   x,
-				RParen: rparen,
-			}
+			return p.parseTupleOrParenExpr()
 		case token.LBrack: // array literal
 			return p.parseArrayLit()
 		case token.LBrace: // map literal
@@ -635,11 +626,55 @@ func (p *Parser) parseFuncLit() Expr {
 	}
 }
 
+func (p *Parser) parseTupleOrParenExpr() Expr {
+	lparen := p.expect(token.LParen)
+	p.exprLevel++
+
+	var list []Expr
+	commaSeen := false
+	for p.token != token.RParen && p.token != token.EOF {
+		list = append(list, p.parseExpr())
+		if p.token == token.Comma {
+			p.next()
+			commaSeen = true
+		} else {
+			break
+		}
+	}
+
+	p.exprLevel--
+	rparen := p.expect(token.RParen)
+
+	if len(list) > 1 || (len(list) == 1 && commaSeen) {
+		return &TupleLit{
+			Elements: list,
+			LParen:   lparen,
+			RParen:   rparen,
+		}
+	}
+
+	if len(list) == 1 {
+		return &ParenExpr{
+			LParen: lparen,
+			Expr:   list[0],
+			RParen: rparen,
+		}
+	}
+
+	// Empty tuple ()
+	return &TupleLit{
+		Elements: list,
+		LParen:   lparen,
+		RParen:   rparen,
+	}
+}
+
 func (p *Parser) parseDeclStmt() Stmt {
 	if p.trace {
 		defer untracep(tracep(p, "DeclStmt"))
 	}
-	pos := p.expect(token.Var)
+	tok := p.token
+	pos := p.expect(tok)
 	if p.token != token.Ident {
 		p.errorExpected(p.pos, "identifier")
 	}
@@ -882,7 +917,7 @@ func (p *Parser) parseStmt() (stmt Stmt) {
 	}
 
 	switch p.token {
-		case token.Var:
+		case token.Var, token.Const:
 			return p.parseDeclStmt()
 		// case token.Please:
 			// p.next()
