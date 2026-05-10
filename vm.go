@@ -574,6 +574,25 @@ func (v *VM) run() {
 			}
 			v.stack[v.sp] = m
 			v.sp++
+		case parser.OpTuple:
+			v.ip += 2
+			numElements := int(v.curInsts[v.ip]) | int(v.curInsts[v.ip-1])<<8
+
+			elements := make([]Object, numElements)
+			for i := 0; i < numElements; i++ {
+				elements[i] = v.stack[v.sp-numElements+i]
+			}
+			v.sp -= numElements
+
+			var tuple Object = &Tuple{Value: elements}
+			v.allocs--
+			if v.allocs == 0 {
+				v.err = ErrObjectAllocLimit
+				return
+			}
+
+			v.stack[v.sp] = tuple
+			v.sp++
 		case parser.OpError:
 			value := v.stack[v.sp-1]
 			var e Object = &Error{

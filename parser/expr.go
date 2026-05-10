@@ -694,3 +694,30 @@ func (e *NullLit) End() Pos {
 func (e *NullLit) String() string {
 	return "null"
 }
+
+// TupleLit represents a tuple literal.
+type TupleLit struct {
+	LParen   Pos
+	Elements []Expr
+	RParen   Pos
+}
+
+func (e *TupleLit) exprNode() {}
+
+// Pos returns the position of first character belonging to the node.
+func (e *TupleLit) Pos() Pos {
+	return e.LParen
+}
+
+// End returns the position of first character immediately after the node.
+func (e *TupleLit) End() Pos {
+	return e.RParen + 1
+}
+
+func (e *TupleLit) String() string {
+	var elements []string
+	for _, m := range e.Elements {
+		elements = append(elements, m.String())
+	}
+	return "(" + strings.Join(elements, ", ") + ")"
+}

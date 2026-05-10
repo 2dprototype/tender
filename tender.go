@@ -59,6 +59,10 @@ func CountObjects(o Object) (c int) {
 		for _, v := range o.Value {
 			c += CountObjects(v)
 		}
+	case *Tuple:
+		for _, v := range o.Value {
+			c += CountObjects(v)
+		}
 	case *Error:
 		c += CountObjects(o.Value)
 	}
@@ -241,6 +245,26 @@ func writeObjectPretty(builder *strings.Builder, o Object, indentLevel int, visi
             }
             builder.WriteString("\n" + indent + "]")
         }
+	case *Tuple:
+        if len(obj.Value) == 0 {
+            builder.WriteString("()")
+        } else {
+            builder.WriteString("(\n")
+            lastIndex := len(obj.Value) - 1
+            for i, elem := range obj.Value {
+                if i > 0 && i%4 == 0 {
+                    builder.WriteString("\n" + indent + "   ")
+                }
+				if i == 0 {
+					builder.WriteString(indent + "   ")
+				}
+                writeObjectPretty(builder, elem, indentLevel+1, visited)
+                if i != lastIndex {
+                    builder.WriteString(", ")
+                }
+            }
+            builder.WriteString("\n" + indent + ")")
+        }
 	case *Char:
 		builder.WriteString("'" + obj.String() + "'")
 	case *Bool:
@@ -359,6 +383,26 @@ func writeObjectPrettyColored(builder *strings.Builder, o Object, indentLevel in
                 }
             }
             builder.WriteString("\n" + indent + "]")
+        }
+	case *Tuple:
+        if len(obj.Value) == 0 {
+            builder.WriteString("()")
+        } else {
+            builder.WriteString("(\n")
+            lastIndex := len(obj.Value) - 1
+            for i, elem := range obj.Value {
+                if i > 0 && i%4 == 0 {
+                    builder.WriteString("\n" + indent + "   ")
+                }
+				if i == 0 {
+					builder.WriteString(indent + "   ")
+				}
+                writeObjectPrettyColored(builder, elem, indentLevel+1, visited)
+                if i != lastIndex {
+                    builder.WriteString(", ")
+                }
+            }
+            builder.WriteString("\n" + indent + ")")
         }
 
 	case *String:
@@ -726,6 +770,11 @@ func ToInterface(o Object) (res interface{}) {
 			res.([]interface{})[i] = ToInterface(val)
 		}
 	case *ImmutableArray:
+		res = make([]interface{}, len(o.Value))
+		for i, val := range o.Value {
+			res.([]interface{})[i] = ToInterface(val)
+		}
+	case *Tuple:
 		res = make([]interface{}, len(o.Value))
 		for i, val := range o.Value {
 			res.([]interface{})[i] = ToInterface(val)

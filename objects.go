@@ -2250,3 +2250,109 @@ func (p *Pointer) IndexGet(index Object) (Object, error) {
 	}
 	return nil, nil
 }
+// Tuple represents a tuple of objects.
+type Tuple struct {
+	ObjectImpl
+	Value []Object
+}
+
+// TypeName returns the name of the type.
+func (o *Tuple) TypeName() string {
+	return "tuple"
+}
+
+func (o *Tuple) String() string {
+	var elements []string
+	for _, e := range o.Value {
+		elements = append(elements, e.String())
+	}
+	return fmt.Sprintf("(%s)", strings.Join(elements, ", "))
+}
+
+// BinaryOp returns another object that is the result of a given binary
+// operator and a right-hand side object.
+func (o *Tuple) BinaryOp(op token.Token, rhs Object) (Object, error) {
+	if rhs, ok := rhs.(*Tuple); ok {
+		switch op {
+		case token.Add:
+			if len(rhs.Value) == 0 {
+				return o, nil
+			}
+			return &Tuple{Value: append(o.Value, rhs.Value...)}, nil
+		}
+	}
+	return nil, ErrInvalidOperator
+}
+
+// Copy returns a copy of the type.
+func (o *Tuple) Copy() Object {
+	var c []Object
+	for _, elem := range o.Value {
+		c = append(c, elem.Copy())
+	}
+	return &Tuple{Value: c}
+}
+
+// IsFalsy returns true if the value of the type is falsy.
+func (o *Tuple) IsFalsy() bool {
+	return len(o.Value) == 0
+}
+
+// Equals returns true if the value of the type is equal to the value of
+// another object.
+func (o *Tuple) Equals(x Object) bool {
+	var xVal []Object
+	switch x := x.(type) {
+	case *Tuple:
+		xVal = x.Value
+	default:
+		return false
+	}
+	if len(o.Value) != len(xVal) {
+		return false
+	}
+	for i, e := range o.Value {
+		if !e.Equals(xVal[i]) {
+			return false
+		}
+	}
+	return true
+}
+
+// IndexGet returns an element at a given index.
+func (o *Tuple) IndexGet(index Object) (res Object, err error) {
+	strIdx, ok := index.(*String)
+	if ok {
+		if strIdx.Value == "length" {
+			return &Int{Value: int64(len(o.Value))}, nil
+		}
+		return nil, nil
+	}
+
+	intIdx, ok := index.(*Int)
+	if !ok {
+		err = ErrInvalidIndexType
+		return
+	}
+
+	idxVal := int(intIdx.Value)
+	if idxVal < 0 || idxVal >= len(o.Value) {
+		res = NullValue
+		return
+	}
+	res = o.Value[idxVal]
+	return
+}
+
+// Iterate returns an iterator.
+func (o *Tuple) Iterate() Iterator {
+	return &ArrayIterator{
+		v: o.Value,
+		l: len(o.Value),
+	}
+}
+
+// CanIterate returns whether the Object can be Iterated.
+func (o *Tuple) CanIterate() bool {
+	return true
+}

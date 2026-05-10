@@ -65,6 +65,8 @@ const (
 	RParen       // )
 	RBrack       // ]
 	RBrace       // }
+	Pipe         // |>
+	BackPipe     // <|
 	Semicolon    // ;
 	Colon        // :
 	Question     // ?
@@ -146,6 +148,8 @@ var tokens = [...]string{
 	RParen:       ")",
 	RBrack:       "]",
 	RBrace:       "}",
+	Pipe:         "|>",
+	BackPipe:     "<|",
 	Semicolon:    ";",
 	Colon:        ":",
 	Question:     "?",
@@ -191,16 +195,18 @@ const LowestPrec = 0
 // Precedence returns the precedence for the operator token.
 func (tok Token) Precedence() int {
 	switch tok {
-	case LOr:
+	case Pipe, BackPipe:
 		return 1
-	case LAnd:
+	case LOr:
 		return 2
-	case Equal, NotEqual, Less, LessEq, Greater, GreaterEq:
+	case LAnd:
 		return 3
-	case Add, Sub, Or, Xor:
+	case Equal, NotEqual, Less, LessEq, Greater, GreaterEq:
 		return 4
-	case Mul, Quo, Rem, Shl, Shr, And, AndNot:
+	case Add, Sub, Or, Xor:
 		return 5
+	case Mul, Quo, Rem, Shl, Shr, And, AndNot:
+		return 6
 	}
 	return LowestPrec
 }

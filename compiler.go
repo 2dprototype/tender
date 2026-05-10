@@ -130,6 +130,34 @@ func (c *Compiler) Compile(node parser.Node) error {
 			return err
 		}
 	case *parser.BinaryExpr:
+		if node.Token == token.Pipe {
+			if call, ok := node.RHS.(*parser.CallExpr); ok {
+				newArgs := append([]parser.Expr{node.LHS}, call.Args...)
+				newCall := *call
+				newCall.Args = newArgs
+				return c.Compile(&newCall)
+			} else {
+				newCall := &parser.CallExpr{
+					Func: node.RHS,
+					Args: []parser.Expr{node.LHS},
+				}
+				return c.Compile(newCall)
+			}
+		}
+		if node.Token == token.BackPipe {
+			if call, ok := node.LHS.(*parser.CallExpr); ok {
+				newArgs := append(call.Args, node.RHS)
+				newCall := *call
+				newCall.Args = newArgs
+				return c.Compile(&newCall)
+			} else {
+				newCall := &parser.CallExpr{
+					Func: node.LHS,
+					Args: []parser.Expr{node.RHS},
+				}
+				return c.Compile(newCall)
+			}
+		}
 		if node.Token == token.LAnd || node.Token == token.LOr {
 			return c.compileLogical(node)
 		}
@@ -359,6 +387,13 @@ func (c *Compiler) Compile(node parser.Node) error {
 			}
 		}
 		c.emit(node, parser.OpArray, len(node.Elements))
+	case *parser.TupleLit:
+		for _, elem := range node.Elements {
+			if err := c.Compile(elem); err != nil {
+				return err
+			}
+		}
+		c.emit(node, parser.OpTuple, len(node.Elements))
 	case *parser.MapLit:
 		for _, elt := range node.Elements {
 			// key

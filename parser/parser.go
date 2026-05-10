@@ -480,7 +480,33 @@ func (p *Parser) parseOperand() Expr {
 			lparen := p.pos
 			p.next()
 			p.exprLevel++
+			if p.token == token.RParen {
+				p.exprLevel--
+				rparen := p.expect(token.RParen)
+				return &TupleLit{
+					LParen:   lparen,
+					Elements: nil,
+					RParen:   rparen,
+				}
+			}
 			x := p.parseExpr()
+			if p.token == token.Comma {
+				elements := []Expr{x}
+				for p.token == token.Comma {
+					p.next()
+					if p.token == token.RParen {
+						break
+					}
+					elements = append(elements, p.parseExpr())
+				}
+				p.exprLevel--
+				rparen := p.expect(token.RParen)
+				return &TupleLit{
+					LParen:   lparen,
+					Elements: elements,
+					RParen:   rparen,
+				}
+			}
 			p.exprLevel--
 			rparen := p.expect(token.RParen)
 			return &ParenExpr{
