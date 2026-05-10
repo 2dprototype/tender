@@ -48,6 +48,8 @@ const (
 	OpBinaryOp                    // Binary operation
 	OpSuspend                     // Suspend VM
 	OpTuple                       // Tuple object
+	OpNullJump                    // Jump if null
+	OpNotNullJump                 // Jump if not null
 )
 
 // OpcodeNames are string representation of opcodes.
@@ -95,6 +97,8 @@ var OpcodeNames = [...]string{
 	OpBinaryOp:      "BINARYOP",
 	OpSuspend:       "SUSPEND",
 	OpTuple:         "TUPLE",
+	OpNullJump:      "NULLJMP",
+	OpNotNullJump:   "NNULLJMP",
 }
 
 // OpcodeOperands is the number of operands.
@@ -142,6 +146,8 @@ var OpcodeOperands = [...][]int{
 	OpBinaryOp:      {1},
 	OpSuspend:       {},
 	OpTuple:         {2},
+	OpNullJump:      {2},
+	OpNotNullJump:   {2},
 }
 
 // ReadOperands reads operands from the bytecode.

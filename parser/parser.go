@@ -250,7 +250,7 @@ L:
 
 			switch p.token {
 			case token.Ident:
-				x = p.parseSelector(x)
+				x = p.parseSelector(x, false)
 			default:
 				pos := p.pos
 				p.errorExpected(pos, "selector")
@@ -258,9 +258,24 @@ L:
 				return &BadExpr{From: pos, To: p.pos}
 			}
 		case token.LBrack:
-			x = p.parseIndexOrSlice(x)
+			x = p.parseIndexOrSlice(x, false)
 		case token.LParen:
-			x = p.parseCall(x)
+			x = p.parseCall(x, false)
+		case token.OptionalDot:
+			p.next()
+			switch p.token {
+			case token.Ident:
+				x = p.parseSelector(x, true)
+			case token.LBrack:
+				x = p.parseIndexOrSlice(x, true)
+			case token.LParen:
+				x = p.parseCall(x, true)
+			default:
+				pos := p.pos
+				p.errorExpected(pos, "selector, [ or (")
+				p.advance(stmtStart)
+				return &BadExpr{From: pos, To: p.pos}
+			}
 		default:
 			break L
 		}
@@ -268,7 +283,7 @@ L:
 	return x
 }
 
-func (p *Parser) parseCall(x Expr) *CallExpr {
+func (p *Parser) parseCall(x Expr, optional bool) *CallExpr {
 	if p.trace {
 		defer untracep(tracep(p, "Call"))
 	}
@@ -297,6 +312,7 @@ func (p *Parser) parseCall(x Expr) *CallExpr {
 		RParen:   rparen,
 		Ellipsis: ellipsis,
 		Args:     list,
+		Optional: optional,
 	}
 }
 
@@ -317,7 +333,7 @@ func (p *Parser) expectComma(closing token.Token, want string) bool {
 	return false
 }
 
-func (p *Parser) parseIndexOrSlice(x Expr) Expr {
+func (p *Parser) parseIndexOrSlice(x Expr, optional bool) Expr {
 	if p.trace {
 		defer untracep(tracep(p, "IndexOrSlice"))
 	}
@@ -357,10 +373,11 @@ func (p *Parser) parseIndexOrSlice(x Expr) Expr {
 		LBrack: lbrack,
 		RBrack: rbrack,
 		Index:  index[0],
+		Optional: optional,
 	}
 }
 
-func (p *Parser) parseSelector(x Expr) Expr {
+func (p *Parser) parseSelector(x Expr, optional bool) Expr {
 	if p.trace {
 		defer untracep(tracep(p, "Selector"))
 	}
@@ -370,7 +387,7 @@ func (p *Parser) parseSelector(x Expr) Expr {
 		Value:    sel.Name,
 		ValuePos: sel.NamePos,
 		Literal:  sel.Name,
-	}}
+	}, Optional: optional}
 }
 
 func (p *Parser) parseOperand() Expr {
@@ -530,22 +547,59 @@ func (p *Parser) parseImportStmt() Stmt {
 	pos := p.pos
 	p.next()
 	
+	var symbols []*Ident
+	if p.token == token.LBrace {
+		p.next()
+		for p.token != token.RBrace && p.token != token.EOF {
+			if p.token == token.Ident {
+				symbols = append(symbols, &Ident{Name: p.tokenLit, NamePos: p.pos})
+				p.next()
+			} else {
+				p.errorExpected(p.pos, "Ident")
+				p.advance(stmtStart)
+				return &BadStmt{From: pos, To: p.pos}
+			}
+			if p.token == token.Comma {
+				p.next()
+			}
+		}
+		p.expect(token.RBrace)
+		p.expect(token.From)
+		
+		if p.token != token.String {
+			p.errorExpected(p.pos, "module name")
+			p.advance(stmtStart)
+			return &BadStmt{From: pos, To: p.pos}
+		}
+		moduleName, _ := strconv.Unquote(p.tokenLit)
+		p.expect(token.String)
+		
+		expr := &ImportExpr{
+			ModuleName: moduleName,
+			Token:      token.Import,
+			TokenPos:   pos,
+		}
+		return &ImportStmt{
+			Symbols: symbols,
+			Expr:    expr,
+		}
+	}
+	
 	if p.token != token.String {
 		p.errorExpected(p.pos, "module name")
 		p.advance(stmtStart)
 		return &BadStmt{From: pos, To: p.pos}
 	}
 	
-	
 	moduleName, _ := strconv.Unquote(p.tokenLit)
 	varName := removeFileExt(moduleName)
 	
 	p.expect(token.String)
-	// if p.scanner.Peek() == token.As {
 	if p.token == token.As {
 		p.expect(token.As)
 		if p.token == token.Ident {
 			varName = p.tokenLit
+			p.next()
 		} else {
 			p.errorExpected(p.pos, "Ident")
 			return &BadStmt{From: pos, To: p.pos}
@@ -925,7 +979,8 @@ func (p *Parser) parseStmt() (stmt Stmt) {
 			// p.expectSemi()
 			// return s	
 		case token.Import:
-			if p.scanner.Peek() == token.String {
+			peek := p.scanner.Peek()
+			if peek == token.String || peek == token.LBrace {
 				return p.parseImportStmt()
 			}
 			s := p.parseSimpleStmt(false)

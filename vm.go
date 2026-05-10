@@ -505,6 +505,22 @@ func (v *VM) run() {
 				pos := int(v.curInsts[v.ip]) | int(v.curInsts[v.ip-1])<<8
 				v.ip = pos - 1
 			}
+		case parser.OpNullJump:
+			v.ip += 2
+			if _, ok := v.stack[v.sp-1].(*Null); ok {
+				pos := int(v.curInsts[v.ip]) | int(v.curInsts[v.ip-1])<<8
+				v.ip = pos - 1
+			} else {
+				// keep value on stack
+			}
+		case parser.OpNotNullJump:
+			v.ip += 2
+			if _, ok := v.stack[v.sp-1].(*Null); !ok {
+				pos := int(v.curInsts[v.ip]) | int(v.curInsts[v.ip-1])<<8
+				v.ip = pos - 1
+			} else {
+				v.sp-- // pop null
+			}
 		case parser.OpJump:
 			pos := int(v.curInsts[v.ip+2]) | int(v.curInsts[v.ip+1])<<8
 			v.ip = pos - 1

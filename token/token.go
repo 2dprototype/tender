@@ -70,6 +70,8 @@ const (
 	Question     // ?
 	PipeL        // <|
 	PipeR        // |>
+	OptionalDot  // ?.
+	Coalesce     // ??
 	_operatorEnd
 	_keywordBeg
 	Break
@@ -89,6 +91,7 @@ const (
 	Null
 	Import
 	As
+	From
 	Var
 	Const
 	Sysout
@@ -154,6 +157,8 @@ var tokens = [...]string{
 	Question:     "?",
 	PipeL:        "<|",
 	PipeR:        "|>",
+	OptionalDot:  "?.",
+	Coalesce:     "??",
 	Break:        "break",
 	Continue:     "continue",
 	Else:         "else",
@@ -171,6 +176,7 @@ var tokens = [...]string{
 	Null:         "null",
 	Import:       "import",
 	As:           "as",
+	From:         "from",
 	Var:          "var",
 	Const:        "const",
 	Sysout:       "sysout",
@@ -199,7 +205,7 @@ func (tok Token) Precedence() int {
 	switch tok {
 	case PipeL, PipeR:
 		return 1
-	case LOr:
+	case LOr, Coalesce:
 		return 2
 	case LAnd:
 		return 3

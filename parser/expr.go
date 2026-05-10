@@ -117,6 +117,7 @@ type CallExpr struct {
 	Args     []Expr
 	Ellipsis Pos
 	RParen   Pos
+	Optional bool
 }
 
 func (e *CallExpr) exprNode() {}
@@ -139,7 +140,11 @@ func (e *CallExpr) String() string {
 	if len(args) > 0 && e.Ellipsis.IsValid() {
 		args[len(args)-1] = args[len(args)-1] + "..."
 	}
-	return e.Func.String() + "(" + strings.Join(args, ", ") + ")"
+	opt := ""
+	if e.Optional {
+		opt = "?"
+	}
+	return e.Func.String() + opt + "(" + strings.Join(args, ", ") + ")"
 }
 
 // CharLit represents a character literal.
@@ -432,6 +437,7 @@ type IndexExpr struct {
 	LBrack Pos
 	Index  Expr
 	RBrack Pos
+	Optional bool
 }
 
 func (e *IndexExpr) exprNode() {}
@@ -451,7 +457,11 @@ func (e *IndexExpr) String() string {
 	if e.Index != nil {
 		index = e.Index.String()
 	}
-	return e.Expr.String() + "[" + index + "]"
+	opt := ""
+	if e.Optional {
+		opt = "?."
+	}
+	return e.Expr.String() + opt + "[" + index + "]"
 }
 
 // IntLit represents an integer literal.
@@ -603,8 +613,9 @@ func (e *TupleLit) String() string {
 
 // SelectorExpr represents a selector expression.
 type SelectorExpr struct {
-	Expr Expr
-	Sel  Expr
+	Expr     Expr
+	Sel      Expr
+	Optional bool
 }
 
 func (e *SelectorExpr) exprNode() {}
@@ -620,7 +631,11 @@ func (e *SelectorExpr) End() Pos {
 }
 
 func (e *SelectorExpr) String() string {
-	return e.Expr.String() + "." + e.Sel.String()
+	sep := "."
+	if e.Optional {
+		sep = "?."
+	}
+	return e.Expr.String() + sep + e.Sel.String()
 }
 
 // SliceExpr represents a slice expression.

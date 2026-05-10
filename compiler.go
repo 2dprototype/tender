@@ -136,6 +136,17 @@ func (c *Compiler) Compile(node parser.Node) error {
 		if node.Token == token.PipeL || node.Token == token.PipeR {
 			return c.compilePipe(node)
 		}
+		if node.Token == token.Coalesce {
+			if err := c.Compile(node.LHS); err != nil {
+				return err
+			}
+			jump := c.emit(node, parser.OpNotNullJump, 0)
+			if err := c.Compile(node.RHS); err != nil {
+				return err
+			}
+			c.changeOperand(jump, len(c.currentInstructions()))
+			return nil
+		}
 		if node.Token == token.Less {
 			if err := c.Compile(node.RHS); err != nil {
 				return err
@@ -241,14 +252,31 @@ func (c *Compiler) Compile(node parser.Node) error {
 			return c.errorf(node, "invalid unary operator: %s", node.Token.String())
 		}
 	case *parser.ImportStmt:
-		// rhs := c.Compile(node.Expr)
-		// fmt.Println(rhs)
-		// fmt.Println(node)
-		// c.emit(node, parser.OpConstant, c.addConstant(&String{Value: string(data)}))
-		// node parser.Node, lhs, rhs []parser.Expr, op token.Token
-		err := c.compileAssign(node, []parser.Expr{node.Ident}, []parser.Expr{node.Expr}, token.Define)
-		if err != nil {
-			return err
+		if node.Ident != nil {
+			err := c.compileAssign(node, []parser.Expr{node.Ident}, []parser.Expr{node.Expr}, token.Define)
+			if err != nil {
+				return err
+			}
+		} else if len(node.Symbols) > 0 {
+			// use a hidden name for the module
+			tempName := fmt.Sprintf("__mod_%d", node.Pos())
+			tempIdent := &parser.Ident{Name: tempName, NamePos: node.Pos()}
+			
+			err := c.compileAssign(node, []parser.Expr{tempIdent}, []parser.Expr{node.Expr}, token.Define)
+			if err != nil {
+				return err
+			}
+			
+			for _, sym := range node.Symbols {
+				sel := &parser.SelectorExpr{
+					Expr: tempIdent,
+					Sel: &parser.StringLit{Value: sym.Name, ValuePos: sym.NamePos, Literal: sym.Name},
+				}
+				err := c.compileAssign(node, []parser.Expr{sym}, []parser.Expr{sel}, token.Define)
+				if err != nil {
+					return err
+				}
+			}
 		}
 	case *parser.IfStmt:
 		// open new symbol table for the statement
@@ -386,21 +414,45 @@ func (c *Compiler) Compile(node parser.Node) error {
 		c.emit(node, parser.OpMap, len(node.Elements)*2)
 
 	case *parser.SelectorExpr: // selector on RHS side
-		if err := c.Compile(node.Expr); err != nil {
-			return err
+		if node.Optional {
+			if err := c.Compile(node.Expr); err != nil {
+				return err
+			}
+			jump := c.emit(node, parser.OpNullJump, 0)
+			if err := c.Compile(node.Sel); err != nil {
+				return err
+			}
+			c.emit(node, parser.OpIndex)
+			c.changeOperand(jump, len(c.currentInstructions()))
+		} else {
+			if err := c.Compile(node.Expr); err != nil {
+				return err
+			}
+			if err := c.Compile(node.Sel); err != nil {
+				return err
+			}
+			c.emit(node, parser.OpIndex)
 		}
-		if err := c.Compile(node.Sel); err != nil {
-			return err
-		}
-		c.emit(node, parser.OpIndex)
 	case *parser.IndexExpr:
-		if err := c.Compile(node.Expr); err != nil {
-			return err
+		if node.Optional {
+			if err := c.Compile(node.Expr); err != nil {
+				return err
+			}
+			jump := c.emit(node, parser.OpNullJump, 0)
+			if err := c.Compile(node.Index); err != nil {
+				return err
+			}
+			c.emit(node, parser.OpIndex)
+			c.changeOperand(jump, len(c.currentInstructions()))
+		} else {
+			if err := c.Compile(node.Expr); err != nil {
+				return err
+			}
+			if err := c.Compile(node.Index); err != nil {
+				return err
+			}
+			c.emit(node, parser.OpIndex)
 		}
-		if err := c.Compile(node.Index); err != nil {
-			return err
-		}
-		c.emit(node, parser.OpIndex)
 	case *parser.SliceExpr:
 		if err := c.Compile(node.Expr); err != nil {
 			return err
@@ -522,19 +574,37 @@ func (c *Compiler) Compile(node parser.Node) error {
 			c.emit(node, parser.OpReturn, 1)
 		}
 	case *parser.CallExpr:
-		if err := c.Compile(node.Func); err != nil {
-			return err
-		}
-		for _, arg := range node.Args {
-			if err := c.Compile(arg); err != nil {
+		if node.Optional {
+			if err := c.Compile(node.Func); err != nil {
 				return err
 			}
+			jump := c.emit(node, parser.OpNullJump, 0)
+			for _, arg := range node.Args {
+				if err := c.Compile(arg); err != nil {
+					return err
+				}
+			}
+			ellipsis := 0
+			if node.Ellipsis.IsValid() {
+				ellipsis = 1
+			}
+			c.emit(node, parser.OpCall, len(node.Args), ellipsis)
+			c.changeOperand(jump, len(c.currentInstructions()))
+		} else {
+			if err := c.Compile(node.Func); err != nil {
+				return err
+			}
+			for _, arg := range node.Args {
+				if err := c.Compile(arg); err != nil {
+					return err
+				}
+			}
+			ellipsis := 0
+			if node.Ellipsis.IsValid() {
+				ellipsis = 1
+			}
+			c.emit(node, parser.OpCall, len(node.Args), ellipsis)
 		}
-		ellipsis := 0
-		if node.Ellipsis.IsValid() {
-			ellipsis = 1
-		}
-		c.emit(node, parser.OpCall, len(node.Args), ellipsis)
 	case *parser.EmbedExpr:
 		src, err := filepath.Abs(filepath.Join(c.importDir, node.FileSrc))
 		if err != nil {

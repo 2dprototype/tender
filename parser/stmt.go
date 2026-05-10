@@ -267,6 +267,7 @@ func (s *ForStmt) String() string {
 type ImportStmt struct {
 	Ident    *Ident
 	Expr     *ImportExpr
+	Symbols  []*Ident
 }
 
 func (s *ImportStmt) stmtNode() {}
