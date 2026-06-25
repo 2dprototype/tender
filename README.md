@@ -7,11 +7,30 @@
 Tender compiles into bytecode and executes on a stack-based virtual machine (VM) written in native Golang.
 
 ## Features
+
 - **Simple and highly readable syntax**  
 - **Compiles to bytecode**  
 - **Supports rich [built-in functions](docs/pages/builtins.md)**  
 - **Includes an extensive [standard library](docs/pages/stdlib.md)**  
 - **Optimized for 2D graphics**  
+- **REPL (Read-Eval-Print Loop) for interactive development**
+- **Rich type system** including int, float, string, bool, char, null, big integers, big floats, complex numbers, bytes, arrays (dynamic and immutable), maps (dynamic and immutable), tuples, time values, and error values
+- **Closures and first-class functions**
+- **Advanced operators** including pipe operators (`<|`, `|>`), null coalescing (`??`), optional chaining (`?.`), ternary conditional (`? :`), compound assignment operators, and logical operators (`&&`, `||`)
+- **Modular architecture** with import statements, module aliasing, selective imports, embedded file import (`embed()`), and file-based module loading
+- **Runtime type introspection** with `typeof()` and type checking functions
+- **Error handling** through the `error()` expression
+- **Immutable data structures** via `immutable()` expression
+- **Loop control** with `break` and `continue` statements
+- **For loops** including traditional, for-in, conditional, and infinite loops
+- **Variable declarations** with `var` and constants with `const`
+- **Function definitions** with `fn` keyword
+- **Export statements** for module exports
+- **Built-in functions** for type conversion, type checking, collection manipulation, search operations, memory operations, range generation, debugging, and pretty printing
+- **Bytecode compilation** with compilation, execution, and parse-only modes
+- **Comprehensive operator precedence** matching conventional expectations
+- **Gob and CSV encoding/decoding** support
+- **Cross-platform support** for Windows, macOS, and Linux
 
 ### Supported Standard Library
 
@@ -41,8 +60,9 @@ Tender compiles into bytecode and executes on a stack-based virtual machine (VM)
 - [net](docs/pages/stdlib-net.md): Networking functions  
 - [http](docs/pages/stdlib-http.md): HTTP client and server utilities  
 - [websocket](docs/pages/stdlib-websocket.md): WebSocket communication utilities  
-- **gob**: Gob Encoding/Ddecoding
-- **csv**: CSV Encoding/Ddecoding
+- **gob**: Gob Encoding/Decoding
+- **csv**: CSV Encoding/Decoding
+- **wui**: CSV Windows GUI
 
 ## Quick Start
 
@@ -106,7 +126,143 @@ Check the [docs](https://2dprototype.github.io/tender)!
 
 ## Examples
 
-Explore various examples demonstrating Tender’s features in the [examples](examples) directory.
+### Basic Examples
+```go
+// Variable declarations
+var name = "Tender"
+const PI = 3.14159
+
+// Functions
+fn add(a, b) {
+    return a + b
+}
+
+// Closures
+fn make_counter() {
+    var count = 0
+    return fn() {
+        count++
+        return count
+    }
+}
+
+// Arrays and maps
+var arr = [1, 2, 3, 4, 5]
+var map = { "key": "value" }
+
+// Type conversion and checking
+var num = int("123")
+if is_string(num) {
+    println("This is a string")
+} else {
+    println("This is not a string")
+}
+
+// Error handling
+var result = error("something went wrong")
+if is_error(result) {
+    println(result.value)
+}
+```
+
+### Advanced Examples
+```go
+// Pipe operators for functional composition
+var result = [1, 2, 3, 4, 6] |> sort |> reverse |> println
+
+// Null coalescing
+var value = null ?? "default value"
+
+// Optional chaining
+var user = {	
+	profile: {
+		name: "jack"
+	}
+}
+var name = user?.profile?.name
+sysout name, "\n"
+
+// Range generation
+var numbers = range(0, 10, 2)  // [0, 2, 4, 6, 8]
+sysout numbers, "\n"
+
+// Module imports
+import "math" as m
+var sqrt2 = m.sqrt(2)
+println(sqrt2)
+```
+
+### Canvas Drawing Example
+```go
+import "canvas"
+	
+var ctx = canvas.new_context(100, 100)
+ctx.hex("#0f0")          // Set color to green
+ctx.dash(4, 2)           // Define dashed stroke
+ctx.rect(25, 25, 50, 50) // Draw a rectangle
+ctx.stroke()
+
+ctx.save_png("out.png")  // Save output as PNG
+```
+
+Explore various examples demonstrating Tender's features in the [examples](examples) directory.
+
+---
+
+## Command Line Usage
+
+Tender supports multiple operation modes:
+
+```bash
+# Start REPL (interactive mode)
+tender
+
+# Compile and run a source file
+tender myapp.td
+
+# Compile to bytecode
+tender -o myapp myapp.td
+
+# Run compiled bytecode
+tender myapp
+
+# Parse and output AST as JSON
+tender -parse ast.json myapp.td
+
+# Show version
+tender -version
+# or
+tender -v
+
+# Show help
+tender -help
+```
+
+---
+
+## Type System Overview
+
+Tender provides a rich type system with support for:
+
+| Type | Description | Example |
+|------|-------------|---------|
+| `int` | 64-bit integer | `42` |
+| `float` | 64-bit floating point | `3.14159` |
+| `bigint` | Arbitrary-precision integer | `12345678901234567890` |
+| `bigfloat` | Arbitrary-precision float | `3.14159265358979323846` |
+| `complex` | Complex number | `3+4i` |
+| `string` | UTF-8 string | `"hello"` |
+| `bool` | Boolean | `true` or `false` |
+| `char` | Unicode character | `'a'` |
+| `bytes` | Byte array | `[72, 101, 108, 108, 111]` |
+| `array` | Dynamic array | `[1, 2, 3]` |
+| `immutable-array` | Immutable array | `[1, 2, 3]` |
+| `map` | Dynamic map | `{"key": value}` |
+| `immutable-map` | Immutable map | `{"key": value}` |
+| `tuple` | Fixed-size immutable sequence | `(1, "hello", true)` |
+| `time` | Time value | `time()` |
+| `error` | Error value | `error("message")` |
+| `null` | Null value | `null` |
 
 ---
 
@@ -124,7 +280,9 @@ Tender uses the following dependencies:
 
 ## Syntax Highlighting
 
-Syntax highlighting is currently available only for **Notepad++**. Download the configuration file [here](misc/syntax/npp_tender.xml).
+Syntax highlighting is currently available for:
+- **Notepad++**: Download the configuration file [here](misc/syntax/npp_tender.xml)
+- Support for additional editors coming soon
 
 ---
 
