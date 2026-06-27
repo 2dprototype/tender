@@ -154,6 +154,10 @@
 </li>
                                     
 <li>
+    <a href="../stdlib-wui/" class="dropdown-item">Stdlib wui</a>
+</li>
+                                    
+<li>
     <a href="../stdlib-xml/" class="dropdown-item">Stdlib xml</a>
 </li>
                                     
@@ -238,6 +242,20 @@
 <p>Converts radians to degrees.</p>
 <ul>
 <li><code>radians</code>: Angle in radians.</li>
+</ul>
+<h4 id="load_fontname-size-src"><code>load_font(name, size, src)</code></h4>
+<p>Loads a font and registers it under a name.</p>
+<ul>
+<li><code>name</code>: String name for the font.</li>
+<li><code>size</code>: Point size.</li>
+<li><code>src</code>: File path (string) or byte data (bytes).</li>
+</ul>
+<h4 id="load_fontdataname-size-font_data"><code>load_fontdata(name, size, font_data)</code></h4>
+<p>Loads a font from binary data and registers it under a name.</p>
+<ul>
+<li><code>name</code>: String name for the font.</li>
+<li><code>size</code>: Point size.</li>
+<li><code>font_data</code>: Binary data (bytes).</li>
 </ul>
 <h4 id="new_windowwidth-height-title-update_function"><code>new_window(width, height, title, update_function)</code></h4>
 <p>Creates a new window with the specified width, height, and title. The <code>update_function</code> is called to update the content of the window.</p>
@@ -333,6 +351,7 @@ canvas.new_window(options, fn(w){
 <li><code>measure_multiline_text(text)</code></li>
 <li><code>load_fontface(font_path, size)</code></li>
 <li><code>fontface(font_data, size)</code></li>
+<li><code>set_font(name)</code></li>
 <li><code>fontheight()</code></li>
 </ul>
 <h4 id="transformation-functions">Transformation Functions</h4>

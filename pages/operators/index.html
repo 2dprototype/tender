@@ -154,6 +154,10 @@
 </li>
                                     
 <li>
+    <a href="../stdlib-wui/" class="dropdown-item">Stdlib wui</a>
+</li>
+                                    
+<li>
     <a href="../stdlib-xml/" class="dropdown-item">Stdlib xml</a>
 </li>
                                     
@@ -241,6 +245,10 @@
               </ul>
             </li>
             <li class="nav-item" data-bs-level="2"><a href="#map-and-immutablemap" class="nav-link">Map and ImmutableMap</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#pipe-operators" class="nav-link">Pipe Operators</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -430,6 +438,15 @@
 <li><code>(immutable-map) != (immutable-map) = (bool)</code>: inequality</li>
 <li><code>(immutable-map) == (map) = (bool)</code>: equality</li>
 <li><code>(immutable-map) != (map) = (bool)</code>: inequality</li>
+</ul>
+<h2 id="pipe-operators">Pipe Operators</h2>
+<h3 id="forward-pipe">Forward Pipe</h3>
+<ul>
+<li><code>x |&gt; f</code>: transforms into <code>f(x)</code>. If <code>f</code> is a function call <code>f(a, b)</code>, it becomes <code>f(x, a, b)</code>.</li>
+</ul>
+<h3 id="backward-pipe">Backward Pipe</h3>
+<ul>
+<li><code>f &lt;| x</code>: transforms into <code>f(x)</code>. If <code>f</code> is a function call <code>f(a, b)</code>, it becomes <code>f(x, a, b)</code>.</li>
 </ul></div>
             </div>
         </div>

@@ -1,0 +1,763 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Stdlib wui - Tender Docs</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Tender Docs</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../.." class="nav-link">Tender</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Pages</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../builtins/" class="dropdown-item">Builtins</a>
+</li>
+                                    
+<li>
+    <a href="../formatting/" class="dropdown-item">Formatting</a>
+</li>
+                                    
+<li>
+    <a href="../operators/" class="dropdown-item">Operators</a>
+</li>
+                                    
+<li>
+    <a href="../runtime-types/" class="dropdown-item">Runtime Types</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-audio/" class="dropdown-item">Stdlib audio</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-base64/" class="dropdown-item">Stdlib base64</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-bufio/" class="dropdown-item">Stdlib bufio</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-canvas/" class="dropdown-item">Stdlib canvas</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-cmplx/" class="dropdown-item">Stdlib cmplx</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-colors/" class="dropdown-item">Stdlib colors</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-crypto/" class="dropdown-item">Stdlib crypto</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-dll/" class="dropdown-item">Stdlib dll</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-fmt/" class="dropdown-item">Stdlib fmt</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-gzip/" class="dropdown-item">Stdlib gzip</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-hex/" class="dropdown-item">Stdlib hex</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-http/" class="dropdown-item">Stdlib http</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-image/" class="dropdown-item">Stdlib image</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-io/" class="dropdown-item">Stdlib io</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-json/" class="dropdown-item">Stdlib json</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-math/" class="dropdown-item">Stdlib math</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-net/" class="dropdown-item">Stdlib net</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-os/" class="dropdown-item">Stdlib os</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-path/" class="dropdown-item">Stdlib path</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-rand/" class="dropdown-item">Stdlib rand</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-strings/" class="dropdown-item">Stdlib strings</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-tar/" class="dropdown-item">Stdlib tar</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-times/" class="dropdown-item">Stdlin times</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-websocket/" class="dropdown-item">Stdlib websocket</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Stdlib wui</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-xml/" class="dropdown-item">Stdlib xml</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-zip/" class="dropdown-item">Stdlib zip</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib/" class="dropdown-item">Standard Library</a>
+</li>
+                                    
+<li>
+    <a href="../tutorial/" class="dropdown-item">Getting Started</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../stdlib-websocket/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../stdlib-xml/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="2"><a href="#stdlib-wui" class="nav-link">Stdlib wui</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h2 id="stdlib-wui">Stdlib <code>wui</code></h2>
+<p>The <code>wui</code> module provides functionalities for creating native Windows desktop applications with graphical user interface elements like windows, buttons, and input controls.</p>
+<h3 id="functions">Functions</h3>
+<h4 id="window-dialog-creation">Window &amp; Dialog Creation</h4>
+<ul>
+<li>
+<p><strong><code>new_window()</code></strong>
+    Creates a new window object.
+    <code>go
+    window := wui.new_window()</code></p>
+</li>
+<li>
+<p><strong><code>new_file_open_dialog()</code></strong>
+    Creates a new file open dialog object.
+    <code>go
+    dlg := wui.new_file_open_dialog()</code></p>
+</li>
+<li>
+<p><strong><code>new_file_save_dialog()</code></strong>
+    Creates a new file save dialog object.
+    <code>go
+    dlg := wui.new_file_save_dialog()</code></p>
+</li>
+<li>
+<p><strong><code>new_folder_select_dialog()</code></strong>
+    Creates a new folder selection dialog object.
+    <code>go
+    dlg := wui.new_folder_select_dialog()</code></p>
+</li>
+</ul>
+<h4 id="control-creation">Control Creation</h4>
+<p>These functions create individual UI controls. They return a control object with its own set of methods.</p>
+<ul>
+<li><strong><code>new_button()</code></strong>
+    Creates a new button.</li>
+<li><strong><code>new_checkbox()</code></strong>
+    Creates a new checkbox.</li>
+<li><strong><code>new_label()</code></strong>
+    Creates a new label.</li>
+<li><strong><code>new_editline()</code></strong>
+    Creates a new single-line text input field.</li>
+<li><strong><code>new_textedit()</code></strong>
+    Creates a new multi-line text input field.</li>
+<li><strong><code>new_combo_box()</code></strong>
+    Creates a new combo box (dropdown list).</li>
+<li><strong><code>new_stringlist()</code></strong>
+    Creates a new list box for displaying strings.</li>
+<li><strong><code>new_stringtable(header1, header2, ...)</code></strong>
+    Creates a new table control with the specified column headers.<ul>
+<li><code>header1</code>: The text for the first column header.</li>
+<li><code>header2, ...</code>: Additional column headers.</li>
+</ul>
+</li>
+<li><strong><code>new_slider()</code></strong>
+    Creates a new slider control.</li>
+<li><strong><code>new_progressbar()</code></strong>
+    Creates a new progress bar.</li>
+<li><strong><code>new_radiobutton()</code></strong>
+    Creates a new radio button.</li>
+<li><strong><code>new_intupdown()</code></strong>
+    Creates a numeric up-down control for integers.</li>
+<li><strong><code>new_floatupdown()</code></strong>
+    Creates a numeric up-down control for floats.</li>
+<li><strong><code>new_panel()</code></strong>
+    Creates a new panel container.</li>
+<li><strong><code>new_paintbox()</code></strong>
+    Creates a new paint box for custom drawing.</li>
+</ul>
+<h4 id="menu-creation">Menu Creation</h4>
+<ul>
+<li><strong><code>new_menu(name)</code></strong>
+    Creates a new menu (e.g., for a menu bar or a popup menu).<ul>
+<li><code>name</code>: The text for the menu header.</li>
+</ul>
+</li>
+<li><strong><code>new_main_menu()</code></strong>
+    Creates a new main menu bar for a window.</li>
+<li><strong><code>new_menu_string(text)</code></strong>
+    Creates a new clickable menu item with the specified text.<ul>
+<li><code>text</code>: The text for the menu item.</li>
+</ul>
+</li>
+<li><strong><code>new_menu_separator()</code></strong>
+    Creates a new menu separator line.</li>
+</ul>
+<h4 id="resource-creation">Resource Creation</h4>
+<ul>
+<li><strong><code>rgb_color(r, g, b)</code></strong>
+    Creates a color object from red, green, and blue components (0-255).<ul>
+<li><code>r</code>: Red component (0-255).</li>
+<li><code>g</code>: Green component (0-255).</li>
+<li><code>b</code>: Blue component (0-255).</li>
+</ul>
+</li>
+<li><strong><code>new_font(desc)</code></strong>
+    Creates a new font object from a description map.<ul>
+<li><code>desc</code>: A map containing font properties (e.g., <code>{name: "Arial", height: 12, bold: true}</code>).</li>
+</ul>
+</li>
+<li><strong><code>new_cursor_from_image(image_bytes, x, y)</code></strong>
+    Creates a new cursor object from image data.<ul>
+<li><code>image_bytes</code>: Byte array of the image data (PNG, JPEG, etc.).</li>
+<li><code>x</code>: The X-coordinate of the cursor's hotspot.</li>
+<li><code>y</code>: The Y-coordinate of the cursor's hotspot.</li>
+</ul>
+</li>
+<li><strong><code>new_icon_from_image(image_bytes)</code></strong>
+    Creates a new icon object from image data.<ul>
+<li><code>image_bytes</code>: Byte array of the image data (PNG, JPEG, etc.).</li>
+</ul>
+</li>
+</ul>
+<h4 id="message-boxes">Message Boxes</h4>
+<ul>
+<li>
+<p><strong><code>message_box(caption, text)</code></strong>
+    Displays a simple message box.</p>
+<ul>
+<li><code>caption</code>: The title of the message box.</li>
+<li><code>text</code>: The message to display.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>message_box_error(caption, text)</code></strong>
+    Displays an error message box.</p>
+<ul>
+<li><code>caption</code>: The title.</li>
+<li><code>text</code>: The message.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>message_box_info(caption, text)</code></strong>
+    Displays an information message box.</p>
+<ul>
+<li><code>caption</code>: The title.</li>
+<li><code>text</code>: The message.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>message_box_warning(caption, text)</code></strong>
+    Displays a warning message box.</p>
+<ul>
+<li><code>caption</code>: The title.</li>
+<li><code>text</code>: The message.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>message_box_question(caption, text)</code></strong>
+    Displays a question message box.</p>
+<ul>
+<li><code>caption</code>: The title.</li>
+<li><code>text</code>: The question.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>message_box_ok_cancel(caption, text)</code></strong>
+    Displays a message box with OK and Cancel buttons.</p>
+<ul>
+<li><code>caption</code>: The title.</li>
+<li><code>text</code>: The message.</li>
+<li><strong>Returns</strong>: <code>true</code> if OK was clicked, <code>false</code> if Cancel was clicked.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>message_box_yes_no(caption, text)</code></strong>
+    Displays a message box with Yes and No buttons.</p>
+<ul>
+<li><code>caption</code>: The title.</li>
+<li><code>text</code>: The question.</li>
+<li><strong>Returns</strong>: <code>true</code> if Yes was clicked, <code>false</code> if No was clicked.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>message_box_custom(caption, text, flags)</code></strong>
+    Displays a message box with custom buttons defined by flags.</p>
+<ul>
+<li><code>caption</code>: The title.</li>
+<li><code>text</code>: The message.</li>
+<li><code>flags</code>: An integer representing the combination of buttons (e.g., <code>0x00000004</code> for Yes/No).</li>
+<li><strong>Returns</strong>: An integer representing the ID of the button clicked (e.g., <code>6</code> for Yes, <code>7</code> for No).</li>
+</ul>
+</li>
+</ul>
+<h4 id="utility-functions">Utility Functions</h4>
+<ul>
+<li>
+<p><strong><code>enabled(control)</code></strong>
+    Checks if a control is enabled.</p>
+<ul>
+<li><code>control</code>: The control object to check.</li>
+<li><strong>Returns</strong>: <code>true</code> if enabled, <code>false</code> otherwise.</li>
+</ul>
+</li>
+<li>
+<p><strong><code>visible(control)</code></strong>
+    Checks if a control is visible.</p>
+<ul>
+<li><code>control</code>: The control object to check.</li>
+<li><strong>Returns</strong>: <code>true</code> if visible, <code>false</code> otherwise.</li>
+</ul>
+</li>
+</ul>
+<h3 id="object-methods">Object Methods</h3>
+<p>The following methods are available on the objects returned by the creation functions.</p>
+<h4 id="window-object"><code>window</code> Object</h4>
+<ul>
+<li><strong><code>show()</code></strong>
+    Shows the window (non-modal).</li>
+<li><strong><code>show_modal()</code></strong>
+    Shows the window as a modal dialog.</li>
+<li><strong><code>close()</code></strong>
+    Closes the window.</li>
+<li><strong><code>set_title(title)</code></strong>
+    Sets the window's title.<ul>
+<li><code>title</code>: The new title string.</li>
+</ul>
+</li>
+<li><strong><code>title()</code></strong>
+    <strong>Returns</strong>: The current window title as a string.</li>
+<li><strong><code>set_size(width, height)</code></strong>
+    Sets the window's client area size.<ul>
+<li><code>width</code>: The new width.</li>
+<li><code>height</code>: The new height.</li>
+</ul>
+</li>
+<li><strong><code>size()</code></strong>
+    <strong>Returns</strong>: An array <code>[width, height]</code>.</li>
+<li><strong><code>set_position(x, y)</code></strong>
+    Sets the window's screen position.<ul>
+<li><code>x</code>: The new X-coordinate.</li>
+<li><code>y</code>: The new Y-coordinate.</li>
+</ul>
+</li>
+<li><strong><code>position()</code></strong>
+    <strong>Returns</strong>: An array <code>[x, y]</code>.</li>
+<li><strong><code>add(control)</code></strong>
+    Adds a control to the window.<ul>
+<li><code>control</code>: The control object (e.g., from <code>new_button()</code>).</li>
+</ul>
+</li>
+<li><strong><code>remove(control)</code></strong>
+    Removes a control from the window.<ul>
+<li><code>control</code>: The control object to remove.</li>
+</ul>
+</li>
+</ul>
+<h4 id="common-control-methods">Common Control Methods</h4>
+<p>Many controls share a common set of methods.</p>
+<ul>
+<li><strong><code>set_text(text)</code></strong>
+    Sets the control's text.<ul>
+<li><code>text</code>: The new text string.</li>
+</ul>
+</li>
+<li><strong><code>text()</code></strong>
+    <strong>Returns</strong>: The control's current text.</li>
+<li><strong><code>set_bounds(x, y, width, height)</code></strong>
+    Sets the control's position and size relative to its parent.<ul>
+<li><code>x</code>, <code>y</code>, <code>width</code>, <code>height</code>: Integer values.</li>
+</ul>
+</li>
+<li><strong><code>set_font(font)</code></strong>
+    Sets the font for the control.<ul>
+<li><code>font</code>: A font object from <code>new_font()</code>.</li>
+</ul>
+</li>
+<li><strong><code>font()</code></strong>
+    <strong>Returns</strong>: The control's current font object.</li>
+<li><strong><code>focus()</code></strong>
+    Sets the keyboard focus to this control.</li>
+<li><strong><code>has_focus()</code></strong>
+    <strong>Returns</strong>: <code>true</code> if the control has focus, <code>false</code> otherwise.</li>
+<li><strong><code>set_enabled(enabled)</code></strong>
+    Enables or disables the control.<ul>
+<li><code>enabled</code>: <code>true</code> to enable, <code>false</code> to disable.</li>
+</ul>
+</li>
+<li><strong><code>enabled()</code></strong>
+    <strong>Returns</strong>: <code>true</code> if the control is enabled, <code>false</code> otherwise.</li>
+<li><strong><code>set_visible(visible)</code></strong>
+    Shows or hides the control.<ul>
+<li><code>visible</code>: <code>true</code> to show, <code>false</code> to hide.</li>
+</ul>
+</li>
+<li><strong><code>visible()</code></strong>
+    <strong>Returns</strong>: <code>true</code> if the control is visible, <code>false</code> otherwise.</li>
+<li><strong><code>set_on_tab_focus(callback)</code></strong>
+    Sets a function to be called when the control receives focus via the Tab key.<ul>
+<li><code>callback</code>: A function with no arguments.</li>
+</ul>
+</li>
+<li><strong><code>set_bounds(x, y, width, height)</code></strong>
+    Sets the control's position and size.</li>
+</ul>
+<h4 id="button-object"><code>button</code> Object</h4>
+<ul>
+<li><strong><code>set_onclick(callback)</code></strong>
+    Sets a function to be called when the button is clicked.<ul>
+<li><code>callback</code>: A function with no arguments.</li>
+</ul>
+</li>
+</ul>
+<h4 id="checkbox-object"><code>checkbox</code> Object</h4>
+<ul>
+<li><strong><code>set_checked(checked)</code></strong>
+    Checks or unchecks the box.<ul>
+<li><code>checked</code>: <code>true</code> to check, <code>false</code> to uncheck.</li>
+</ul>
+</li>
+<li><strong><code>checked()</code></strong>
+    <strong>Returns</strong>: <code>true</code> if checked, <code>false</code> otherwise.</li>
+<li><strong><code>set_on_change(callback)</code></strong>
+    Sets a function to be called when the checked state changes.<ul>
+<li><code>callback</code>: A function that receives one argument: <code>function(checked)</code>.</li>
+</ul>
+</li>
+</ul>
+<h4 id="combobox-object"><code>combobox</code> Object</h4>
+<ul>
+<li><strong><code>set_items(items_array)</code></strong>
+    Sets the list of items in the combo box.<ul>
+<li><code>items_array</code>: An array of strings.</li>
+</ul>
+</li>
+<li><strong><code>add_item(item)</code></strong>
+    Adds a single item to the list.<ul>
+<li><code>item</code>: The string to add.</li>
+</ul>
+</li>
+<li><strong><code>clear()</code></strong>
+    Removes all items.</li>
+<li><strong><code>set_selected_index(index)</code></strong>
+    Selects the item at the given index (0-based).<ul>
+<li><code>index</code>: The integer index.</li>
+</ul>
+</li>
+<li><strong><code>selected_index()</code></strong>
+    <strong>Returns</strong>: The index of the currently selected item.</li>
+<li><strong><code>items()</code></strong>
+    <strong>Returns</strong>: An array of all item strings.</li>
+<li><strong><code>set_on_change(callback)</code></strong>
+    Sets a function to be called when the selection changes.<ul>
+<li><code>callback</code>: A function that receives one argument: <code>function(new_index)</code>.</li>
+</ul>
+</li>
+</ul>
+<h4 id="editline-object"><code>editline</code> Object</h4>
+<ul>
+<li><strong><code>set_character_limit(limit)</code></strong>
+    Sets the maximum number of characters the user can type.<ul>
+<li><code>limit</code>: The integer limit.</li>
+</ul>
+</li>
+<li><strong><code>character_limit()</code></strong>
+    <strong>Returns</strong>: The character limit.</li>
+<li><strong><code>set_is_password(is_password)</code></strong>
+    Sets whether the input field should mask its text (e.g., for passwords).<ul>
+<li><code>is_password</code>: <code>true</code> to mask the text.</li>
+</ul>
+</li>
+<li><strong><code>is_password()</code></strong>
+    <strong>Returns</strong>: <code>true</code> if it's a password field.</li>
+<li><strong><code>set_read_only(read_only)</code></strong>
+    Sets whether the text can be edited.<ul>
+<li><code>read_only</code>: <code>true</code> to make it read-only.</li>
+</ul>
+</li>
+<li><strong><code>read_only()</code></strong>
+    <strong>Returns</strong>: <code>true</code> if read-only.</li>
+<li><strong><code>select_all()</code></strong>
+    Selects all text in the field.</li>
+<li><strong><code>set_selection(start, end)</code></strong>
+    Selects a range of text.<ul>
+<li><code>start</code>, <code>end</code>: Integer positions.</li>
+</ul>
+</li>
+<li><strong><code>cursor_position()</code></strong>
+    <strong>Returns</strong>: An array <code>[start, end]</code> representing the current cursor selection.</li>
+<li><strong><code>set_on_text_change(callback)</code></strong>
+    Sets a function to be called whenever the text changes.<ul>
+<li><code>callback</code>: A function with no arguments.</li>
+</ul>
+</li>
+</ul>
+<h4 id="intupdown-floatupdown-objects"><code>intupdown</code> &amp; <code>floatupdown</code> Objects</h4>
+<ul>
+<li><strong><code>set_min(min)</code></strong>
+    Sets the minimum value.</li>
+<li><strong><code>set_max(max)</code></strong>
+    Sets the maximum value.</li>
+<li><strong><code>set_min_max(min, max)</code></strong>
+    Sets both min and max values.</li>
+<li><strong><code>set_value(value)</code></strong>
+    Sets the current value.</li>
+<li><strong><code>value()</code></strong>
+    <strong>Returns</strong>: The current value (<code>int</code> or <code>float</code>).</li>
+<li><strong><code>min()</code></strong>, <strong><code>max()</code></strong>, <strong><code>min_max()</code></strong> (returns <code>[min, max]</code>)</li>
+<li><strong><code>set_on_value_change(callback)</code></strong>
+    Sets a function to be called when the value changes.<ul>
+<li><code>callback</code>: A function that receives one argument: <code>function(new_value)</code>.</li>
+</ul>
+</li>
+</ul>
+<h4 id="label-object"><code>label</code> Object</h4>
+<ul>
+<li><strong><code>set_alignment(alignment)</code></strong>
+    Sets the text alignment. Use constants like <code>wui.align_left</code>, <code>wui.align_center</code>, <code>wui.align_right</code>.<ul>
+<li><code>alignment</code>: The alignment constant (integer).</li>
+</ul>
+</li>
+<li><strong><code>alignment()</code></strong>
+    <strong>Returns</strong>: The current alignment constant.</li>
+</ul>
+<h4 id="paintbox-object"><code>paintbox</code> Object</h4>
+<ul>
+<li><strong><code>set_on_paint(callback)</code></strong>
+    Sets the function that draws the control's content. This is the core method for custom drawing.<ul>
+<li><code>callback</code>: A function that receives a <code>canvas</code> object: <code>function(canvas)</code>.</li>
+</ul>
+</li>
+<li><strong><code>set_on_mouse_move(callback)</code></strong>
+    Sets a function called when the mouse moves over the control.<ul>
+<li><code>callback</code>: A function that receives <code>x</code> and <code>y</code> coordinates: <code>function(x, y)</code>.</li>
+</ul>
+</li>
+<li><strong><code>paint()</code></strong>
+    Manually triggers a repaint.</li>
+</ul>
+<h4 id="canvas-object-from-paintbox"><code>canvas</code> Object (from <code>paintbox</code>)</h4>
+<ul>
+<li><strong><code>draw_rect(x, y, width, height, color)</code></strong>
+    Draws the outline of a rectangle.</li>
+<li><strong><code>fill_rect(x, y, width, height, color)</code></strong>
+    Draws a filled rectangle.</li>
+<li><strong><code>draw_ellipse(x, y, width, height, color)</code></strong>
+    Draws the outline of an ellipse.</li>
+<li><strong><code>fill_ellipse(x, y, width, height, color)</code></strong>
+    Draws a filled ellipse.</li>
+<li><strong><code>line(x1, y1, x2, y2, color)</code></strong>
+    Draws a line.</li>
+<li><strong><code>text_out(x, y, text, color)</code></strong>
+    Draws text at a specific position.</li>
+<li><strong><code>text_rect(x, y, w, h, text, color)</code></strong>
+    Draws text within a bounding rectangle.</li>
+<li><strong><code>set_font(font)</code></strong>
+    Sets the font for subsequent text drawing.</li>
+<li><strong><code>size()</code></strong>
+    <strong>Returns</strong>: An array <code>[width, height]</code> of the canvas.</li>
+<li><strong><code>width()</code></strong>, <strong><code>height()</code></strong></li>
+<li><em>Many other drawing primitives are available, including <code>arc</code>, <code>polygon</code>, <code>polyline</code>, and text measurement functions.</em></li>
+</ul>
+<h4 id="menu-object"><code>menu</code> Object</h4>
+<ul>
+<li><strong><code>add(menu_item)</code></strong>
+    Adds a menu item (from <code>new_menu_string</code> or <code>new_menu_separator</code>) or a submenu (from <code>new_menu</code>) to this menu.</li>
+</ul>
+<h4 id="menustring-object"><code>menustring</code> Object</h4>
+<ul>
+<li><strong><code>set_text(text)</code></strong>
+    Sets the text of the menu item.</li>
+<li><strong><code>text()</code></strong>
+    <strong>Returns</strong>: The menu item's text.</li>
+<li><em>Note: The <code>set_on_click</code> method is currently not exposed.</em></li>
+</ul></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

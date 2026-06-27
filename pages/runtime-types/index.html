@@ -154,6 +154,10 @@
 </li>
                                     
 <li>
+    <a href="../stdlib-wui/" class="dropdown-item">Stdlib wui</a>
+</li>
+                                    
+<li>
     <a href="../stdlib-xml/" class="dropdown-item">Stdlib xml</a>
 </li>
                                     
@@ -249,6 +253,7 @@
   in Go)</li>
 <li><strong>Time</strong>: time (<code>time.Time</code> in Go)</li>
 <li><strong>Error</strong>: an error with underlying Object value of any type</li>
+<li><strong>Tuple</strong>: immutable ordered collection of objects (e.g. <code>(1, 2, "three")</code>)</li>
 <li><strong>Null</strong>: null</li>
 </ul>
 <h2 id="type-conversioncoercion-table">Type Conversion/Coercion Table</h2>
@@ -505,6 +510,7 @@ should evaluate to <code>false</code> (e.g. for condition expression of <code>if
 <li><code>is_map(x)</code>: return <code>true</code> if <code>x</code> is map; <code>false</code> otherwise</li>
 <li><code>is_immutable_map(x)</code>: return <code>true</code> if <code>x</code> is immutable map; <code>false</code>
   otherwise</li>
+<li><code>is_tuple(x)</code>: return <code>true</code> if <code>x</code> is tuple; <code>false</code> otherwise</li>
 <li><code>is_time(x)</code>: return <code>true</code> if <code>x</code> is time; <code>false</code> otherwise</li>
 <li><code>is_error(x)</code>: returns <code>true</code> if <code>x</code> is error; <code>false</code> otherwise</li>
 <li><code>is_null(x)</code>: returns <code>true</code> if <code>x</code> is null; <code>false</code> otherwise</li>

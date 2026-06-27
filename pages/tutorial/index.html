@@ -154,6 +154,10 @@
 </li>
                                     
 <li>
+    <a href="../stdlib-wui/" class="dropdown-item">Stdlib wui</a>
+</li>
+                                    
+<li>
     <a href="../stdlib-xml/" class="dropdown-item">Stdlib xml</a>
 </li>
                                     
@@ -252,6 +256,18 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#13-tuples" class="nav-link">13. Tuples</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#14-pipe-operator" class="nav-link">14. Pipe Operator</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#15-embedding-files" class="nav-link">15. Embedding Files</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -276,6 +292,11 @@ var c = complex(pi, age) //complex datatype
 <p>Variables in Tender are <strong>dynamically typed</strong>, meaning you can assign a value of a different type to an existing variable.</p>
 <pre><code class="language-go">age = &quot;Thirty&quot;  // Now 'age' holds a String instead of an Integer
 println(age)    // Output: Thirty
+</code></pre>
+<h3 id="constants"><strong>Constants</strong></h3>
+<p>Constants are variables that cannot be reassigned after their initial declaration. They are defined using the <code>const</code> keyword.</p>
+<pre><code class="language-go">const pi = 3.14159
+pi = 3.14 // Compile Error: cannot assign to constant 'pi'
 </code></pre>
 <hr />
 <h2 id="2-data-types"><strong>2. Data Types</strong></h2>
@@ -485,6 +506,42 @@ bool_val := bool(1)    // true
 </tbody>
 </table>
 <p>See all <a href="../builtins/">builtin functions</a>!</p>
+<hr />
+<h2 id="13-tuples"><strong>13. Tuples</strong></h2>
+<p>Tuples are immutable ordered collections of objects, similar to arrays but enclosed in parentheses <code>()</code>.</p>
+<pre><code class="language-go">t := (1, 2, &quot;three&quot;)
+println(t[0])      // Output: 1
+println(t.length)  // Output: 3
+
+// Single-element tuple requires a trailing comma
+t1 := (10,) 
+</code></pre>
+<hr />
+<h2 id="14-pipe-operator"><strong>14. Pipe Operator</strong></h2>
+<p>The pipe operators <code>|&gt;</code> and <code>&lt;|</code> allow for functional-style chaining of expressions.</p>
+<pre><code class="language-go">add := fn(a, b) { return a + b }
+double := fn(x) { return x * 2 }
+
+// Forward pipe: x |&gt; f  =&gt; f(x)
+res := 5 |&gt; double |&gt; double
+println(res) // Output: 20
+
+// Pipe into function call: x |&gt; f(y) =&gt; f(x, y)
+res2 := 10 |&gt; add(20)
+println(res2) // Output: 30
+
+// Backward pipe: f &lt;| x =&gt; f(x)
+println &lt;| add(1, 2) // Output: 3
+</code></pre>
+<hr />
+<h2 id="15-embedding-files"><strong>15. Embedding Files</strong></h2>
+<p>The <code>embed</code> expression allows you to include the contents of a file as a <code>Bytes</code> object directly in your script at compile-time.</p>
+<pre><code class="language-go">// Embed a text file or binary data
+logo := embed(&quot;logo.png&quot;)
+config := embed(&quot;config.json&quot;)
+
+println(is_bytes(logo)) // Output: true
+</code></pre>
 <hr /></div>
             </div>
         </div>
