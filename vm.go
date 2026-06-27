@@ -609,6 +609,72 @@ func (v *VM) run() {
 			}
 			v.stack[v.sp] = m
 			v.sp++
+		case parser.OpStruct:
+			v.ip += 3
+			numElements := int(v.curInsts[v.ip-1]) | int(v.curInsts[v.ip-2])<<8
+			isKeyed := int(v.curInsts[v.ip])
+
+			var elements []Object
+			if isKeyed == 1 {
+				elements = make([]Object, numElements*2)
+				for i := 0; i < numElements*2; i++ {
+					elements[i] = v.stack[v.sp-numElements*2+i]
+				}
+				v.sp -= numElements * 2
+			} else {
+				elements = make([]Object, numElements)
+				for i := 0; i < numElements; i++ {
+					elements[i] = v.stack[v.sp-numElements+i]
+				}
+				v.sp -= numElements
+			}
+
+			typeObj := v.stack[v.sp-1]
+			v.sp--
+
+			st, ok := typeObj.(*StructType)
+			if !ok {
+				v.err = fmt.Errorf("type %s is not a struct type", typeObj.TypeName())
+				return
+			}
+
+			inst := st.NewInstance()
+
+			if isKeyed == 1 {
+				for i := 0; i < numElements; i++ {
+					keyObj := elements[2*i]
+					valObj := elements[2*i+1]
+					keyStr, ok := keyObj.(*String)
+					if !ok {
+						v.err = fmt.Errorf("invalid struct literal key type: %s", keyObj.TypeName())
+						return
+					}
+					if err := inst.IndexSet(keyStr, valObj); err != nil {
+						v.err = err
+						return
+					}
+				}
+			} else {
+				for i, valObj := range elements {
+					if i >= len(st.Fields) {
+						v.err = fmt.Errorf("too many values for struct %s (expected <= %d, got %d)", st.Name, len(st.Fields), numElements)
+						return
+					}
+					fieldName := st.Fields[i].Name
+					if err := inst.IndexSet(&String{Value: fieldName}, valObj); err != nil {
+						v.err = err
+						return
+					}
+				}
+			}
+
+			v.allocs--
+			if v.allocs == 0 {
+				v.err = ErrObjectAllocLimit
+				return
+			}
+			v.stack[v.sp] = inst
+			v.sp++
 		case parser.OpError:
 			value := v.stack[v.sp-1]
 			var e Object = &Error{

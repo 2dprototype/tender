@@ -397,3 +397,18 @@ func (s *ReturnStmt) String() string {
 	}
 	return "return"
 }
+
+// TypeDeclStmt represents a type declaration statement.
+type TypeDeclStmt struct {
+	TypePos    Pos
+	Ident      *Ident
+	StructType Expr
+}
+
+func (s *TypeDeclStmt) stmtNode() {}
+func (s *TypeDeclStmt) Pos() Pos { return s.TypePos }
+func (s *TypeDeclStmt) End() Pos { return s.StructType.End() }
+func (s *TypeDeclStmt) String() string {
+	return "type " + s.Ident.Name + " " + s.StructType.String()
+}
+

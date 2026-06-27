@@ -126,6 +126,21 @@ func (b *Bytecode) RemoveDuplicates() {
 
 	for curIdx, c := range b.Constants {
 		switch c := c.(type) {
+		case *StructType:
+			foundIdx := -1
+			for i, d := range deduped {
+				if dt, ok := d.(*StructType); ok && dt.Equals(c) {
+					foundIdx = i
+					break
+				}
+			}
+			if foundIdx != -1 {
+				indexMap[curIdx] = foundIdx
+			} else {
+				newIdx := len(deduped)
+				indexMap[curIdx] = newIdx
+				deduped = append(deduped, c)
+			}
 		case *CompiledFunction:
 			if newIdx, ok := fns[c]; ok {
 				indexMap[curIdx] = newIdx
@@ -263,6 +278,14 @@ func fixDecodedObject(o Object, modules *ModuleMap) (Object, error) {
 			}
 			o.Value[k] = fv
 		}
+	case *Struct:
+		for k, v := range o.Fields {
+			fv, err := fixDecodedObject(v, modules)
+			if err != nil {
+				return nil, err
+			}
+			o.Fields[k] = fv
+		}
 	case *ImmutableMap:
 		modName := inferModuleName(o)
 		if mod := modules.GetBuiltinModule(modName); mod != nil {
@@ -342,6 +365,8 @@ func inferModuleName(mod *ImmutableMap) string {
 	// gob.Register(&Null{})
 	// gob.Register(&UserFunction{})
 	// gob.Register(&BuiltinFunction{})
+	// gob.Register(&Struct{})
+	// gob.Register(&StructType{})
 	// // gob.Register(&IOWriter{})
 	// // gob.Register(&IOReader{})
 // }

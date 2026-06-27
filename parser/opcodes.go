@@ -50,6 +50,7 @@ const (
 	OpTuple                       // Tuple object
 	OpNullJump                    // Jump if null
 	OpNotNullJump                 // Jump if not null
+	OpStruct                      // Struct object
 )
 
 // OpcodeNames are string representation of opcodes.
@@ -99,6 +100,7 @@ var OpcodeNames = [...]string{
 	OpTuple:         "TUPLE",
 	OpNullJump:      "NULLJMP",
 	OpNotNullJump:   "NNULLJMP",
+	OpStruct:        "STRUCT",
 }
 
 // OpcodeOperands is the number of operands.
@@ -148,6 +150,7 @@ var OpcodeOperands = [...][]int{
 	OpTuple:         {2},
 	OpNullJump:      {2},
 	OpNotNullJump:   {2},
+	OpStruct:        {2, 1},
 }
 
 // ReadOperands reads operands from the bytecode.

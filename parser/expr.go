@@ -736,3 +736,62 @@ func (e *NullLit) End() Pos {
 func (e *NullLit) String() string {
 	return "null"
 }
+
+// StructField represents a field inside a struct type definition.
+type StructField struct {
+	Name *Ident
+	Type Expr
+}
+
+// StructTypeExpr represents a struct type definition expression.
+type StructTypeExpr struct {
+	StructPos Pos
+	LBrace    Pos
+	RBrace    Pos
+	Fields    []*StructField
+}
+
+func (e *StructTypeExpr) exprNode() {}
+func (e *StructTypeExpr) Pos() Pos { return e.StructPos }
+func (e *StructTypeExpr) End() Pos { return e.RBrace + 1 }
+func (e *StructTypeExpr) String() string {
+	var fields []string
+	for _, f := range e.Fields {
+		fields = append(fields, f.Name.Name+" "+f.Type.String())
+	}
+	return "struct { " + strings.Join(fields, "; ") + " }"
+}
+
+// StructKeyValExpr represents a Key: Value element inside struct literals.
+type StructKeyValExpr struct {
+	Key      *Ident
+	Colon    Pos
+	Value    Expr
+}
+
+func (e *StructKeyValExpr) exprNode() {}
+func (e *StructKeyValExpr) Pos() Pos { return e.Key.Pos() }
+func (e *StructKeyValExpr) End() Pos { return e.Value.End() }
+func (e *StructKeyValExpr) String() string {
+	return e.Key.Name + ": " + e.Value.String()
+}
+
+// StructLitExpr represents struct literals.
+type StructLitExpr struct {
+	TypeExpr Expr
+	LBrace   Pos
+	RBrace   Pos
+	Elements []Expr
+}
+
+func (e *StructLitExpr) exprNode() {}
+func (e *StructLitExpr) Pos() Pos { return e.TypeExpr.Pos() }
+func (e *StructLitExpr) End() Pos { return e.RBrace + 1 }
+func (e *StructLitExpr) String() string {
+	var elements []string
+	for _, el := range e.Elements {
+		elements = append(elements, el.String())
+	}
+	return e.TypeExpr.String() + "{" + strings.Join(elements, ", ") + "}"
+}
+

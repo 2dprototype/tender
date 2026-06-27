@@ -61,6 +61,10 @@ func CountObjects(o Object) (c int) {
 		}
 	case *Error:
 		c += CountObjects(o.Value)
+	case *Struct:
+		for _, v := range o.Fields {
+			c += CountObjects(v)
+		}
 	}
 	return
 }
@@ -746,6 +750,12 @@ func ToInterface(o Object) (res interface{}) {
 		res = errors.New(o.String())
 	case *Null:
 		res = nil
+	case *Struct:
+		resMap := make(map[string]interface{})
+		for k, v := range o.Fields {
+			resMap[k] = ToInterface(v)
+		}
+		res = resMap
 	case Object:
 		return o
 	}

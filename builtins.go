@@ -69,6 +69,7 @@ func init() {
 	addBuiltinFunction("typeof", builtinTypeOf, false)
 	addBuiltinFunction("format", builtinFormat, false)
 	addBuiltinFunction("is_tuple", builtinIsTuple, false)
+	addBuiltinFunction("is_struct", builtinIsStruct, false)
 	addBuiltinFunction("range",  builtinRange, false)
 }
 
@@ -1433,3 +1434,14 @@ func builtinSplice(args ...Object) (Object, error) {
 	// return deleted items
 	return &Array{Value: deleted}, nil
 }
+
+func builtinIsStruct(args ...Object) (Object, error) {
+	if len(args) != 1 {
+		return nil, ErrWrongNumArguments
+	}
+	if _, ok := args[0].(*Struct); ok {
+		return TrueValue, nil
+	}
+	return FalseValue, nil
+}
+

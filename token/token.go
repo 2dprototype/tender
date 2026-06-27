@@ -95,6 +95,8 @@ const (
 	Var
 	Const
 	Sysout
+	Type
+	Struct
 	// Please
 	_keywordEnd
 )
@@ -180,6 +182,8 @@ var tokens = [...]string{
 	Var:          "var",
 	Const:        "const",
 	Sysout:       "sysout",
+	Type:         "type",
+	Struct:       "struct",
 	// Please:       "please",
 }
 

@@ -2,6 +2,7 @@ package tender
 
 import (
 	"bytes"
+	"encoding/gob"
 	"fmt"
 	"math"
 	"strconv"
@@ -2359,3 +2360,282 @@ func (p *Pointer) IndexGet(index Object) (Object, error) {
 	}
 	return nil, nil
 }
+
+var StructTypes = make(map[string]*StructType)
+
+func zeroValue(typeName string) Object {
+	switch typeName {
+	case "int":
+		return &Int{Value: 0}
+	case "float":
+		return &Float{Value: 0.0}
+	case "string":
+		return &String{Value: ""}
+	case "bool":
+		return FalseValue
+	case "char":
+		return &Char{Value: 0}
+	case "bytes":
+		return &Bytes{Value: nil}
+	case "array":
+		return &Array{Value: nil}
+	case "map":
+		return &Map{Value: make(map[string]Object)}
+	default:
+		if st, ok := StructTypes[typeName]; ok {
+			return st.NewInstance()
+		}
+		return NullValue
+	}
+}
+
+func checkType(val Object, expectedType string) bool {
+	if expectedType == "" {
+		return true
+	}
+	if val == NullValue {
+		return true
+	}
+	return val.TypeName() == expectedType
+}
+
+type StructField struct {
+	Name string
+	Type string
+}
+
+type StructType struct {
+	ObjectImpl
+	Name   string
+	Fields []StructField
+}
+
+func (o *StructType) TypeName() string {
+	return "struct-type"
+}
+
+func (o *StructType) String() string {
+	if o.Name != "" {
+		return fmt.Sprintf("struct %s", o.Name)
+	}
+	return "struct"
+}
+
+func (o *StructType) Copy() Object {
+	return o
+}
+
+func (o *StructType) Equals(another Object) bool {
+	t, ok := another.(*StructType)
+	if !ok {
+		return false
+	}
+	if o.Name != "" || t.Name != "" {
+		return o == t
+	}
+	if len(o.Fields) != len(t.Fields) {
+		return false
+	}
+	for i := range o.Fields {
+		if o.Fields[i].Name != t.Fields[i].Name || o.Fields[i].Type != t.Fields[i].Type {
+			return false
+		}
+	}
+	return true
+}
+
+func (o *StructType) CanCall() bool {
+	return true
+}
+
+func (o *StructType) Call(args ...Object) (Object, error) {
+	if len(args) > len(o.Fields) {
+		return nil, fmt.Errorf("too many arguments for struct %s initialization (expected <= %d, got %d)", o.Name, len(o.Fields), len(args))
+	}
+	inst := o.NewInstance()
+	for i, val := range args {
+		fieldName := o.Fields[i].Name
+		if err := inst.IndexSet(&String{Value: fieldName}, val); err != nil {
+			return nil, err
+		}
+	}
+	return inst, nil
+}
+
+func (o *StructType) NewInstance() *Struct {
+	fields := make(map[string]Object)
+	for _, f := range o.Fields {
+		fields[f.Name] = zeroValue(f.Type)
+	}
+	if o.Name != "" {
+		StructTypes[o.Name] = o
+	}
+	return &Struct{
+		Type:   o,
+		Fields: fields,
+	}
+}
+
+func (o *StructType) GobEncode() (b []byte, err error) {
+	var buf bytes.Buffer
+	enc := gob.NewEncoder(&buf)
+	if err := enc.Encode(o.Name); err != nil {
+		return nil, err
+	}
+	if err := enc.Encode(o.Fields); err != nil {
+		return nil, err
+	}
+	return buf.Bytes(), nil
+}
+
+func (o *StructType) GobDecode(b []byte) (err error) {
+	buf := bytes.NewBuffer(b)
+	dec := gob.NewDecoder(buf)
+	if err := dec.Decode(&o.Name); err != nil {
+		return err
+	}
+	if err := dec.Decode(&o.Fields); err != nil {
+		return err
+	}
+	if o.Name != "" {
+		StructTypes[o.Name] = o
+	}
+	return nil
+}
+
+type Struct struct {
+	ObjectImpl
+	Type   *StructType
+	Fields map[string]Object
+}
+
+func (o *Struct) TypeName() string {
+	if o.Type.Name != "" {
+		return o.Type.Name
+	}
+	return "struct"
+}
+
+func (o *Struct) String() string {
+	var parts []string
+	for _, f := range o.Type.Fields {
+		val := o.Fields[f.Name]
+		if val == nil {
+			val = NullValue
+		}
+		parts = append(parts, fmt.Sprintf("%s:%s", f.Name, val.String()))
+	}
+	if o.Type.Name != "" {
+		return fmt.Sprintf("%s{%s}", o.Type.Name, strings.Join(parts, " "))
+	}
+	return fmt.Sprintf("struct{%s}", strings.Join(parts, " "))
+}
+
+func (o *Struct) Copy() Object {
+	newFields := make(map[string]Object)
+	for k, v := range o.Fields {
+		if v == nil {
+			newFields[k] = NullValue
+		} else {
+			newFields[k] = v.Copy()
+		}
+	}
+	return &Struct{
+		Type:   o.Type,
+		Fields: newFields,
+	}
+}
+
+func (o *Struct) Equals(another Object) bool {
+	t, ok := another.(*Struct)
+	if !ok {
+		return false
+	}
+	if !o.Type.Equals(t.Type) {
+		return false
+	}
+	for k, v := range o.Fields {
+		tv, ok := t.Fields[k]
+		if !ok {
+			return false
+		}
+		if v == nil {
+			if tv != nil && tv != NullValue {
+				return false
+			}
+		} else if !v.Equals(tv) {
+			return false
+		}
+	}
+	return true
+}
+
+func (o *Struct) IndexGet(index Object) (Object, error) {
+	strIdx, ok := index.(*String)
+	if !ok {
+		return nil, ErrInvalidIndexType
+	}
+	found := false
+	for _, f := range o.Type.Fields {
+		if f.Name == strIdx.Value {
+			found = true
+			break
+		}
+	}
+	if !found {
+		return nil, fmt.Errorf("struct %s has no field %s", o.TypeName(), strIdx.Value)
+	}
+	val := o.Fields[strIdx.Value]
+	if val == nil {
+		return NullValue, nil
+	}
+	return val, nil
+}
+
+func (o *Struct) IndexSet(index, value Object) error {
+	strIdx, ok := index.(*String)
+	if !ok {
+		return ErrInvalidIndexType
+	}
+	var fieldField *StructField
+	for i := range o.Type.Fields {
+		if o.Type.Fields[i].Name == strIdx.Value {
+			fieldField = &o.Type.Fields[i]
+			break
+		}
+	}
+	if fieldField == nil {
+		return fmt.Errorf("struct %s has no field %s", o.TypeName(), strIdx.Value)
+	}
+	if fieldField.Type != "" {
+		if !checkType(value, fieldField.Type) {
+			return fmt.Errorf("cannot assign %s to field %s of type %s in struct %s", value.TypeName(), strIdx.Value, fieldField.Type, o.TypeName())
+		}
+	}
+	o.Fields[strIdx.Value] = value
+	return nil
+}
+
+func (o *Struct) GobEncode() (b []byte, err error) {
+	var buf bytes.Buffer
+	enc := gob.NewEncoder(&buf)
+	if err := enc.Encode(o.Type); err != nil {
+		return nil, err
+	}
+	if err := enc.Encode(o.Fields); err != nil {
+		return nil, err
+	}
+	return buf.Bytes(), nil
+}
+
+func (o *Struct) GobDecode(b []byte) (err error) {
+	buf := bytes.NewBuffer(b)
+	dec := gob.NewDecoder(buf)
+	if err := dec.Decode(&o.Type); err != nil {
+		return err
+	}
+	if err := dec.Decode(&o.Fields); err != nil {
+		return err
+	}
+	return nil
+}

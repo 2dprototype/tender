@@ -261,6 +261,12 @@ L:
 			x = p.parseIndexOrSlice(x, false)
 		case token.LParen:
 			x = p.parseCall(x, false)
+		case token.LBrace:
+			if isStructTypeExpr(x) {
+				x = p.parseStructLit(x)
+			} else {
+				break L
+			}
 		case token.OptionalDot:
 			p.next()
 			switch p.token {
@@ -500,6 +506,8 @@ func (p *Parser) parseOperand() Expr {
 			return p.parseArrayLit()
 		case token.LBrace: // map literal
 			return p.parseMapLit()
+		case token.Struct: // struct definition
+			return p.parseStructType()
 		case token.Func: // function literal
 			return p.parseFuncLit()
 		case token.Error: // error expression
@@ -973,6 +981,8 @@ func (p *Parser) parseStmt() (stmt Stmt) {
 	switch p.token {
 		case token.Var, token.Const:
 			return p.parseDeclStmt()
+		case token.Type:
+			return p.parseTypeDeclStmt()
 		// case token.Please:
 			// p.next()
 			// s := p.parseSimpleStmt(false)
@@ -1000,7 +1010,7 @@ func (p *Parser) parseStmt() (stmt Stmt) {
 			token.Float, token.Complex, token.Char, token.String, token.True, token.False,
 			token.Null, token.Embed, token.LParen, token.LBrace,
 			token.LBrack, token.Add, token.Sub, token.Mul, token.And, token.Xor,
-			token.Not:
+			token.Not, token.Struct:
 			s := p.parseSimpleStmt(false)
 			p.expectSemi()
 			return s
@@ -1556,3 +1566,109 @@ func removeFileExt(filePath string) string {
 	// If there is no dot or it's the first character, return the original file name
 	return fileName
 }
+
+func isStructTypeExpr(x Expr) bool {
+	switch x.(type) {
+	case *Ident, *SelectorExpr, *StructTypeExpr:
+		return true
+	}
+	return false
+}
+
+func (p *Parser) parseStructLit(typeExpr Expr) Expr {
+	if p.trace {
+		defer untracep(tracep(p, "StructLit"))
+	}
+	lbrace := p.expect(token.LBrace)
+	p.exprLevel++
+	var elements []Expr
+	for p.token != token.RBrace && p.token != token.EOF {
+		expr := p.parseExpr()
+		if p.token == token.Colon {
+			colonPos := p.expect(token.Colon)
+			val := p.parseExpr()
+			ident, ok := expr.(*Ident)
+			if !ok {
+				p.error(expr.Pos(), "struct literal key must be an identifier")
+				ident = &Ident{Name: "_", NamePos: expr.Pos()}
+			}
+			elements = append(elements, &StructKeyValExpr{
+				Key:      ident,
+				Colon:    colonPos,
+				Value:    val,
+			})
+		} else {
+			elements = append(elements, expr)
+		}
+		if !p.expectComma(token.RBrace, "struct literal element") {
+			break
+		}
+	}
+	p.exprLevel--
+	rbrace := p.expect(token.RBrace)
+	return &StructLitExpr{
+		TypeExpr: typeExpr,
+		LBrace:   lbrace,
+		RBrace:   rbrace,
+		Elements: elements,
+	}
+}
+
+func (p *Parser) parseStructType() Expr {
+	if p.trace {
+		defer untracep(tracep(p, "StructType"))
+	}
+	pos := p.expect(token.Struct)
+	lbrace := p.expect(token.LBrace)
+	var fields []*StructField
+	for p.token != token.RBrace && p.token != token.EOF {
+		var idents []*Ident
+		idents = append(idents, p.parseIdent())
+		for p.token == token.Comma {
+			p.next()
+			idents = append(idents, p.parseIdent())
+		}
+		var fieldType Expr
+		if p.token == token.Semicolon || p.token == token.RBrace {
+			if len(idents) > 1 {
+				p.error(p.pos, "cannot have multiple names for embedded field")
+			}
+			fieldType = idents[0]
+		} else {
+			fieldType = p.parseExpr()
+		}
+		for _, nameIdent := range idents {
+			fields = append(fields, &StructField{
+				Name: nameIdent,
+				Type: fieldType,
+			})
+		}
+		if p.token == token.Semicolon {
+			p.next()
+		} else if p.token != token.RBrace {
+			p.errorExpected(p.pos, "; or }")
+			p.next()
+		}
+	}
+	rbrace := p.expect(token.RBrace)
+	return &StructTypeExpr{
+		StructPos: pos,
+		LBrace:    lbrace,
+		RBrace:    rbrace,
+		Fields:    fields,
+	}
+}
+
+func (p *Parser) parseTypeDeclStmt() Stmt {
+	if p.trace {
+		defer untracep(tracep(p, "TypeDeclStmt"))
+	}
+	pos := p.expect(token.Type)
+	ident := p.parseIdent()
+	structType := p.parseStructType()
+	return &TypeDeclStmt{
+		TypePos:    pos,
+		Ident:      ident,
+		StructType: structType,
+	}
+}

@@ -346,6 +346,20 @@ func (c *Compiler) Compile(node parser.Node) error {
 		if err != nil {
 			return err
 		}
+	case *parser.TypeDeclStmt:
+		structType := c.makeStructType(node.Ident.Name, node.StructType.(*parser.StructTypeExpr))
+		symbol, depth, exists := c.symbolTable.Resolve(node.Ident.Name, false)
+		if depth == 0 && exists {
+			return c.errorf(node, "'%s' redeclared in this block", node.Ident.Name)
+		}
+		symbol = c.symbolTable.Define(node.Ident.Name)
+		c.emit(node, parser.OpConstant, c.addConstant(structType))
+		if symbol.Scope == ScopeGlobal {
+			c.emit(node, parser.OpSetGlobal, symbol.Index)
+		} else {
+			c.emit(node, parser.OpDefineLocal, symbol.Index)
+			symbol.LocalAssigned = true
+		}
 	case *parser.BlockStmt:
 		if len(node.Stmts) == 0 {
 			return nil
@@ -412,6 +426,41 @@ func (c *Compiler) Compile(node parser.Node) error {
 			}
 		}
 		c.emit(node, parser.OpMap, len(node.Elements)*2)
+	case *parser.StructTypeExpr:
+		structType := c.makeStructType("", node)
+		c.emit(node, parser.OpConstant, c.addConstant(structType))
+	case *parser.StructLitExpr:
+		if err := c.Compile(node.TypeExpr); err != nil {
+			return err
+		}
+		isKeyed := 0
+		if len(node.Elements) > 0 {
+			if _, ok := node.Elements[0].(*parser.StructKeyValExpr); ok {
+				isKeyed = 1
+			}
+		}
+		for _, elt := range node.Elements {
+			if isKeyed == 1 {
+				kv, ok := elt.(*parser.StructKeyValExpr)
+				if !ok {
+					return c.errorf(elt, "mixed keyed and positional fields in struct literal")
+				}
+				c.emit(kv.Key, parser.OpConstant, c.addConstant(&String{Value: kv.Key.Name}))
+				if err := c.Compile(kv.Value); err != nil {
+					return err
+				}
+			} else {
+				if _, ok := elt.(*parser.StructKeyValExpr); ok {
+					return c.errorf(elt, "mixed keyed and positional fields in struct literal")
+				}
+				if err := c.Compile(elt); err != nil {
+					return err
+				}
+			}
+		}
+		c.emit(node, parser.OpStruct, len(node.Elements), isKeyed)
+	case *parser.StructKeyValExpr:
+		return c.errorf(node, "unexpected struct key-value expression outside struct literal")
 
 	case *parser.SelectorExpr: // selector on RHS side
 		if node.Optional {
@@ -1451,3 +1500,34 @@ func untracec(c *Compiler) {
 	c.indent--
 	c.printTrace("}")
 }
+
+func (c *Compiler) makeStructType(name string, expr *parser.StructTypeExpr) *StructType {
+	var fields []StructField
+	for _, f := range expr.Fields {
+		fieldName := f.Name.Name
+		fieldTypeName := ""
+		if f.Type != nil {
+			fieldTypeName = getTypeName(f.Type)
+		}
+		fields = append(fields, StructField{
+			Name: fieldName,
+			Type: fieldTypeName,
+		})
+	}
+	return &StructType{
+		Name:   name,
+		Fields: fields,
+	}
+}
+
+func getTypeName(expr parser.Expr) string {
+	switch e := expr.(type) {
+	case *parser.Ident:
+		return e.Name
+	case *parser.SelectorExpr:
+		return e.String()
+	default:
+		return e.String()
+	}
+}
+
