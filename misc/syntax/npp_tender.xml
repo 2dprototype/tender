@@ -1,18 +1,18 @@
 <NotepadPlus>
-    <UserLang name="github.com/2dprototype/tender" ext="td" udlVersion="2.1">
+    <UserLang name="tender" ext="td" udlVersion="2.1">
         <Settings>
             <Global caseIgnored="no" allowFoldOfComments="no" foldCompact="yes" forcePureLC="0" decimalSeparator="0" />
             <Prefix Keywords1="no" Keywords2="no" Keywords3="no" Keywords4="no" Keywords5="no" Keywords6="no" Keywords7="no" Keywords8="no" />
         </Settings>
         <KeywordLists>
-            <Keywords name="Comments">00// 01 02 03/* 04*/</Keywords>
+            <Keywords name="Comments">00// 00^_^ 00#! 01 02 03/* 04*/</Keywords>
             <Keywords name="Numbers, prefix1">x X b B o O _</Keywords>
             <Keywords name="Numbers, prefix2">a b c d e f A B C D E F</Keywords>
             <Keywords name="Numbers, extras1"></Keywords>
             <Keywords name="Numbers, extras2"></Keywords>
             <Keywords name="Numbers, suffix1"></Keywords>
             <Keywords name="Numbers, suffix2"></Keywords>
-            <Keywords name="Numbers, range">x X b B o O _</Keywords>
+            <Keywords name="Numbers, range">x X b B o O _ i</Keywords>
             <Keywords name="Operators1">... . , &amp; ^ % &lt; &gt;t ! = + - * / | : &lt;- &gt; = &lt;= ; ?</Keywords>
             <Keywords name="Operators2"></Keywords>
             <Keywords name="Folders in code1, open">{ [ (</Keywords>
@@ -24,10 +24,10 @@
             <Keywords name="Folders in comment, open">/*</Keywords>
             <Keywords name="Folders in comment, middle"></Keywords>
             <Keywords name="Folders in comment, close">*/</Keywords>
-            <Keywords name="Keywords1">index_of is_int is_float is_string is_bool is_char is_bytes is_array is_immutable_array is_map is_immutable_map is_iterable is_time is_error is_null is_function is_callable format range indexof typeof append delete includes reverse rune sort cap len copy splice </Keywords>
-            <Keywords name="Keywords2">break continue else for fn error immutable if return export true false in import null go makechan abort embed as var write</Keywords>
-            <Keywords name="Keywords3">int bool float char bytes time string</Keywords>
-            <Keywords name="Keywords4">printf print println </Keywords>
+            <Keywords name="Keywords1">index_of is_int is_float is_string is_bool is_char is_bytes is_array is_immutable_array is_map is_immutable_map is_iterable is_time is_error is_null is_function is_callable format range lastindexof indexof typeof append delete includes reverse rune sort cap len copy splice debug is_bigint is_bigfloat</Keywords>
+            <Keywords name="Keywords2">break continue else for fn error immutable if return export true false in import null go makechan abort embed as var sysout complex from type struct</Keywords>
+            <Keywords name="Keywords3">int bool float char bytes time string bigint bigfloat</Keywords>
+            <Keywords name="Keywords4">print println pointer deref set</Keywords>
             <Keywords name="Keywords5"></Keywords>
             <Keywords name="Keywords6"></Keywords>
             <Keywords name="Keywords7"></Keywords>

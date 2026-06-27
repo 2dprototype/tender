@@ -15,6 +15,8 @@ Tender compiles into bytecode and executes on a stack-based virtual machine (VM)
 - **Optimized for 2D graphics**  
 - **REPL (Read-Eval-Print Loop) for interactive development**
 - **Rich type system** including int, float, string, bool, char, null, big integers, big floats, complex numbers, bytes, arrays (dynamic and immutable), maps (dynamic and immutable), tuples, time values, and error values
+- **User-defined structs** with field types, nested structs, anonymous structs, and embedded fields
+- **Pointers and references** for mutable data manipulation
 - **Closures and first-class functions**
 - **Advanced operators** including pipe operators (`<|`, `|>`), null coalescing (`??`), optional chaining (`?.`), ternary conditional (`? :`), compound assignment operators, and logical operators (`&&`, `||`)
 - **Modular architecture** with import statements, module aliasing, selective imports, embedded file import (`embed()`), and file-based module loading
@@ -26,7 +28,7 @@ Tender compiles into bytecode and executes on a stack-based virtual machine (VM)
 - **Variable declarations** with `var` and constants with `const`
 - **Function definitions** with `fn` keyword
 - **Export statements** for module exports
-- **Built-in functions** for type conversion, type checking, collection manipulation, search operations, memory operations, range generation, debugging, and pretty printing
+- **Built-in functions** for type conversion, type checking, collection manipulation, search operations, memory operations (pointer, deref, set), range generation, debugging, and pretty printing
 - **Bytecode compilation** with compilation, execution, and parse-only modes
 - **Comprehensive operator precedence** matching conventional expectations
 - **Gob and CSV encoding/decoding** support
@@ -62,7 +64,7 @@ Tender compiles into bytecode and executes on a stack-based virtual machine (VM)
 - [websocket](docs/pages/stdlib-websocket.md): WebSocket communication utilities  
 - **gob**: Gob Encoding/Decoding
 - **csv**: CSV Encoding/Decoding
-- **wui**: CSV Windows GUI
+- **wui**: Windows GUI
 
 ## Quick Start
 
@@ -75,6 +77,33 @@ str1 := "hello"
 str2 := "world"
 
 println(str1 + " " + str2)
+```
+
+```go
+// Structs example
+type user struct {
+    name string
+    age  int
+}
+
+u := user{name: "Alice", age: 30}
+println("Name:", u.name, "Age:", u.age)
+
+// Nested structs
+type point struct {
+    x, y int
+}
+
+type line struct {
+    p1 point
+    p2 point
+}
+
+l := line{
+    p1: point{x: 0, y: 0},
+    p2: point{x: 10, y: 10},
+}
+println("line from (", l.p1.x, ",", l.p1.y, ") to (", l.p2.x, ",", l.p2.y, ")")
 ```
 
 ```go
@@ -150,6 +179,20 @@ fn make_counter() {
 var arr = [1, 2, 3, 4, 5]
 var map = { "key": "value" }
 
+// Structs
+type Person struct {
+    name string
+    age  int
+}
+
+var person = Person{name: "John", age: 25}
+person.age = 26
+
+// Pointers
+var p = pointer(person)
+var val = deref(p)
+set(p, Person{name: "Jane", age: 30})
+
 // Type conversion and checking
 var num = int("123")
 if is_string(num) {
@@ -175,9 +218,9 @@ var value = null ?? "default value"
 
 // Optional chaining
 var user = {	
-	profile: {
-		name: "jack"
-	}
+    profile: {
+        name: "jack"
+    }
 }
 var name = user?.profile?.name
 sysout name, "\n"
@@ -190,19 +233,6 @@ sysout numbers, "\n"
 import "math" as m
 var sqrt2 = m.sqrt(2)
 println(sqrt2)
-```
-
-### Canvas Drawing Example
-```go
-import "canvas"
-	
-var ctx = canvas.new_context(100, 100)
-ctx.hex("#0f0")          // Set color to green
-ctx.dash(4, 2)           // Define dashed stroke
-ctx.rect(25, 25, 50, 50) // Draw a rectangle
-ctx.stroke()
-
-ctx.save_png("out.png")  // Save output as PNG
 ```
 
 Explore various examples demonstrating Tender's features in the [examples](examples) directory.
@@ -260,8 +290,10 @@ Tender provides a rich type system with support for:
 | `map` | Dynamic map | `{"key": value}` |
 | `immutable-map` | Immutable map | `{"key": value}` |
 | `tuple` | Fixed-size immutable sequence | `(1, "hello", true)` |
+| `struct` | User-defined structure | `user{name: "Alice", age: 30}` |
 | `time` | Time value | `time()` |
 | `error` | Error value | `error("message")` |
+| `pointer` | Reference to a value | `pointer(x)` |
 | `null` | Null value | `null` |
 
 ---

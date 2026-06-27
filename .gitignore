@@ -2,3 +2,6 @@ test/
 build/
 main.exe
 tender.exe
+*.exe
+*.json
+*.dll
