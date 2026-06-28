@@ -451,34 +451,18 @@ func builtinSort(args ...Object) (Object, error) {
     switch arg := args[0].(type) {
 		case *Array:
 			arr := arg.Value
-			// Use a custom comparison function that can handle different element types
 			sort.Slice(arr, func(i, j int) bool {
-				if arr[i] == nil || arr[j] == nil {
-					return false
+				a, b := arr[i], arr[j]
+				// Try numeric comparison
+				af, aok := ToFloat64(a)
+				bf, bok := ToFloat64(b)
+				if aok && bok {
+					return af < bf
 				}
-				// Implement a flexible comparison logic here based on element types
-				switch a := arr[i].(type) {
-					case *Int:
-						b, ok := arr[j].(*Int)
-						if ok { return a.Value < b.Value }
-					case *String:
-						b, ok := arr[j].(*String)
-						if ok { return a.Value < b.Value }
-					case *Bool:
-						b, ok := arr[j].(*Bool)
-						if ok {
-							return a.value && !b.value
-					}
-					case *Char:
-						b, ok := arr[j].(*Char)
-						if ok { return a.Value < b.Value }
-					// Handle unsupported element types (e.g., arrays, maps, etc.)
-					default:
-						// For unsupported types, you can choose a default behavior, such as not sorting them.
-						return false
-				}
-					// Default behavior if no cases match
-				return false
+				// Fallback to string comparison for non‑numeric types
+				as, _ := ToString(a)
+				bs, _ := ToString(b)
+				return as < bs
 			})
 			return &Array{Value: arr}, nil
 
@@ -505,15 +489,15 @@ func builtinRune(args ...Object) (Object, error) {
         return nil, ErrWrongNumArguments
     }
 
-switch arg := args[0].(type) {
-    case *Char:
-        return &Int{Value: int64(arg.Value)}, nil
-    case *String:
-        if len(arg.Value) == 1 {
-            return &Int{Value: int64(arg.Value[0])}, nil
-        } else {
-			return &Int{Value: int64([]rune(arg.Value)[0])}, nil
-		}
+	switch arg := args[0].(type) {
+		case *Char:
+			return &Int{Value: int64(arg.Value)}, nil
+		case *String:
+			if len(arg.Value) == 1 {
+				return &Int{Value: int64(arg.Value[0])}, nil
+			} else {
+				return &Int{Value: int64([]rune(arg.Value)[0])}, nil
+			}
     }
 
     return nil, ErrInvalidArgumentType{
@@ -560,6 +544,8 @@ func builtinIsCycle(args ...Object) (Object, error) {
     traversingImmutableArrays := make(map[*ImmutableArray]bool)
     traversingMaps := make(map[*Map]bool)
     traversingArrays := make(map[*Array]bool)
+	visitedTuples    := make(map[*Tuple]bool)
+	traversingTuples := make(map[*Tuple]bool)
 
 
     var dfsMap func(*Map, *Map) bool
@@ -699,6 +685,45 @@ func builtinIsCycle(args ...Object) (Object, error) {
         }
         return false
     }
+
+	dfsTuple = func(currTuple, parentTuple *Tuple) bool {
+		if traversingTuples[currTuple] {
+			return true // cycle detected
+		}
+		if visitedTuples[currTuple] {
+			return false // already visited, no cycle
+		}
+		traversingTuples[currTuple] = true
+		defer delete(traversingTuples, currTuple)
+
+		visitedTuples[currTuple] = true
+		for _, value := range currTuple.Value {
+			// recursively check all contained containers
+			switch v := value.(type) {
+			case *Map:
+				if dfsMap(v, nil) {
+					return true
+				}
+			case *ImmutableMap:
+				if dfsImmutableMap(v, nil) {
+					return true
+				}
+			case *Array:
+				if dfsArray(v, nil) {
+					return true
+				}
+			case *ImmutableArray:
+				if dfsImmutableArray(v, nil) {
+					return true
+				}
+			case *Tuple:
+				if dfsTuple(v, currTuple) {
+					return true
+				}
+			}
+		}
+		return false
+	}
 
     switch obj := args[0].(type) {
     case *Map:
@@ -1324,7 +1349,7 @@ func builtinAppend(args ...Object) (Object, error) {
 	case *Array:
 		return &Array{Value: append(arg.Value, args[1:]...)}, nil
 	case *ImmutableArray:
-		return &Array{Value: append(arg.Value, args[1:]...)}, nil
+		return &ImmutableArray{Value: append(arg.Value, args[1:]...)}, nil
 	default:
 		return nil, ErrInvalidArgumentType{
 			Name:     "first",
