@@ -476,6 +476,8 @@ func (p *Parser) parseOperand() Expr {
 			}
 			p.next()
 			return x
+		case token.Template:
+			return p.parseTemplateLit()
 		case token.True:
 			x := &BoolLit{
 				Value:    true,
@@ -648,6 +650,101 @@ func (p *Parser) parseEmbedExpr() Expr {
 	p.next()
 	p.expect(token.RParen)
 	return expr
+}
+
+func (p *Parser) parseTemplateLit() Expr {
+    pos := p.pos
+    raw := p.tokenLit // the raw content between backticks
+    p.next()
+
+    parts := p.parseTemplateParts(raw)
+    return &TemplateLit{
+        Parts:    parts,
+        ValuePos: pos,
+    }
+}
+
+func (p *Parser) parseTemplateParts(raw string) []Expr {
+    var parts []Expr
+    i := 0
+    n := len(raw)
+    for i < n {
+        // Find next ${ or end of string
+        idx := strings.Index(raw[i:], "${")
+        if idx == -1 {
+            // no more interpolation, add the rest as string literal
+            if i < n {
+                parts = append(parts, &StringLit{
+                    Value:    raw[i:],
+                    ValuePos: p.pos, // approximate position
+                    Literal:  raw[i:],
+                })
+            }
+            break
+        }
+        // Literal part before ${}
+        if idx > 0 {
+            lit := raw[i : i+idx]
+            parts = append(parts, &StringLit{
+                Value:    lit,
+                ValuePos: p.pos,
+                Literal:  lit,
+            })
+        }
+        i += idx + 2 // skip "${"
+
+        // Find matching '}'
+        braceCount := 1
+        j := i
+        for j < n && braceCount > 0 {
+            if raw[j] == '{' {
+                braceCount++
+            } else if raw[j] == '}' {
+                braceCount--
+            }
+            j++
+        }
+        if braceCount != 0 {
+            p.error(p.pos, "unterminated interpolation in template")
+            // fallback: treat the rest as literal
+            parts = append(parts, &StringLit{
+                Value:    raw[i-2:],
+                ValuePos: p.pos,
+                Literal:  raw[i-2:],
+            })
+            break
+        }
+		
+        exprRaw := raw[i : j-1]
+        // Parse exprRaw as an expression using a new parser
+        expr, err := p.parseTemplateExpr(exprRaw)
+        if err != nil {
+            p.error(p.pos, "invalid expression in template: "+err.Error())
+            // fallback: treat as string literal
+            parts = append(parts, &StringLit{
+                Value:    exprRaw,
+                ValuePos: p.pos,
+                Literal:  exprRaw,
+            })
+        } else {
+            parts = append(parts, expr)
+        }
+        i = j // move past the closing '}'
+    }
+    return parts
+}
+
+func (p *Parser) parseTemplateExpr(exprSrc string) (Expr, error) {
+    fs := NewFileSet()
+    file := fs.AddFile("(template)", -1, len(exprSrc))
+    // Create a new parser for the expression
+    p2 := NewParser(file, []byte(exprSrc), nil)
+    expr := p2.parseExpr()
+    // Check for errors
+    if p2.errors.Len() > 0 {
+        return nil, p2.errors.Err()
+    }
+    return expr, nil
 }
 
 func (p *Parser) parseCharLit() Expr {
@@ -1007,7 +1104,7 @@ func (p *Parser) parseStmt() (stmt Stmt) {
 			return s
 		case // simple statements
 			token.Error, token.Immutable, token.Ident, token.Int,
-			token.Float, token.Complex, token.Char, token.String, token.True, token.False,
+			token.Float, token.Complex, token.Char, token.String, token.Template, token.True, token.False,
 			token.Null, token.Embed, token.LParen, token.LBrace,
 			token.LBrack, token.Add, token.Sub, token.Mul, token.And, token.Xor,
 			token.Not, token.Struct:

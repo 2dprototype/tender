@@ -120,8 +120,8 @@ func (s *Scanner) Scan() (
 			literal = s.scanRune()
 		case '`':
 			insertSemi = true
-			tok = token.String
-			literal = s.scanRawString()
+			tok = token.Template
+			literal = s.scanTemplate()
 		case ':':
 			tok = s.switch2(token.Colon, token.Define)
 		case '.':
@@ -571,6 +571,22 @@ func (s *Scanner) scanString() string {
 		}
 	}
 	return string(s.src[offs:s.offset])
+}
+
+func (s *Scanner) scanTemplate() string {
+    start := s.offset 
+    for {
+        ch := s.ch
+        if ch < 0 {
+            s.error(s.offset-1, "template literal not terminated")
+            break
+        }
+        s.next()
+        if ch == '`' {
+            return string(s.src[start : s.offset-1])
+        }
+    }
+    return ""
 }
 
 func (s *Scanner) scanRawString() string {

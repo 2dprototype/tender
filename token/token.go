@@ -19,6 +19,7 @@ const (
 	Complex
 	Char
 	String
+	Template
 	_literalEnd
 	_operatorBeg
 	Add          // +
@@ -110,6 +111,7 @@ var tokens = [...]string{
 	Float:        "FLOAT",
 	Char:         "CHAR",
 	String:       "STRING",
+	Template:     "TEMPLATE",
 	Add:          "+",
 	Sub:          "-",
 	Mul:          "*",

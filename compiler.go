@@ -229,6 +229,8 @@ func (c *Compiler) Compile(node parser.Node) error {
 		}
 		c.emit(node, parser.OpConstant,
 			c.addConstant(&String{Value: node.Value}))
+	case *parser.TemplateLit:
+		return c.compileTemplateLit(node)
 	case *parser.CharLit:
 		c.emit(node, parser.OpConstant,
 			c.addConstant(&Char{Value: node.Value}))
@@ -797,6 +799,30 @@ func (c *Compiler) EnableFileImport(enable bool) {
 // SetImportDir sets the initial import directory path for file imports.
 func (c *Compiler) SetImportDir(dir string) {
 	c.importDir = dir
+}
+
+func (c *Compiler) compileTemplateLit(node *parser.TemplateLit) error {
+    parts := node.Parts
+    if len(parts) == 0 {
+        // empty string
+        c.emit(node, parser.OpConstant, c.addConstant(&String{Value: ""}))
+        return nil
+    }
+
+    // Compile first part
+    if err := c.Compile(parts[0]); err != nil {
+        return err
+    }
+
+    // For each subsequent part, compile and add
+    for i := 1; i < len(parts); i++ {
+        if err := c.Compile(parts[i]); err != nil {
+            return err
+        }
+        // Add the two top stack items: left (accumulated) and right (new part)
+        c.emit(node, parser.OpBinaryOp, int(token.Add))
+    }
+    return nil
 }
 
 func (c *Compiler) compileAssign(node parser.Node, lhs, rhs []parser.Expr, op token.Token) error {

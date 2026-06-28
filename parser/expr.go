@@ -693,6 +693,33 @@ func (e *StringLit) String() string {
 	return e.Literal
 }
 
+// TemplateLit represents a template literal with interpolations.
+type TemplateLit struct {
+    Parts []Expr // alternating string literals and expression nodes
+    ValuePos Pos // position of opening backtick
+}
+
+func (e *TemplateLit) exprNode() {}
+
+// Pos returns the position of first character belonging to the node.
+func (e *TemplateLit) Pos() Pos { return e.ValuePos }
+
+// End returns the position of first character immediately after the node.
+func (e *TemplateLit) End() Pos {
+    if len(e.Parts) > 0 {
+        return e.Parts[len(e.Parts)-1].End()
+    }
+    return e.ValuePos + 1 // length of backtick?
+}
+
+func (e *TemplateLit) String() string {
+    var parts []string
+    for _, p := range e.Parts {
+        parts = append(parts, p.String())
+    }
+    return "`" + strings.Join(parts, "") + "`" 
+}
+
 // UnaryExpr represents an unary operator expression.
 type UnaryExpr struct {
 	Expr     Expr
