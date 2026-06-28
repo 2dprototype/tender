@@ -271,7 +271,10 @@ func (oc objchan) close(args ...Object) (Object, error) {
 	return nil, nil
 }
 
-func WrapFuncCall(vm *VM, args ...Object) (Object, error) {
+
+// WrapFuncCall synchronously executes a callable object from Go space.
+// It creates a shallow clone of the VM to maintain stack isolation and contains panic recovery.
+func WrapFuncCall(vm *VM, args ...Object) (retVal Object, err error) {
 	if len(args) == 0 {
 		return nil, ErrWrongNumArguments
 	}
@@ -285,53 +288,82 @@ func WrapFuncCall(vm *VM, args ...Object) (Object, error) {
 		}
 	}
 	
-	gvm := &goroutineVM{
-		waitChan: make(chan ret, 1),
-	}
-	
-	var callers []frame
 	cfn, compiled := fn.(*CompiledFunction)
-	if compiled {
-	gvm.VM = vm.ShallowClone()
-	} else {
-		callers = vm.callers()
-	}
+	clone := vm.ShallowClone()
 	
-	if err := vm.addChild(gvm.VM); err != nil {
+	if err := vm.addChild(clone); err != nil {
 		return nil, err
 	}
-	
-	var val Object
-	var err error
+	// Explicitly clear references on function unwind to prevent memory leak
 	defer func() {
+		vm.delChild(clone)
 		if perr := recover(); perr != nil {
-			if callers == nil {
-				panic("callers not saved")
-			}
-			err = fmt.Errorf("\nRuntime Panic: %v%s\n%s", perr, vm.callStack(callers), debug.Stack())
-		}
-		if err != nil {
+			err = fmt.Errorf("\nRuntime Panic within Native Bridge: %v\n%s", perr, debug.Stack())
 			vm.addError(err)
 		}
-		gvm.waitChan <- ret{val, err}
-		vm.delChild(gvm.VM)
-	gvm.VM = nil
 	}()
 	
-	if cfn != nil {
-		val, err = gvm.RunCompiled(cfn, args[1:]...)
-	} else {
-		var nargs []Object
-		if bltnfn, ok := fn.(*BuiltinFunction); ok {
-			if bltnfn.NeedVMObj {
-				// pass VM as the first para to builtin functions
-				nargs = append(nargs, vm.selfObject())
-			}
-		}
-		nargs = append(nargs, args[1:]...)
-		val, err = fn.Call(nargs...)
+	// Execute Compiled Functions
+	if compiled {
+		return clone.RunCompiled(cfn, args[1:]...)
 	}
 	
+	// Execute Builtin Functions
+	var nargs []Object
+	if bltnfn, ok := fn.(*BuiltinFunction); ok {
+		if bltnfn.NeedVMObj {
+			nargs = append(nargs, clone.selfObject())
+		}
+	}
+	nargs = append(nargs, args[1:]...)
+	
+	return fn.Call(nargs...)
+}
 
-	return val, nil
-}	
+// // WrapFuncCall synchronously executes a callable object from Go space.
+// // It creates a shallow clone of the VM to maintain stack isolation.
+// func WrapFuncCall(vm *VM, args ...Object) (Object, error) {
+	// if len(args) == 0 {
+		// return nil, ErrWrongNumArguments
+	// }
+	
+	// fn := args[0]
+	// if !fn.CanCall() {
+		// return nil, ErrInvalidArgumentType{
+			// Name:     "first",
+			// Expected: "callable function",
+			// Found:    fn.TypeName(),
+		// }
+	// }
+	
+	// cfn, compiled := fn.(*CompiledFunction)
+	
+	// // Create a shallow clone for execution. 
+	// // This gives us fresh frames and stack, but shares globals.
+	// clone := vm.ShallowClone()
+	
+	// // Link the child VM to the parent so Abort() propagates correctly
+	// if err := vm.addChild(clone); err != nil {
+		// return nil, err
+	// }
+	
+	// // Ensure we cleanup the child reference when execution finishes
+	// defer vm.delChild(clone)
+	
+	// // Execute Compiled Functions
+	// if compiled {
+		// return clone.RunCompiled(cfn, args[1:]...)
+	// }
+	
+	// // Execute Builtin Functions
+	// var nargs []Object
+	// if bltnfn, ok := fn.(*BuiltinFunction); ok {
+		// if bltnfn.NeedVMObj {
+			// // pass the cloned VM as the first param to builtin functions
+			// nargs = append(nargs, clone.selfObject())
+		// }
+	// }
+	// nargs = append(nargs, args[1:]...)
+	
+	// return fn.Call(nargs...)
+// }

@@ -19,14 +19,14 @@ canvas.new_window(w, h, "Hello Tender", fn(window){
 	window.update(w, h)
 	for {
 		e := window.next_event()
-		if e.type == "size" {
+		if e["type"] == "size" {
 			w = e.width_px 
 			h = e.height_px
 			ctx = window.new_context(e.width_px, e.height_px)
 			draw(ctx)
 			window.update(w, h)
 		}
-		else if e.type == "lifecycle" && e.from == 3 && e.to == 0 {
+		else if e["type"] == "lifecycle" && e["from"] == 3 && e.to == 0 {
 			break
 		}
 	}

@@ -2,15 +2,17 @@ package stdlib
 
 import (
 	"net"
+
 	"github.com/2dprototype/tender"
 )
 
 var netModule = map[string]tender.Object{
-	"dnslookup": &tender.UserFunction{Value: netDnsLookup},
+	"dnslookup":        &tender.UserFunction{Value: netDnsLookup},
 	"resolve_tcp_addr": &tender.UserFunction{Value: netResolveTCPAddr},
 	"resolve_udp_addr": &tender.UserFunction{Value: netResolveUDPAddr},
-	"dial": &tender.UserFunction{Value: netDial},
-	"dialtcp": &tender.UserFunction{Value: netDialTCP},
+	"dial":             &tender.UserFunction{Value: netDial},
+	"dialtcp":          &tender.UserFunction{Value: netDialTCP},
+	"listen":           &tender.UserFunction{Value: netListen},
 }
 
 
@@ -56,34 +58,8 @@ func makeNetConn(conn net.Conn) *tender.ImmutableMap {
 			"write": &tender.UserFunction{
 				Value: FuncAYRIE(conn.Write),
 			},
-			"local_addr": &tender.UserFunction{
-				Value: func(args ...tender.Object) (tender.Object, error) {
-					if len(args) != 0 {
-						return nil, tender.ErrWrongNumArguments
-					}
-					addr := conn.LocalAddr()
-					return &tender.ImmutableMap{
-						Value: map[string]tender.Object{
-							"string" :  &tender.UserFunction{Value: FuncARS(addr.String)},
-							"network" :  &tender.UserFunction{Value: FuncARS(addr.Network)},
-						},
-					}, nil
-				},
-			},
-			"remote_addr": &tender.UserFunction{
-				Value: func(args ...tender.Object) (tender.Object, error) {
-					if len(args) != 0 {
-						return nil, tender.ErrWrongNumArguments
-					}
-					addr := conn.RemoteAddr()
-					return &tender.ImmutableMap{
-						Value: map[string]tender.Object{
-							"string" :  &tender.UserFunction{Value: FuncARS(addr.String)},
-							"network" :  &tender.UserFunction{Value: FuncARS(addr.Network)},
-						},
-					}, nil
-				},
-			},
+			"remote_addr": &tender.String{Value: conn.RemoteAddr().String()},
+			"local_addr":  &tender.String{Value: conn.LocalAddr().String()},
 			"set_deadline": &tender.UserFunction{
 				Value: FuncATRE(conn.SetDeadline),
 			},
@@ -138,4 +114,44 @@ func netResolveUDPAddr(args ...tender.Object) (ret tender.Object, err error) {
 		return wrapError(err), nil
 	}
 	return &tender.String{Value: udpAddr.String()}, nil
+}
+
+func netListen(args ...tender.Object) (tender.Object, error) {
+	if len(args) != 2 {
+		return nil, tender.ErrWrongNumArguments
+	}
+	network, _ := tender.ToString(args[0])
+	addr, _ := tender.ToString(args[1])
+
+	ln, err := net.Listen(network, addr)
+	if err != nil {
+		return wrapError(err), nil
+	}
+
+	return makeNetListener(ln), nil
+}
+
+func makeNetListener(ln net.Listener) *tender.ImmutableMap {
+	return &tender.ImmutableMap{
+		Value: map[string]tender.Object{
+			"accept": &tender.UserFunction{
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					conn, err := ln.Accept()
+					if err != nil {
+						return wrapError(err), nil
+					}
+					return makeNetConn(conn), nil
+				},
+			},
+			"close": &tender.UserFunction{
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					err := ln.Close()
+					if err != nil {
+						return wrapError(err), nil
+					}
+					return nil, nil
+				},
+			},
+		},
+	}
 }

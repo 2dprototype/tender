@@ -1,6 +1,7 @@
 package stdlib
 
 import (
+	"io"
 	"bytes"
 	"io/ioutil"
 	"net/http"
@@ -17,6 +18,11 @@ var httpModule = map[string]tender.Object{
 	"options": &tender.UserFunction{Name: "options", Value: httpOptions},
 	"head":    &tender.UserFunction{Name: "head", Value: httpHead},
 	"trace":   &tender.UserFunction{Name: "trace", Value: httpTrace},
+	"listen_and_serve": &tender.BuiltinFunction{
+		Name:      "listen_and_serve", 
+		Value:     httpListenAndServe,
+		NeedVMObj: true,
+	},
 }
 
 // httpRequest creates an http.Request and wraps it in an object with helper methods.
@@ -223,4 +229,146 @@ func httpHead(args ...tender.Object) (tender.Object, error) {
 
 func httpTrace(args ...tender.Object) (tender.Object, error) {
 	return httpRequest("TRACE", args...)
+}
+
+// httpListenAndServe starts an HTTP server. 
+func httpListenAndServe(args ...tender.Object) (tender.Object, error) {
+	// 1. Extract the VM object injected by NeedVMObj: true
+	if len(args) < 1 {
+		return nil, tender.ErrWrongNumArguments
+	}
+	vmObj, ok := args[0].(*tender.VMObj)
+	if !ok {
+		// Fallback in case of internal engine mismatch
+		return &tender.Error{Value: &tender.String{Value: "Internal Error: Missing VM context"}}, nil
+	}
+	vm := vmObj.Value
+
+	// 2. Shift the args slice to process the actual user arguments
+	args = args[1:]
+
+	// 3. Validate user arguments (addr string, handler callable)
+	if len(args) < 2 {
+		return nil, tender.ErrWrongNumArguments
+	}
+
+	addr, _ := tender.ToString(args[0])
+	handlerFunc := args[1]
+
+	if !handlerFunc.CanCall() {
+		return nil, tender.ErrInvalidArgumentType{
+			Name:     "handler",
+			Expected: "callable function",
+			Found:    handlerFunc.TypeName(),
+		}
+	}
+
+	// 4. Setup the HTTP Server
+	server := &http.Server{
+		Addr: addr,
+		Handler: http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
+			// Read the incoming body safely
+			bodyBytes, _ := io.ReadAll(r.Body)
+			defer r.Body.Close()
+
+			// Prepare wrapped request mapping for the tender script space
+			wrappedReq := makeInboundReq(r, bodyBytes)
+			
+			// Setup an updated custom Response Writer handle
+			wrappedRes, writerObj := makeInboundRes(w)
+
+			// Execute handler code inside script space cleanly using WrapFuncCall
+			// Pass the extracted 'vm' here instead of the placeholder function!
+			_, err := tender.WrapFuncCall(vm, handlerFunc, wrappedReq, wrappedRes)
+			if err != nil {
+				w.WriteHeader(http.StatusInternalServerError)
+				w.Write([]byte("Internal script compilation/execution error"))
+				return
+			}
+
+			// Commit delayed headers and buffered output back to the real pipeline
+			writerObj.Flush(w)
+		}),
+	}
+
+	err := server.ListenAndServe()
+	if err != nil && err != http.ErrServerClosed {
+		return &tender.Error{Value: &tender.String{Value: err.Error()}}, nil
+	}
+
+	return nil, nil
+}
+
+func makeInboundReq(req *http.Request, body []byte) *tender.ImmutableMap {
+	return &tender.ImmutableMap{
+		Value: map[string]tender.Object{
+			"method":      &tender.String{Value: req.Method},
+			"url":         &tender.String{Value: req.URL.String()},
+			"path":        &tender.String{Value: req.URL.Path},
+			"headers":     makeHeaderMap(req.Header),
+			"body":        &tender.Bytes{Value: body},
+			"remote_addr": &tender.String{Value: req.RemoteAddr},
+		},
+	}
+}
+
+type inboundResponseWriter struct {
+	statusCode int
+	headers    http.Header
+	bodyBuffer *bytes.Buffer
+}
+
+func (w *inboundResponseWriter) Flush(realWriter http.ResponseWriter) {
+	for k, vv := range w.headers {
+		for _, v := range vv {
+			realWriter.Header().Add(k, v)
+		}
+	}
+	if w.statusCode > 0 {
+		realWriter.WriteHeader(w.statusCode)
+	}
+	_, _ = realWriter.Write(w.bodyBuffer.Bytes())
+}
+
+func makeInboundRes(realWriter http.ResponseWriter) (*tender.ImmutableMap, *inboundResponseWriter) {
+	writerObj := &inboundResponseWriter{
+		statusCode: http.StatusOK,
+		headers:    make(http.Header),
+		bodyBuffer: new(bytes.Buffer),
+	}
+
+	return &tender.ImmutableMap{
+		Value: map[string]tender.Object{
+			"set_status": &tender.UserFunction{
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					if len(args) != 1 { return nil, tender.ErrWrongNumArguments }
+					val, _ := tender.ToInt(args[0])
+					writerObj.statusCode = val
+					return nil, nil
+				},
+			},
+			"set_header": &tender.UserFunction{
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					if len(args) != 2 { return nil, tender.ErrWrongNumArguments }
+					k, _ := tender.ToString(args[0])
+					v, _ := tender.ToString(args[1])
+					writerObj.headers.Set(k, v)
+					return nil, nil
+				},
+			},
+			"write": &tender.UserFunction{
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					if len(args) != 1 { return nil, tender.ErrWrongNumArguments }
+					switch b := args[0].(type) {
+					case *tender.Bytes:
+						writerObj.bodyBuffer.Write(b.Value)
+					default:
+						str, _ := tender.ToString(args[0])
+						writerObj.bodyBuffer.WriteString(str)
+					}
+					return nil, nil
+				},
+			},
+		},
+	}, writerObj
 }
