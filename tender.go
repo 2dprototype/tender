@@ -137,7 +137,6 @@ func ToByte(o Object) (v byte, ok bool) {
 	return
 }
 
-
 func ToStringPretty(vm *VM, o Object) string {
 	m, ok := o.(*Map)
 	if ok {
@@ -165,7 +164,7 @@ func writeObjectPretty(builder *strings.Builder, o Object, indentLevel int, visi
 
 	// Check for cycle
 	if visited[o] {
-		builder.WriteString("<cycle-detected>")
+		builder.WriteString("[Circular]")
 		return
 	}
 	visited[o] = true
@@ -176,86 +175,121 @@ func writeObjectPretty(builder *strings.Builder, o Object, indentLevel int, visi
 			builder.WriteString("{}")
 		} else {
 			builder.WriteString("{\n")
-			lastIndex := len(obj.Value) - 1
-			i := 0
-			for k, v := range obj.Value {
+			keys := make([]string, 0, len(obj.Value))
+			for k := range obj.Value {
+				keys = append(keys, k)
+			}
+			for i, k := range keys {
+				v := obj.Value[k]
 				builder.WriteString(indent + "  " + k + ": ")
 				writeObjectPretty(builder, v, indentLevel+1, visited)
-				if i != lastIndex {
+				if i < len(keys)-1 {
 					builder.WriteString(",\n")
 				}
-				i++
 			}
 			builder.WriteString("\n" + indent + "}")
 		}
 	case *ImmutableArray:
-        if len(obj.Value) == 0 {
-            builder.WriteString("[]")
-        } else {
-            builder.WriteString("[\n")
-            lastIndex := len(obj.Value) - 1
-            for i, elem := range obj.Value {
-                if i > 0 && i%4 == 0 {
-                    builder.WriteString("\n" + indent + "   ")
-                }
-				if i == 0 {
-					builder.WriteString(indent + "   ")
+		if len(obj.Value) == 0 {
+			builder.WriteString("[]")
+		} else {
+			builder.WriteString("[\n")
+			for i, elem := range obj.Value {
+				builder.WriteString(indent + "  ")
+				writeObjectPretty(builder, elem, indentLevel+1, visited)
+				if i < len(obj.Value)-1 {
+					builder.WriteString(",\n")
 				}
-                writeObjectPretty(builder, elem, indentLevel+1, visited)
-                if i != lastIndex {
-                    builder.WriteString(", ")
-                }
-            }
-            builder.WriteString("\n" + indent + "]")
-        }
+			}
+			builder.WriteString("\n" + indent + "]")
+		}
 	case *Map:
 		if len(obj.Value) == 0 {
 			builder.WriteString("{}")
 		} else {
 			builder.WriteString("{\n")
-			lastIndex := len(obj.Value) - 1
-			i := 0
-			for k, v := range obj.Value {
+			keys := make([]string, 0, len(obj.Value))
+			for k := range obj.Value {
+				keys = append(keys, k)
+			}
+			for i, k := range keys {
+				v := obj.Value[k]
 				builder.WriteString(indent + "  " + k + ": ")
 				writeObjectPretty(builder, v, indentLevel+1, visited)
-				if i != lastIndex {
+				if i < len(keys)-1 {
 					builder.WriteString(",\n")
 				}
-				i++
 			}
 			builder.WriteString("\n" + indent + "}")
 		}
 	case *Array:
-        if len(obj.Value) == 0 {
-            builder.WriteString("[]")
-        } else {
-            builder.WriteString("[\n")
-            lastIndex := len(obj.Value) - 1
-            for i, elem := range obj.Value {
-                if i > 0 && i%4 == 0 {
-                    builder.WriteString("\n" + indent + "   ")
-                }
-				if i == 0 {
-					builder.WriteString(indent + "   ")
+		if len(obj.Value) == 0 {
+			builder.WriteString("[]")
+		} else {
+			builder.WriteString("[\n")
+			for i, elem := range obj.Value {
+				builder.WriteString(indent + "  ")
+				writeObjectPretty(builder, elem, indentLevel+1, visited)
+				if i < len(obj.Value)-1 {
+					builder.WriteString(",\n")
 				}
-                writeObjectPretty(builder, elem, indentLevel+1, visited)
-                if i != lastIndex {
-                    builder.WriteString(", ")
-                }
-            }
-            builder.WriteString("\n" + indent + "]")
-        }
+			}
+			builder.WriteString("\n" + indent + "]")
+		}
+	case *Tuple:
+		if len(obj.Value) == 0 {
+			builder.WriteString("()")
+		} else {
+			builder.WriteString("(")
+			for i, elem := range obj.Value {
+				writeObjectPretty(builder, elem, indentLevel, visited)
+				if i < len(obj.Value)-1 {
+					builder.WriteString(", ")
+				}
+			}
+			if len(obj.Value) == 1 {
+				builder.WriteString(",")
+			}
+			builder.WriteString(")")
+		}
+	case *Struct:
+		if len(obj.Fields) == 0 {
+			if obj.Type.Name != "" {
+				builder.WriteString(obj.Type.Name + " {}")
+			} else {
+				builder.WriteString("{}")
+			}
+		} else {
+			if obj.Type.Name != "" {
+				builder.WriteString(obj.Type.Name + " {\n")
+			} else {
+				builder.WriteString("{\n")
+			}
+			for i, f := range obj.Type.Fields {
+				val := obj.Fields[f.Name]
+				if val == nil {
+					val = NullValue
+				}
+				builder.WriteString(indent + "  " + f.Name + ": ")
+				writeObjectPretty(builder, val, indentLevel+1, visited)
+				if i < len(obj.Type.Fields)-1 {
+					builder.WriteString(",\n")
+				}
+			}
+			builder.WriteString("\n" + indent + "}")
+		}
 	case *Char:
 		builder.WriteString("'" + obj.String() + "'")
+	case *String:
+		builder.WriteString(`"` + obj.Value + `"`)
 	case *Bool:
+		builder.WriteString(obj.String())
 	default:
 		builder.WriteString(obj.String())
 	}
 
-	delete(visited, o) // Remove the object from visited after processing
+	delete(visited, o)
 }
-
-
 
 func ToStringPrettyColored(vm *VM, o Object) string {
 	m, ok := o.(*Map)
@@ -284,7 +318,7 @@ func writeObjectPrettyColored(builder *strings.Builder, o Object, indentLevel in
 
 	// Check for cycle
 	if visited[o] {
-		builder.WriteString("\033[0;31m<cycle-detected>\033[0m")
+		builder.WriteString("\033[31m[Circular]\033[0m")
 		return
 	}
 	visited[o] = true
@@ -295,95 +329,127 @@ func writeObjectPrettyColored(builder *strings.Builder, o Object, indentLevel in
 			builder.WriteString("{}")
 		} else {
 			builder.WriteString("{\n")
-			lastIndex := len(obj.Value) - 1
-			i := 0
-			for k, v := range obj.Value {
-				builder.WriteString(indent + "  " + k + ": ")
+			keys := make([]string, 0, len(obj.Value))
+			for k := range obj.Value {
+				keys = append(keys, k)
+			}
+			for i, k := range keys {
+				v := obj.Value[k]
+				builder.WriteString(indent + "  " + "\033[36m" + k + "\033[0m: ")
 				writeObjectPrettyColored(builder, v, indentLevel+1, visited)
-				if i != lastIndex {
+				if i < len(keys)-1 {
 					builder.WriteString(",\n")
 				}
-				i++
 			}
 			builder.WriteString("\n" + indent + "}")
 		}
 	case *ImmutableArray:
-        if len(obj.Value) == 0 {
-            builder.WriteString("[]")
-        } else {
-            builder.WriteString("[\n")
-            lastIndex := len(obj.Value) - 1
-            for i, elem := range obj.Value {
-                if i > 0 && i%4 == 0 {
-                    builder.WriteString("\n" + indent + "   ")
-                }
-				if i == 0 {
-					builder.WriteString(indent + "   ")
+		if len(obj.Value) == 0 {
+			builder.WriteString("[]")
+		} else {
+			builder.WriteString("[\n")
+			for i, elem := range obj.Value {
+				builder.WriteString(indent + "  ")
+				writeObjectPrettyColored(builder, elem, indentLevel+1, visited)
+				if i < len(obj.Value)-1 {
+					builder.WriteString(",\n")
 				}
-                writeObjectPrettyColored(builder, elem, indentLevel+1, visited)
-                if i != lastIndex {
-                    builder.WriteString(", ")
-                }
-            }
-            builder.WriteString("\n" + indent + "]")
-        }
+			}
+			builder.WriteString("\n" + indent + "]")
+		}
 	case *Map:
 		if len(obj.Value) == 0 {
 			builder.WriteString("{}")
 		} else {
 			builder.WriteString("{\n")
-			lastIndex := len(obj.Value) - 1
-			i := 0
-			for k, v := range obj.Value {
-				builder.WriteString(indent + "  " + k + ": ")
+			keys := make([]string, 0, len(obj.Value))
+			for k := range obj.Value {
+				keys = append(keys, k)
+			}
+			for i, k := range keys {
+				v := obj.Value[k]
+				builder.WriteString(indent + "  " + "\033[36m" + k + "\033[0m: ")
 				writeObjectPrettyColored(builder, v, indentLevel+1, visited)
-				if i != lastIndex {
+				if i < len(keys)-1 {
 					builder.WriteString(",\n")
 				}
-				i++
 			}
 			builder.WriteString("\n" + indent + "}")
 		}
 	case *Array:
-        if len(obj.Value) == 0 {
-            builder.WriteString("[]")
-        } else {
-            builder.WriteString("[\n")
-            lastIndex := len(obj.Value) - 1
-            for i, elem := range obj.Value {
-                if i > 0 && i%4 == 0 {
-                    builder.WriteString("\n" + indent + "   ")
-                }
-				if i == 0 {
-					builder.WriteString(indent + "   ")
+		if len(obj.Value) == 0 {
+			builder.WriteString("[]")
+		} else {
+			builder.WriteString("[\n")
+			for i, elem := range obj.Value {
+				builder.WriteString(indent + "  ")
+				writeObjectPrettyColored(builder, elem, indentLevel+1, visited)
+				if i < len(obj.Value)-1 {
+					builder.WriteString(",\n")
 				}
-                writeObjectPrettyColored(builder, elem, indentLevel+1, visited)
-                if i != lastIndex {
-                    builder.WriteString(", ")
-                }
-            }
-            builder.WriteString("\n" + indent + "]")
-        }
-
+			}
+			builder.WriteString("\n" + indent + "]")
+		}
+	case *Tuple:
+		if len(obj.Value) == 0 {
+			builder.WriteString("()")
+		} else {
+			builder.WriteString("(")
+			for i, elem := range obj.Value {
+				writeObjectPrettyColored(builder, elem, indentLevel, visited)
+				if i < len(obj.Value)-1 {
+					builder.WriteString(", ")
+				}
+			}
+			if len(obj.Value) == 1 {
+				builder.WriteString(",")
+			}
+			builder.WriteString(")")
+		}
+	case *Struct:
+		if len(obj.Fields) == 0 {
+			if obj.Type.Name != "" {
+				builder.WriteString("\033[36m" + obj.Type.Name + "\033[0m {}")
+			} else {
+				builder.WriteString("{}")
+			}
+		} else {
+			if obj.Type.Name != "" {
+				builder.WriteString("\033[36m" + obj.Type.Name + "\033[0m {\n")
+			} else {
+				builder.WriteString("{\n")
+			}
+			for i, f := range obj.Type.Fields {
+				val := obj.Fields[f.Name]
+				if val == nil {
+					val = NullValue
+				}
+				builder.WriteString(indent + "  " + "\033[36m" + f.Name + "\033[0m: ")
+				writeObjectPrettyColored(builder, val, indentLevel+1, visited)
+				if i < len(obj.Type.Fields)-1 {
+					builder.WriteString(",\n")
+				}
+			}
+			builder.WriteString("\n" + indent + "}")
+		}
 	case *String:
-		builder.WriteString("\033[0;32m" + obj.String() + "\033[0m")	
+		builder.WriteString("\033[32m\"" + obj.Value + "\"\033[0m")
 	case *Int, *Float, *Time, *BigInt, *BigFloat, *Complex:
-		builder.WriteString("\033[0;33m" + obj.String() + "\033[0m")
+		builder.WriteString("\033[33m" + obj.String() + "\033[0m")
 	case *Char:
-		builder.WriteString("\033[0;33m'" + obj.String() + "'\033[0m")
+		builder.WriteString("\033[33m'" + obj.String() + "'\033[0m")
 	case *Bool:
-		builder.WriteString("\033[0;35m" + obj.String() + "\033[0m")	
+		builder.WriteString("\033[35m" + obj.String() + "\033[0m")
 	case *Bytes, *UserFunction, *BuiltinFunction, *CompiledFunction:
-		builder.WriteString("\033[0;36m" + obj.String() + "\033[0m")
+		builder.WriteString("\033[36m" + obj.String() + "\033[0m")
 	case *Null:
-		builder.WriteString("\033[0;90mnull\033[0m")
+		builder.WriteString("\033[90mnull\033[0m")
 	default:
 		builder.WriteString(obj.String())
 	}
 
-	delete(visited, o) // Remove the object from visited after processing
+	delete(visited, o)
 }
-
 
 // ToInt will try to convert object o to int32 value.
 func ToInt32(o Object) (v int32, ok bool) {
