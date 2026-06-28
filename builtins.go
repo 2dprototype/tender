@@ -71,6 +71,7 @@ func init() {
 	addBuiltinFunction("is_tuple", builtinIsTuple, false)
 	addBuiltinFunction("is_struct", builtinIsStruct, false)
 	addBuiltinFunction("range",  builtinRange, false)
+	addBuiltinFunction("freeze",  builtinFreeze, false)
 }
 
 // GetAllBuiltinFunctions returns all builtin function objects.
@@ -1111,6 +1112,76 @@ func buildRange(start, stop, step int64) *Array {
 		}
 	}
 	return array
+}
+
+func builtinFreeze(args ...Object) (Object, error) {
+	if len(args) != 1 {
+		return nil, ErrWrongNumArguments
+	}
+	return freezeObject(args[0], make(map[Object]Object)), nil
+}
+
+// freezeObject recursively converts mutable containers to their immutable
+// equivalents. memo prevents infinite recursion on self-referential structures.
+func freezeObject(o Object, memo map[Object]Object) Object {
+	switch v := o.(type) {
+	case *Array:
+		if cached, ok := memo[o]; ok {
+			return cached
+		}
+		frozen := &ImmutableArray{Value: make([]Object, len(v.Value))}
+		memo[o] = frozen
+		for i, elem := range v.Value {
+			frozen.Value[i] = freezeObject(elem, memo)
+		}
+		return frozen
+
+	case *Map:
+		if cached, ok := memo[o]; ok {
+			return cached
+		}
+		frozen := &ImmutableMap{Value: make(map[string]Object, len(v.Value))}
+		memo[o] = frozen
+		for k, val := range v.Value {
+			frozen.Value[k] = freezeObject(val, memo)
+		}
+		return frozen
+
+	case *ImmutableArray:
+		// Re-freeze elements in case they contain mutable values.
+		newElems := make([]Object, len(v.Value))
+		changed := false
+		for i, elem := range v.Value {
+			f := freezeObject(elem, memo)
+			newElems[i] = f
+			if f != elem {
+				changed = true
+			}
+		}
+		if !changed {
+			return o
+		}
+		return &ImmutableArray{Value: newElems}
+
+	case *ImmutableMap:
+		newMap := make(map[string]Object, len(v.Value))
+		changed := false
+		for k, val := range v.Value {
+			f := freezeObject(val, memo)
+			newMap[k] = f
+			if f != val {
+				changed = true
+			}
+		}
+		if !changed {
+			return o
+		}
+		return &ImmutableMap{Value: newMap}
+
+	default:
+		// Primitives, strings, bytes, time, functions, errors — return as-is.
+		return o
+	}
 }
 
 func builtinFormat(args ...Object) (Object, error) {
