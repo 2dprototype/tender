@@ -262,7 +262,7 @@ L:
 		case token.LParen:
 			x = p.parseCall(x, false)
 		case token.LBrace:
-			if isStructTypeExpr(x) {
+			if p.exprLevel >= 0 && isStructTypeExpr(x) {
 				x = p.parseStructLit(x)
 			} else {
 				break L
