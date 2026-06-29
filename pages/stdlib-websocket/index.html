@@ -142,6 +142,10 @@
 </li>
                                     
 <li>
+    <a href="../stdlib-sync/" class="dropdown-item">Stdlib sync</a>
+</li>
+                                    
+<li>
     <a href="../stdlib-tar/" class="dropdown-item">Stdlib tar</a>
 </li>
                                     
@@ -220,7 +224,7 @@
                     <div class="col-md-9" role="main">
 
 <h2 id="stdlib-websocket">Stdlib <code>websocket</code></h2>
-<p>The <code>websocket</code> module provides functionalities for establishing and managing WebSocket connections using the <code>gorilla/websocket</code> library.</p>
+<p>The <code>websocket</code> module provides functionalities for establishing and managing WebSocket connections using the <code>gorilla/websocket</code> library, as well as creating WebSocket servers.</p>
 <h3 id="functions">Functions</h3>
 <h4 id="dialurl"><code>dial(url)</code></h4>
 <p>Establishes a WebSocket connection to the specified URL.</p>
@@ -228,6 +232,13 @@
 <li><code>url</code>: The URL to connect to.</li>
 </ul>
 <p>Returns a <code>WebSocket Connection Object</code> with methods for interaction.</p>
+<h4 id="listen_and_serveaddr-handler"><code>listen_and_serve(addr, handler)</code></h4>
+<p>Starts a WebSocket server on the specified address.</p>
+<ul>
+<li><code>addr</code>: The address to listen on (e.g., ":8080").</li>
+<li><code>handler</code>: A callback function that receives the WebSocket connection object.</li>
+</ul>
+<p>Returns an error object if the server fails to start.</p>
 <h3 id="websocket-connection-object-methods">WebSocket Connection Object Methods</h3>
 <h4 id="read_message"><code>read_message()</code></h4>
 <p>Reads a message from the WebSocket connection.</p>
@@ -260,7 +271,7 @@
 // Dial a WebSocket connection
 var conn = websocket.dial(&quot;ws://example.com/socket&quot;)
 
-//Read message from server
+// Read message from server
 go(fn(){
     for {
         read := conn.read_message()
@@ -268,9 +279,28 @@ go(fn(){
     }
 })
 
-//Write message
-conn.write_message(1, &quot;hello&quot;)
+// Write message
+if !is_error(conn) {
+    conn.write_message(1, &quot;hello&quot;)
+}
 
+// Create a WebSocket server
+websocket.listen_and_serve(&quot;:8080&quot;, fn(conn) {
+    println(&quot;Client connected: &quot;, conn.remote_addr())
+
+    conn.write_message(1, &quot;Welcome to the WebSocket server!&quot;)
+
+    for {
+        msg := conn.read_message()
+        if is_error(msg) {
+            break
+        }
+        println(&quot;Received: &quot;, msg)
+        conn.write_message(msg[0], msg[1]) // Echo back
+    }
+
+    conn.close()
+})
 </code></pre></div>
             </div>
         </div>

@@ -142,6 +142,10 @@
 </li>
                                     
 <li>
+    <a href="../stdlib-sync/" class="dropdown-item">Stdlib sync</a>
+</li>
+                                    
+<li>
     <a href="../stdlib-tar/" class="dropdown-item">Stdlib tar</a>
 </li>
                                     
@@ -220,7 +224,7 @@
                     <div class="col-md-9" role="main">
 
 <h2 id="stdlib-http">Stdlib <code>http</code></h2>
-<p>The <code>http</code> module provides functionalities for making HTTP requests. This module supports various HTTP methods including GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD, and TRACE.</p>
+<p>The <code>http</code> module provides functionalities for making HTTP requests and creating HTTP servers. This module supports various HTTP methods including GET, POST, PUT, DELETE, PATCH, OPTIONS, HEAD, and TRACE.</p>
 <h3 id="functions">Functions</h3>
 <h4 id="geturl-body-headers"><code>get(url, [body], [headers])</code></h4>
 <p>Sends an HTTP GET request to the specified URL.</p>
@@ -229,6 +233,7 @@
 <li><code>body</code> (optional): Request body as a byte array.</li>
 <li><code>headers</code> (optional): Map of request headers.</li>
 </ul>
+<p>Returns an HTTP request object that can be used to execute the request.</p>
 <h4 id="posturl-body-headers"><code>post(url, [body], [headers])</code></h4>
 <p>Sends an HTTP POST request to the specified URL.</p>
 <ul>
@@ -236,6 +241,7 @@
 <li><code>body</code> (optional): Request body as a byte array.</li>
 <li><code>headers</code> (optional): Map of request headers.</li>
 </ul>
+<p>Returns an HTTP request object that can be used to execute the request.</p>
 <h4 id="puturl-body-headers"><code>put(url, [body], [headers])</code></h4>
 <p>Sends an HTTP PUT request to the specified URL.</p>
 <ul>
@@ -243,6 +249,7 @@
 <li><code>body</code> (optional): Request body as a byte array.</li>
 <li><code>headers</code> (optional): Map of request headers.</li>
 </ul>
+<p>Returns an HTTP request object that can be used to execute the request.</p>
 <h4 id="deleteurl-body-headers"><code>delete(url, [body], [headers])</code></h4>
 <p>Sends an HTTP DELETE request to the specified URL.</p>
 <ul>
@@ -250,6 +257,7 @@
 <li><code>body</code> (optional): Request body as a byte array.</li>
 <li><code>headers</code> (optional): Map of request headers.</li>
 </ul>
+<p>Returns an HTTP request object that can be used to execute the request.</p>
 <h4 id="patchurl-body-headers"><code>patch(url, [body], [headers])</code></h4>
 <p>Sends an HTTP PATCH request to the specified URL.</p>
 <ul>
@@ -257,6 +265,7 @@
 <li><code>body</code> (optional): Request body as a byte array.</li>
 <li><code>headers</code> (optional): Map of request headers.</li>
 </ul>
+<p>Returns an HTTP request object that can be used to execute the request.</p>
 <h4 id="optionsurl-body-headers"><code>options(url, [body], [headers])</code></h4>
 <p>Sends an HTTP OPTIONS request to the specified URL.</p>
 <ul>
@@ -264,6 +273,7 @@
 <li><code>body</code> (optional): Request body as a byte array.</li>
 <li><code>headers</code> (optional): Map of request headers.</li>
 </ul>
+<p>Returns an HTTP request object that can be used to execute the request.</p>
 <h4 id="headurl-body-headers"><code>head(url, [body], [headers])</code></h4>
 <p>Sends an HTTP HEAD request to the specified URL.</p>
 <ul>
@@ -271,6 +281,7 @@
 <li><code>body</code> (optional): Request body as a byte array.</li>
 <li><code>headers</code> (optional): Map of request headers.</li>
 </ul>
+<p>Returns an HTTP request object that can be used to execute the request.</p>
 <h4 id="traceurl-body-headers"><code>trace(url, [body], [headers])</code></h4>
 <p>Sends an HTTP TRACE request to the specified URL.</p>
 <ul>
@@ -278,18 +289,152 @@
 <li><code>body</code> (optional): Request body as a byte array.</li>
 <li><code>headers</code> (optional): Map of request headers.</li>
 </ul>
-<h3 id="example-usage">Example Usage</h3>
+<p>Returns an HTTP request object that can be used to execute the request.</p>
+<h4 id="listen_and_serveaddr-handler"><code>listen_and_serve(addr, handler)</code></h4>
+<p>Starts an HTTP server on the specified address.</p>
+<ul>
+<li><code>addr</code>: The address to listen on (e.g., ":8080").</li>
+<li><code>handler</code>: A callback function that receives the request and response objects.</li>
+</ul>
+<p>Returns an error object if the server fails to start.</p>
+<h3 id="http-request-object-methods">HTTP Request Object Methods</h3>
+<h4 id="body"><code>body()</code></h4>
+<p>Executes the HTTP request and returns the response body as bytes.</p>
+<h4 id="execute"><code>execute()</code></h4>
+<p>Executes the HTTP request and returns a full response object.</p>
+<h4 id="close"><code>close()</code></h4>
+<p>Returns whether the connection should be closed after the request.</p>
+<h4 id="method"><code>method()</code></h4>
+<p>Gets the HTTP method of the request.</p>
+<h4 id="url"><code>url()</code></h4>
+<p>Gets the URL of the request.</p>
+<h4 id="headers"><code>headers</code></h4>
+<p>Returns a map of request headers.</p>
+<h4 id="get_headerkey"><code>get_header(key)</code></h4>
+<p>Gets the value of a specific header.</p>
+<ul>
+<li><code>key</code>: The header key.</li>
+</ul>
+<p>Returns the header value as a string.</p>
+<h4 id="set_headerkey-value"><code>set_header(key, value)</code></h4>
+<p>Sets a header value.</p>
+<ul>
+<li><code>key</code>: The header key.</li>
+<li><code>value</code>: The header value.</li>
+</ul>
+<h4 id="set_bodydata"><code>set_body(data)</code></h4>
+<p>Sets the request body.</p>
+<ul>
+<li><code>data</code>: The body data as bytes.</li>
+</ul>
+<h4 id="set_methodmethod"><code>set_method(method)</code></h4>
+<p>Changes the HTTP method of the request.</p>
+<ul>
+<li><code>method</code>: The new HTTP method.</li>
+</ul>
+<h4 id="set_urlurl"><code>set_url(url)</code></h4>
+<p>Changes the URL of the request.</p>
+<ul>
+<li><code>url</code>: The new URL.</li>
+</ul>
+<h3 id="http-response-object-properties">HTTP Response Object Properties</h3>
+<ul>
+<li><code>status</code>: The response status code.</li>
+<li><code>status_text</code>: The response status text.</li>
+<li><code>headers</code>: A map of response headers.</li>
+<li><code>body</code>: The response body as bytes.</li>
+<li><code>content_type</code>: The response content type.</li>
+</ul>
+<h3 id="http-request-object-client-example">HTTP Request Object (Client) Example</h3>
 <pre><code class="language-go">import &quot;http&quot;
 
-// GET request
-response := http.get(&quot;https://example.com&quot;)
-
-if !is_error(response) {
-    println(string(response))
-} 
-else {
-    println(&quot;Response: &quot;, response)
+// Create and execute a GET request
+req := http.get(&quot;https://api.example.com/data&quot;)
+resp := req.execute()
+if !is_error(resp) {
+    println(&quot;Status:&quot;, resp.status)
+    println(&quot;Body:&quot;, string(resp.body))
 }
+
+// Create a request with custom headers
+headers := {&quot;Authorization&quot;: &quot;Bearer token123&quot;}
+req = http.get(&quot;https://api.example.com/protected&quot;, null, headers)
+body := req.body()
+println(string(body))
+
+// POST request with JSON body
+json_data := bytes(`{&quot;name&quot;: &quot;John&quot;, &quot;age&quot;: 30}`)
+req = http.post(&quot;https://api.example.com/users&quot;, json_data)
+req.set_header(&quot;Content-Type&quot;, &quot;application/json&quot;)
+resp = req.execute()
+println(&quot;Created user:&quot;, string(resp))
+</code></pre>
+<h3 id="http-response-object-server-example">HTTP Response Object (Server) Example</h3>
+<pre><code class="language-go">import &quot;http&quot;
+
+// Create an HTTP server
+http.listen_and_serve(&quot;:8080&quot;, fn(req, res) {
+    println(&quot;Request from:&quot;, req.remote_addr)
+    println(&quot;Method:&quot;, req.method)
+    println(&quot;Path:&quot;, req.path)
+
+    // Set response headers
+    res.set_header(&quot;Content-Type&quot;, &quot;text/plain&quot;)
+
+    // Write response
+    res.set_status(200)
+    res.write(&quot;Hello, World!&quot;)
+
+    // Access request body
+    if len(req.body) &gt; 0 {
+        println(&quot;Body:&quot;, string(req.body))
+    }
+})
+
+// Server with routing logic
+http.listen_and_serve(&quot;:8080&quot;, fn(req, res) {
+    if req.path == &quot;/&quot; {
+        res.set_header(&quot;Content-Type&quot;, &quot;text/html&quot;)
+        res.write(&quot;&lt;h1&gt;Home Page&lt;/h1&gt;&quot;)
+    } 
+    else if req.path == &quot;/api/data&quot; &amp;&amp; req.method == &quot;GET&quot; {
+        res.set_header(&quot;Content-Type&quot;, &quot;application/json&quot;)
+        res.write(`{&quot;status&quot;: &quot;ok&quot;, &quot;data&quot;: [1, 2, 3]}`)
+    } 
+    else {
+        res.set_status(404)
+        res.write(&quot;Not Found&quot;)
+    }
+})
+</code></pre>
+<h3 id="combined-example">Combined Example</h3>
+<pre><code class="language-go">import &quot;http&quot;
+
+// Server that handles different methods
+http.listen_and_serve(&quot;:8080&quot;, fn(req, res) {
+    if req.path == &quot;/&quot; {
+        res.set_header(&quot;Content-Type&quot;, &quot;text/html&quot;)
+        res.write(&quot;&lt;h1&gt;Welcome!&lt;/h1&gt;&lt;p&gt;Try /api/hello&lt;/p&gt;&quot;)
+    } 
+    else if req.path == &quot;/api/hello&quot; {
+        if req.method == &quot;GET&quot; {
+            res.set_header(&quot;Content-Type&quot;, &quot;application/json&quot;)
+            res.write(`{&quot;message&quot;: &quot;Hello, GET!&quot;}`)
+        }
+        else if req.method == &quot;POST&quot; {
+            res.set_header(&quot;Content-Type&quot;, &quot;application/json&quot;)
+            res.write(`{&quot;message&quot;: &quot;Hello, POST!&quot;, &quot;received&quot;: ${string(req.body)}}`)
+        }
+        else {
+            res.set_status(405)
+            res.write(&quot;Method Not Allowed&quot;)
+        }
+    } 
+    else {
+        res.set_status(404)
+        res.write(&quot;Page not found&quot;)
+    }
+})
 </code></pre></div>
             </div>
         </div>

@@ -142,6 +142,10 @@
 </li>
                                     
 <li>
+    <a href="../stdlib-sync/" class="dropdown-item">Stdlib sync</a>
+</li>
+                                    
+<li>
     <a href="../stdlib-tar/" class="dropdown-item">Stdlib tar</a>
 </li>
                                     
@@ -220,7 +224,7 @@
                     <div class="col-md-9" role="main">
 
 <h2 id="stdlib-net">Stdlib <code>net</code></h2>
-<p>The <code>net</code> module provides functionalities for network communication, including DNS lookup, TCP and UDP address resolution, and various methods for establishing network connections.</p>
+<p>The <code>net</code> module provides functionalities for network communication, including DNS lookup, TCP and UDP address resolution, and various methods for establishing network connections and creating servers.</p>
 <h3 id="functions">Functions</h3>
 <h4 id="dnslookuphost"><code>dnslookup(host)</code></h4>
 <p>Performs a DNS lookup for the given host.</p>
@@ -256,6 +260,13 @@
 <li><code>address</code>: The address to connect to.</li>
 </ul>
 <p>Returns a connection object with methods for interaction.</p>
+<h4 id="listennetwork-address"><code>listen(network, address)</code></h4>
+<p>Creates a network listener for accepting incoming connections.</p>
+<ul>
+<li><code>network</code>: Network type (e.g., "tcp", "tcp4", "tcp6", "unix").</li>
+<li><code>address</code>: The address to listen on.</li>
+</ul>
+<p>Returns a listener object with methods for accepting connections.</p>
 <h3 id="connection-object-methods">Connection Object Methods</h3>
 <h4 id="close"><code>close()</code></h4>
 <p>Closes the network connection.</p>
@@ -273,8 +284,8 @@
 <p>Returns the number of bytes written.</p>
 <h4 id="local_addr"><code>local_addr()</code></h4>
 <p>Returns the local address of the connection.</p>
-<h4 id="remote_addr"><code>remote_addr()</code></h4>
-<p>Returns the remote address of the connection.</p>
+<h4 id="remote_addr"><code>remote_addr</code></h4>
+<p>The remote address of the connection.</p>
 <h4 id="set_deadlinet"><code>set_deadline(t)</code></h4>
 <p>Sets the read and write deadlines for the connection.</p>
 <ul>
@@ -290,6 +301,12 @@
 <ul>
 <li><code>t</code>: The write deadline time.</li>
 </ul>
+<h3 id="listener-object-methods">Listener Object Methods</h3>
+<h4 id="accept"><code>accept()</code></h4>
+<p>Accepts an incoming connection.</p>
+<p>Returns a connection object with methods for interaction.</p>
+<h4 id="close_1"><code>close()</code></h4>
+<p>Closes the listener.</p>
 <h3 id="example-usage">Example Usage</h3>
 <pre><code class="language-go">import &quot;net&quot;
 
@@ -307,8 +324,9 @@ println(udp_addr)
 
 // Dial a TCP Connection
 conn := net.dialtcp(&quot;tcp&quot;, &quot;example.com:80&quot;)
+
 if !is_error(conn) {
-    println(&quot;Connected to: &quot;, conn.remote_addr())
+    println(&quot;Connected to: &quot;, conn.remote_addr)
 
     // Write to the connection
     msg := bytes(&quot;GET / HTTP/1.1\r\nHost: example.com\r\n\r\n&quot;)
@@ -322,6 +340,23 @@ if !is_error(conn) {
 
     // Close the connection
     conn.close()
+}
+
+// Create a TCP server
+listener := net.listen(&quot;tcp&quot;, &quot;:8080&quot;)
+if !is_error(listener) {
+    println(&quot;Server listening on :8080&quot;)
+
+    for {
+        conn := listener.accept()
+        if !is_error(conn) {
+            go(fn() {
+                println(&quot;Client connected: &quot;, conn.remote_addr())
+                conn.write(bytes(&quot;Hello, client!\n&quot;))
+                conn.close()
+            })
+        }
+    }
 }
 </code></pre></div>
             </div>

@@ -142,6 +142,10 @@
 </li>
                                     
 <li>
+    <a href="pages/stdlib-sync/" class="dropdown-item">Stdlib sync</a>
+</li>
+                                    
+<li>
     <a href="pages/stdlib-tar/" class="dropdown-item">Stdlib tar</a>
 </li>
                                     
@@ -236,6 +240,14 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#command-line-usage" class="nav-link">Command Line Usage</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#type-system-overview" class="nav-link">Type System Overview</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-bs-level="2"><a href="#dependencies" class="nav-link">Dependencies</a>
               <ul class="nav flex-column">
               </ul>
@@ -260,7 +272,7 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="tender">Tender</h1>
-<p><strong>Tender</strong> is a general-purpose programming language specially designed for image processing, 2D graphics, scripting, and more! Here is a quick <a href="pages/tutorial/">tutorial</a>.</p>
+<p><strong>Tender</strong> is a general-purpose programming language specially designed for image processing, 2D graphics, scripting, and more! Here is a quick <a href="pages/tutorial/">tutorial</a>. Also check the <a href="https://2dprototype.github.io/tender">docs</a>!</p>
 <h2 id="overview">Overview</h2>
 <p>Tender compiles into bytecode and executes on a stack-based virtual machine (VM) written in native Golang.</p>
 <h2 id="features">Features</h2>
@@ -269,7 +281,25 @@
 <li><strong>Compiles to bytecode</strong>  </li>
 <li><strong>Supports rich <a href="pages/builtins/">built-in functions</a></strong>  </li>
 <li><strong>Includes an extensive <a href="pages/stdlib/">standard library</a></strong>  </li>
-<li><strong>Optimized for 2D graphics</strong>  </li>
+<li><strong>Designed for 2D graphics</strong>  </li>
+<li><strong>REPL (Read-Eval-Print Loop) for interactive development</strong></li>
+<li><strong>Rich type system</strong> including int, float, string, bool, char, null, big integers, big floats, complex numbers, bytes, arrays (dynamic and immutable), maps (dynamic and immutable), tuples, time values, and error values</li>
+<li><strong>User-defined structs</strong> with field types, nested structs, anonymous structs, and embedded fields</li>
+<li><strong>Closures and first-class functions</strong></li>
+<li><strong>Template literals</strong> with <code>${}</code> interpolation (similar to JavaScript template strings)</li>
+<li><strong>Advanced operators</strong> including pipe operators (<code>&lt;|</code>, <code>|&gt;</code>), null coalescing (<code>??</code>), optional chaining (<code>?.</code>), ternary conditional (<code>? :</code>), compound assignment operators, and logical operators (<code>&amp;&amp;</code>, <code>||</code>)</li>
+<li><strong>Modular architecture</strong> with import statements, module aliasing, selective imports, embedded file import (<code>embed()</code>), and file-based module loading</li>
+<li><strong>Runtime type introspection</strong> with <code>typeof()</code> and type checking functions</li>
+<li><strong>Error handling</strong> through the <code>error()</code> expression</li>
+<li><strong>Immutable data structures</strong> via <code>immutable()</code> expression</li>
+<li><strong>Loop control</strong> with <code>break</code> and <code>continue</code> statements</li>
+<li><strong>For loops</strong> including traditional, for-in, conditional, and infinite loops</li>
+<li><strong>Variable declarations</strong> with <code>var</code> and constants with <code>const</code></li>
+<li><strong>Function definitions</strong> with <code>fn</code> keyword</li>
+<li><strong>Export statements</strong> for module exports</li>
+<li><strong>Bytecode compilation</strong> with compilation, execution, and parse-only modes</li>
+<li><strong>Comprehensive operator precedence</strong> matching conventional expectations</li>
+<li><strong>Cross-platform support</strong> for Windows, macOS, Linux and Android (Termux)</li>
 </ul>
 <h3 id="supported-standard-library">Supported Standard Library</h3>
 <ul>
@@ -299,8 +329,11 @@
 <li><a href="pages/stdlib-net/">net</a>: Networking functions  </li>
 <li><a href="pages/stdlib-http/">http</a>: HTTP client and server utilities  </li>
 <li><a href="pages/stdlib-websocket/">websocket</a>: WebSocket communication utilities  </li>
-<li><strong>gob</strong>: Gob Encoding/Ddecoding</li>
-<li><strong>csv</strong>: CSV Encoding/Ddecoding</li>
+<li><a href="pages/stdlib-sync/">sync</a>: Synchronization primitives</li>
+<li><strong>gob</strong>: Gob Encoding/Decoding</li>
+<li><strong>csv</strong>: CSV Encoding/Decoding</li>
+<li><a href="pages/stdlib-wui/">wui</a>  </li>
+<li><a href="pages/stdlib-sync/">sync</a>  </li>
 </ul>
 <h2 id="quick-start">Quick Start</h2>
 <ol>
@@ -312,6 +345,44 @@ str1 := &quot;hello&quot;
 str2 := &quot;world&quot;
 
 println(str1 + &quot; &quot; + str2)
+</code></pre>
+<pre><code class="language-go">// Template literals example
+name := &quot;Alice&quot;
+age := 30
+message := `Hello ${name}, you are ${age} years old!`
+println(message)  // Output: Hello Alice, you are 30 years old!
+
+// Expressions inside templates
+println(`2 + 3 = ${2 + 3}`)  // Output: 2 + 3 = 5
+
+// Complex expressions
+println(`The result is ${if 5 &gt; 3 { &quot;true&quot; } else { &quot;false&quot; }}`)
+</code></pre>
+<pre><code class="language-go">// Structs example
+type user struct {
+    name string
+    age  int
+}
+
+u := user{name: &quot;Alice&quot;, age: 30}
+println(&quot;Name:&quot;, u.name, &quot;Age:&quot;, u.age)
+
+// Nested structs
+type point struct {
+    x, y int
+}
+
+type line struct {
+    p1 point
+    p2 point
+}
+
+l := line{
+    p1: point{x: 0, y: 0},
+    p2: point{x: 10, y: 10}
+}
+
+println(`line from (${l.p1.x}, ${l.p1.y}) to (${l.p2.x}, ${l.p2.y})`)
 </code></pre>
 <pre><code class="language-go">// Canvas drawing example (similar to JS Canvas)
 import &quot;canvas&quot;
@@ -343,6 +414,7 @@ ctx.save_png(&quot;out.png&quot;)  // Save output as PNG
 <p>Precompiled binaries are available. Download them from the release tags.</p>
 <hr />
 <h2 id="documentation">Documentation</h2>
+<p>Check the <a href="https://2dprototype.github.io/tender">docs</a>!</p>
 <ul>
 <li><strong><a href="pages/runtime-types/">Runtime Types</a></strong>  </li>
 <li><strong><a href="pages/builtins/">Built-in Functions</a></strong>  </li>
@@ -350,7 +422,220 @@ ctx.save_png(&quot;out.png&quot;)  // Save output as PNG
 <li><strong><a href="pages/stdlib/">Standard Library</a></strong>  </li>
 </ul>
 <h2 id="examples">Examples</h2>
-<p>Explore various examples demonstrating Tender’s features in the <a href="https://github.com/2dprototype/tender/blob/main/examples">examples</a> directory.</p>
+<h3 id="basic-examples">Basic Examples</h3>
+<pre><code class="language-go">// Variable declarations
+var name = &quot;Tender&quot;
+const PI = 3.14159
+
+// Functions
+fn add(a, b) {
+    return a + b
+}
+
+// Closures
+fn make_counter() {
+    var count = 0
+    return fn() {
+        count++
+        return count
+    }
+}
+
+// Arrays and maps
+var arr = [1, 2, 3, 4, 5]
+var map = { &quot;key&quot;: &quot;value&quot; }
+
+// Template literals
+var user = &quot;John&quot;
+var greeting = `Hello ${user}, welcome to Tender!`
+println(greeting)
+
+// Structs
+type Person struct {
+    name string
+    age  int
+}
+
+var person = Person{name: &quot;John&quot;, age: 25}
+person.age = 26
+
+// Type conversion and checking
+var num = int(&quot;123&quot;)
+if is_string(num) {
+    println(&quot;This is a string&quot;)
+} 
+else {
+    println(&quot;This is not a string&quot;)
+}
+
+// Error handling
+var result = error(&quot;something went wrong&quot;)
+if is_error(result) {
+    println(result.value)
+}
+</code></pre>
+<h3 id="advanced-examples">Advanced Examples</h3>
+<pre><code class="language-go">// Pipe operators for functional composition
+var result = [1, 2, 3, 4, 6] |&gt; sort |&gt; reverse |&gt; println
+
+// Null coalescing
+var value = null ?? &quot;default value&quot;
+
+// Template literals
+var items = [&quot;apple&quot;, &quot;banana&quot;, &quot;orange&quot;]
+for item in items {
+    `Item: ${item}` |&gt; println
+}
+
+// Optional chaining
+var user = {    
+    profile: {
+        name: &quot;jack&quot;
+    }
+}
+var name = user?.profile?.name
+sysout name, &quot;\n&quot;
+
+// Range generation
+var numbers = range(0, 10, 2)  // [0, 2, 4, 6, 8]
+sysout numbers, &quot;\n&quot;
+
+// Module imports
+import &quot;math&quot; as m
+var sqrt2 = m.sqrt(2)
+println(sqrt2)
+</code></pre>
+<p>Explore various examples demonstrating Tender's features in the <a href="https://github.com/2dprototype/tender/blob/main/examples">examples</a> directory.</p>
+<hr />
+<h2 id="command-line-usage">Command Line Usage</h2>
+<p>Tender supports multiple operation modes:</p>
+<pre><code class="language-bash"># Start REPL (interactive mode)
+tender
+
+# Compile and run a source file
+tender myapp.td
+
+# Compile to bytecode
+tender -o myapp myapp.td
+
+# Run compiled bytecode
+tender myapp
+
+# Parse and output AST as JSON
+tender -parse ast.json myapp.td
+
+# Show version
+tender -version
+# or
+tender -v
+
+# Show help
+tender -help
+</code></pre>
+<hr />
+<h2 id="type-system-overview">Type System Overview</h2>
+<p>Tender provides a rich type system with support for:</p>
+<table>
+<thead>
+<tr>
+<th>Type</th>
+<th>Description</th>
+<th>Example</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><code>int</code></td>
+<td>64-bit integer</td>
+<td><code>42</code></td>
+</tr>
+<tr>
+<td><code>float</code></td>
+<td>64-bit floating point</td>
+<td><code>3.14159</code></td>
+</tr>
+<tr>
+<td><code>bigint</code></td>
+<td>Arbitrary-precision integer</td>
+<td><code>12345678901234567890</code></td>
+</tr>
+<tr>
+<td><code>bigfloat</code></td>
+<td>Arbitrary-precision float</td>
+<td><code>3.14159265358979323846</code></td>
+</tr>
+<tr>
+<td><code>complex</code></td>
+<td>Complex number</td>
+<td><code>3+4i</code></td>
+</tr>
+<tr>
+<td><code>string</code></td>
+<td>UTF-8 string</td>
+<td><code>"hello"</code></td>
+</tr>
+<tr>
+<td><code>bool</code></td>
+<td>Boolean</td>
+<td><code>true</code> or <code>false</code></td>
+</tr>
+<tr>
+<td><code>char</code></td>
+<td>Unicode character</td>
+<td><code>'a'</code></td>
+</tr>
+<tr>
+<td><code>bytes</code></td>
+<td>Byte array</td>
+<td><code>[72, 101, 108, 108, 111]</code></td>
+</tr>
+<tr>
+<td><code>array</code></td>
+<td>Dynamic array</td>
+<td><code>[1, 2, 3]</code></td>
+</tr>
+<tr>
+<td><code>immutable-array</code></td>
+<td>Immutable array</td>
+<td><code>[1, 2, 3]</code></td>
+</tr>
+<tr>
+<td><code>map</code></td>
+<td>Dynamic map</td>
+<td><code>{"key": value}</code></td>
+</tr>
+<tr>
+<td><code>immutable-map</code></td>
+<td>Immutable map</td>
+<td><code>{"key": value}</code></td>
+</tr>
+<tr>
+<td><code>tuple</code></td>
+<td>Fixed-size immutable sequence</td>
+<td><code>(1, "hello", true)</code></td>
+</tr>
+<tr>
+<td><code>struct</code></td>
+<td>User-defined structure</td>
+<td><code>user{name: "Alice", age: 30}</code></td>
+</tr>
+<tr>
+<td><code>time</code></td>
+<td>Time value</td>
+<td><code>time()</code></td>
+</tr>
+<tr>
+<td><code>error</code></td>
+<td>Error value</td>
+<td><code>error("message")</code></td>
+</tr>
+<tr>
+<td><code>null</code></td>
+<td>Null value</td>
+<td><code>null</code></td>
+</tr>
+</tbody>
+</table>
 <hr />
 <h2 id="dependencies">Dependencies</h2>
 <p>Tender uses the following dependencies:</p>
@@ -363,7 +648,9 @@ ctx.save_png(&quot;out.png&quot;)  // Save output as PNG
 </ul>
 <hr />
 <h2 id="syntax-highlighting">Syntax Highlighting</h2>
-<p>Syntax highlighting is currently available only for <strong>Notepad++</strong>. Download the configuration file <a href="https://github.com/2dprototype/tender/blob/main/misc/syntax/npp_tender.xml">here</a>.</p>
+<p>Syntax highlighting is currently available for:
+- <strong>Notepad++</strong>: Download the configuration file <a href="https://github.com/2dprototype/tender/blob/main/misc/syntax/npp_tender.xml">here</a>
+- Support for additional editors coming soon</p>
 <hr />
 <h2 id="license">License</h2>
 <p>Tender is distributed under the <a href="https://github.com/2dprototype/tender/blob/main/LICENSE">MIT License</a>, with additional licenses provided for third-party dependencies. See <a href="https://github.com/2dprototype/tender/blob/main/LICENSE_GOLANG">LICENSE_GOLANG</a> and <a href="https://github.com/2dprototype/tender/blob/main/LICENSE_TENGO">LICENSE_TENGO</a> for more information.</p>
@@ -451,5 +738,5 @@ ctx.save_png(&quot;out.png&quot;)  // Save output as PNG
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2026-06-27 19:07:21.412740+00:00
+Build Date UTC : 2026-06-29 08:04:21.580581+00:00
 -->

@@ -142,6 +142,10 @@
 </li>
                                     
 <li>
+    <a href="../stdlib-sync/" class="dropdown-item">Stdlib sync</a>
+</li>
+                                    
+<li>
     <a href="../stdlib-tar/" class="dropdown-item">Stdlib tar</a>
 </li>
                                     
@@ -273,6 +277,10 @@
               </ul>
             </li>
             <li class="nav-item" data-bs-level="2"><a href="#range" class="nav-link">range</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#freeze" class="nav-link">freeze</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -488,6 +496,30 @@ sortedArr := sort(arr) // sortedArr == [1, 2, 3]
 <h2 id="range">range</h2>
 <p>Returns a new array of int with elements from <code>start</code> to <code>end</code>.</p>
 <pre><code class="language-golang">v := range(2, 5) // v == [2, 3, 4]
+</code></pre>
+<h2 id="freeze">freeze</h2>
+<p>Recursively converts a value into its fully immutable equivalent. Arrays
+become immutable arrays, maps become immutable maps, and all nested containers
+are converted in the same way. Primitives, strings, bytes, functions, and
+errors are returned as-is.</p>
+<p>If the input is already fully immutable (no mutable containers anywhere in the
+tree), the original value is returned without allocating anything new.</p>
+<pre><code class="language-golang">config := freeze({
+    limits: {max_retries: 3, timeout: 30},
+    tags:   [&quot;prod&quot;, &quot;v2&quot;]
+})
+// config, config.limits, and config.tags are all immutable arrays/maps.
+is_immutable_map(config)          // true
+is_immutable_map(config.limits)   // true
+is_immutable_array(config.tags)   // true
+</code></pre>
+<p><code>freeze</code> is particularly useful before sharing globals across concurrent
+<code>Clone()</code> executions: a frozen value is shared by all clones at zero copy
+cost because no clone can mutate it.</p>
+<pre><code class="language-golang">// Immutable input with no mutable children is returned as the same object.
+a := immutable([1, 2, 3])
+b := freeze(a)
+// b == a (same pointer, no allocation)
 </code></pre>
 <h2 id="format">format</h2>
 <p>Returns a formatted string. The first argument must be a String object. See
