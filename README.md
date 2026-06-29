@@ -12,12 +12,12 @@ Tender compiles into bytecode and executes on a stack-based virtual machine (VM)
 - **Compiles to bytecode**  
 - **Supports rich [built-in functions](docs/pages/builtins.md)**  
 - **Includes an extensive [standard library](docs/pages/stdlib.md)**  
-- **Optimized for 2D graphics**  
+- **Desgined for 2D graphics**  
 - **REPL (Read-Eval-Print Loop) for interactive development**
 - **Rich type system** including int, float, string, bool, char, null, big integers, big floats, complex numbers, bytes, arrays (dynamic and immutable), maps (dynamic and immutable), tuples, time values, and error values
 - **User-defined structs** with field types, nested structs, anonymous structs, and embedded fields
-- **Pointers and references** for mutable data manipulation
 - **Closures and first-class functions**
+- **Template literals** with `${}` interpolation (similar to JavaScript template strings)
 - **Advanced operators** including pipe operators (`<|`, `|>`), null coalescing (`??`), optional chaining (`?.`), ternary conditional (`? :`), compound assignment operators, and logical operators (`&&`, `||`)
 - **Modular architecture** with import statements, module aliasing, selective imports, embedded file import (`embed()`), and file-based module loading
 - **Runtime type introspection** with `typeof()` and type checking functions
@@ -28,11 +28,9 @@ Tender compiles into bytecode and executes on a stack-based virtual machine (VM)
 - **Variable declarations** with `var` and constants with `const`
 - **Function definitions** with `fn` keyword
 - **Export statements** for module exports
-- **Built-in functions** for type conversion, type checking, collection manipulation, search operations, memory operations (pointer, deref, set), range generation, debugging, and pretty printing
 - **Bytecode compilation** with compilation, execution, and parse-only modes
 - **Comprehensive operator precedence** matching conventional expectations
-- **Gob and CSV encoding/decoding** support
-- **Cross-platform support** for Windows, macOS, and Linux
+- **Cross-platform support** for Windows, macOS, Linux and Android (Termux)
 
 ### Supported Standard Library
 
@@ -64,7 +62,8 @@ Tender compiles into bytecode and executes on a stack-based virtual machine (VM)
 - [websocket](docs/pages/stdlib-websocket.md): WebSocket communication utilities  
 - **gob**: Gob Encoding/Decoding
 - **csv**: CSV Encoding/Decoding
-- **wui**: Windows GUI
+- [wui](pages/stdlib-wui.md)  
+- [sync](pages/stdlib-sync.md)  
 
 ## Quick Start
 
@@ -77,6 +76,20 @@ str1 := "hello"
 str2 := "world"
 
 println(str1 + " " + str2)
+```
+
+```go
+// Template literals example
+name := "Alice"
+age := 30
+message := `Hello ${name}, you are ${age} years old!`
+println(message)  // Output: Hello Alice, you are 30 years old!
+
+// Expressions inside templates
+println(`2 + 3 = ${2 + 3}`)  // Output: 2 + 3 = 5
+
+// Complex expressions
+println(`The result is ${if 5 > 3 { "true" } else { "false" }}`)
 ```
 
 ```go
@@ -101,9 +114,11 @@ type line struct {
 
 l := line{
     p1: point{x: 0, y: 0},
-    p2: point{x: 10, y: 10},
+    p2: point{x: 10, y: 10}
+
 }
-println("line from (", l.p1.x, ",", l.p1.y, ") to (", l.p2.x, ",", l.p2.y, ")")
+
+println(`line from (${l.p1.x}, ${l.p1.y}) to (${l.p2.x}, ${l.p2.y})`)
 ```
 
 ```go
@@ -179,6 +194,11 @@ fn make_counter() {
 var arr = [1, 2, 3, 4, 5]
 var map = { "key": "value" }
 
+// Template literals
+var user = "John"
+var greeting = `Hello ${user}, welcome to Tender!`
+println(greeting)
+
 // Structs
 type Person struct {
     name string
@@ -188,16 +208,12 @@ type Person struct {
 var person = Person{name: "John", age: 25}
 person.age = 26
 
-// Pointers
-var p = pointer(person)
-var val = deref(p)
-set(p, Person{name: "Jane", age: 30})
-
 // Type conversion and checking
 var num = int("123")
 if is_string(num) {
     println("This is a string")
-} else {
+} 
+else {
     println("This is not a string")
 }
 
@@ -215,6 +231,12 @@ var result = [1, 2, 3, 4, 6] |> sort |> reverse |> println
 
 // Null coalescing
 var value = null ?? "default value"
+
+// Template literals
+var items = ["apple", "banana", "orange"]
+for item in items {
+    `Item: ${item}` |> println
+}
 
 // Optional chaining
 var user = {	
@@ -293,7 +315,6 @@ Tender provides a rich type system with support for:
 | `struct` | User-defined structure | `user{name: "Alice", age: 30}` |
 | `time` | Time value | `time()` |
 | `error` | Error value | `error("message")` |
-| `pointer` | Reference to a value | `pointer(x)` |
 | `null` | Null value | `null` |
 
 ---

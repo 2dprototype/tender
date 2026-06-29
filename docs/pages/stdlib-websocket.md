@@ -1,6 +1,6 @@
 ## Stdlib `websocket`
 
-The `websocket` module provides functionalities for establishing and managing WebSocket connections using the `gorilla/websocket` library.
+The `websocket` module provides functionalities for establishing and managing WebSocket connections using the `gorilla/websocket` library, as well as creating WebSocket servers.
 
 ### Functions
 
@@ -11,6 +11,15 @@ Establishes a WebSocket connection to the specified URL.
 - `url`: The URL to connect to.
 
 Returns a `WebSocket Connection Object` with methods for interaction.
+
+#### `listen_and_serve(addr, handler)`
+
+Starts a WebSocket server on the specified address.
+
+- `addr`: The address to listen on (e.g., ":8080").
+- `handler`: A callback function that receives the WebSocket connection object.
+
+Returns an error object if the server fails to start.
 
 ### WebSocket Connection Object Methods
 
@@ -59,15 +68,34 @@ import "websocket"
 // Dial a WebSocket connection
 var conn = websocket.dial("ws://example.com/socket")
 
-//Read message from server
+// Read message from server
 go(fn(){
-	for {
-		read := conn.read_message()
-		println(read)
-	}
+    for {
+        read := conn.read_message()
+        println(read)
+    }
 })
 
-//Write message
-conn.write_message(1, "hello")
+// Write message
+if !is_error(conn) {
+    conn.write_message(1, "hello")
+}
 
+// Create a WebSocket server
+websocket.listen_and_serve(":8080", fn(conn) {
+    println("Client connected: ", conn.remote_addr())
+    
+    conn.write_message(1, "Welcome to the WebSocket server!")
+    
+    for {
+        msg := conn.read_message()
+        if is_error(msg) {
+            break
+        }
+        println("Received: ", msg)
+        conn.write_message(msg[0], msg[1]) // Echo back
+    }
+    
+    conn.close()
+})
 ```

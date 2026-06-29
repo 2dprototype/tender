@@ -23,4 +23,6 @@
 - [audio](stdlib-audio.md): Audio processing functions.
 - [net](stdlib-net.md): Networking functions.
 - [http](stdlib-http.md): Functions for HTTP client and server interactions.
-- [websocket](stdlib-websocket.md): Functions for working with WebSockets.
+- [websocket](stdlib-websocket.md)
+- [sync](stdlib-sync.md)
+- [wui](stdlib-wui.md)

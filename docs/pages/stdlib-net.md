@@ -1,6 +1,6 @@
 ## Stdlib `net`
 
-The `net` module provides functionalities for network communication, including DNS lookup, TCP and UDP address resolution, and various methods for establishing network connections.
+The `net` module provides functionalities for network communication, including DNS lookup, TCP and UDP address resolution, and various methods for establishing network connections and creating servers.
 
 ### Functions
 
@@ -48,6 +48,15 @@ Establishes a TCP network connection.
 
 Returns a connection object with methods for interaction.
 
+#### `listen(network, address)`
+
+Creates a network listener for accepting incoming connections.
+
+- `network`: Network type (e.g., "tcp", "tcp4", "tcp6", "unix").
+- `address`: The address to listen on.
+
+Returns a listener object with methods for accepting connections.
+
 ### Connection Object Methods
 
 #### `close()`
@@ -74,9 +83,9 @@ Returns the number of bytes written.
 
 Returns the local address of the connection.
 
-#### `remote_addr()`
+#### `remote_addr`
 
-Returns the remote address of the connection.
+The remote address of the connection.
 
 #### `set_deadline(t)`
 
@@ -95,6 +104,18 @@ Sets the read deadline for the connection.
 Sets the write deadline for the connection.
 
 - `t`: The write deadline time.
+
+### Listener Object Methods
+
+#### `accept()`
+
+Accepts an incoming connection.
+
+Returns a connection object with methods for interaction.
+
+#### `close()`
+
+Closes the listener.
 
 ### Example Usage
 
@@ -115,8 +136,9 @@ println(udp_addr)
 
 // Dial a TCP Connection
 conn := net.dialtcp("tcp", "example.com:80")
+
 if !is_error(conn) {
-    println("Connected to: ", conn.remote_addr())
+    println("Connected to: ", conn.remote_addr)
 
     // Write to the connection
     msg := bytes("GET / HTTP/1.1\r\nHost: example.com\r\n\r\n")
@@ -130,5 +152,22 @@ if !is_error(conn) {
 
     // Close the connection
     conn.close()
+}
+
+// Create a TCP server
+listener := net.listen("tcp", ":8080")
+if !is_error(listener) {
+    println("Server listening on :8080")
+    
+    for {
+        conn := listener.accept()
+        if !is_error(conn) {
+            go(fn() {
+                println("Client connected: ", conn.remote_addr())
+                conn.write(bytes("Hello, client!\n"))
+                conn.close()
+            })
+        }
+    }
 }
 ```
