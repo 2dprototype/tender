@@ -44,6 +44,7 @@ func init() {
 	gob.Register(&tender.Null{})
 	gob.Register(&tender.UserFunction{})
 	gob.Register(&tender.BuiltinFunction{})
+	gob.Register(&tender.Tuple{})
 	gob.Register(&tender.Struct{})
 	gob.Register(&tender.StructType{})
 	gob.Register(&stdlib.IOWriter{})

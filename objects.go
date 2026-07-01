@@ -223,125 +223,28 @@ func (o *Array) Equals(x Object) bool {
 }
 
 // IndexGet returns an element at a given index.
-// func (o *Array) IndexGet(index Object) (res Object, err error) {
-	// strIdx, ok := index.(*String) 
-	// if ok {
-		// if strIdx.Value == "length" {
-			// return &Int{Value: int64(len(o.Value))}, nil
-		// } else if strIdx.Value == "push" {
-			// return &BuiltinFunction{
-				// Value: func(args ...Object) (Object, error) {
-					// o.Value = append(o.Value, args...)
-					// return o, nil
-				// },
-			// }, nil
-		// } 
-		// return nil, nil
-	// }
-	// intIdx, ok := index.(*Int)
-	// if !ok {
-		// err = ErrInvalidIndexType
-		// return
-	// }
-	// idxVal := int(intIdx.Value)
-	// if idxVal < 0 || idxVal >= len(o.Value) {
-		// res = NullValue
-		// return
-	// }
-	// res = o.Value[idxVal]
-	// return
-// }
-
 func (o *Array) IndexGet(index Object) (res Object, err error) {
-	strIdx, ok := index.(*String)
-	if ok {
-		switch strIdx.Value {
-		case "length":
+	if strIdx, ok := index.(*String); ok {
+		if strIdx.Value == "length" {
 			return &Int{Value: int64(len(o.Value))}, nil
-		case "push":
-			return &BuiltinFunction{
-				Value: func(args ...Object) (Object, error) {
-					o.Value = append(o.Value, args...)
-					return &Int{Value: int64(len(o.Value))}, nil
-				},
-			}, nil
-		case "pop":
-			return &BuiltinFunction{
-				Value: func(args ...Object) (Object, error) {
-					if len(o.Value) == 0 {
-						return NullValue, nil
-					}
-					last := o.Value[len(o.Value)-1]
-					o.Value = o.Value[:len(o.Value)-1]
-					return last, nil
-				},
-			}, nil
-		case "shift":
-			return &BuiltinFunction{
-				Value: func(args ...Object) (Object, error) {
-					if len(o.Value) == 0 {
-						return NullValue, nil
-					}
-					first := o.Value[0]
-					o.Value = o.Value[1:]
-					return first, nil
-				},
-			}, nil
-		case "unshift":
-			return &BuiltinFunction{
-				Value: func(args ...Object) (Object, error) {
-					o.Value = append(args, o.Value...)
-					return &Int{Value: int64(len(o.Value))}, nil
-				},
-			}, nil
-		// case "slice":
-			// return &BuiltinFunction{
-				// Value: func(args ...Object) (Object, error) {
-					// if len(args) == 0 {
-						// return o.Copy(), nil
-					// }
-					// startObj, ok := args[0].(*Int)
-					// if !ok {
-						// return nil, ErrInvalidIndexType
-					// }
-					// start := int(startObj.Value)
-					// end := len(o.Value)
-					// if len(args) > 1 {
-						// endObj, ok := args[1].(*Int)
-						// if !ok {
-							// return nil, ErrInvalidIndexType
-						// }
-						// end = int(endObj.Value)
-					// }
-					// if start < 0 {
-						// start = 0
-					// }
-					// if end > len(o.Value) {
-						// end = len(o.Value)
-					// }
-					// return &Array{Value: append([]Object{}, o.Value[start:end]...)}, nil
-				// },
-			// }, nil
-		default:
-			return nil, nil
 		}
+		if method, exists := arrayMethods[strIdx.Value]; exists {
+			return &BuiltinFunction{
+				Name: strIdx.Value,
+				Value: func(args ...Object) (Object, error) {
+					return method(append([]Object{o}, args...)...)
+				},
+			}, nil
+		}
+		return nil, nil
 	}
 
 	intIdx, ok := index.(*Int)
-	if !ok {
-		err = ErrInvalidIndexType
-		return
-	}
-
+	if !ok { return nil, ErrInvalidIndexType }
 	idxVal := int(intIdx.Value)
-	if idxVal < 0 || idxVal >= len(o.Value) {
-		res = NullValue
-		return
-	}
-	res = o.Value[idxVal]
-	return
+	if idxVal < 0 || idxVal >= len(o.Value) { return NullValue, nil }
+	return o.Value[idxVal], nil
 }
-
 
 // IndexSet sets an element at a given index.
 func (o *Array) IndexSet(index, value Object) (err error) {
@@ -878,25 +781,26 @@ func (o *ImmutableArray) Equals(x Object) bool {
 
 // IndexGet returns an element at a given index.
 func (o *ImmutableArray) IndexGet(index Object) (res Object, err error) {
-	strIdx, ok := index.(*String) 
-	if ok {
+	if strIdx, ok := index.(*String); ok {
 		if strIdx.Value == "length" {
 			return &Int{Value: int64(len(o.Value))}, nil
 		}
+		if method, exists := immutableArrayMethods[strIdx.Value]; exists {
+			return &BuiltinFunction{
+				Name: strIdx.Value,
+				Value: func(args ...Object) (Object, error) {
+					return method(append([]Object{o}, args...)...)
+				},
+			}, nil
+		}
 		return nil, nil
 	}
+
 	intIdx, ok := index.(*Int)
-	if !ok {
-		err = ErrInvalidIndexType
-		return
-	}
+	if !ok { return nil, ErrInvalidIndexType }
 	idxVal := int(intIdx.Value)
-	if idxVal < 0 || idxVal >= len(o.Value) {
-		res = NullValue
-		return
-	}
-	res = o.Value[idxVal]
-	return
+	if idxVal < 0 || idxVal >= len(o.Value) { return NullValue, nil }
+	return o.Value[idxVal], nil
 }
 
 // Iterate creates an array iterator.

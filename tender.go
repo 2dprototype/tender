@@ -335,7 +335,7 @@ func writeObjectPrettyColored(builder *strings.Builder, o Object, indentLevel in
 			}
 			for i, k := range keys {
 				v := obj.Value[k]
-				builder.WriteString(indent + "  " + "\033[36m" + k + "\033[0m: ")
+				builder.WriteString(indent + "  " + k + ": ")
 				writeObjectPrettyColored(builder, v, indentLevel+1, visited)
 				if i < len(keys)-1 {
 					builder.WriteString(",\n")
@@ -368,7 +368,7 @@ func writeObjectPrettyColored(builder *strings.Builder, o Object, indentLevel in
 			}
 			for i, k := range keys {
 				v := obj.Value[k]
-				builder.WriteString(indent + "  " + "\033[36m" + k + "\033[0m: ")
+				builder.WriteString(indent + "  " + k + ": ")
 				writeObjectPrettyColored(builder, v, indentLevel+1, visited)
 				if i < len(keys)-1 {
 					builder.WriteString(",\n")
@@ -424,7 +424,7 @@ func writeObjectPrettyColored(builder *strings.Builder, o Object, indentLevel in
 				if val == nil {
 					val = NullValue
 				}
-				builder.WriteString(indent + "  " + "\033[36m" + f.Name + "\033[0m: ")
+				builder.WriteString(indent + "  " + f.Name + ": ")
 				writeObjectPrettyColored(builder, val, indentLevel+1, visited)
 				if i < len(obj.Type.Fields)-1 {
 					builder.WriteString(",\n")
