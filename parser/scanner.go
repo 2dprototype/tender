@@ -203,6 +203,10 @@ func (s *Scanner) Scan() (
 			if s.ch == '|' {
 				s.next()
 				tok = token.PipeL
+			} else if s.ch == '=' && s.peek() == '>' {
+				s.next()
+				s.next()
+				tok = token.Spaceship
 			} else {
 				tok = s.switch4(token.Less, token.LessEq, '<',
 					token.Shl, token.ShlAssign)

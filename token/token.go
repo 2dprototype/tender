@@ -73,6 +73,7 @@ const (
 	PipeR        // |>
 	OptionalDot  // ?.
 	Coalesce     // ??
+	Spaceship    // <=>
 	_operatorEnd
 	_keywordBeg
 	Break
@@ -163,6 +164,7 @@ var tokens = [...]string{
 	PipeR:        "|>",
 	OptionalDot:  "?.",
 	Coalesce:     "??",
+	Spaceship:    "<=>",
 	Break:        "break",
 	Continue:     "continue",
 	Else:         "else",
@@ -215,7 +217,7 @@ func (tok Token) Precedence() int {
 		return 2
 	case LAnd:
 		return 3
-	case Equal, NotEqual, Less, LessEq, Greater, GreaterEq:
+	case Equal, NotEqual, Less, LessEq, Greater, GreaterEq, Spaceship:
 		return 4
 	case Add, Sub, Or, Xor:
 		return 5

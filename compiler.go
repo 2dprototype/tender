@@ -204,6 +204,8 @@ func (c *Compiler) Compile(node parser.Node) error {
 				c.emit(node, parser.OpBinaryOp, int(token.Shl))
 			case token.Shr:
 				c.emit(node, parser.OpBinaryOp, int(token.Shr))
+			case token.Spaceship:
+				c.emit(node, parser.OpBinaryOp, int(token.Spaceship))
 		default:
 			return c.errorf(node, "invalid binary operator: %s", node.Token.String())
 		}

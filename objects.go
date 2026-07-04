@@ -553,6 +553,13 @@ func (o *Char) BinaryOp(op token.Token, rhs Object) (Object, error) {
 				return TrueValue, nil
 			}
 			return FalseValue, nil
+		case token.Spaceship:
+			if o.Value < rhs.Value {
+				return &Int{Value: -1}, nil
+			} else if o.Value > rhs.Value {
+				return &Int{Value: 1}, nil
+			}
+			return &Int{Value: 0}, nil
 		}
 	case *Int:
 		switch op {
@@ -588,6 +595,13 @@ func (o *Char) BinaryOp(op token.Token, rhs Object) (Object, error) {
 				return TrueValue, nil
 			}
 			return FalseValue, nil
+		case token.Spaceship:
+			if int64(o.Value) < rhs.Value {
+				return &Int{Value: -1}, nil
+			} else if int64(o.Value) > rhs.Value {
+				return &Int{Value: 1}, nil
+			}
+			return &Int{Value: 0}, nil
 		}
 	}
 	return nil, ErrInvalidOperator
@@ -1083,6 +1097,13 @@ func (o *Float) BinaryOp(op token.Token, rhs Object) (Object, error) {
 				return TrueValue, nil
 			}
 			return FalseValue, nil
+		case token.Spaceship:
+			if o.Value < rhs.Value {
+				return &Int{Value: -1}, nil
+			} else if o.Value > rhs.Value {
+				return &Int{Value: 1}, nil
+			}
+			return &Int{Value: 0}, nil
 		}
 	case *Int:
 		switch op {
@@ -1133,6 +1154,13 @@ func (o *Float) BinaryOp(op token.Token, rhs Object) (Object, error) {
 				return TrueValue, nil
 			}
 			return FalseValue, nil
+		case token.Spaceship:
+			if o.Value < float64(rhs.Value) {
+				return &Int{Value: -1}, nil
+			} else if o.Value > float64(rhs.Value) {
+				return &Int{Value: 1}, nil
+			}
+			return &Int{Value: 0}, nil
 		}
 		case *BigInt:
 			bi := new(big.Int)
@@ -1276,6 +1304,13 @@ func (o *Int) BinaryOp(op token.Token, rhs Object) (Object, error) {
 				return TrueValue, nil
 			}
 			return FalseValue, nil
+		case token.Spaceship:
+			if o.Value < rhs.Value {
+				return &Int{Value: -1}, nil
+			} else if o.Value > rhs.Value {
+				return &Int{Value: 1}, nil
+			}
+			return &Int{Value: 0}, nil
 		}
 	case *Float:
 		switch op {
@@ -1310,6 +1345,13 @@ func (o *Int) BinaryOp(op token.Token, rhs Object) (Object, error) {
 				return TrueValue, nil
 			}
 			return FalseValue, nil
+		case token.Spaceship:
+			if float64(o.Value) < rhs.Value {
+				return &Int{Value: -1}, nil
+			} else if float64(o.Value) > rhs.Value {
+				return &Int{Value: 1}, nil
+			}
+			return &Int{Value: 0}, nil
 		}
 	case *Char:
 		switch op {
@@ -1337,6 +1379,13 @@ func (o *Int) BinaryOp(op token.Token, rhs Object) (Object, error) {
 				return TrueValue, nil
 			}
 			return FalseValue, nil
+		case token.Spaceship:
+			if o.Value < int64(rhs.Value) {
+				return &Int{Value: -1}, nil
+			} else if o.Value > int64(rhs.Value) {
+				return &Int{Value: 1}, nil
+			}
+			return &Int{Value: 0}, nil
 		}
 		case *BigInt:
 			return binaryOpBigInt(op, new(big.Int).SetInt64(o.Value), rhs.Value), nil
@@ -1453,6 +1502,14 @@ func binaryOpBigInt (op token.Token, lhs *big.Int, rhs *big.Int) Object {
                 return TrueValue
             }
             return FalseValue
+        case token.Spaceship:
+			cmp := lhs.Cmp(rhs)
+			if cmp < 0 {
+				return &Int{Value: -1}
+			} else if cmp > 0 {
+				return &Int{Value: 1}
+			}
+			return &Int{Value: 0}
 	}
 	
 	return nil
@@ -1551,6 +1608,14 @@ func binaryOpBigFloat (op token.Token, lhs *big.Float, rhs *big.Float) Object {
                 return TrueValue
             }
             return FalseValue
+        case token.Spaceship:
+			cmp := lhs.Cmp(rhs)
+			if cmp < 0 {
+				return &Int{Value: -1}
+			} else if cmp > 0 {
+				return &Int{Value: 1}
+			}
+			return &Int{Value: 0}
 	}
 	return nil
 }
@@ -1878,6 +1943,16 @@ func (o *String) BinaryOp(op token.Token, rhs Object) (Object, error) {
 			}
 			return FalseValue, nil
 		}
+	case token.Spaceship:
+		switch rhs := rhs.(type) {
+		case *String:
+			if o.Value < rhs.Value {
+				return &Int{Value: -1}, nil
+			} else if o.Value > rhs.Value {
+				return &Int{Value: 1}, nil
+			}
+			return &Int{Value: 0}, nil
+		}
 	}
 	return nil, ErrInvalidOperator
 }
@@ -2091,6 +2166,13 @@ func (o *Time) BinaryOp(op token.Token, rhs Object) (Object, error) {
 				return TrueValue, nil
 			}
 			return FalseValue, nil
+		case token.Spaceship:
+			if o.Value.Before(rhs.Value) {
+				return &Int{Value: -1}, nil
+			} else if o.Value.After(rhs.Value) {
+				return &Int{Value: 1}, nil
+			}
+			return &Int{Value: 0}, nil
 		}
 	}
 	return nil, ErrInvalidOperator
