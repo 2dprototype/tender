@@ -2,6 +2,7 @@ package stdlib
 
 import (
 	"net/http"
+	"fmt"
 
 	"github.com/2dprototype/tender"
 	"github.com/gorilla/websocket"
@@ -53,7 +54,10 @@ func wsListenAndServe(args ...tender.Object) (tender.Object, error) {
 			wrappedConn := makeWsConn(conn)
 			
 			// Execute script callback
-			_, _ = tender.WrapFuncCall(vm, handlerFunc, wrappedConn)
+			_, err = tender.WrapFuncCall(vm, handlerFunc, wrappedConn)
+			if err != nil {
+				fmt.Println(err)
+			}
 		}),
 	}
 

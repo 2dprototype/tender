@@ -163,6 +163,8 @@ func canvasNewWindow(args ...tender.Object) (ret tender.Object, err error) {
 		}
 	}
 
+	var callErr error
+	
 	// Use the Go exp/shiny package to create a window
 	driver.Main(func(s screen.Screen) {
 		w, err := s.NewWindow(wOpts)
@@ -254,13 +256,14 @@ func canvasNewWindow(args ...tender.Object) (ret tender.Object, err error) {
 		}()
 		
 		if len(args) == 4 {
-			tender.WrapFuncCall(vm, args[3], wmap)
+			_, callErr = tender.WrapFuncCall(vm, args[3], wmap)
 		} else {
-			tender.WrapFuncCall(vm, args[1], wmap)	
+			_, callErr = tender.WrapFuncCall(vm, args[1], wmap)
 		}
 	})
 	
-	return nil, nil
+	return nil, callErr
+	// return wrapError(callErr), nil
 }
 
 
@@ -310,7 +313,7 @@ func makeGGContext(ctx *gg.Context) *tender.ImmutableMap {
 					ctx.DrawImageAnchored(img, ix, iy, fx, fy)
 					return nil, nil
 				},
-			},	
+				},	
 			"save_png": &tender.UserFunction{
 				Value: FuncASRE(ctx.SavePNG),
 			},	
