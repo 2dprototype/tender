@@ -7,6 +7,7 @@ import (
 // BuiltinModules are builtin type standard library modules.
 var BuiltinModules = map[string]map[string]tender.Object{
 	"math":         mathModule,
+	"mathf":        mathfModule,
 	"cmplx":        cmplxModule,
 	"os":           osModule,
 	"strings":      stringsModule,
