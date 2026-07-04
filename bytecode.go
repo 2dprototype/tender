@@ -367,6 +367,7 @@ func inferModuleName(mod *ImmutableMap) string {
 	// gob.Register(&BuiltinFunction{})
 	// gob.Register(&Struct{})
 	// gob.Register(&StructType{})
+	// gob.Register(&BoundMethod{})
 	// // gob.Register(&IOWriter{})
 	// // gob.Register(&IOReader{})
 // }

@@ -768,6 +768,7 @@ func (e *NullLit) String() string {
 type StructField struct {
 	Name *Ident
 	Type Expr
+	Tag  *StringLit
 }
 
 // StructTypeExpr represents a struct type definition expression.
@@ -784,7 +785,11 @@ func (e *StructTypeExpr) End() Pos { return e.RBrace + 1 }
 func (e *StructTypeExpr) String() string {
 	var fields []string
 	for _, f := range e.Fields {
-		fields = append(fields, f.Name.Name+" "+f.Type.String())
+		tagStr := ""
+		if f.Tag != nil {
+			tagStr = " " + f.Tag.String()
+		}
+		fields = append(fields, f.Name.Name+" "+f.Type.String()+tagStr)
 	}
 	return "struct { " + strings.Join(fields, "; ") + " }"
 }

@@ -364,6 +364,15 @@ func (c *Compiler) Compile(node parser.Node) error {
 			c.emit(node, parser.OpDefineLocal, symbol.Index)
 			symbol.LocalAssigned = true
 		}
+	case *parser.MethodStmt:
+		if err := c.Compile(node.Expr); err != nil {
+			return err
+		}
+		if err := c.Compile(node.ReceiverType); err != nil {
+			return err
+		}
+		c.emit(node, parser.OpConstant, c.addConstant(&String{Value: node.Ident.Name}))
+		c.emit(node, parser.OpMethod)
 	case *parser.BlockStmt:
 		if len(node.Stmts) == 0 {
 			return nil
@@ -1537,15 +1546,24 @@ func (c *Compiler) makeStructType(name string, expr *parser.StructTypeExpr) *Str
 		if f.Type != nil {
 			fieldTypeName = getTypeName(f.Type)
 		}
+		tagVal := ""
+		if f.Tag != nil {
+			tagVal = f.Tag.Value
+		}
 		fields = append(fields, StructField{
 			Name: fieldName,
 			Type: fieldTypeName,
+			Tag:  tagVal,
 		})
 	}
-	return &StructType{
+	st := &StructType{
 		Name:   name,
 		Fields: fields,
 	}
+	if name != "" {
+		StructTypes[name] = st
+	}
+	return st
 }
 
 func getTypeName(expr parser.Expr) string {

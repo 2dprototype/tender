@@ -12,6 +12,7 @@ import (
 	"errors"
 	"math"
 	"strconv"
+	"strings"
 	"unicode/utf8"
 
 	"github.com/2dprototype/tender"
@@ -193,6 +194,37 @@ func Encode(o tender.Object) ([]byte, error) {
 			idx++
 		}
 		b = append(b, '}')
+	case *tender.Struct:
+		b = append(b, '{')
+		var fieldsToEncode []tender.StructField
+		var valsToEncode []tender.Object
+		for _, f := range o.Type.Fields {
+			key := getJSONKey(f)
+			if key == "" {
+				continue
+			}
+			val := o.Fields[f.Name]
+			if val == nil {
+				val = tender.NullValue
+			}
+			fieldsToEncode = append(fieldsToEncode, f)
+			valsToEncode = append(valsToEncode, val)
+		}
+		len1 := len(fieldsToEncode) - 1
+		for idx, f := range fieldsToEncode {
+			key := getJSONKey(f)
+			b = encodeString(b, key)
+			b = append(b, ':')
+			eb, err := Encode(valsToEncode[idx])
+			if err != nil {
+				return nil, err
+			}
+			b = append(b, eb...)
+			if idx < len1 {
+				b = append(b, ',')
+			}
+		}
+		b = append(b, '}')
 	case *tender.Bool:
 		if o.IsFalsy() {
 			b = strconv.AppendBool(b, false)
@@ -336,3 +368,25 @@ func encodeStringSlowPath(buf *bytes.Buffer, i int, val string, valLen int) {
 		buf.WriteString(val[start:])
 	}
 }
+
+func getJSONKey(f tender.StructField) string {
+	if f.Tag != "" {
+		if idx := strings.Index(f.Tag, `json:"`); idx != -1 {
+			start := idx + len(`json:"`)
+			if end := strings.Index(f.Tag[start:], `"`); end != -1 {
+				key := f.Tag[start : start+end]
+				if optIdx := strings.Index(key, ","); optIdx != -1 {
+					key = key[:optIdx]
+				}
+				if key == "-" {
+					return ""
+				}
+				if key != "" {
+					return key
+				}
+			}
+		}
+	}
+	return f.Name
+}
+

@@ -2388,12 +2388,14 @@ func checkType(val Object, expectedType string) bool {
 type StructField struct {
 	Name string
 	Type string
+	Tag  string
 }
 
 type StructType struct {
 	ObjectImpl
-	Name   string
-	Fields []StructField
+	Name    string
+	Fields  []StructField
+	Methods map[string]Object
 }
 
 func (o *StructType) TypeName() string {
@@ -2453,6 +2455,9 @@ func (o *StructType) NewInstance() *Struct {
 	for _, f := range o.Fields {
 		fields[f.Name] = zeroValue(f.Type)
 	}
+	if o.Methods == nil {
+		o.Methods = make(map[string]Object)
+	}
 	if o.Name != "" {
 		StructTypes[o.Name] = o
 	}
@@ -2471,6 +2476,9 @@ func (o *StructType) GobEncode() (b []byte, err error) {
 	if err := enc.Encode(o.Fields); err != nil {
 		return nil, err
 	}
+	if err := enc.Encode(o.Methods); err != nil {
+		return nil, err
+	}
 	return buf.Bytes(), nil
 }
 
@@ -2481,6 +2489,9 @@ func (o *StructType) GobDecode(b []byte) (err error) {
 		return err
 	}
 	if err := dec.Decode(&o.Fields); err != nil {
+		return err
+	}
+	if err := dec.Decode(&o.Methods); err != nil {
 		return err
 	}
 	if o.Name != "" {
@@ -2568,14 +2579,21 @@ func (o *Struct) IndexGet(index Object) (Object, error) {
 			break
 		}
 	}
-	if !found {
-		return nil, fmt.Errorf("struct %s has no field %s", o.TypeName(), strIdx.Value)
+	if found {
+		val := o.Fields[strIdx.Value]
+		if val == nil {
+			return NullValue, nil
+		}
+		return val, nil
 	}
-	val := o.Fields[strIdx.Value]
-	if val == nil {
-		return NullValue, nil
+
+	if o.Type.Methods != nil {
+		if method, exists := o.Type.Methods[strIdx.Value]; exists {
+			return &BoundMethod{Receiver: o, Func: method}, nil
+		}
 	}
-	return val, nil
+
+	return nil, fmt.Errorf("struct %s has no field or method %s", o.TypeName(), strIdx.Value)
 }
 
 func (o *Struct) IndexSet(index, value Object) error {
@@ -2624,4 +2642,41 @@ func (o *Struct) GobDecode(b []byte) (err error) {
 		return err
 	}
 	return nil
+}
+
+type BoundMethod struct {
+	ObjectImpl
+	Receiver Object
+	Func     Object
+}
+
+func (o *BoundMethod) TypeName() string {
+	return "bound-method"
+}
+
+func (o *BoundMethod) String() string {
+	return "<bound-method>"
+}
+
+func (o *BoundMethod) Copy() Object {
+	return &BoundMethod{Receiver: o.Receiver.Copy(), Func: o.Func.Copy()}
+}
+
+func (o *BoundMethod) Equals(another Object) bool {
+	t, ok := another.(*BoundMethod)
+	if !ok {
+		return false
+	}
+	return o.Receiver.Equals(t.Receiver) && o.Func.Equals(t.Func)
+}
+
+func (o *BoundMethod) CanCall() bool {
+	return true
+}
+
+func (o *BoundMethod) Call(args ...Object) (Object, error) {
+	newArgs := make([]Object, len(args)+1)
+	newArgs[0] = o.Receiver
+	copy(newArgs[1:], args)
+	return o.Func.Call(newArgs...)
 }

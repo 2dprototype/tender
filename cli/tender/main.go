@@ -47,6 +47,7 @@ func init() {
 	gob.Register(&tender.Tuple{})
 	gob.Register(&tender.Struct{})
 	gob.Register(&tender.StructType{})
+	gob.Register(&tender.BoundMethod{})
 	gob.Register(&stdlib.IOWriter{})
 	gob.Register(&stdlib.IOReader{})
 	// gob.Register(&colorable.writer{})

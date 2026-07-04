@@ -675,6 +675,16 @@ func (v *VM) run() {
 			}
 			v.stack[v.sp] = inst
 			v.sp++
+		case parser.OpMethod:
+			methodName := v.stack[v.sp-1].(*String).Value
+			structType := v.stack[v.sp-2].(*StructType)
+			methodFunc := v.stack[v.sp-3]
+			v.sp -= 3
+
+			if structType.Methods == nil {
+				structType.Methods = make(map[string]Object)
+			}
+			structType.Methods[methodName] = methodFunc
 		case parser.OpError:
 			value := v.stack[v.sp-1]
 			var e Object = &Error{
@@ -906,6 +916,19 @@ func (v *VM) run() {
 			v.ip += 2
 
 			value := v.stack[v.sp-1-numArgs]
+
+			if bound, ok := value.(*BoundMethod); ok {
+				v.checkGrowStack(1)
+				for i := v.sp; i > v.sp-numArgs; i-- {
+					v.stack[i] = v.stack[i-1]
+				}
+				v.stack[v.sp-numArgs] = bound.Receiver
+				v.sp++
+				numArgs++
+				value = bound.Func
+				v.stack[v.sp-1-numArgs] = value
+			}
+
 			if !value.CanCall() {
 				v.err = fmt.Errorf("not callable: %s", value.TypeName())
 				return

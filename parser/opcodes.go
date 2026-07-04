@@ -51,6 +51,7 @@ const (
 	OpNullJump                    // Jump if null
 	OpNotNullJump                 // Jump if not null
 	OpStruct                      // Struct object
+	OpMethod                      // Method declaration
 )
 
 // OpcodeNames are string representation of opcodes.
@@ -101,6 +102,7 @@ var OpcodeNames = [...]string{
 	OpNullJump:      "NULLJMP",
 	OpNotNullJump:   "NNULLJMP",
 	OpStruct:        "STRUCT",
+	OpMethod:        "METHOD",
 }
 
 // OpcodeOperands is the number of operands.
@@ -151,6 +153,7 @@ var OpcodeOperands = [...][]int{
 	OpNullJump:      {2},
 	OpNotNullJump:   {2},
 	OpStruct:        {2, 1},
+	OpMethod:        {},
 }
 
 // ReadOperands reads operands from the bytecode.

@@ -898,6 +898,50 @@ func (p *Parser) parseFuncStmt() Stmt {
 	}
 
 	pos := p.expect(token.Func)
+
+	// Check if method declaration: fn (r ReceiverType) MethodName(params)
+	if p.token == token.LParen {
+		p.next() // consume '('
+		receiverName := p.parseIdent()
+		receiverType := p.parseIdent()
+		p.expect(token.RParen)
+
+		methodName := p.parseIdent()
+		params := p.parseIdentList()
+
+		// Add receiverName to the start of parameter list for the function literal
+		var newParams []*Ident
+		newParams = append(newParams, receiverName)
+		newParams = append(newParams, params.List...)
+
+		funcType := &FuncType{
+			FuncPos: pos,
+			Params: &IdentList{
+				LParen:  params.LParen,
+				RParen:  params.RParen,
+				VarArgs: params.VarArgs,
+				List:    newParams,
+			},
+		}
+
+		p.exprLevel++
+		body := p.parseBody()
+		p.exprLevel--
+
+		expr := &FuncLit{
+			Type: funcType,
+			Body: body,
+		}
+
+		return &MethodStmt{
+			FuncPos:      pos,
+			ReceiverName: receiverName,
+			ReceiverType: receiverType,
+			Ident:        methodName,
+			Expr:         expr,
+		}
+	}
+
 	varName := p.tokenLit
 
 	p.next()
@@ -1096,7 +1140,8 @@ func (p *Parser) parseStmt() (stmt Stmt) {
 		case token.Sysout:
 			return p.parseWriteStmt()
 		case token.Func:
-			if p.scanner.Peek() == token.Ident {
+			peek := p.scanner.Peek()
+			if peek == token.Ident || peek == token.LParen {
 				return p.parseFuncStmt()
 			}
 			s := p.parseSimpleStmt(false)
@@ -1734,10 +1779,26 @@ func (p *Parser) parseStructType() Expr {
 		} else {
 			fieldType = p.parseExpr()
 		}
+		var tag *StringLit
+		if p.token == token.String || p.token == token.Template {
+			v := p.tokenLit
+			if p.token == token.String {
+				v, _ = strconv.Unquote(p.tokenLit)
+			} else {
+				v = strings.Trim(p.tokenLit, "`")
+			}
+			tag = &StringLit{
+				Value:    v,
+				ValuePos: p.pos,
+				Literal:  p.tokenLit,
+			}
+			p.next()
+		}
 		for _, nameIdent := range idents {
 			fields = append(fields, &StructField{
 				Name: nameIdent,
 				Type: fieldType,
+				Tag:  tag,
 			})
 		}
 		if p.token == token.Semicolon {

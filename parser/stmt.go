@@ -412,3 +412,20 @@ func (s *TypeDeclStmt) String() string {
 	return "type " + s.Ident.Name + " " + s.StructType.String()
 }
 
+// MethodStmt represents a struct method declaration statement.
+type MethodStmt struct {
+	FuncPos      Pos
+	ReceiverName *Ident
+	ReceiverType *Ident
+	Ident        *Ident
+	Expr         *FuncLit
+}
+
+func (s *MethodStmt) stmtNode() {}
+func (s *MethodStmt) Pos() Pos { return s.FuncPos }
+func (s *MethodStmt) End() Pos { return s.Expr.End() }
+func (s *MethodStmt) String() string {
+	return "fn (" + s.ReceiverName.Name + " " + s.ReceiverType.Name + ") " + s.Ident.Name + s.Expr.Type.Params.String() + " " + s.Expr.Body.String()
+}
+
+
