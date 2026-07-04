@@ -2,6 +2,8 @@ package stdlib
 
 import (
 	"github.com/2dprototype/tender"
+	"github.com/2dprototype/tender/stdlib/gl"
+	"github.com/2dprototype/tender/stdlib/glut"
 )
 
 // BuiltinModules are builtin type standard library modules.
@@ -37,4 +39,6 @@ var BuiltinModules = map[string]map[string]tender.Object{
 	"csv":          csvModule,
 	"xml":          xmlModule,
 	"wui":          wuiModule,
+	"gl":           gl.Module.Attrs,
+	"glut":         glut.Module.Attrs,
 }
