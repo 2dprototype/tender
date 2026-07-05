@@ -1,3 +1,5 @@
+//go:build gl
+
 package stdlib
 
 import (

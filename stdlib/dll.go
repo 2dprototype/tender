@@ -1,4 +1,7 @@
+//go:build windows
+
 package stdlib
+
 
 import (
 	"syscall"

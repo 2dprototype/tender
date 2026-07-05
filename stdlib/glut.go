@@ -1,3 +1,5 @@
+//go:build glut
+
 package stdlib
 
 import (

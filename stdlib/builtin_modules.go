@@ -26,9 +26,7 @@ var BuiltinModules = map[string]map[string]tender.Object{
 	"path":         pathModule,
 	"image":        imageModule,
 	"canvas":       canvasModule,
-	"dll":          dllModule,
 	"io":           ioModule,
-	"audio":        audioModule,
 	"net":          netModule,
 	"http":         httpModule,
 	"websocket":    websocketModule,
@@ -36,8 +34,4 @@ var BuiltinModules = map[string]map[string]tender.Object{
 	"gob":          gobModule,
 	"csv":          csvModule,
 	"xml":          xmlModule,
-	"wui":          wuiModule,
-	"gl":           glModule,
-	"glut":         glutModule,
-	"glu":          gluModule,
 }

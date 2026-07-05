@@ -1,6 +1,7 @@
+@echo off
 mkdir build
-mkdir "build/android_arm64"
 set GOARCH=arm64
 set GOOS=android
-go build -o build/android_arm64/tender -ldflags "-s -w" cli/tender/main.go
+echo Building tender_termux.exe...
+go build -o build/tender_termux.exe -ldflags "-s -w" cli/tender/main.go
 pause
