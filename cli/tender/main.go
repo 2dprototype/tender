@@ -20,9 +20,11 @@ import (
 	"github.com/2dprototype/tender/parser"
 	"github.com/2dprototype/tender/stdlib"
 	"github.com/2dprototype/tender/v/colorable"
+	"runtime"
 )
 
 func init() {
+	runtime.LockOSThread()
 	gob.Register(&parser.SourceFileSet{})
 	gob.Register(&parser.SourceFile{})
 	gob.Register(&tender.Array{})

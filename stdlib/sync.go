@@ -2,22 +2,22 @@ package stdlib
 
 import (
 	"sync"
-	"runtime"
+	// "runtime"
 	"github.com/2dprototype/tender"
 )
 
 var syncModule = map[string]tender.Object{
 	"mutex": &tender.UserFunction{Name: "mutex", Value: syncNewMutex},
-	"lock_os_thread": &tender.BuiltinFunction{
-		Name: "lock_os_thread",
-		Value: func(args ...tender.Object) (tender.Object, error) {
-			if len(args) != 0 {
-				return nil, tender.ErrInvalidArgCount
-			}
-			runtime.LockOSThread()
-			return tender.NullValue, nil
-		},
-	},
+	// "lock_os_thread": &tender.BuiltinFunction{
+		// Name: "lock_os_thread",
+		// Value: func(args ...tender.Object) (tender.Object, error) {
+			// if len(args) != 0 {
+				// return nil, tender.ErrInvalidArgCount
+			// }
+			// runtime.LockOSThread()
+			// return tender.NullValue, nil
+		// },
+	// },
 }
 
 func syncNewMutex(args ...tender.Object) (tender.Object, error) {
