@@ -1,6 +1,7 @@
 package stdlib
 
 import (
+	"fmt"
 	"github.com/2dprototype/tender"
 	"github.com/2dprototype/tender/v/glut"
 )
@@ -541,8 +542,9 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
+
 	// ============================================================
-	// CALLBACK FUNCTIONS (VM-Aware)
+	// CALLBACK FUNCTIONS (VM-Aware) - With Error Printing
 	// ============================================================
 	"display_func": &tender.BuiltinFunction{
 		Name:      "display_func",
@@ -557,7 +559,9 @@ var glutModule = map[string]tender.Object{
 				return nil, tender.ErrNotCallable
 			}
 			glut.DisplayFunc(func() {
-				tender.WrapFuncCall(vm, args[0])
+				if _, err := tender.WrapFuncCall(vm, args[0]); err != nil {
+					fmt.Println("GLUT display_func error:", err)
+				}
 			})
 			return tender.NullValue, nil
 		},
@@ -576,10 +580,12 @@ var glutModule = map[string]tender.Object{
 				return nil, tender.ErrNotCallable
 			}
 			glut.ReshapeFunc(func(w, h int) {
-				tender.WrapFuncCall(vm, args[0],
+				if _, err := tender.WrapFuncCall(vm, args[0],
 					&tender.Int{Value: int64(w)},
 					&tender.Int{Value: int64(h)},
-				)
+				); err != nil {
+					fmt.Println("GLUT reshape_func error:", err)
+				}
 			})
 			return tender.NullValue, nil
 		},
@@ -598,11 +604,13 @@ var glutModule = map[string]tender.Object{
 				return nil, tender.ErrNotCallable
 			}
 			glut.KeyboardFunc(func(key byte, x, y int) {
-				tender.WrapFuncCall(vm, args[0],
+				if _, err := tender.WrapFuncCall(vm, args[0],
 					&tender.String{Value: string(key)},
 					&tender.Int{Value: int64(x)},
 					&tender.Int{Value: int64(y)},
-				)
+				); err != nil {
+					fmt.Println("GLUT keyboard_func error:", err)
+				}
 			})
 			return tender.NullValue, nil
 		},
@@ -621,11 +629,13 @@ var glutModule = map[string]tender.Object{
 				return nil, tender.ErrNotCallable
 			}
 			glut.KeyboardUpFunc(func(key byte, x, y int) {
-				tender.WrapFuncCall(vm, args[0],
+				if _, err := tender.WrapFuncCall(vm, args[0],
 					&tender.String{Value: string(key)},
 					&tender.Int{Value: int64(x)},
 					&tender.Int{Value: int64(y)},
-				)
+				); err != nil {
+					fmt.Println("GLUT keyboard_up_func error:", err)
+				}
 			})
 			return tender.NullValue, nil
 		},
@@ -644,11 +654,13 @@ var glutModule = map[string]tender.Object{
 				return nil, tender.ErrNotCallable
 			}
 			glut.SpecialFunc(func(key, x, y int) {
-				tender.WrapFuncCall(vm, args[0],
+				if _, err := tender.WrapFuncCall(vm, args[0],
 					&tender.Int{Value: int64(key)},
 					&tender.Int{Value: int64(x)},
 					&tender.Int{Value: int64(y)},
-				)
+				); err != nil {
+					fmt.Println("GLUT special_func error:", err)
+				}
 			})
 			return tender.NullValue, nil
 		},
@@ -667,11 +679,13 @@ var glutModule = map[string]tender.Object{
 				return nil, tender.ErrNotCallable
 			}
 			glut.SpecialUpFunc(func(key, x, y int) {
-				tender.WrapFuncCall(vm, args[0],
+				if _, err := tender.WrapFuncCall(vm, args[0],
 					&tender.Int{Value: int64(key)},
 					&tender.Int{Value: int64(x)},
 					&tender.Int{Value: int64(y)},
-				)
+				); err != nil {
+					fmt.Println("GLUT special_up_func error:", err)
+				}
 			})
 			return tender.NullValue, nil
 		},
@@ -690,12 +704,14 @@ var glutModule = map[string]tender.Object{
 				return nil, tender.ErrNotCallable
 			}
 			glut.MouseFunc(func(button, state, x, y int) {
-				tender.WrapFuncCall(vm, args[0],
+				if _, err := tender.WrapFuncCall(vm, args[0],
 					&tender.Int{Value: int64(button)},
 					&tender.Int{Value: int64(state)},
 					&tender.Int{Value: int64(x)},
 					&tender.Int{Value: int64(y)},
-				)
+				); err != nil {
+					fmt.Println("GLUT mouse_func error:", err)
+				}
 			})
 			return tender.NullValue, nil
 		},
@@ -714,10 +730,12 @@ var glutModule = map[string]tender.Object{
 				return nil, tender.ErrNotCallable
 			}
 			glut.MotionFunc(func(x, y int) {
-				tender.WrapFuncCall(vm, args[0],
+				if _, err := tender.WrapFuncCall(vm, args[0],
 					&tender.Int{Value: int64(x)},
 					&tender.Int{Value: int64(y)},
-				)
+				); err != nil {
+					fmt.Println("GLUT motion_func error:", err)
+				}
 			})
 			return tender.NullValue, nil
 		},
@@ -736,10 +754,12 @@ var glutModule = map[string]tender.Object{
 				return nil, tender.ErrNotCallable
 			}
 			glut.PassiveMotionFunc(func(x, y int) {
-				tender.WrapFuncCall(vm, args[0],
+				if _, err := tender.WrapFuncCall(vm, args[0],
 					&tender.Int{Value: int64(x)},
 					&tender.Int{Value: int64(y)},
-				)
+				); err != nil {
+					fmt.Println("GLUT passive_motion_func error:", err)
+				}
 			})
 			return tender.NullValue, nil
 		},
@@ -758,9 +778,11 @@ var glutModule = map[string]tender.Object{
 				return nil, tender.ErrNotCallable
 			}
 			glut.EntryFunc(func(state int) {
-				tender.WrapFuncCall(vm, args[0],
+				if _, err := tender.WrapFuncCall(vm, args[0],
 					&tender.Int{Value: int64(state)},
-				)
+				); err != nil {
+					fmt.Println("GLUT entry_func error:", err)
+				}
 			})
 			return tender.NullValue, nil
 		},
@@ -779,9 +801,11 @@ var glutModule = map[string]tender.Object{
 				return nil, tender.ErrNotCallable
 			}
 			glut.VisibilityFunc(func(state int) {
-				tender.WrapFuncCall(vm, args[0],
+				if _, err := tender.WrapFuncCall(vm, args[0],
 					&tender.Int{Value: int64(state)},
-				)
+				); err != nil {
+					fmt.Println("GLUT visibility_func error:", err)
+				}
 			})
 			return tender.NullValue, nil
 		},
@@ -800,7 +824,9 @@ var glutModule = map[string]tender.Object{
 				return nil, tender.ErrNotCallable
 			}
 			glut.IdleFunc(func() {
-				tender.WrapFuncCall(vm, args[0])
+				if _, err := tender.WrapFuncCall(vm, args[0]); err != nil {
+					fmt.Println("GLUT idle_func error:", err)
+				}
 			})
 			return tender.NullValue, nil
 		},
@@ -828,7 +854,9 @@ var glutModule = map[string]tender.Object{
 			}
 			cb := args[1]
 			glut.TimerFunc(int(msecs.Value), func(id int) {
-				tender.WrapFuncCall(vm, cb, &tender.Int{Value: int64(id)})
+				if _, err := tender.WrapFuncCall(vm, cb, &tender.Int{Value: int64(id)}); err != nil {
+					fmt.Println("GLUT timer_func error:", err)
+				}
 			}, int(timerId.Value))
 			return tender.NullValue, nil
 		},
@@ -847,7 +875,9 @@ var glutModule = map[string]tender.Object{
 				return nil, tender.ErrNotCallable
 			}
 			glut.OverlayDisplayFunc(func() {
-				tender.WrapFuncCall(vm, args[0])
+				if _, err := tender.WrapFuncCall(vm, args[0]); err != nil {
+					fmt.Println("GLUT overlay_display_func error:", err)
+				}
 			})
 			return tender.NullValue, nil
 		},
@@ -866,11 +896,13 @@ var glutModule = map[string]tender.Object{
 				return nil, tender.ErrNotCallable
 			}
 			glut.SpaceballMotionFunc(func(x, y, z int) {
-				tender.WrapFuncCall(vm, args[0],
+				if _, err := tender.WrapFuncCall(vm, args[0],
 					&tender.Int{Value: int64(x)},
 					&tender.Int{Value: int64(y)},
 					&tender.Int{Value: int64(z)},
-				)
+				); err != nil {
+					fmt.Println("GLUT spaceball_motion_func error:", err)
+				}
 			})
 			return tender.NullValue, nil
 		},
@@ -889,11 +921,13 @@ var glutModule = map[string]tender.Object{
 				return nil, tender.ErrNotCallable
 			}
 			glut.SpaceballRotateFunc(func(x, y, z int) {
-				tender.WrapFuncCall(vm, args[0],
+				if _, err := tender.WrapFuncCall(vm, args[0],
 					&tender.Int{Value: int64(x)},
 					&tender.Int{Value: int64(y)},
 					&tender.Int{Value: int64(z)},
-				)
+				); err != nil {
+					fmt.Println("GLUT spaceball_rotate_func error:", err)
+				}
 			})
 			return tender.NullValue, nil
 		},
@@ -912,10 +946,12 @@ var glutModule = map[string]tender.Object{
 				return nil, tender.ErrNotCallable
 			}
 			glut.SpaceballButtonFunc(func(button, state int) {
-				tender.WrapFuncCall(vm, args[0],
+				if _, err := tender.WrapFuncCall(vm, args[0],
 					&tender.Int{Value: int64(button)},
 					&tender.Int{Value: int64(state)},
-				)
+				); err != nil {
+					fmt.Println("GLUT spaceball_button_func error:", err)
+				}
 			})
 			return tender.NullValue, nil
 		},
@@ -934,10 +970,12 @@ var glutModule = map[string]tender.Object{
 				return nil, tender.ErrNotCallable
 			}
 			glut.ButtonBoxFunc(func(button, state int) {
-				tender.WrapFuncCall(vm, args[0],
+				if _, err := tender.WrapFuncCall(vm, args[0],
 					&tender.Int{Value: int64(button)},
 					&tender.Int{Value: int64(state)},
-				)
+				); err != nil {
+					fmt.Println("GLUT button_box_func error:", err)
+				}
 			})
 			return tender.NullValue, nil
 		},
@@ -956,10 +994,12 @@ var glutModule = map[string]tender.Object{
 				return nil, tender.ErrNotCallable
 			}
 			glut.DialsFunc(func(dial, value int) {
-				tender.WrapFuncCall(vm, args[0],
+				if _, err := tender.WrapFuncCall(vm, args[0],
 					&tender.Int{Value: int64(dial)},
 					&tender.Int{Value: int64(value)},
-				)
+				); err != nil {
+					fmt.Println("GLUT dials_func error:", err)
+				}
 			})
 			return tender.NullValue, nil
 		},
@@ -978,10 +1018,12 @@ var glutModule = map[string]tender.Object{
 				return nil, tender.ErrNotCallable
 			}
 			glut.TabletMotionFunc(func(x, y int) {
-				tender.WrapFuncCall(vm, args[0],
+				if _, err := tender.WrapFuncCall(vm, args[0],
 					&tender.Int{Value: int64(x)},
 					&tender.Int{Value: int64(y)},
-				)
+				); err != nil {
+					fmt.Println("GLUT tablet_motion_func error:", err)
+				}
 			})
 			return tender.NullValue, nil
 		},
@@ -1000,12 +1042,14 @@ var glutModule = map[string]tender.Object{
 				return nil, tender.ErrNotCallable
 			}
 			glut.TabletButtonFunc(func(button, state, x, y int) {
-				tender.WrapFuncCall(vm, args[0],
+				if _, err := tender.WrapFuncCall(vm, args[0],
 					&tender.Int{Value: int64(button)},
 					&tender.Int{Value: int64(state)},
 					&tender.Int{Value: int64(x)},
 					&tender.Int{Value: int64(y)},
-				)
+				); err != nil {
+					fmt.Println("GLUT tablet_button_func error:", err)
+				}
 			})
 			return tender.NullValue, nil
 		},
@@ -1028,12 +1072,14 @@ var glutModule = map[string]tender.Object{
 				return nil, tender.ErrInvalidArgument
 			}
 			glut.JoystickFunc(func(buttonMask uint, x, y, z int) {
-				tender.WrapFuncCall(vm, args[0],
+				if _, err := tender.WrapFuncCall(vm, args[0],
 					&tender.Int{Value: int64(buttonMask)},
 					&tender.Int{Value: int64(x)},
 					&tender.Int{Value: int64(y)},
 					&tender.Int{Value: int64(z)},
-				)
+				); err != nil {
+					fmt.Println("GLUT joystick_func error:", err)
+				}
 			}, int(pollInterval.Value))
 			return tender.NullValue, nil
 		},
@@ -1052,9 +1098,11 @@ var glutModule = map[string]tender.Object{
 				return nil, tender.ErrNotCallable
 			}
 			glut.WindowStatusFunc(func(state int) {
-				tender.WrapFuncCall(vm, args[0],
+				if _, err := tender.WrapFuncCall(vm, args[0],
 					&tender.Int{Value: int64(state)},
-				)
+				); err != nil {
+					fmt.Println("GLUT window_status_func error:", err)
+				}
 			})
 			return tender.NullValue, nil
 		},
@@ -1073,9 +1121,11 @@ var glutModule = map[string]tender.Object{
 				return nil, tender.ErrNotCallable
 			}
 			glut.MenuStateFunc(func(status int) {
-				tender.WrapFuncCall(vm, args[0],
+				if _, err := tender.WrapFuncCall(vm, args[0],
 					&tender.Int{Value: int64(status)},
-				)
+				); err != nil {
+					fmt.Println("GLUT menu_state_func error:", err)
+				}
 			})
 			return tender.NullValue, nil
 		},
@@ -1094,11 +1144,13 @@ var glutModule = map[string]tender.Object{
 				return nil, tender.ErrNotCallable
 			}
 			glut.MenuStatusFunc(func(status, x, y int) {
-				tender.WrapFuncCall(vm, args[0],
+				if _, err := tender.WrapFuncCall(vm, args[0],
 					&tender.Int{Value: int64(status)},
 					&tender.Int{Value: int64(x)},
 					&tender.Int{Value: int64(y)},
-				)
+				); err != nil {
+					fmt.Println("GLUT menu_status_func error:", err)
+				}
 			})
 			return tender.NullValue, nil
 		},
@@ -1107,6 +1159,7 @@ var glutModule = map[string]tender.Object{
 	// ============================================================
 	// MENU FUNCTIONS
 	// ============================================================
+
 	"create_menu": &tender.BuiltinFunction{
 		Name:      "create_menu",
 		NeedVMObj: true,
@@ -1121,7 +1174,9 @@ var glutModule = map[string]tender.Object{
 			}
 			cb := args[0]
 			id := glut.CreateMenu(func(value int) {
-				tender.WrapFuncCall(vm, cb, &tender.Int{Value: int64(value)})
+				if _, err := tender.WrapFuncCall(vm, cb, &tender.Int{Value: int64(value)}); err != nil {
+					fmt.Println("GLUT create_menu error:", err)
+				}
 			})
 			return &tender.Int{Value: int64(id)}, nil
 		},

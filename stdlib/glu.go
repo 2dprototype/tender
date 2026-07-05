@@ -7,55 +7,6 @@ import (
 	"github.com/2dprototype/tender/v/glu"
 )
 
-// Helper functions for type conversion
-func toFloat64(obj tender.Object) (float64, bool) {
-	if f, ok := obj.(*tender.Float); ok {
-		return f.Value, true
-	}
-	if i, ok := obj.(*tender.Int); ok {
-		return float64(i.Value), true
-	}
-	return 0, false
-}
-
-func toFloat32(obj tender.Object) (float32, bool) {
-	if f, ok := obj.(*tender.Float); ok {
-		return float32(f.Value), true
-	}
-	if i, ok := obj.(*tender.Int); ok {
-		return float32(i.Value), true
-	}
-	return 0, false
-}
-
-func toUint32(obj tender.Object) (uint32, bool) {
-	if i, ok := obj.(*tender.Int); ok {
-		return uint32(i.Value), true
-	}
-	return 0, false
-}
-
-func toInt32(obj tender.Object) (int32, bool) {
-	if i, ok := obj.(*tender.Int); ok {
-		return int32(i.Value), true
-	}
-	return 0, false
-}
-
-func toInt(obj tender.Object) (int, bool) {
-	if i, ok := obj.(*tender.Int); ok {
-		return int(i.Value), true
-	}
-	return 0, false
-}
-
-func toUint64(obj tender.Object) (uint64, bool) {
-	if i, ok := obj.(*tender.Int); ok {
-		return uint64(i.Value), true
-	}
-	return 0, false
-}
-
 var gluModule = map[string]tender.Object{
 	// ==================== Constants ====================
 	// TessCallback constants
@@ -86,27 +37,27 @@ var gluModule = map[string]tender.Object{
 			if len(args) != 7 {
 				return nil, tender.ErrInvalidArgCount
 			}
-			target, okT := toUint32(args[0])
+			target, okT := tender.ToUint32(args[0])
 			if !okT {
 				return nil, tender.ErrInvalidArgCount
 			}
-			internalFormat, okIF := toInt(args[1])
+			internalFormat, okIF := tender.ToInt(args[1])
 			if !okIF {
 				return nil, tender.ErrInvalidArgCount
 			}
-			width, okW := toInt(args[2])
+			width, okW := tender.ToInt(args[2])
 			if !okW {
 				return nil, tender.ErrInvalidArgCount
 			}
-			height, okH := toInt(args[3])
+			height, okH := tender.ToInt(args[3])
 			if !okH {
 				return nil, tender.ErrInvalidArgCount
 			}
-			format, okF := toUint32(args[4])
+			format, okF := tender.ToUint32(args[4])
 			if !okF {
 				return nil, tender.ErrInvalidArgCount
 			}
-			typ, okTy := toUint32(args[5])
+			typ, okTy := tender.ToUint32(args[5])
 			if !okTy {
 				return nil, tender.ErrInvalidArgCount
 			}
@@ -129,15 +80,15 @@ var gluModule = map[string]tender.Object{
 			if len(args) != 9 {
 				return nil, tender.ErrInvalidArgCount
 			}
-			eyeX, ok1 := toFloat64(args[0])
-			eyeY, ok2 := toFloat64(args[1])
-			eyeZ, ok3 := toFloat64(args[2])
-			centerX, ok4 := toFloat64(args[3])
-			centerY, ok5 := toFloat64(args[4])
-			centerZ, ok6 := toFloat64(args[5])
-			upX, ok7 := toFloat64(args[6])
-			upY, ok8 := toFloat64(args[7])
-			upZ, ok9 := toFloat64(args[8])
+			eyeX, ok1 := tender.ToFloat64(args[0])
+			eyeY, ok2 := tender.ToFloat64(args[1])
+			eyeZ, ok3 := tender.ToFloat64(args[2])
+			centerX, ok4 := tender.ToFloat64(args[3])
+			centerY, ok5 := tender.ToFloat64(args[4])
+			centerZ, ok6 := tender.ToFloat64(args[5])
+			upX, ok7 := tender.ToFloat64(args[6])
+			upY, ok8 := tender.ToFloat64(args[7])
+			upZ, ok9 := tender.ToFloat64(args[8])
 			if !ok1 || !ok2 || !ok3 || !ok4 || !ok5 || !ok6 || !ok7 || !ok8 || !ok9 {
 				return nil, tender.ErrInvalidArgCount
 			}
@@ -152,10 +103,10 @@ var gluModule = map[string]tender.Object{
 			if len(args) != 4 {
 				return nil, tender.ErrInvalidArgCount
 			}
-			fovy, ok1 := toFloat64(args[0])
-			aspect, ok2 := toFloat64(args[1])
-			zNear, ok3 := toFloat64(args[2])
-			zFar, ok4 := toFloat64(args[3])
+			fovy, ok1 := tender.ToFloat64(args[0])
+			aspect, ok2 := tender.ToFloat64(args[1])
+			zNear, ok3 := tender.ToFloat64(args[2])
+			zFar, ok4 := tender.ToFloat64(args[3])
 			if !ok1 || !ok2 || !ok3 || !ok4 {
 				return nil, tender.ErrInvalidArgCount
 			}
@@ -170,15 +121,15 @@ var gluModule = map[string]tender.Object{
 			if len(args) != 38 {
 				return nil, tender.ErrInvalidArgCount
 			}
-			projX, ok1 := toFloat64(args[0])
-			projY, ok2 := toFloat64(args[1])
-			projZ, ok3 := toFloat64(args[2])
+			projX, ok1 := tender.ToFloat64(args[0])
+			projY, ok2 := tender.ToFloat64(args[1])
+			projZ, ok3 := tender.ToFloat64(args[2])
 			if !ok1 || !ok2 || !ok3 {
 				return nil, tender.ErrInvalidArgCount
 			}
 			var model [16]float64
 			for i := 0; i < 16; i++ {
-				val, ok := toFloat64(args[3+i])
+				val, ok := tender.ToFloat64(args[3+i])
 				if !ok {
 					return nil, tender.ErrInvalidArgCount
 				}
@@ -186,7 +137,7 @@ var gluModule = map[string]tender.Object{
 			}
 			var proj [16]float64
 			for i := 0; i < 16; i++ {
-				val, ok := toFloat64(args[19+i])
+				val, ok := tender.ToFloat64(args[19+i])
 				if !ok {
 					return nil, tender.ErrInvalidArgCount
 				}
@@ -194,7 +145,7 @@ var gluModule = map[string]tender.Object{
 			}
 			var view [4]int32
 			for i := 0; i < 4; i++ {
-				val, ok := toInt32(args[35+i])
+				val, ok := tender.ToInt32(args[35+i])
 				if !ok {
 					return nil, tender.ErrInvalidArgCount
 				}
@@ -217,15 +168,15 @@ var gluModule = map[string]tender.Object{
 			if len(args) != 38 {
 				return nil, tender.ErrInvalidArgCount
 			}
-			winX, ok1 := toFloat64(args[0])
-			winY, ok2 := toFloat64(args[1])
-			winZ, ok3 := toFloat64(args[2])
+			winX, ok1 := tender.ToFloat64(args[0])
+			winY, ok2 := tender.ToFloat64(args[1])
+			winZ, ok3 := tender.ToFloat64(args[2])
 			if !ok1 || !ok2 || !ok3 {
 				return nil, tender.ErrInvalidArgCount
 			}
 			var model [16]float64
 			for i := 0; i < 16; i++ {
-				val, ok := toFloat64(args[3+i])
+				val, ok := tender.ToFloat64(args[3+i])
 				if !ok {
 					return nil, tender.ErrInvalidArgCount
 				}
@@ -233,7 +184,7 @@ var gluModule = map[string]tender.Object{
 			}
 			var proj [16]float64
 			for i := 0; i < 16; i++ {
-				val, ok := toFloat64(args[19+i])
+				val, ok := tender.ToFloat64(args[19+i])
 				if !ok {
 					return nil, tender.ErrInvalidArgCount
 				}
@@ -241,7 +192,7 @@ var gluModule = map[string]tender.Object{
 			}
 			var view [4]int32
 			for i := 0; i < 4; i++ {
-				val, ok := toInt32(args[35+i])
+				val, ok := tender.ToInt32(args[35+i])
 				if !ok {
 					return nil, tender.ErrInvalidArgCount
 				}
@@ -264,7 +215,7 @@ var gluModule = map[string]tender.Object{
 			if len(args) != 1 {
 				return nil, tender.ErrInvalidArgCount
 			}
-			errCode, ok := toUint32(args[0])
+			errCode, ok := tender.ToUint32(args[0])
 			if !ok {
 				return nil, tender.ErrInvalidArgCount
 			}
@@ -295,19 +246,19 @@ var gluModule = map[string]tender.Object{
 			if len(args) != 4 {
 				return nil, tender.ErrInvalidArgCount
 			}
-			qPtr, okQ := toUint64(args[0])
+			qPtr, okQ := tender.ToUint64(args[0])
 			if !okQ {
 				return nil, tender.ErrInvalidArgCount
 			}
-			radius, okR := toFloat32(args[1])
+			radius, okR := tender.ToFloat32(args[1])
 			if !okR {
 				return nil, tender.ErrInvalidArgCount
 			}
-			slices, okS := toInt(args[2])
+			slices, okS := tender.ToInt(args[2])
 			if !okS {
 				return nil, tender.ErrInvalidArgCount
 			}
-			stacks, okSt := toInt(args[3])
+			stacks, okSt := tender.ToInt(args[3])
 			if !okSt {
 				return nil, tender.ErrInvalidArgCount
 			}
@@ -323,27 +274,27 @@ var gluModule = map[string]tender.Object{
 			if len(args) != 6 {
 				return nil, tender.ErrInvalidArgCount
 			}
-			qPtr, okQ := toUint64(args[0])
+			qPtr, okQ := tender.ToUint64(args[0])
 			if !okQ {
 				return nil, tender.ErrInvalidArgCount
 			}
-			base, okB := toFloat32(args[1])
+			base, okB := tender.ToFloat32(args[1])
 			if !okB {
 				return nil, tender.ErrInvalidArgCount
 			}
-			top, okT := toFloat32(args[2])
+			top, okT := tender.ToFloat32(args[2])
 			if !okT {
 				return nil, tender.ErrInvalidArgCount
 			}
-			height, okH := toFloat32(args[3])
+			height, okH := tender.ToFloat32(args[3])
 			if !okH {
 				return nil, tender.ErrInvalidArgCount
 			}
-			slices, okS := toInt(args[4])
+			slices, okS := tender.ToInt(args[4])
 			if !okS {
 				return nil, tender.ErrInvalidArgCount
 			}
-			stacks, okSt := toInt(args[5])
+			stacks, okSt := tender.ToInt(args[5])
 			if !okSt {
 				return nil, tender.ErrInvalidArgCount
 			}
@@ -359,23 +310,23 @@ var gluModule = map[string]tender.Object{
 			if len(args) != 5 {
 				return nil, tender.ErrInvalidArgCount
 			}
-			qPtr, okQ := toUint64(args[0])
+			qPtr, okQ := tender.ToUint64(args[0])
 			if !okQ {
 				return nil, tender.ErrInvalidArgCount
 			}
-			inner, okI := toFloat32(args[1])
+			inner, okI := tender.ToFloat32(args[1])
 			if !okI {
 				return nil, tender.ErrInvalidArgCount
 			}
-			outer, okO := toFloat32(args[2])
+			outer, okO := tender.ToFloat32(args[2])
 			if !okO {
 				return nil, tender.ErrInvalidArgCount
 			}
-			slices, okS := toInt(args[3])
+			slices, okS := tender.ToInt(args[3])
 			if !okS {
 				return nil, tender.ErrInvalidArgCount
 			}
-			loops, okL := toInt(args[4])
+			loops, okL := tender.ToInt(args[4])
 			if !okL {
 				return nil, tender.ErrInvalidArgCount
 			}
@@ -391,31 +342,31 @@ var gluModule = map[string]tender.Object{
 			if len(args) != 7 {
 				return nil, tender.ErrInvalidArgCount
 			}
-			qPtr, okQ := toUint64(args[0])
+			qPtr, okQ := tender.ToUint64(args[0])
 			if !okQ {
 				return nil, tender.ErrInvalidArgCount
 			}
-			inner, okI := toFloat32(args[1])
+			inner, okI := tender.ToFloat32(args[1])
 			if !okI {
 				return nil, tender.ErrInvalidArgCount
 			}
-			outer, okO := toFloat32(args[2])
+			outer, okO := tender.ToFloat32(args[2])
 			if !okO {
 				return nil, tender.ErrInvalidArgCount
 			}
-			slices, okS := toInt(args[3])
+			slices, okS := tender.ToInt(args[3])
 			if !okS {
 				return nil, tender.ErrInvalidArgCount
 			}
-			loops, okL := toInt(args[4])
+			loops, okL := tender.ToInt(args[4])
 			if !okL {
 				return nil, tender.ErrInvalidArgCount
 			}
-			startAngle, okSA := toFloat32(args[5])
+			startAngle, okSA := tender.ToFloat32(args[5])
 			if !okSA {
 				return nil, tender.ErrInvalidArgCount
 			}
-			sweepAngle, okSW := toFloat32(args[6])
+			sweepAngle, okSW := tender.ToFloat32(args[6])
 			if !okSW {
 				return nil, tender.ErrInvalidArgCount
 			}

@@ -686,6 +686,40 @@ func ToUint32(o Object) (v uint32, ok bool) {
 	return
 }
 
+// ToUint64 will try to convert object o to uint64 value.
+func ToUint64(o Object) (v uint64, ok bool) {
+	switch o := o.(type) {
+	case *Int:
+		v = uint64(o.Value)
+		ok = true
+	case *Float:
+		v = uint64(o.Value)
+		ok = true
+	case *BigInt:
+		v = uint64(o.Value.Int64())
+		ok = true
+	case *BigFloat:
+		b, _ := o.Value.Int64()
+		v = uint64(b)
+		ok = true
+	case *Char:
+		v = uint64(o.Value)
+		ok = true
+	case *Bool:
+		if o == TrueValue {
+			v = 1
+		}
+		ok = true
+	case *String:
+		c, err := strconv.ParseInt(o.Value, 10, 64)
+		if err == nil {
+			v = uint64(c)
+			ok = true
+		}
+	}
+	return
+}
+
 // ToUint will try to convert object o to uint value.
 func ToUint(o Object) (v uint, ok bool) {
 	switch o := o.(type) {
