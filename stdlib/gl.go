@@ -3,6 +3,7 @@
 package stdlib
 
 import (
+	"fmt"
 	"unsafe"
 
 	"github.com/2dprototype/tender"
@@ -2641,6 +2642,70 @@ var glModule = map[string]tender.Object{
 				return nil, tender.ErrInvalidArgCount
 			}
 			gl.GetTexImage(target, level, format, typ, unsafe.Pointer(&bytes[0]))
+			return tender.NullValue, nil
+		},
+	},
+	
+	// ==================== Optimized OBJ Loader & Drawer ====================
+	"load_obj": &tender.BuiltinFunction{
+		Name: "load_obj",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			path, ok := args[0].(*tender.String)
+			if !ok {
+				return nil, tender.ErrInvalidArgument
+			}
+			
+			mesh, err := LoadOBJ(path.Value)
+			if err != nil {
+				return nil, fmt.Errorf("failed to load obj: %w", err)
+			}
+			
+			// Optional: Compile into a Display List immediately for max performance in legacy GL
+			listID := gl.GenLists(1)
+			gl.NewList(listID, gl.COMPILE)
+			
+			gl.EnableClientState(gl.VERTEX_ARRAY)
+			gl.VertexPointer(3, gl.FLOAT, 0, unsafe.Pointer(&mesh.Vertices[0]))
+			
+			if len(mesh.Normals) > 0 {
+				gl.EnableClientState(gl.NORMAL_ARRAY)
+				gl.NormalPointer(gl.FLOAT, 0, unsafe.Pointer(&mesh.Normals[0]))
+			}
+			
+			if len(mesh.UVs) > 0 {
+				gl.EnableClientState(gl.TEXTURE_COORD_ARRAY)
+				gl.TexCoordPointer(2, gl.FLOAT, 0, unsafe.Pointer(&mesh.UVs[0]))
+			}
+			
+			gl.DrawArrays(gl.TRIANGLES, 0, int32(len(mesh.Vertices)/3))
+			
+			gl.DisableClientState(gl.VERTEX_ARRAY)
+			gl.DisableClientState(gl.NORMAL_ARRAY)
+			gl.DisableClientState(gl.TEXTURE_COORD_ARRAY)
+			
+			gl.EndList()
+
+			return &tender.Int{Value: int64(listID)}, nil
+		},
+	},
+
+	"draw_obj": &tender.BuiltinFunction{
+		Name: "draw_obj",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			listID, ok := args[0].(*tender.Int)
+			if !ok {
+				return nil, tender.ErrInvalidArgument
+			}
+			
+			// Blistering fast hardware-accelerated draw call
+			gl.CallList(uint32(listID.Value))
+			
 			return tender.NullValue, nil
 		},
 	},
