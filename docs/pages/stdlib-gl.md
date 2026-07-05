@@ -87,6 +87,28 @@ Multiplies the current matrix by a scaling matrix.
 - **Returns**: `null`
 - **Example**: `gl.scalef(2.0, 2.0, 2.0)`
 
+### `ortho(left, right, bottom, top, zNear, zFar)`
+
+Multiplies the current matrix by an orthographic projection matrix.
+
+- **Parameters**: 
+  - `left`, `right` - Left and right clipping planes (float)
+  - `bottom`, `top` - Bottom and top clipping planes (float)
+  - `zNear`, `zFar` - Near and far clipping planes (float)
+- **Returns**: `null`
+- **Example**: `gl.ortho(-1, 1, -1, 1, -1, 1)`
+
+### `frustum(left, right, bottom, top, zNear, zFar)`
+
+Multiplies the current matrix by a perspective projection matrix.
+
+- **Parameters**:
+  - `left`, `right` - Left and right clipping planes (float)
+  - `bottom`, `top` - Bottom and top clipping planes (float)
+  - `zNear`, `zFar` - Near and far clipping planes (float, must be positive)
+- **Returns**: `null`
+- **Example**: `gl.frustum(-1, 1, -1, 1, 1, 100)`
+
 ---
 
 ## Viewport and Scissor
@@ -457,6 +479,16 @@ Sets material parameters.
 - **Returns**: `null`
 - **Example**: `gl.materialfv(gl.FRONT_AND_BACK, gl.SPECULAR, 0.8, 0.8, 0.8, 1.0)`
 
+### `color_material(face, mode)`
+
+Makes material colors track the current color.
+
+- **Parameters**: 
+  - `face` - `gl.FRONT`, `gl.BACK`, or `gl.FRONT_AND_BACK`
+  - `mode` - Which material parameters to track (`gl.AMBIENT`, `gl.DIFFUSE`, `gl.SPECULAR`, etc.)
+- **Returns**: `null`
+- **Example**: `gl.color_material(gl.FRONT_AND_BACK, gl.DIFFUSE)`
+
 ---
 
 ## Fog
@@ -501,9 +533,24 @@ Deletes named textures.
 - **Parameters**: `textures` - Single texture ID or array of texture IDs
 - **Returns**: `null`
 
+### `tex_image1d(target, level, internal_format, width, border, format, type, pixels)`
+
+Sets 1D texture image data.
+
+- **Parameters**:
+  - `target` - Texture target
+  - `level` - Mipmap level (int)
+  - `internal_format` - Internal format (int)
+  - `width` - Image width (int)
+  - `border` - Border width (int)
+  - `format` - Pixel format
+  - `type` - Pixel data type
+  - `pixels` - Image data (bytes) or `null`
+- **Returns**: `null`
+
 ### `tex_image2d(target, level, internal_format, width, height, border, format, type, pixels)`
 
-Sets texture image data.
+Sets 2D texture image data.
 
 - **Parameters**:
   - `target` - Texture target
@@ -520,9 +567,55 @@ Sets texture image data.
   gl.tex_image2d(gl.TEXTURE_2D, 0, gl.RGB, 256, 256, 0, gl.RGB, gl.UNSIGNED_BYTE, image_bytes)
   ```
 
+### `tex_image3d(target, level, internal_format, width, height, depth, border, format, type, pixels)`
+
+Sets 3D texture image data.
+
+- **Parameters**:
+  - `target` - Texture target
+  - `level` - Mipmap level (int)
+  - `internal_format` - Internal format (int)
+  - `width`, `height`, `depth` - Image dimensions (int)
+  - `border` - Border width (int)
+  - `format` - Pixel format
+  - `type` - Pixel data type
+  - `pixels` - Image data (bytes) or `null`
+- **Returns**: `null`
+
+### `tex_sub_image1d(target, level, xoffset, width, format, type, pixels)`
+
+Specifies a sub-rectangle of the current 1D texture image.
+
+- **Returns**: `null`
+
 ### `tex_sub_image2d(target, level, xoffset, yoffset, width, height, format, type, pixels)`
 
-Specifies a sub-rectangle of the current texture image.
+Specifies a sub-rectangle of the current 2D texture image.
+
+- **Returns**: `null`
+
+### `tex_sub_image3d(target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, pixels)`
+
+Specifies a sub-rectangle of the current 3D texture image.
+
+- **Returns**: `null`
+
+### `copy_tex_image2d(target, level, internal_format, x, y, width, height, border)`
+
+Copies pixels from the framebuffer to a 2D texture image.
+
+- **Parameters**:
+  - `target` - Texture target
+  - `level` - Mipmap level (int)
+  - `internal_format` - Internal format (uint)
+  - `x`, `y` - Framebuffer coordinates (int)
+  - `width`, `height` - Image dimensions (int)
+  - `border` - Border width (int)
+- **Returns**: `null`
+
+### `copy_tex_sub_image2d(target, level, xoffset, yoffset, x, y, width, height)`
+
+Copies pixels from the framebuffer to a sub-rectangle of the current 2D texture.
 
 - **Returns**: `null`
 
@@ -542,6 +635,27 @@ Sets texture parameters.
   gl.tex_parameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT)
   ```
 
+### `get_tex_parameteriv(target, pname)`
+### `get_tex_parameterfv(target, pname)`
+
+Queries texture parameter values.
+
+- **Parameters**: `target` - Texture target, `pname` - Parameter name
+- **Returns**: Parameter value (int or float)
+- **Example**: `min_filter := gl.get_tex_parameteriv(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER)`
+
+### `get_tex_image(target, level, format, type, pixels)`
+
+Returns texture image data.
+
+- **Parameters**:
+  - `target` - Texture target
+  - `level` - Mipmap level (int)
+  - `format` - Pixel format
+  - `type` - Pixel data type
+  - `pixels` - Byte slice to receive the data
+- **Returns**: `null`
+
 ### `tex_envf(target, pname, param)`
 ### `tex_envi(target, pname, param)`
 ### `tex_envfv(target, pname, ...params)`
@@ -558,6 +672,112 @@ Sets texture environment parameters.
 Sets texture coordinate generation parameters.
 
 - **Returns**: `null`
+
+---
+
+## Pixel Operations
+
+### `bitmap(width, height, xorig, yorig, xmove, ymove, bitmap)`
+
+Draws a bitmap (monochrome image).
+
+- **Parameters**:
+  - `width`, `height` - Bitmap dimensions (int)
+  - `xorig`, `yorig` - Origin of bitmap (float)
+  - `xmove`, `ymove` - Cursor movement after drawing (float)
+  - `bitmap` - Bitmap data (bytes) or `null`
+- **Returns**: `null`
+
+### `draw_pixels(width, height, format, type, pixels)`
+
+Draws a rectangle of pixel data.
+
+- **Parameters**:
+  - `width`, `height` - Image dimensions (int)
+  - `format` - Pixel format
+  - `type` - Pixel data type
+  - `pixels` - Pixel data (bytes)
+- **Returns**: `null`
+
+### `read_pixels(x, y, width, height, format, type, pixels)`
+
+Reads pixels from the framebuffer.
+
+- **Parameters**:
+  - `x`, `y` - Lower-left corner (int)
+  - `width`, `height` - Rectangle dimensions (int)
+  - `format` - Pixel format
+  - `type` - Pixel data type
+  - `pixels` - Byte slice to receive the data
+- **Returns**: `null`
+- **Example**:
+  ```go
+  pixels := make([]byte, 800*600*4)
+  gl.read_pixels(0, 0, 800, 600, gl.RGBA, gl.UNSIGNED_BYTE, pixels)
+  ```
+
+### `copy_pixels(x, y, width, height, type)`
+
+Copies a block of pixels within the framebuffer.
+
+- **Parameters**:
+  - `x`, `y` - Source lower-left corner (int)
+  - `width`, `height` - Rectangle dimensions (int)
+  - `type` - `gl.COLOR`, `gl.DEPTH`, or `gl.STENCIL`
+- **Returns**: `null`
+
+### `pixel_zoom(xfactor, yfactor)`
+
+Sets pixel zoom factors for draw/copy operations.
+
+- **Parameters**: `xfactor`, `yfactor` - Zoom factors (float)
+- **Returns**: `null`
+
+### `raster_pos2i(x, y)`
+### `raster_pos2f(x, y)`
+### `raster_pos3f(x, y, z)`
+
+Sets the current raster position.
+
+- **Parameters**: Position coordinates (int or float)
+- **Returns**: `null`
+- **Example**: `gl.raster_pos2i(100, 200)`
+
+### `color_mask(red, green, blue, alpha)`
+
+Enables or disables writing of colour components.
+
+- **Parameters**: Boolean values for each colour component
+- **Returns**: `null`
+- **Example**: `gl.color_mask(true, true, true, false)`
+
+### `logic_op(opcode)`
+
+Sets the logical operation for pixel writes.
+
+- **Parameters**: `opcode` - Logical operation (`gl.CLEAR`, `gl.AND`, `gl.OR`, `gl.XOR`, etc.)
+- **Returns**: `null`
+
+### `pixel_storei(pname, param)`
+
+Sets pixel storage modes.
+
+- **Parameters**: `pname` - `gl.PACK_ALIGNMENT`, `gl.UNPACK_ALIGNMENT`, etc., `param` - Value (int)
+- **Returns**: `null`
+
+---
+
+## Clipping Planes
+
+### `clip_plane(plane, eq0, eq1, eq2, eq3)`
+
+Defines a clipping plane.
+
+- **Parameters**:
+  - `plane` - Plane number (`gl.CLIP_PLANE0` through `gl.CLIP_PLANE5`)
+  - `eq0`, `eq1`, `eq2`, `eq3` - Plane equation coefficients (float)
+- **Returns**: `null`
+- **Example**: `gl.clip_plane(gl.CLIP_PLANE0, 0, 1, 0, 0)`
 
 ---
 
@@ -636,17 +856,6 @@ Executes a display list.
 Deletes display lists.
 
 - **Parameters**: `list` - Starting display list ID (uint), `range` - Number of lists to delete (int)
-- **Returns**: `null`
-
----
-
-## Pixel Storage
-
-### `pixel_storei(pname, param)`
-
-Sets pixel storage modes.
-
-- **Parameters**: `pname` - `gl.PACK_ALIGNMENT`, `gl.UNPACK_ALIGNMENT`, etc., `param` - Value (int)
 - **Returns**: `null`
 
 ---
@@ -900,6 +1109,7 @@ gl.viewport(0, 0, 800, 600)
 // Set up projection matrix
 gl.matrix_mode(gl.PROJECTION)
 gl.load_identity()
+gl.ortho(-1, 1, -1, 1, -1, 1)
 
 // Set up modelview matrix
 gl.matrix_mode(gl.MODELVIEW)

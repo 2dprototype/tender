@@ -2211,4 +2211,435 @@ var glModule = map[string]tender.Object{
 			return &tender.Int{Value: int64(result)}, nil
 		},
 	},
+	// ==================== Matrix Projection ====================
+	"ortho": &tender.BuiltinFunction{
+		Name: "ortho",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 6 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			left, _ := tender.ToFloat64(args[0])
+			right, _ := tender.ToFloat64(args[1])
+			bottom, _ := tender.ToFloat64(args[2])
+			top, _ := tender.ToFloat64(args[3])
+			zNear, _ := tender.ToFloat64(args[4])
+			zFar, _ := tender.ToFloat64(args[5])
+			gl.Ortho(left, right, bottom, top, zNear, zFar)
+			return tender.NullValue, nil
+		},
+	},
+
+	"frustum": &tender.BuiltinFunction{
+		Name: "frustum",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 6 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			left, _ := tender.ToFloat64(args[0])
+			right, _ := tender.ToFloat64(args[1])
+			bottom, _ := tender.ToFloat64(args[2])
+			top, _ := tender.ToFloat64(args[3])
+			zNear, _ := tender.ToFloat64(args[4])
+			zFar, _ := tender.ToFloat64(args[5])
+			gl.Frustum(left, right, bottom, top, zNear, zFar)
+			return tender.NullValue, nil
+		},
+	},
+
+	// ==================== Raster Position ====================
+	"raster_pos2i": &tender.BuiltinFunction{
+		Name: "raster_pos2i",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			x, _ := tender.ToInt32(args[0])
+			y, _ := tender.ToInt32(args[1])
+			gl.RasterPos2i(x, y)
+			return tender.NullValue, nil
+		},
+	},
+
+	"raster_pos2f": &tender.BuiltinFunction{
+		Name: "raster_pos2f",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			x, _ := tender.ToFloat32(args[0])
+			y, _ := tender.ToFloat32(args[1])
+			gl.RasterPos2f(x, y)
+			return tender.NullValue, nil
+		},
+	},
+
+	"raster_pos3f": &tender.BuiltinFunction{
+		Name: "raster_pos3f",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 3 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			x, _ := tender.ToFloat32(args[0])
+			y, _ := tender.ToFloat32(args[1])
+			z, _ := tender.ToFloat32(args[2])
+			gl.RasterPos3f(x, y, z)
+			return tender.NullValue, nil
+		},
+	},
+
+	// ==================== Bitmap & Pixel Drawing ====================
+	"bitmap": &tender.BuiltinFunction{
+		Name: "bitmap",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 7 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			width, _ := tender.ToInt32(args[0])
+			height, _ := tender.ToInt32(args[1])
+			xorig, _ := tender.ToFloat32(args[2])
+			yorig, _ := tender.ToFloat32(args[3])
+			xmove, _ := tender.ToFloat32(args[4])
+			ymove, _ := tender.ToFloat32(args[5])
+			if args[6] == tender.NullValue {
+				gl.Bitmap(width, height, xorig, yorig, xmove, ymove, nil)
+			} else {
+				bytes, ok := tender.ToByteSlice(args[6])
+				if !ok {
+					return nil, tender.ErrInvalidArgCount
+				}
+				// bytes slice may be empty; use &bytes[0] only if non‑empty
+				if len(bytes) == 0 {
+					gl.Bitmap(width, height, xorig, yorig, xmove, ymove, nil)
+				} else {
+					gl.Bitmap(width, height, xorig, yorig, xmove, ymove, &bytes[0])
+				}
+			}
+			return tender.NullValue, nil
+		},
+	},
+
+	"draw_pixels": &tender.BuiltinFunction{
+		Name: "draw_pixels",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 5 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			width, _ := tender.ToInt32(args[0])
+			height, _ := tender.ToInt32(args[1])
+			format, _ := tender.ToUint32(args[2])
+			typ, _ := tender.ToUint32(args[3])
+			bytes, ok := tender.ToByteSlice(args[4])
+			if !ok {
+				return nil, tender.ErrInvalidArgCount
+			}
+			gl.DrawPixels(width, height, format, typ, unsafe.Pointer(&bytes[0]))
+			return tender.NullValue, nil
+		},
+	},
+
+	// ==================== Pixel Read / Copy / Zoom ====================
+	"read_pixels": &tender.BuiltinFunction{
+		Name: "read_pixels",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 7 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			x, _ := tender.ToInt32(args[0])
+			y, _ := tender.ToInt32(args[1])
+			width, _ := tender.ToInt32(args[2])
+			height, _ := tender.ToInt32(args[3])
+			format, _ := tender.ToUint32(args[4])
+			typ, _ := tender.ToUint32(args[5])
+			bytes, ok := tender.ToByteSlice(args[6])
+			if !ok {
+				return nil, tender.ErrInvalidArgCount
+			}
+			gl.ReadPixels(x, y, width, height, format, typ, unsafe.Pointer(&bytes[0]))
+			return tender.NullValue, nil
+		},
+	},
+
+	"copy_pixels": &tender.BuiltinFunction{
+		Name: "copy_pixels",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 5 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			x, _ := tender.ToInt32(args[0])
+			y, _ := tender.ToInt32(args[1])
+			width, _ := tender.ToInt32(args[2])
+			height, _ := tender.ToInt32(args[3])
+			typ, _ := tender.ToUint32(args[4])
+			gl.CopyPixels(x, y, width, height, typ)
+			return tender.NullValue, nil
+		},
+	},
+
+	"pixel_zoom": &tender.BuiltinFunction{
+		Name: "pixel_zoom",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			xfactor, _ := tender.ToFloat32(args[0])
+			yfactor, _ := tender.ToFloat32(args[1])
+			gl.PixelZoom(xfactor, yfactor)
+			return tender.NullValue, nil
+		},
+	},
+
+	// ==================== Colour Mask & Logic Op ====================
+	"color_mask": &tender.BuiltinFunction{
+		Name: "color_mask",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 4 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			red, _ := tender.ToBool(args[0])
+			green, _ := tender.ToBool(args[1])
+			blue, _ := tender.ToBool(args[2])
+			alpha, _ := tender.ToBool(args[3])
+			gl.ColorMask(red, green, blue, alpha)
+			return tender.NullValue, nil
+		},
+	},
+
+	"logic_op": &tender.BuiltinFunction{
+		Name: "logic_op",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			opcode, _ := tender.ToUint32(args[0])
+			gl.LogicOp(opcode)
+			return tender.NullValue, nil
+		},
+	},
+
+	// ==================== Color Material ====================
+	"color_material": &tender.BuiltinFunction{
+		Name: "color_material",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			face, _ := tender.ToUint32(args[0])
+			mode, _ := tender.ToUint32(args[1])
+			gl.ColorMaterial(face, mode)
+			return tender.NullValue, nil
+		},
+	},
+
+	// ==================== Clipping Planes ====================
+	"clip_plane": &tender.BuiltinFunction{
+		Name: "clip_plane",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 5 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			plane, _ := tender.ToUint32(args[0])
+			eq := [4]float64{}
+			for i := 0; i < 4; i++ {
+				val, ok := tender.ToFloat64(args[i+1])
+				if !ok {
+					return nil, tender.ErrInvalidArgCount
+				}
+				eq[i] = val
+			}
+			gl.ClipPlane(plane, &eq[0])
+			return tender.NullValue, nil
+		},
+	},
+
+	// ==================== 1D / 3D Textures ====================
+	"tex_image1d": &tender.BuiltinFunction{
+		Name: "tex_image1d",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 8 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			target, _ := tender.ToUint32(args[0])
+			level, _ := tender.ToInt32(args[1])
+			internalFormat, _ := tender.ToInt32(args[2])
+			width, _ := tender.ToInt32(args[3])
+			border, _ := tender.ToInt32(args[4])
+			format, _ := tender.ToUint32(args[5])
+			typ, _ := tender.ToUint32(args[6])
+			var ptr unsafe.Pointer
+			if args[7] != tender.NullValue {
+				bytes, ok := tender.ToByteSlice(args[7])
+				if !ok {
+					return nil, tender.ErrInvalidArgCount
+				}
+				ptr = unsafe.Pointer(&bytes[0])
+			}
+			gl.TexImage1D(target, level, internalFormat, width, border, format, typ, ptr)
+			return tender.NullValue, nil
+		},
+	},
+
+	"tex_image3d": &tender.BuiltinFunction{
+		Name: "tex_image3d",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 10 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			target, _ := tender.ToUint32(args[0])
+			level, _ := tender.ToInt32(args[1])
+			internalFormat, _ := tender.ToInt32(args[2])
+			width, _ := tender.ToInt32(args[3])
+			height, _ := tender.ToInt32(args[4])
+			depth, _ := tender.ToInt32(args[5])
+			border, _ := tender.ToInt32(args[6])
+			format, _ := tender.ToUint32(args[7])
+			typ, _ := tender.ToUint32(args[8])
+			var ptr unsafe.Pointer
+			if args[9] != tender.NullValue {
+				bytes, ok := tender.ToByteSlice(args[9])
+				if !ok {
+					return nil, tender.ErrInvalidArgCount
+				}
+				ptr = unsafe.Pointer(&bytes[0])
+			}
+			gl.TexImage3D(target, level, internalFormat, width, height, depth, border, format, typ, ptr)
+			return tender.NullValue, nil
+		},
+	},
+
+	"tex_sub_image1d": &tender.BuiltinFunction{
+		Name: "tex_sub_image1d",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 7 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			target, _ := tender.ToUint32(args[0])
+			level, _ := tender.ToInt32(args[1])
+			xoffset, _ := tender.ToInt32(args[2])
+			width, _ := tender.ToInt32(args[3])
+			format, _ := tender.ToUint32(args[4])
+			typ, _ := tender.ToUint32(args[5])
+			bytes, ok := tender.ToByteSlice(args[6])
+			if !ok {
+				return nil, tender.ErrInvalidArgCount
+			}
+			gl.TexSubImage1D(target, level, xoffset, width, format, typ, unsafe.Pointer(&bytes[0]))
+			return tender.NullValue, nil
+		},
+	},
+
+	"tex_sub_image3d": &tender.BuiltinFunction{
+		Name: "tex_sub_image3d",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 10 { // now 10 arguments: target, level, xoffset, yoffset, zoffset, width, height, depth, format, typ, data
+				return nil, tender.ErrInvalidArgCount
+			}
+			target, _ := tender.ToUint32(args[0])
+			level, _ := tender.ToInt32(args[1])
+			xoffset, _ := tender.ToInt32(args[2])
+			yoffset, _ := tender.ToInt32(args[3])
+			zoffset, _ := tender.ToInt32(args[4])
+			width, _ := tender.ToInt32(args[5])
+			height, _ := tender.ToInt32(args[6])
+			depth, _ := tender.ToInt32(args[7])
+			format, _ := tender.ToUint32(args[8])
+			typ, _ := tender.ToUint32(args[9])
+			bytes, ok := tender.ToByteSlice(args[10]) // data is the 11th argument
+			if !ok {
+				return nil, tender.ErrInvalidArgCount
+			}
+			var ptr unsafe.Pointer
+			if len(bytes) > 0 {
+				ptr = unsafe.Pointer(&bytes[0])
+			}
+			gl.TexSubImage3D(target, level, xoffset, yoffset, zoffset, width, height, depth, format, typ, ptr)
+			return tender.NullValue, nil
+		},
+	},
+	
+	// ==================== Copy Texture ====================
+	"copy_tex_image2d": &tender.BuiltinFunction{
+		Name: "copy_tex_image2d",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 8 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			target, _ := tender.ToUint32(args[0])
+			level, _ := tender.ToInt32(args[1])
+			internalFormat, _ := tender.ToUint32(args[2])
+			x, _ := tender.ToInt32(args[3])
+			y, _ := tender.ToInt32(args[4])
+			width, _ := tender.ToInt32(args[5])
+			height, _ := tender.ToInt32(args[6])
+			border, _ := tender.ToInt32(args[7])
+			gl.CopyTexImage2D(target, level, internalFormat, x, y, width, height, border)
+			return tender.NullValue, nil
+		},
+	},
+
+	"copy_tex_sub_image2d": &tender.BuiltinFunction{
+		Name: "copy_tex_sub_image2d",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 8 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			target, _ := tender.ToUint32(args[0])
+			level, _ := tender.ToInt32(args[1])
+			xoffset, _ := tender.ToInt32(args[2])
+			yoffset, _ := tender.ToInt32(args[3])
+			x, _ := tender.ToInt32(args[4])
+			y, _ := tender.ToInt32(args[5])
+			width, _ := tender.ToInt32(args[6])
+			height, _ := tender.ToInt32(args[7])
+			gl.CopyTexSubImage2D(target, level, xoffset, yoffset, x, y, width, height)
+			return tender.NullValue, nil
+		},
+	},
+
+	// ==================== Texture Queries ====================
+	"get_tex_parameteriv": &tender.BuiltinFunction{
+		Name: "get_tex_parameteriv",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			target, _ := tender.ToUint32(args[0])
+			pname, _ := tender.ToUint32(args[1])
+			var val int32
+			gl.GetTexParameteriv(target, pname, &val)
+			return &tender.Int{Value: int64(val)}, nil
+		},
+	},
+
+	"get_tex_parameterfv": &tender.BuiltinFunction{
+		Name: "get_tex_parameterfv",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			target, _ := tender.ToUint32(args[0])
+			pname, _ := tender.ToUint32(args[1])
+			var val float32
+			gl.GetTexParameterfv(target, pname, &val)
+			return &tender.Float{Value: float64(val)}, nil
+		},
+	},
+
+	"get_tex_image": &tender.BuiltinFunction{
+		Name: "get_tex_image",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 5 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			target, _ := tender.ToUint32(args[0])
+			level, _ := tender.ToInt32(args[1])
+			format, _ := tender.ToUint32(args[2])
+			typ, _ := tender.ToUint32(args[3])
+			bytes, ok := tender.ToByteSlice(args[4])
+			if !ok {
+				return nil, tender.ErrInvalidArgCount
+			}
+			gl.GetTexImage(target, level, format, typ, unsafe.Pointer(&bytes[0]))
+			return tender.NullValue, nil
+		},
+	},
 }
