@@ -39,4 +39,5 @@ var BuiltinModules = map[string]map[string]tender.Object{
 	"wui":          wuiModule,
 	"gl":           glModule,
 	"glut":         glutModule,
+	"glu":          gluModule,
 }
