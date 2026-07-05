@@ -3,31 +3,56 @@ package stdlib
 import (
 	"bufio"
 	"bytes"
+	_ "image"
+	// _ "image/jpeg" // Auto-register JPEG decoder
+	// _ "image/png"  // Auto-register PNG decoder
 	"os"
 	"strconv"
+	"unsafe"
+
+	"github.com/2dprototype/tender/v/gl"
 )
 
-// Mesh holds the unrolled, flat arrays optimized for glDrawArrays
 type Mesh struct {
 	Vertices []float32
 	Normals  []float32
 	UVs      []float32
-	VBO      uint32 // If using modern GL
 }
 
-// LoadOBJ loads an OBJ file and unrolls faces into flat float32 slices for fast rendering
-func LoadOBJ(filepath string) (*Mesh, error) {
-	file, err := os.Open(filepath)
-	if err != nil {
-		return nil, err
-	}
-	defer file.Close()
+// Shared helper to compile unrolled arrays into an immutable GPU Display List
+func compileMeshToDisplayList(mesh *Mesh) uint32 {
+	listID := gl.GenLists(1)
+	gl.NewList(listID, gl.COMPILE)
 
+	gl.EnableClientState(gl.VERTEX_ARRAY)
+	gl.VertexPointer(3, gl.FLOAT, 0, unsafe.Pointer(&mesh.Vertices[0]))
+
+	if len(mesh.Normals) > 0 {
+		gl.EnableClientState(gl.NORMAL_ARRAY)
+		gl.NormalPointer(gl.FLOAT, 0, unsafe.Pointer(&mesh.Normals[0]))
+	}
+
+	if len(mesh.UVs) > 0 {
+		gl.EnableClientState(gl.TEXTURE_COORD_ARRAY)
+		gl.TexCoordPointer(2, gl.FLOAT, 0, unsafe.Pointer(&mesh.UVs[0]))
+	}
+
+	gl.DrawArrays(gl.TRIANGLES, 0, int32(len(mesh.Vertices)/3))
+
+	gl.DisableClientState(gl.VERTEX_ARRAY)
+	gl.DisableClientState(gl.NORMAL_ARRAY)
+	gl.DisableClientState(gl.TEXTURE_COORD_ARRAY)
+
+	gl.EndList()
+	return listID
+}
+
+// ParseOBJ parses raw bytes/string data directly from memory
+func ParseOBJ(data []byte) (*Mesh, error) {
 	var tempVertices [][3]float32
 	var tempNormals [][3]float32
 	var tempUVs [][2]float32
 
-	// Pre-allocate to reduce reallocation overhead during parsing
 	tempVertices = make([][3]float32, 0, 1024)
 	tempNormals = make([][3]float32, 0, 1024)
 	tempUVs = make([][2]float32, 0, 1024)
@@ -38,7 +63,7 @@ func LoadOBJ(filepath string) (*Mesh, error) {
 		UVs:      make([]float32, 0, 2048),
 	}
 
-	scanner := bufio.NewScanner(file)
+	scanner := bufio.NewScanner(bytes.NewReader(data))
 	for scanner.Scan() {
 		line := bytes.TrimSpace(scanner.Bytes())
 		if len(line) == 0 || line[0] == '#' {
@@ -66,7 +91,6 @@ func LoadOBJ(filepath string) (*Mesh, error) {
 			nz, _ := strconv.ParseFloat(string(parts[3]), 32)
 			tempNormals = append(tempNormals, [3]float32{float32(nx), float32(ny), float32(nz)})
 		case "f":
-			// Triangulate on the fly (basic fan triangulation for quads/ngons)
 			for i := 2; i < len(parts)-1; i++ {
 				parseFaceVertex(parts[1], &tempVertices, &tempUVs, &tempNormals, mesh)
 				parseFaceVertex(parts[i], &tempVertices, &tempUVs, &tempNormals, mesh)
@@ -74,21 +98,24 @@ func LoadOBJ(filepath string) (*Mesh, error) {
 			}
 		}
 	}
-
 	return mesh, scanner.Err()
+}
+
+func LoadOBJ(filepath string) (*Mesh, error) {
+	file, err := os.ReadFile(filepath)
+	if err != nil {
+		return nil, err
+	}
+	return ParseOBJ(file)
 }
 
 func parseFaceVertex(faceData []byte, tempV *[][3]float32, tempUV *[][2]float32, tempN *[][3]float32, mesh *Mesh) {
 	indices := bytes.Split(faceData, []byte("/"))
-	
-	// Vertex Index (1-based in OBJ)
 	vIdx, _ := strconv.Atoi(string(indices[0]))
 	if vIdx > 0 && vIdx <= len(*tempV) {
 		v := (*tempV)[vIdx-1]
 		mesh.Vertices = append(mesh.Vertices, v[0], v[1], v[2])
 	}
-
-	// UV Index
 	if len(indices) > 1 && len(indices[1]) > 0 {
 		uvIdx, _ := strconv.Atoi(string(indices[1]))
 		if uvIdx > 0 && uvIdx <= len(*tempUV) {
@@ -96,8 +123,6 @@ func parseFaceVertex(faceData []byte, tempV *[][3]float32, tempUV *[][2]float32,
 			mesh.UVs = append(mesh.UVs, uv[0], uv[1])
 		}
 	}
-
-	// Normal Index
 	if len(indices) > 2 && len(indices[2]) > 0 {
 		nIdx, _ := strconv.Atoi(string(indices[2]))
 		if nIdx > 0 && nIdx <= len(*tempN) {

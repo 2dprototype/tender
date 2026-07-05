@@ -3,7 +3,8 @@
 package stdlib
 
 import (
-	"fmt"
+	"os"
+	"image"
 	"unsafe"
 
 	"github.com/2dprototype/tender"
@@ -2650,48 +2651,75 @@ var glModule = map[string]tender.Object{
 	"load_obj": &tender.BuiltinFunction{
 		Name: "load_obj",
 		Value: func(args ...tender.Object) (tender.Object, error) {
-			if len(args) != 1 {
-				return nil, tender.ErrInvalidArgCount
-			}
+			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
 			path, ok := args[0].(*tender.String)
-			if !ok {
-				return nil, tender.ErrInvalidArgument
-			}
+			if !ok { return nil, tender.ErrInvalidArgument }
 			
 			mesh, err := LoadOBJ(path.Value)
-			if err != nil {
-				return nil, fmt.Errorf("failed to load obj: %w", err)
-			}
+			if err != nil { return nil, err }
 			
-			// Optional: Compile into a Display List immediately for max performance in legacy GL
-			listID := gl.GenLists(1)
-			gl.NewList(listID, gl.COMPILE)
-			
-			gl.EnableClientState(gl.VERTEX_ARRAY)
-			gl.VertexPointer(3, gl.FLOAT, 0, unsafe.Pointer(&mesh.Vertices[0]))
-			
-			if len(mesh.Normals) > 0 {
-				gl.EnableClientState(gl.NORMAL_ARRAY)
-				gl.NormalPointer(gl.FLOAT, 0, unsafe.Pointer(&mesh.Normals[0]))
-			}
-			
-			if len(mesh.UVs) > 0 {
-				gl.EnableClientState(gl.TEXTURE_COORD_ARRAY)
-				gl.TexCoordPointer(2, gl.FLOAT, 0, unsafe.Pointer(&mesh.UVs[0]))
-			}
-			
-			gl.DrawArrays(gl.TRIANGLES, 0, int32(len(mesh.Vertices)/3))
-			
-			gl.DisableClientState(gl.VERTEX_ARRAY)
-			gl.DisableClientState(gl.NORMAL_ARRAY)
-			gl.DisableClientState(gl.TEXTURE_COORD_ARRAY)
-			
-			gl.EndList()
-
-			return &tender.Int{Value: int64(listID)}, nil
+			return &tender.Int{Value: int64(compileMeshToDisplayList(mesh))}, nil
 		},
 	},
 
+	"parse_obj": &tender.BuiltinFunction{
+		Name: "parse_obj",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
+			strData, ok := args[0].(*tender.String)
+			if !ok { return nil, tender.ErrInvalidArgument }
+			
+			mesh, err := ParseOBJ([]byte(strData.Value))
+			if err != nil { return nil, err }
+			
+			return &tender.Int{Value: int64(compileMeshToDisplayList(mesh))}, nil
+		},
+	},
+
+	"load_texture": &tender.BuiltinFunction{
+		Name: "load_texture",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
+			path, ok := args[0].(*tender.String)
+			if !ok { return nil, tender.ErrInvalidArgument }
+
+			file, err := os.Open(path.Value)
+			if err != nil { return nil, err }
+			defer file.Close()
+
+			img, _, err := image.Decode(file)
+			if err != nil { return nil, err }
+
+			bounds := img.Bounds()
+			w, h := bounds.Dx(), bounds.Dy()
+			rgba := make([]byte, w*h*4)
+
+			// Fast unroll + pixel conversion + Y-axis flip for OpenGL coordinate layout
+			for y := 0; y < h; y++ {
+				for x := 0; x < w; x++ {
+					r, g, b, a := img.At(x, h-1-y).RGBA()
+					idx := (y*w + x) * 4
+					rgba[idx]   = byte(r >> 8)
+					rgba[idx+1] = byte(g >> 8)
+					rgba[idx+2] = byte(b >> 8)
+					rgba[idx+3] = byte(a >> 8)
+				}
+			}
+
+			var texID uint32
+			gl.GenTextures(1, &texID)
+			gl.BindTexture(gl.TEXTURE_2D, texID)
+
+			gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+			gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+			gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT)
+			gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT)
+
+			gl.TexImage2D(gl.TEXTURE_2D, 0, gl.RGBA, int32(w), int32(h), 0, gl.RGBA, gl.UNSIGNED_BYTE, unsafe.Pointer(&rgba[0]))
+
+			return &tender.Int{Value: int64(texID)}, nil
+		},
+	},
 	"draw_obj": &tender.BuiltinFunction{
 		Name: "draw_obj",
 		Value: func(args ...tender.Object) (tender.Object, error) {
