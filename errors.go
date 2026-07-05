@@ -62,7 +62,9 @@ var (
 	ErrByteValueOutOfRange = errors.New("index out of range")
 	ErrInvalidValueType = errors.New("invalid value type")
 	
-	ErrNotCallable = errors.New("not callable")
+	ErrInvalidArgCount     = errors.New("invalid number of arguments")
+	ErrNotCallable         = errors.New("runtime error: object is not callable")
+	ErrInvalidArgument     = errors.New("invalid argument type")
 )
 
 // ErrInvalidArgumentType represents an invalid argument value type error.

@@ -652,6 +652,40 @@ func ToUint8(o Object) (v uint8, ok bool) {
 	return
 }
 
+// ToUint32 will try to convert object o to uint32 value.
+func ToUint32(o Object) (v uint32, ok bool) {
+	switch o := o.(type) {
+	case *Int:
+		v = uint32(o.Value)
+		ok = true
+	case *Float:
+		v = uint32(o.Value)
+		ok = true
+	case *BigInt:
+		v = uint32(o.Value.Int64())
+		ok = true
+	case *BigFloat:
+		b, _ := o.Value.Int64()
+		v = uint32(b)
+		ok = true
+	case *Char:
+		v = uint32(o.Value)
+		ok = true
+	case *Bool:
+		if o == TrueValue {
+			v = 1
+		}
+		ok = true
+	case *String:
+		c, err := strconv.ParseInt(o.Value, 10, 64)
+		if err == nil {
+			v = uint32(c)
+			ok = true
+		}
+	}
+	return
+}
+
 // ToUint will try to convert object o to uint value.
 func ToUint(o Object) (v uint, ok bool) {
 	switch o := o.(type) {
@@ -705,6 +739,33 @@ func ToFloat64(o Object) (v float64, ok bool) {
 		c, err := strconv.ParseFloat(o.Value, 64)
 		if err == nil {
 			v = c
+			ok = true
+		}
+	}
+	return
+}
+
+// ToFloat32 will try to convert object o to float32 value.
+func ToFloat32(o Object) (v float32, ok bool) {
+	switch o := o.(type) {
+	case *Int:
+		v = float32(o.Value)
+		ok = true
+	case *Float:
+		v = float32(o.Value)
+		ok = true
+	case *BigInt:
+		f, _ := o.Value.Float64()
+		v = float32(f)
+		ok = true
+	case *BigFloat:
+		f, _ := o.Value.Float64()
+		v = float32(f)
+		ok = true
+	case *String:
+		c, err := strconv.ParseFloat(o.Value, 32)
+		if err == nil {
+			v = float32(c)
 			ok = true
 		}
 	}
