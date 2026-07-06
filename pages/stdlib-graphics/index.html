@@ -1,0 +1,852 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Stdlib graphics - Tender Docs</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Tender Docs</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../.." class="nav-link">Tender</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Pages</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../builtins/" class="dropdown-item">Builtins</a>
+</li>
+                                    
+<li>
+    <a href="../formatting/" class="dropdown-item">Formatting</a>
+</li>
+                                    
+<li>
+    <a href="../operators/" class="dropdown-item">Operators</a>
+</li>
+                                    
+<li>
+    <a href="../runtime-types/" class="dropdown-item">Runtime Types</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-audio/" class="dropdown-item">Stdlib audio</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-base64/" class="dropdown-item">Stdlib base64</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-bufio/" class="dropdown-item">Stdlib bufio</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-canvas/" class="dropdown-item">Stdlib canvas</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-cmplx/" class="dropdown-item">Stdlib cmplx</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-colors/" class="dropdown-item">Stdlib colors</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-crypto/" class="dropdown-item">Stdlib crypto</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-dll/" class="dropdown-item">Stdlib dll</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-fmt/" class="dropdown-item">Stdlib fmt</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-gl/" class="dropdown-item">Stdlib gl</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-glu/" class="dropdown-item">Stdlib glu</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-glut/" class="dropdown-item">Stdlib glut</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Stdlib graphics</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-gzip/" class="dropdown-item">Stdlib gzip</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-hex/" class="dropdown-item">Stdlib hex</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-http/" class="dropdown-item">Stdlib http</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-image/" class="dropdown-item">Stdlib image</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-io/" class="dropdown-item">Stdlib io</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-json/" class="dropdown-item">Stdlib json</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-math/" class="dropdown-item">Stdlib math</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-net/" class="dropdown-item">Stdlib net</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-os/" class="dropdown-item">Stdlib os</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-path/" class="dropdown-item">Stdlib path</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-rand/" class="dropdown-item">Stdlib rand</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-strings/" class="dropdown-item">Stdlib strings</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-sync/" class="dropdown-item">Stdlib sync</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-tar/" class="dropdown-item">Stdlib tar</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-times/" class="dropdown-item">Stdlin times</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-websocket/" class="dropdown-item">Stdlib websocket</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-wui/" class="dropdown-item">Stdlib wui</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-xml/" class="dropdown-item">Stdlib xml</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-zip/" class="dropdown-item">Stdlib zip</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib/" class="dropdown-item">Standard Library</a>
+</li>
+                                    
+<li>
+    <a href="../tutorial/" class="dropdown-item">Getting Started</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../stdlib-glut/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../stdlib-gzip/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="2"><a href="#stdlib-graphics" class="nav-link">Stdlib graphics</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="2"><a href="#context-functions" class="nav-link">Context Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="2"><a href="#color-functions" class="nav-link">Color Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="2"><a href="#path-construction-functions" class="nav-link">Path Construction Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="2"><a href="#shape-functions" class="nav-link">Shape Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="2"><a href="#drawing-functions" class="nav-link">Drawing Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="2"><a href="#transform-functions" class="nav-link">Transform Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="2"><a href="#style-functions" class="nav-link">Style Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="2"><a href="#image-functions" class="nav-link">Image Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="2"><a href="#text-functions" class="nav-link">Text Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="2"><a href="#image-encoding-functions" class="nav-link">Image Encoding Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="2"><a href="#window-event-functions" class="nav-link">Window Event Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            
+            <li class="nav-item" data-bs-level="2"><a href="#complete-example" class="nav-link">Complete Example</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h2 id="stdlib-graphics">Stdlib <code>graphics</code></h2>
+<p>The <code>graphics</code> module provides comprehensive 2D graphics functionalities including shape drawing, text rendering, image manipulation, and window management with OpenGL acceleration. It supports both offscreen rendering contexts and interactive windowed applications.</p>
+<h2 id="context-functions">Context Functions</h2>
+<h3 id="new_contextwidth-height"><code>new_context(width, height)</code></h3>
+<p>Creates a new offscreen graphics context with the specified dimensions.</p>
+<ul>
+<li><strong>Parameters</strong>: </li>
+<li><code>width</code> - Width of the context in pixels (integer)</li>
+<li><code>height</code> - Height of the context in pixels (integer)</li>
+<li><strong>Returns</strong>: Graphics context object with drawing methods</li>
+<li><strong>Example</strong>: <code>ctx := graphics.new_context(800, 600)</code></li>
+</ul>
+<h3 id="new_windowwidth-height-title"><code>new_window(width, height, title)</code></h3>
+<p>Creates a new window with the specified dimensions and title.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>width</code> - Width of the window in pixels (integer)</li>
+<li><code>height</code> - Height of the window in pixels (integer)</li>
+<li><code>title</code> - Window title (string)</li>
+<li><strong>Returns</strong>: Window context object with event handling methods</li>
+<li><strong>Example</strong>: <code>win := graphics.new_window(800, 600, "My Game")</code></li>
+</ul>
+<h2 id="color-functions">Color Functions</h2>
+<h3 id="hexcolor"><code>hex(color)</code></h3>
+<p>Sets the current drawing color using hexadecimal color code.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>color</code> - Hex color string (e.g., <code>"#ff0000"</code>, <code>"#f00"</code>, <code>"#ff0000ff"</code>)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.hex("#ff8800")</code></li>
+</ul>
+<h3 id="rgbr-g-b"><code>rgb(r, g, b)</code></h3>
+<p>Sets the current drawing color using RGB values.</p>
+<ul>
+<li><strong>Parameters</strong>: </li>
+<li><code>r</code> - Red component (0.0 to 1.0)</li>
+<li><code>g</code> - Green component (0.0 to 1.0)</li>
+<li><code>b</code> - Blue component (0.0 to 1.0)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.rgb(1.0, 0.5, 0.0)</code></li>
+</ul>
+<h3 id="rgbar-g-b-a"><code>rgba(r, g, b, a)</code></h3>
+<p>Sets the current drawing color with alpha transparency.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>r</code> - Red component (0.0 to 1.0)</li>
+<li><code>g</code> - Green component (0.0 to 1.0)</li>
+<li><code>b</code> - Blue component (0.0 to 1.0)</li>
+<li><code>a</code> - Alpha/opacity (0.0 to 1.0)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.rgba(1.0, 0.0, 0.0, 0.5)</code></li>
+</ul>
+<h2 id="path-construction-functions">Path Construction Functions</h2>
+<h3 id="move_tox-y"><code>move_to(x, y)</code></h3>
+<p>Moves the current drawing position without drawing.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>x</code>, <code>y</code> - Target coordinates (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.move_to(100, 100)</code></li>
+</ul>
+<h3 id="line_tox-y"><code>line_to(x, y)</code></h3>
+<p>Draws a line from current position to the specified coordinates.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>x</code>, <code>y</code> - Target coordinates (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.line_to(200, 150)</code></li>
+</ul>
+<h3 id="quadratic_tox1-y1-x2-y2"><code>quadratic_to(x1, y1, x2, y2)</code></h3>
+<p>Draws a quadratic Bezier curve from current position.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>x1</code>, <code>y1</code> - Control point</li>
+<li><code>x2</code>, <code>y2</code> - End point</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.quadratic_to(150, 50, 200, 150)</code></li>
+</ul>
+<h3 id="cubic_tox1-y1-x2-y2-x3-y3"><code>cubic_to(x1, y1, x2, y2, x3, y3)</code></h3>
+<p>Draws a cubic Bezier curve from current position.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>x1</code>, <code>y1</code> - First control point</li>
+<li><code>x2</code>, <code>y2</code> - Second control point</li>
+<li><code>x3</code>, <code>y3</code> - End point</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.cubic_to(100, 50, 200, 50, 250, 150)</code></li>
+</ul>
+<h3 id="close_path"><code>close_path()</code></h3>
+<p>Closes the current path by connecting the last point to the first.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.close_path()</code></li>
+</ul>
+<h2 id="shape-functions">Shape Functions</h2>
+<h3 id="rectx-y-width-height"><code>rect(x, y, width, height)</code></h3>
+<p>Creates a rectangle path at the specified position.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>x</code>, <code>y</code> - Top-left corner position</li>
+<li><code>width</code>, <code>height</code> - Rectangle dimensions</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.rect(50, 50, 200, 100)</code></li>
+</ul>
+<h3 id="roundrectx-y-width-height-rx-ry"><code>roundrect(x, y, width, height, rx, ry)</code></h3>
+<p>Creates a rounded rectangle path.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>x</code>, <code>y</code> - Top-left corner position</li>
+<li><code>width</code>, <code>height</code> - Rectangle dimensions</li>
+<li><code>rx</code>, <code>ry</code> - Corner radius in X and Y directions</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.roundrect(50, 50, 200, 100, 20, 20)</code></li>
+</ul>
+<h3 id="circlex-y-radius"><code>circle(x, y, radius)</code></h3>
+<p>Creates a circle path at the specified center.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>x</code>, <code>y</code> - Center position</li>
+<li><code>radius</code> - Circle radius</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.circle(150, 100, 50)</code></li>
+</ul>
+<h3 id="arcx-y-radius-start_angle-end_angle"><code>arc(x, y, radius, start_angle, end_angle)</code></h3>
+<p>Creates a circular arc path.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>x</code>, <code>y</code> - Center position</li>
+<li><code>radius</code> - Arc radius</li>
+<li><code>start_angle</code> - Starting angle in radians</li>
+<li><code>end_angle</code> - Ending angle in radians</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.arc(150, 100, 50, 0, 3.14)</code></li>
+</ul>
+<h3 id="elliptical_arcx-y-rx-ry-start_angle-end_angle"><code>elliptical_arc(x, y, rx, ry, start_angle, end_angle)</code></h3>
+<p>Creates an elliptical arc path.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>x</code>, <code>y</code> - Center position</li>
+<li><code>rx</code>, <code>ry</code> - Radius in X and Y directions</li>
+<li><code>start_angle</code> - Starting angle in radians</li>
+<li><code>end_angle</code> - Ending angle in radians</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.elliptical_arc(150, 100, 60, 40, 0, 3.14)</code></li>
+</ul>
+<h3 id="linex1-y1-x2-y2"><code>line(x1, y1, x2, y2)</code></h3>
+<p>Creates a line segment path.</p>
+<ul>
+<li><strong>Parameters</strong>: Start and end coordinates</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.line(50, 50, 200, 150)</code></li>
+</ul>
+<h3 id="pointx-y"><code>point(x, y)</code></h3>
+<p>Draws a single point at the specified coordinates.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>x</code>, <code>y</code> - Point position</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.point(150, 100)</code></li>
+</ul>
+<h2 id="drawing-functions">Drawing Functions</h2>
+<h3 id="stroke"><code>stroke()</code></h3>
+<p>Draws the outline of the current path(s) with the current color and line width.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.stroke()</code></li>
+</ul>
+<h3 id="fill"><code>fill()</code></h3>
+<p>Fills the current path(s) with the current color.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.fill()</code></li>
+</ul>
+<h3 id="clearr-g-b-a-or-clearhex_color"><code>clear([r, g, b, a])</code> or <code>clear(hex_color)</code></h3>
+<p>Clears the context with the specified color.</p>
+<ul>
+<li><strong>Parameters</strong>: RGB values, RGBA values, or hex color string</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Examples</strong>:</li>
+<li><code>ctx.clear()</code> - Clears with current color</li>
+<li><code>ctx.clear(0.2, 0.2, 0.3)</code> - Clear with RGB</li>
+<li><code>ctx.clear(0.2, 0.2, 0.3, 1.0)</code> - Clear with RGBA</li>
+<li><code>ctx.clear("#1a1a2e")</code> - Clear with hex color</li>
+</ul>
+<h2 id="transform-functions">Transform Functions</h2>
+<h3 id="push"><code>push()</code></h3>
+<p>Saves the current transformation matrix onto the stack.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.push()</code></li>
+</ul>
+<h3 id="pop"><code>pop()</code></h3>
+<p>Restores the most recently saved transformation matrix.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.pop()</code></li>
+</ul>
+<h3 id="translatex-y"><code>translate(x, y)</code></h3>
+<p>Translates the coordinate system.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>x</code>, <code>y</code> - Translation amounts</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.translate(100, 50)</code></li>
+</ul>
+<h3 id="scalesx-sy"><code>scale(sx, sy)</code></h3>
+<p>Scales the coordinate system.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>sx</code>, <code>sy</code> - Scale factors</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.scale(2.0, 1.5)</code></li>
+</ul>
+<h3 id="rotateangle"><code>rotate(angle)</code></h3>
+<p>Rotates the coordinate system.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>angle</code> - Rotation angle in radians</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.rotate(0.785)</code> // 45 degrees</li>
+</ul>
+<h2 id="style-functions">Style Functions</h2>
+<h3 id="set_line_widthwidth"><code>set_line_width(width)</code></h3>
+<p>Sets the line width for subsequent stroke operations.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>width</code> - Line width in pixels (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.set_line_width(2.5)</code></li>
+</ul>
+<h2 id="image-functions">Image Functions</h2>
+<h3 id="load_imagedata"><code>load_image(data)</code></h3>
+<p>Loads an image from file path or byte data.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>data</code> - File path string or byte array</li>
+<li><strong>Returns</strong>: Image object with <code>id</code>, <code>width</code>, and <code>height</code> properties</li>
+<li><strong>Example</strong>:
+  <code>go
+  img := ctx.load_image("sprite.png")
+  // or
+  img_data := embed("sprite.png")
+  img := ctx.load_image(img_data)</code></li>
+</ul>
+<h3 id="draw_imageimg-x-y"><code>draw_image(img, x, y)</code></h3>
+<p>Draws an image at the specified position.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>img</code> - Image object from <code>load_image()</code>, byte array, or file path string</li>
+<li><code>x</code>, <code>y</code> - Position to draw the image</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  img := ctx.load_image("sprite.png")
+  ctx.draw_image(img, 100, 50)
+  // or directly with bytes
+  ctx.draw_image(embed("sprite.png"), 100, 50)</code></li>
+</ul>
+<h3 id="draw_image_rectimg-sx-sy-sw-sh-dx-dy-dw-dh"><code>draw_image_rect(img, sx, sy, sw, sh, dx, dy, dw, dh)</code></h3>
+<p>Draws a sub-rectangle of an image.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>img</code> - Image object or byte data</li>
+<li><code>sx</code>, <code>sy</code> - Source rectangle position</li>
+<li><code>sw</code>, <code>sh</code> - Source rectangle dimensions</li>
+<li><code>dx</code>, <code>dy</code> - Destination position</li>
+<li><code>dw</code>, <code>dh</code> - Destination dimensions</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  ctx.draw_image_rect(img, 10, 10, 32, 32, 100, 50, 64, 64)</code></li>
+</ul>
+<h2 id="text-functions">Text Functions</h2>
+<h3 id="load_fontpath-size"><code>load_font(path, size)</code></h3>
+<p>Loads a font file for text rendering.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>path</code> - Font file path (string)</li>
+<li><code>size</code> - Font size in points (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.load_font("Arial.ttf", 24)</code></li>
+</ul>
+<h3 id="set_font_sizesize"><code>set_font_size(size)</code></h3>
+<p>Changes the current font size.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>size</code> - New font size in points (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.set_font_size(32)</code></li>
+</ul>
+<h3 id="measure_stringtext"><code>measure_string(text)</code></h3>
+<p>Measures the dimensions of the specified text.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>text</code> - Text to measure (string)</li>
+<li><strong>Returns</strong>: Map with <code>width</code> and <code>height</code> properties (floats)</li>
+<li><strong>Example</strong>: <code>measurements := ctx.measure_string("Hello World")</code></li>
+</ul>
+<h3 id="draw_stringx-y-text"><code>draw_string(x, y, text)</code></h3>
+<p>Draws text at the specified position (baseline alignment).</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>x</code>, <code>y</code> - Position for the text (baseline)</li>
+<li><code>text</code> - Text to draw (string)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.draw_string(100, 100, "Hello World")</code></li>
+</ul>
+<h3 id="draw_string_anchoredx-y-text-anchor_x-anchor_y"><code>draw_string_anchored(x, y, text, anchor_x, anchor_y)</code></h3>
+<p>Draws text with anchor point alignment.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>x</code>, <code>y</code> - Position for the text</li>
+<li><code>text</code> - Text to draw (string)</li>
+<li><code>anchor_x</code> - X anchor (0.0 = left, 0.5 = center, 1.0 = right)</li>
+<li><code>anchor_y</code> - Y anchor (0.0 = top, 0.5 = center, 1.0 = bottom)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.draw_string_anchored(400, 300, "Centered", 0.5, 0.5)</code></li>
+</ul>
+<h3 id="draw_string_wrappedx-y-text-width-line_spacing"><code>draw_string_wrapped(x, y, text, width[, line_spacing])</code></h3>
+<p>Draws wrapped text within a specified width.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>x</code>, <code>y</code> - Position for the text (top-left)</li>
+<li><code>text</code> - Text to draw (string)</li>
+<li><code>width</code> - Maximum line width in pixels (float)</li>
+<li><code>line_spacing</code> - Optional line spacing multiplier (default: 1.5)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>ctx.draw_string_wrapped(50, 50, long_text, 200, 1.8)</code></li>
+</ul>
+<h2 id="image-encoding-functions">Image Encoding Functions</h2>
+<h3 id="encodeformat"><code>encode([format])</code></h3>
+<p>Encodes the current context as an image.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>format</code> - Optional output format: <code>"png"</code> or <code>"jpeg"</code> (default: <code>"png"</code>)</li>
+<li><strong>Returns</strong>: Byte array containing encoded image data</li>
+<li><strong>Example</strong>: 
+  <code>go
+  png_data := ctx.encode()
+  jpeg_data := ctx.encode("jpeg")</code></li>
+</ul>
+<h3 id="savepath-format"><code>save(path[, format])</code></h3>
+<p>Saves the current context to a file.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>path</code> - Output file path (string)</li>
+<li><code>format</code> - Optional format: <code>"png"</code> or <code>"jpeg"</code> (auto-detected from extension)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  ctx.save("output.png")
+  ctx.save("output.jpg", "jpeg")</code></li>
+</ul>
+<h3 id="image"><code>image()</code></h3>
+<p>Returns the current context as an Image object.</p>
+<ul>
+<li><strong>Returns</strong>: Image object for further processing</li>
+<li><strong>Example</strong>: <code>img := ctx.image()</code></li>
+</ul>
+<h2 id="window-event-functions">Window Event Functions</h2>
+<h3 id="on_drawcallback"><code>on_draw(callback)</code></h3>
+<p>Registers a callback function for window rendering.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>callback</code> - Function to call when the window needs to redraw</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  win.on_draw(fn() {
+      win.clear("#1a1a2e")
+      win.rect(100, 100, 200, 150)
+      win.fill()
+  })</code></li>
+</ul>
+<h3 id="on_updatecallback"><code>on_update(callback)</code></h3>
+<p>Registers a callback function for continuous updates.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>callback</code> - Function to call on each frame update</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  win.on_update(fn() {
+      // Update game logic here
+  })</code></li>
+</ul>
+<h3 id="on_keycallback"><code>on_key(callback)</code></h3>
+<p>Registers a callback for keyboard events.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>callback</code> - Function receiving (key, x, y)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  win.on_key(fn(key, x, y) {
+      if key == "escape" {
+          // Handle escape key
+      }
+  })</code></li>
+</ul>
+<p>Special keys are reported as strings: <code>"left"</code>, <code>"right"</code>, <code>"up"</code>, <code>"down"</code>, <code>"page_up"</code>, <code>"page_down"</code>, <code>"home"</code>, <code>"end"</code>, <code>"insert"</code>, <code>"f1"</code> through <code>"f12"</code>.</p>
+<h3 id="on_mousecallback"><code>on_mouse(callback)</code></h3>
+<p>Registers a callback for mouse button events.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>callback</code> - Function receiving (button, action, x, y)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  win.on_mouse(fn(button, action, x, y) {
+      if button == "left" &amp;&amp; action == "down" {
+          // Handle left click
+      }
+  })</code></li>
+</ul>
+<p>Button names: <code>"left"</code>, <code>"middle"</code>, <code>"right"</code>
+Actions: <code>"down"</code>, <code>"up"</code></p>
+<h3 id="on_mouse_movecallback"><code>on_mouse_move(callback)</code></h3>
+<p>Registers a callback for mouse movement events.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>callback</code> - Function receiving (x, y)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  win.on_mouse_move(fn(x, y) {
+      // Update cursor position
+  })</code></li>
+</ul>
+<h3 id="run"><code>run()</code></h3>
+<p>Starts the window event loop and displays the window.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code> (blocks until window closes)</li>
+<li><strong>Example</strong>: <code>win.run()</code></li>
+</ul>
+<h3 id="width"><code>width</code></h3>
+<p>Returns the current width of the context/window.</p>
+<ul>
+<li><strong>Type</strong>: Integer property</li>
+<li><strong>Example</strong>: <code>w := ctx.width</code></li>
+</ul>
+<h3 id="height"><code>height</code></h3>
+<p>Returns the current height of the context/window.</p>
+<ul>
+<li><strong>Type</strong>: Integer property</li>
+<li><strong>Example</strong>: <code>h := ctx.height</code></li>
+</ul>
+<h2 id="complete-example">Complete Example</h2>
+<pre><code class="language-go">import &quot;graphics&quot;
+
+// Offscreen rendering example
+ctx := graphics.new_context(400, 300)
+ctx.hex(&quot;#2a2a4a&quot;)
+ctx.clear()
+ctx.hex(&quot;#00ff88&quot;)
+ctx.set_line_width(3)
+ctx.roundrect(50, 50, 300, 200, 20, 20)
+ctx.stroke()
+ctx.hex(&quot;#ff6644&quot;)
+ctx.circle(200, 150, 60)
+ctx.fill()
+ctx.save(&quot;output.png&quot;)
+
+// Window example with animation
+win := graphics.new_window(800, 600, &quot;Graphics Demo&quot;)
+angle := 0.0
+
+win.on_draw(fn() {
+    win.clear(&quot;#1a1a2e&quot;)
+    win.push()
+    win.translate(400, 300)
+    win.rotate(angle)
+    win.hex(&quot;#ff6b35&quot;)
+    win.rect(-50, -50, 100, 100)
+    win.fill()
+    win.pop()
+})
+
+win.on_update(fn() {
+    angle += 0.01
+})
+
+win.on_key(fn(key, x, y) {
+    if key == &quot;escape&quot; {
+        // Exit (window run loop will continue)
+    }
+})
+
+win.run()
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

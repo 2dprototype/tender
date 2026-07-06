@@ -1,0 +1,1458 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Stdlib gl - Tender Docs</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Tender Docs</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../.." class="nav-link">Tender</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Pages</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../builtins/" class="dropdown-item">Builtins</a>
+</li>
+                                    
+<li>
+    <a href="../formatting/" class="dropdown-item">Formatting</a>
+</li>
+                                    
+<li>
+    <a href="../operators/" class="dropdown-item">Operators</a>
+</li>
+                                    
+<li>
+    <a href="../runtime-types/" class="dropdown-item">Runtime Types</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-audio/" class="dropdown-item">Stdlib audio</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-base64/" class="dropdown-item">Stdlib base64</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-bufio/" class="dropdown-item">Stdlib bufio</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-canvas/" class="dropdown-item">Stdlib canvas</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-cmplx/" class="dropdown-item">Stdlib cmplx</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-colors/" class="dropdown-item">Stdlib colors</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-crypto/" class="dropdown-item">Stdlib crypto</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-dll/" class="dropdown-item">Stdlib dll</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-fmt/" class="dropdown-item">Stdlib fmt</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Stdlib gl</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-glu/" class="dropdown-item">Stdlib glu</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-glut/" class="dropdown-item">Stdlib glut</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-graphics/" class="dropdown-item">Stdlib graphics</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-gzip/" class="dropdown-item">Stdlib gzip</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-hex/" class="dropdown-item">Stdlib hex</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-http/" class="dropdown-item">Stdlib http</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-image/" class="dropdown-item">Stdlib image</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-io/" class="dropdown-item">Stdlib io</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-json/" class="dropdown-item">Stdlib json</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-math/" class="dropdown-item">Stdlib math</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-net/" class="dropdown-item">Stdlib net</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-os/" class="dropdown-item">Stdlib os</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-path/" class="dropdown-item">Stdlib path</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-rand/" class="dropdown-item">Stdlib rand</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-strings/" class="dropdown-item">Stdlib strings</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-sync/" class="dropdown-item">Stdlib sync</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-tar/" class="dropdown-item">Stdlib tar</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-times/" class="dropdown-item">Stdlin times</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-websocket/" class="dropdown-item">Stdlib websocket</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-wui/" class="dropdown-item">Stdlib wui</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-xml/" class="dropdown-item">Stdlib xml</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-zip/" class="dropdown-item">Stdlib zip</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib/" class="dropdown-item">Standard Library</a>
+</li>
+                                    
+<li>
+    <a href="../tutorial/" class="dropdown-item">Getting Started</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../stdlib-fmt/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../stdlib-glu/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#stdlib-gl" class="nav-link">Stdlib gl</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#initialization" class="nav-link">Initialization</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#matrix-operations" class="nav-link">Matrix Operations</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#viewport-and-scissor" class="nav-link">Viewport and Scissor</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#clearing" class="nav-link">Clearing</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#primitives" class="nav-link">Primitives</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#colors" class="nav-link">Colors</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#normals" class="nav-link">Normals</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#texture-coordinates" class="nav-link">Texture Coordinates</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#enabledisable" class="nav-link">Enable/Disable</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#blending" class="nav-link">Blending</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#depth-test" class="nav-link">Depth Test</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#alpha-test" class="nav-link">Alpha Test</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#culling" class="nav-link">Culling</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#polygon-modes" class="nav-link">Polygon Modes</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#line-point-sizes" class="nav-link">Line &amp; Point Sizes</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#stencil" class="nav-link">Stencil</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#state-saving" class="nav-link">State Saving</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#shading" class="nav-link">Shading</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#hints" class="nav-link">Hints</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#lighting" class="nav-link">Lighting</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#fog" class="nav-link">Fog</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#textures" class="nav-link">Textures</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#pixel-operations" class="nav-link">Pixel Operations</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#clipping-planes" class="nav-link">Clipping Planes</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#vertex-arrays" class="nav-link">Vertex Arrays</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#display-lists" class="nav-link">Display Lists</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#query-sync" class="nav-link">Query &amp; Sync</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#flush-finish" class="nav-link">Flush &amp; Finish</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#accumulation-buffer" class="nav-link">Accumulation Buffer</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#render-mode" class="nav-link">Render Mode</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#constants-reference" class="nav-link">Constants Reference</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#complete-example" class="nav-link">Complete Example</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="stdlib-gl">Stdlib <code>gl</code></h1>
+<p>The <code>gl</code> module provides OpenGL bindings for 3D graphics rendering. It exposes a comprehensive set of OpenGL functions and constants for creating 3D applications with immediate mode rendering, display lists, vertex arrays, lighting, texturing, and more.</p>
+<h2 id="initialization">Initialization</h2>
+<h3 id="init"><code>init()</code></h3>
+<p>Initializes OpenGL context.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.init()</code></li>
+</ul>
+<hr />
+<h2 id="matrix-operations">Matrix Operations</h2>
+<h3 id="matrix_modemode"><code>matrix_mode(mode)</code></h3>
+<p>Sets the current matrix mode.</p>
+<ul>
+<li><strong>Parameters</strong>: </li>
+<li><code>mode</code> - Matrix mode constant (<code>gl.MODELVIEW</code>, <code>gl.PROJECTION</code>, or <code>gl.TEXTURE</code>)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.matrix_mode(gl.PROJECTION)</code></li>
+</ul>
+<h3 id="load_identity"><code>load_identity()</code></h3>
+<p>Replaces the current matrix with the identity matrix.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.load_identity()</code></li>
+</ul>
+<h3 id="push_matrix"><code>push_matrix()</code></h3>
+<p>Pushes the current matrix stack.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.push_matrix()</code></li>
+</ul>
+<h3 id="pop_matrix"><code>pop_matrix()</code></h3>
+<p>Pops the current matrix stack.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.pop_matrix()</code></li>
+</ul>
+<h3 id="mult_matrixfm0-m1-m2-m3-m4-m5-m6-m7-m8-m9-m10-m11-m12-m13-m14-m15"><code>mult_matrixf(m0, m1, m2, m3, m4, m5, m6, m7, m8, m9, m10, m11, m12, m13, m14, m15)</code></h3>
+<p>Multiplies the current matrix by a 4x4 matrix.</p>
+<ul>
+<li><strong>Parameters</strong>: 16 float values in column-major order</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: 
+  <code>go
+  gl.mult_matrixf(1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1, 0, 0, 0, 0, 1)</code></li>
+</ul>
+<h3 id="load_matrixfm0-m1-m15"><code>load_matrixf(m0, m1, ... m15)</code></h3>
+<p>Replaces the current matrix with a 4x4 matrix.</p>
+<ul>
+<li><strong>Parameters</strong>: 16 float values in column-major order</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="translatefx-y-z"><code>translatef(x, y, z)</code></h3>
+<p>Multiplies the current matrix by a translation matrix.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>x</code>, <code>y</code>, <code>z</code> - Translation values (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.translatef(1.0, 2.0, 3.0)</code></li>
+</ul>
+<h3 id="rotatefangle-x-y-z"><code>rotatef(angle, x, y, z)</code></h3>
+<p>Multiplies the current matrix by a rotation matrix.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>angle</code> - Rotation angle in degrees, <code>x</code>, <code>y</code>, <code>z</code> - Rotation axis</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.rotatef(45.0, 0.0, 1.0, 0.0)</code></li>
+</ul>
+<h3 id="scalefx-y-z"><code>scalef(x, y, z)</code></h3>
+<p>Multiplies the current matrix by a scaling matrix.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>x</code>, <code>y</code>, <code>z</code> - Scale factors (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.scalef(2.0, 2.0, 2.0)</code></li>
+</ul>
+<h3 id="ortholeft-right-bottom-top-znear-zfar"><code>ortho(left, right, bottom, top, zNear, zFar)</code></h3>
+<p>Multiplies the current matrix by an orthographic projection matrix.</p>
+<ul>
+<li><strong>Parameters</strong>: </li>
+<li><code>left</code>, <code>right</code> - Left and right clipping planes (float)</li>
+<li><code>bottom</code>, <code>top</code> - Bottom and top clipping planes (float)</li>
+<li><code>zNear</code>, <code>zFar</code> - Near and far clipping planes (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.ortho(-1, 1, -1, 1, -1, 1)</code></li>
+</ul>
+<h3 id="frustumleft-right-bottom-top-znear-zfar"><code>frustum(left, right, bottom, top, zNear, zFar)</code></h3>
+<p>Multiplies the current matrix by a perspective projection matrix.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>left</code>, <code>right</code> - Left and right clipping planes (float)</li>
+<li><code>bottom</code>, <code>top</code> - Bottom and top clipping planes (float)</li>
+<li><code>zNear</code>, <code>zFar</code> - Near and far clipping planes (float, must be positive)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.frustum(-1, 1, -1, 1, 1, 100)</code></li>
+</ul>
+<hr />
+<h2 id="viewport-and-scissor">Viewport and Scissor</h2>
+<h3 id="viewportx-y-width-height"><code>viewport(x, y, width, height)</code></h3>
+<p>Sets the viewport.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>x</code>, <code>y</code> - Lower-left corner, <code>width</code>, <code>height</code> - Viewport dimensions (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.viewport(0, 0, 800, 600)</code></li>
+</ul>
+<h3 id="scissorx-y-width-height"><code>scissor(x, y, width, height)</code></h3>
+<p>Sets the scissor rectangle.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>x</code>, <code>y</code> - Lower-left corner, <code>width</code>, <code>height</code> - Rectangle dimensions (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="clearing">Clearing</h2>
+<h3 id="clearmask"><code>clear(mask)</code></h3>
+<p>Clears buffers.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>mask</code> - Bitwise OR of clear bits (<code>gl.COLOR_BUFFER_BIT</code>, <code>gl.DEPTH_BUFFER_BIT</code>, <code>gl.STENCIL_BUFFER_BIT</code>)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)</code></li>
+</ul>
+<h3 id="clear_colorr-g-b-a"><code>clear_color(r, g, b, a)</code></h3>
+<p>Sets the color buffer clear value.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>r</code>, <code>g</code>, <code>b</code>, <code>a</code> - Color components (float, 0.0-1.0)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.clear_color(0.2, 0.3, 0.4, 1.0)</code></li>
+</ul>
+<h3 id="clear_depthdepth"><code>clear_depth(depth)</code></h3>
+<p>Sets the depth buffer clear value.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>depth</code> - Depth value (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="clear_stencils"><code>clear_stencil(s)</code></h3>
+<p>Sets the stencil buffer clear value.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>s</code> - Stencil value (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="clear_accumr-g-b-a"><code>clear_accum(r, g, b, a)</code></h3>
+<p>Sets the accumulation buffer clear value.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>r</code>, <code>g</code>, <code>b</code>, <code>a</code> - Color components (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="primitives">Primitives</h2>
+<h3 id="beginmode"><code>begin(mode)</code></h3>
+<p>Begins a primitive drawing mode.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>mode</code> - Primitive type (<code>gl.POINTS</code>, <code>gl.LINES</code>, <code>gl.TRIANGLES</code>, <code>gl.QUADS</code>, etc.)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  gl.begin(gl.TRIANGLES)
+  gl.vertex3f(0, 1, 0)
+  gl.vertex3f(-1, -1, 0)
+  gl.vertex3f(1, -1, 0)
+  gl.end()</code></li>
+</ul>
+<h3 id="end"><code>end()</code></h3>
+<p>Ends a primitive drawing mode.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="vertex2fx-y"><code>vertex2f(x, y)</code></h3>
+<h3 id="vertex3fx-y-z"><code>vertex3f(x, y, z)</code></h3>
+<h3 id="vertex4fx-y-z-w"><code>vertex4f(x, y, z, w)</code></h3>
+<h3 id="vertex2dx-y"><code>vertex2d(x, y)</code></h3>
+<h3 id="vertex3dx-y-z"><code>vertex3d(x, y, z)</code></h3>
+<h3 id="vertex4dx-y-z-w"><code>vertex4d(x, y, z, w)</code></h3>
+<h3 id="vertex2ix-y"><code>vertex2i(x, y)</code></h3>
+<h3 id="vertex3ix-y-z"><code>vertex3i(x, y, z)</code></h3>
+<p>Specifies a vertex (float, double, or integer versions).</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="colors">Colors</h2>
+<h3 id="color3fr-g-b"><code>color3f(r, g, b)</code></h3>
+<h3 id="color4fr-g-b-a"><code>color4f(r, g, b, a)</code></h3>
+<h3 id="color3ubr-g-b"><code>color3ub(r, g, b)</code></h3>
+<h3 id="color4ubr-g-b-a"><code>color4ub(r, g, b, a)</code></h3>
+<p>Sets the current color (float or unsigned byte versions).</p>
+<ul>
+<li><strong>Parameters</strong>: Color components (float: 0.0-1.0, byte: 0-255)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.color3f(1.0, 0.0, 0.0)</code></li>
+</ul>
+<hr />
+<h2 id="normals">Normals</h2>
+<h3 id="normal3fnx-ny-nz"><code>normal3f(nx, ny, nz)</code></h3>
+<p>Sets the current normal vector.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>nx</code>, <code>ny</code>, <code>nz</code> - Normal components (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.normal3f(0.0, 0.0, 1.0)</code></li>
+</ul>
+<hr />
+<h2 id="texture-coordinates">Texture Coordinates</h2>
+<h3 id="tex_coord2fs-t"><code>tex_coord2f(s, t)</code></h3>
+<p>Sets the current texture coordinates.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>s</code>, <code>t</code> - Texture coordinates (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.tex_coord2f(0.5, 0.5)</code></li>
+</ul>
+<hr />
+<h2 id="enabledisable">Enable/Disable</h2>
+<h3 id="enablecap"><code>enable(cap)</code></h3>
+<h3 id="disablecap"><code>disable(cap)</code></h3>
+<h3 id="is_enabledcap"><code>is_enabled(cap)</code></h3>
+<p>Enables, disables, or checks OpenGL capabilities.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>cap</code> - Capability constant (<code>gl.BLEND</code>, <code>gl.DEPTH_TEST</code>, <code>gl.LIGHTING</code>, etc.)</li>
+<li><strong>Returns</strong>: <code>null</code> for <code>enable</code>/<code>disable</code>, <code>bool</code> for <code>is_enabled</code></li>
+<li><strong>Example</strong>: <code>gl.enable(gl.DEPTH_TEST)</code></li>
+</ul>
+<hr />
+<h2 id="blending">Blending</h2>
+<h3 id="blend_funcsfactor-dfactor"><code>blend_func(sfactor, dfactor)</code></h3>
+<p>Sets the pixel blending function.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>sfactor</code> - Source factor, <code>dfactor</code> - Destination factor</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.blend_func(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)</code></li>
+</ul>
+<h3 id="blend_equationmode"><code>blend_equation(mode)</code></h3>
+<p>Sets the blend equation.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>mode</code> - Blend equation (<code>gl.FUNC_ADD</code>, <code>gl.FUNC_SUBTRACT</code>, etc.)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="blend_colorr-g-b-a"><code>blend_color(r, g, b, a)</code></h3>
+<p>Sets the blend color.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>r</code>, <code>g</code>, <code>b</code>, <code>a</code> - Color components (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="depth-test">Depth Test</h2>
+<h3 id="depth_funcfunc"><code>depth_func(func)</code></h3>
+<p>Sets the depth test function.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>func</code> - Depth function (<code>gl.LESS</code>, <code>gl.LEQUAL</code>, <code>gl.GEQUAL</code>, etc.)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.depth_func(gl.LESS)</code></li>
+</ul>
+<h3 id="depth_maskflag"><code>depth_mask(flag)</code></h3>
+<p>Enables or disables depth buffer writing.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>flag</code> - Boolean or integer</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="depth_rangenear-far"><code>depth_range(near, far)</code></h3>
+<p>Sets the depth range.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>near</code>, <code>far</code> - Depth range values (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="alpha-test">Alpha Test</h2>
+<h3 id="alpha_funcfunc-ref"><code>alpha_func(func, ref)</code></h3>
+<p>Sets the alpha test function.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>func</code> - Alpha function, <code>ref</code> - Reference value (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="culling">Culling</h2>
+<h3 id="cull_facemode"><code>cull_face(mode)</code></h3>
+<p>Specifies which faces to cull.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>mode</code> - <code>gl.FRONT</code>, <code>gl.BACK</code>, or <code>gl.FRONT_AND_BACK</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.cull_face(gl.BACK)</code></li>
+</ul>
+<h3 id="front_facemode"><code>front_face(mode)</code></h3>
+<p>Sets which face is considered front-facing.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>mode</code> - <code>gl.CW</code> (clockwise) or <code>gl.CCW</code> (counter-clockwise)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="polygon-modes">Polygon Modes</h2>
+<h3 id="polygon_modeface-mode"><code>polygon_mode(face, mode)</code></h3>
+<p>Sets the polygon rendering mode.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>face</code> - <code>gl.FRONT_AND_BACK</code>, <code>mode</code> - <code>gl.POINT</code>, <code>gl.LINE</code>, or <code>gl.FILL</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="polygon_offsetfactor-units"><code>polygon_offset(factor, units)</code></h3>
+<p>Sets the polygon offset.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>factor</code>, <code>units</code> - Offset values (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="line-point-sizes">Line &amp; Point Sizes</h2>
+<h3 id="line_widthwidth"><code>line_width(width)</code></h3>
+<p>Sets the line width.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>width</code> - Line width (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="point_sizesize"><code>point_size(size)</code></h3>
+<p>Sets the point size.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>size</code> - Point size (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="stencil">Stencil</h2>
+<h3 id="stencil_funcfunc-ref-mask"><code>stencil_func(func, ref, mask)</code></h3>
+<p>Sets the stencil test function.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>func</code> - Stencil function, <code>ref</code> - Reference value (int), <code>mask</code> - Mask (uint)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="stencil_maskmask"><code>stencil_mask(mask)</code></h3>
+<p>Sets the stencil write mask.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>mask</code> - Mask value (uint)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="stencil_opfail-zfail-zpass"><code>stencil_op(fail, zfail, zpass)</code></h3>
+<p>Sets the stencil operation.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>fail</code> - Operation on stencil test failure, <code>zfail</code> - Operation on depth test failure, <code>zpass</code> - Operation on depth test pass</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="state-saving">State Saving</h2>
+<h3 id="push_attribmask"><code>push_attrib(mask)</code></h3>
+<h3 id="pop_attrib"><code>pop_attrib()</code></h3>
+<p>Pushes and pops attribute stack.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>mask</code> - Attribute mask (uint)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="push_client_attribmask"><code>push_client_attrib(mask)</code></h3>
+<h3 id="pop_client_attrib"><code>pop_client_attrib()</code></h3>
+<p>Pushes and pops client attribute stack.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>mask</code> - Client attribute mask (uint)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="shading">Shading</h2>
+<h3 id="shade_modelmode"><code>shade_model(mode)</code></h3>
+<p>Sets the shading model.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>mode</code> - <code>gl.FLAT</code> or <code>gl.SMOOTH</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="hints">Hints</h2>
+<h3 id="hinttarget-mode"><code>hint(target, mode)</code></h3>
+<p>Sets hint parameters.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>target</code> - Hint target, <code>mode</code> - <code>gl.DONT_CARE</code>, <code>gl.FASTEST</code>, or <code>gl.NICEST</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="lighting">Lighting</h2>
+<h3 id="lightflight-pname-param"><code>lightf(light, pname, param)</code></h3>
+<h3 id="lightilight-pname-param"><code>lighti(light, pname, param)</code></h3>
+<h3 id="lightfvlight-pname-params"><code>lightfv(light, pname, ...params)</code></h3>
+<p>Sets light source parameters (float, int, or array versions).</p>
+<ul>
+<li><strong>Parameters</strong>: <code>light</code> - Light number (<code>gl.LIGHT0</code>, <code>gl.LIGHT1</code>, etc.), <code>pname</code> - Parameter name, <code>param(s)</code> - Parameter value(s)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  gl.lightfv(gl.LIGHT0, gl.POSITION, 1.0, 1.0, 1.0, 0.0)
+  gl.lightf(gl.LIGHT0, gl.SPOT_CUTOFF, 45.0)</code></li>
+</ul>
+<h3 id="light_modelfpname-param"><code>light_modelf(pname, param)</code></h3>
+<h3 id="light_modelipname-param"><code>light_modeli(pname, param)</code></h3>
+<p>Sets lighting model parameters.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="materialfface-pname-param"><code>materialf(face, pname, param)</code></h3>
+<h3 id="materialfvface-pname-params"><code>materialfv(face, pname, ...params)</code></h3>
+<p>Sets material parameters.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>face</code> - <code>gl.FRONT</code>, <code>gl.BACK</code>, or <code>gl.FRONT_AND_BACK</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.materialfv(gl.FRONT_AND_BACK, gl.SPECULAR, 0.8, 0.8, 0.8, 1.0)</code></li>
+</ul>
+<h3 id="color_materialface-mode"><code>color_material(face, mode)</code></h3>
+<p>Makes material colors track the current color.</p>
+<ul>
+<li><strong>Parameters</strong>: </li>
+<li><code>face</code> - <code>gl.FRONT</code>, <code>gl.BACK</code>, or <code>gl.FRONT_AND_BACK</code></li>
+<li><code>mode</code> - Which material parameters to track (<code>gl.AMBIENT</code>, <code>gl.DIFFUSE</code>, <code>gl.SPECULAR</code>, etc.)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.color_material(gl.FRONT_AND_BACK, gl.DIFFUSE)</code></li>
+</ul>
+<hr />
+<h2 id="fog">Fog</h2>
+<h3 id="fogfpname-param"><code>fogf(pname, param)</code></h3>
+<h3 id="fogfvpname-params"><code>fogfv(pname, ...params)</code></h3>
+<p>Sets fog parameters.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>pname</code> - Parameter name (<code>gl.FOG_COLOR</code>, <code>gl.FOG_DENSITY</code>, etc.)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  gl.fogf(gl.FOG_DENSITY, 0.05)
+  gl.fogfv(gl.FOG_COLOR, 0.5, 0.5, 0.5, 1.0)</code></li>
+</ul>
+<hr />
+<h2 id="textures">Textures</h2>
+<h3 id="gen_texturesn"><code>gen_textures(n)</code></h3>
+<p>Generates texture names.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>n</code> - Number of textures to generate (int)</li>
+<li><strong>Returns</strong>: Array of texture IDs</li>
+<li><strong>Example</strong>: <code>textures := gl.gen_textures(1)</code></li>
+</ul>
+<h3 id="bind_texturetarget-texture"><code>bind_texture(target, texture)</code></h3>
+<p>Binds a named texture.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>target</code> - <code>gl.TEXTURE_2D</code>, <code>gl.TEXTURE_CUBE_MAP</code>, etc., <code>texture</code> - Texture ID</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.bind_texture(gl.TEXTURE_2D, textures[0])</code></li>
+</ul>
+<h3 id="delete_texturestextures"><code>delete_textures(textures)</code></h3>
+<p>Deletes named textures.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>textures</code> - Single texture ID or array of texture IDs</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="tex_image1dtarget-level-internal_format-width-border-format-type-pixels"><code>tex_image1d(target, level, internal_format, width, border, format, type, pixels)</code></h3>
+<p>Sets 1D texture image data.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>target</code> - Texture target</li>
+<li><code>level</code> - Mipmap level (int)</li>
+<li><code>internal_format</code> - Internal format (int)</li>
+<li><code>width</code> - Image width (int)</li>
+<li><code>border</code> - Border width (int)</li>
+<li><code>format</code> - Pixel format</li>
+<li><code>type</code> - Pixel data type</li>
+<li><code>pixels</code> - Image data (bytes) or <code>null</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="tex_image2dtarget-level-internal_format-width-height-border-format-type-pixels"><code>tex_image2d(target, level, internal_format, width, height, border, format, type, pixels)</code></h3>
+<p>Sets 2D texture image data.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>target</code> - Texture target</li>
+<li><code>level</code> - Mipmap level (int)</li>
+<li><code>internal_format</code> - Internal format (int)</li>
+<li><code>width</code>, <code>height</code> - Image dimensions (int)</li>
+<li><code>border</code> - Border width (int)</li>
+<li><code>format</code> - Pixel format</li>
+<li><code>type</code> - Pixel data type</li>
+<li><code>pixels</code> - Image data (bytes) or <code>null</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  gl.tex_image2d(gl.TEXTURE_2D, 0, gl.RGB, 256, 256, 0, gl.RGB, gl.UNSIGNED_BYTE, image_bytes)</code></li>
+</ul>
+<h3 id="tex_image3dtarget-level-internal_format-width-height-depth-border-format-type-pixels"><code>tex_image3d(target, level, internal_format, width, height, depth, border, format, type, pixels)</code></h3>
+<p>Sets 3D texture image data.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>target</code> - Texture target</li>
+<li><code>level</code> - Mipmap level (int)</li>
+<li><code>internal_format</code> - Internal format (int)</li>
+<li><code>width</code>, <code>height</code>, <code>depth</code> - Image dimensions (int)</li>
+<li><code>border</code> - Border width (int)</li>
+<li><code>format</code> - Pixel format</li>
+<li><code>type</code> - Pixel data type</li>
+<li><code>pixels</code> - Image data (bytes) or <code>null</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="tex_sub_image1dtarget-level-xoffset-width-format-type-pixels"><code>tex_sub_image1d(target, level, xoffset, width, format, type, pixels)</code></h3>
+<p>Specifies a sub-rectangle of the current 1D texture image.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="tex_sub_image2dtarget-level-xoffset-yoffset-width-height-format-type-pixels"><code>tex_sub_image2d(target, level, xoffset, yoffset, width, height, format, type, pixels)</code></h3>
+<p>Specifies a sub-rectangle of the current 2D texture image.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="tex_sub_image3dtarget-level-xoffset-yoffset-zoffset-width-height-depth-format-type-pixels"><code>tex_sub_image3d(target, level, xoffset, yoffset, zoffset, width, height, depth, format, type, pixels)</code></h3>
+<p>Specifies a sub-rectangle of the current 3D texture image.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="copy_tex_image2dtarget-level-internal_format-x-y-width-height-border"><code>copy_tex_image2d(target, level, internal_format, x, y, width, height, border)</code></h3>
+<p>Copies pixels from the framebuffer to a 2D texture image.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>target</code> - Texture target</li>
+<li><code>level</code> - Mipmap level (int)</li>
+<li><code>internal_format</code> - Internal format (uint)</li>
+<li><code>x</code>, <code>y</code> - Framebuffer coordinates (int)</li>
+<li><code>width</code>, <code>height</code> - Image dimensions (int)</li>
+<li><code>border</code> - Border width (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="copy_tex_sub_image2dtarget-level-xoffset-yoffset-x-y-width-height"><code>copy_tex_sub_image2d(target, level, xoffset, yoffset, x, y, width, height)</code></h3>
+<p>Copies pixels from the framebuffer to a sub-rectangle of the current 2D texture.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="tex_parameterftarget-pname-param"><code>tex_parameterf(target, pname, param)</code></h3>
+<h3 id="tex_parameteritarget-pname-param"><code>tex_parameteri(target, pname, param)</code></h3>
+<h3 id="tex_parameterfvtarget-pname-params"><code>tex_parameterfv(target, pname, ...params)</code></h3>
+<h3 id="tex_parameterivtarget-pname-params"><code>tex_parameteriv(target, pname, ...params)</code></h3>
+<p>Sets texture parameters.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>target</code> - Texture target, <code>pname</code> - Parameter name, <code>param(s)</code> - Parameter value(s)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  gl.tex_parameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+  gl.tex_parameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+  gl.tex_parameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT)</code></li>
+</ul>
+<h3 id="get_tex_parameterivtarget-pname"><code>get_tex_parameteriv(target, pname)</code></h3>
+<h3 id="get_tex_parameterfvtarget-pname"><code>get_tex_parameterfv(target, pname)</code></h3>
+<p>Queries texture parameter values.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>target</code> - Texture target, <code>pname</code> - Parameter name</li>
+<li><strong>Returns</strong>: Parameter value (int or float)</li>
+<li><strong>Example</strong>: <code>min_filter := gl.get_tex_parameteriv(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER)</code></li>
+</ul>
+<h3 id="get_tex_imagetarget-level-format-type-pixels"><code>get_tex_image(target, level, format, type, pixels)</code></h3>
+<p>Returns texture image data.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>target</code> - Texture target</li>
+<li><code>level</code> - Mipmap level (int)</li>
+<li><code>format</code> - Pixel format</li>
+<li><code>type</code> - Pixel data type</li>
+<li><code>pixels</code> - Byte slice to receive the data</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="tex_envftarget-pname-param"><code>tex_envf(target, pname, param)</code></h3>
+<h3 id="tex_envitarget-pname-param"><code>tex_envi(target, pname, param)</code></h3>
+<h3 id="tex_envfvtarget-pname-params"><code>tex_envfv(target, pname, ...params)</code></h3>
+<h3 id="tex_envivtarget-pname-params"><code>tex_enviv(target, pname, ...params)</code></h3>
+<p>Sets texture environment parameters.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="tex_genfcoord-pname-param"><code>tex_genf(coord, pname, param)</code></h3>
+<h3 id="tex_gendcoord-pname-param"><code>tex_gend(coord, pname, param)</code></h3>
+<h3 id="tex_genicoord-pname-param"><code>tex_geni(coord, pname, param)</code></h3>
+<p>Sets texture coordinate generation parameters.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="pixel-operations">Pixel Operations</h2>
+<h3 id="bitmapwidth-height-xorig-yorig-xmove-ymove-bitmap"><code>bitmap(width, height, xorig, yorig, xmove, ymove, bitmap)</code></h3>
+<p>Draws a bitmap (monochrome image).</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>width</code>, <code>height</code> - Bitmap dimensions (int)</li>
+<li><code>xorig</code>, <code>yorig</code> - Origin of bitmap (float)</li>
+<li><code>xmove</code>, <code>ymove</code> - Cursor movement after drawing (float)</li>
+<li><code>bitmap</code> - Bitmap data (bytes) or <code>null</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="draw_pixelswidth-height-format-type-pixels"><code>draw_pixels(width, height, format, type, pixels)</code></h3>
+<p>Draws a rectangle of pixel data.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>width</code>, <code>height</code> - Image dimensions (int)</li>
+<li><code>format</code> - Pixel format</li>
+<li><code>type</code> - Pixel data type</li>
+<li><code>pixels</code> - Pixel data (bytes)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="read_pixelsx-y-width-height-format-type-pixels"><code>read_pixels(x, y, width, height, format, type, pixels)</code></h3>
+<p>Reads pixels from the framebuffer.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>x</code>, <code>y</code> - Lower-left corner (int)</li>
+<li><code>width</code>, <code>height</code> - Rectangle dimensions (int)</li>
+<li><code>format</code> - Pixel format</li>
+<li><code>type</code> - Pixel data type</li>
+<li><code>pixels</code> - Byte slice to receive the data</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  pixels := make([]byte, 800*600*4)
+  gl.read_pixels(0, 0, 800, 600, gl.RGBA, gl.UNSIGNED_BYTE, pixels)</code></li>
+</ul>
+<h3 id="copy_pixelsx-y-width-height-type"><code>copy_pixels(x, y, width, height, type)</code></h3>
+<p>Copies a block of pixels within the framebuffer.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>x</code>, <code>y</code> - Source lower-left corner (int)</li>
+<li><code>width</code>, <code>height</code> - Rectangle dimensions (int)</li>
+<li><code>type</code> - <code>gl.COLOR</code>, <code>gl.DEPTH</code>, or <code>gl.STENCIL</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="pixel_zoomxfactor-yfactor"><code>pixel_zoom(xfactor, yfactor)</code></h3>
+<p>Sets pixel zoom factors for draw/copy operations.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>xfactor</code>, <code>yfactor</code> - Zoom factors (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="raster_pos2ix-y"><code>raster_pos2i(x, y)</code></h3>
+<h3 id="raster_pos2fx-y"><code>raster_pos2f(x, y)</code></h3>
+<h3 id="raster_pos3fx-y-z"><code>raster_pos3f(x, y, z)</code></h3>
+<p>Sets the current raster position.</p>
+<ul>
+<li><strong>Parameters</strong>: Position coordinates (int or float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.raster_pos2i(100, 200)</code></li>
+</ul>
+<h3 id="color_maskred-green-blue-alpha"><code>color_mask(red, green, blue, alpha)</code></h3>
+<p>Enables or disables writing of colour components.</p>
+<ul>
+<li><strong>Parameters</strong>: Boolean values for each colour component</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.color_mask(true, true, true, false)</code></li>
+</ul>
+<h3 id="logic_opopcode"><code>logic_op(opcode)</code></h3>
+<p>Sets the logical operation for pixel writes.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>opcode</code> - Logical operation (<code>gl.CLEAR</code>, <code>gl.AND</code>, <code>gl.OR</code>, <code>gl.XOR</code>, etc.)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="pixel_storeipname-param"><code>pixel_storei(pname, param)</code></h3>
+<p>Sets pixel storage modes.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>pname</code> - <code>gl.PACK_ALIGNMENT</code>, <code>gl.UNPACK_ALIGNMENT</code>, etc., <code>param</code> - Value (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="clipping-planes">Clipping Planes</h2>
+<h3 id="clip_planeplane-eq0-eq1-eq2-eq3"><code>clip_plane(plane, eq0, eq1, eq2, eq3)</code></h3>
+<p>Defines a clipping plane.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>plane</code> - Plane number (<code>gl.CLIP_PLANE0</code> through <code>gl.CLIP_PLANE5</code>)</li>
+<li><code>eq0</code>, <code>eq1</code>, <code>eq2</code>, <code>eq3</code> - Plane equation coefficients (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.clip_plane(gl.CLIP_PLANE0, 0, 1, 0, 0)</code></li>
+</ul>
+<hr />
+<h2 id="vertex-arrays">Vertex Arrays</h2>
+<h3 id="enable_client_statearray"><code>enable_client_state(array)</code></h3>
+<h3 id="disable_client_statearray"><code>disable_client_state(array)</code></h3>
+<p>Enables or disables client-side vertex arrays.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>array</code> - <code>gl.VERTEX_ARRAY</code>, <code>gl.NORMAL_ARRAY</code>, <code>gl.COLOR_ARRAY</code>, <code>gl.TEXTURE_COORD_ARRAY</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="vertex_pointersize-type-stride-pointer"><code>vertex_pointer(size, type, stride, pointer)</code></h3>
+<h3 id="normal_pointertype-stride-pointer"><code>normal_pointer(type, stride, pointer)</code></h3>
+<h3 id="color_pointersize-type-stride-pointer"><code>color_pointer(size, type, stride, pointer)</code></h3>
+<h3 id="tex_coord_pointersize-type-stride-pointer"><code>tex_coord_pointer(size, type, stride, pointer)</code></h3>
+<p>Specifies vertex array pointers.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>pointer</code> - Data (bytes) or <code>null</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  gl.enable_client_state(gl.VERTEX_ARRAY)
+  gl.vertex_pointer(3, gl.FLOAT, 0, vertex_data)</code></li>
+</ul>
+<h3 id="draw_arraysmode-first-count"><code>draw_arrays(mode, first, count)</code></h3>
+<p>Renders primitives from array data.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>mode</code> - Primitive type, <code>first</code> - Starting index (int), <code>count</code> - Number of vertices (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="draw_elementsmode-count-type-indices"><code>draw_elements(mode, count, type, indices)</code></h3>
+<p>Renders primitives from indexed array data.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>indices</code> - Index data (bytes) or <code>null</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="display-lists">Display Lists</h2>
+<h3 id="gen_listsrange"><code>gen_lists(range)</code></h3>
+<p>Generates display list names.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>range</code> - Number of display lists to generate (int)</li>
+<li><strong>Returns</strong>: Starting display list ID (int)</li>
+</ul>
+<h3 id="new_listlist-mode"><code>new_list(list, mode)</code></h3>
+<p>Begins a display list.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>list</code> - Display list ID (uint), <code>mode</code> - <code>gl.COMPILE</code> or <code>gl.COMPILE_AND_EXECUTE</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="end_list"><code>end_list()</code></h3>
+<p>Ends a display list.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="call_listlist"><code>call_list(list)</code></h3>
+<p>Executes a display list.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>list</code> - Display list ID (uint)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="delete_listslist-range"><code>delete_lists(list, range)</code></h3>
+<p>Deletes display lists.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>list</code> - Starting display list ID (uint), <code>range</code> - Number of lists to delete (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="query-sync">Query &amp; Sync</h2>
+<h3 id="get_error"><code>get_error()</code></h3>
+<p>Returns the current OpenGL error code.</p>
+<ul>
+<li><strong>Returns</strong>: Error code (int)</li>
+<li><strong>Example</strong>:
+  <code>go
+  err := gl.get_error()
+  if err != gl.NO_ERROR {
+      println("OpenGL error:", err)
+  }</code></li>
+</ul>
+<h3 id="get_integervpname"><code>get_integerv(pname)</code></h3>
+<h3 id="get_floatvpname"><code>get_floatv(pname)</code></h3>
+<h3 id="get_doublevpname"><code>get_doublev(pname)</code></h3>
+<h3 id="get_booleanvpname"><code>get_booleanv(pname)</code></h3>
+<p>Queries OpenGL state values.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>pname</code> - Parameter to query</li>
+<li><strong>Returns</strong>: Query result (int, float, or bool)</li>
+</ul>
+<h3 id="get_stringname"><code>get_string(name)</code></h3>
+<p>Returns a string from OpenGL.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>name</code> - <code>gl.VENDOR</code>, <code>gl.RENDERER</code>, <code>gl.VERSION</code>, or <code>gl.EXTENSIONS</code></li>
+<li><strong>Returns</strong>: String</li>
+<li><strong>Example</strong>: <code>println("OpenGL Version:", gl.get_string(gl.VERSION))</code></li>
+</ul>
+<hr />
+<h2 id="flush-finish">Flush &amp; Finish</h2>
+<h3 id="flush"><code>flush()</code></h3>
+<p>Forces execution of OpenGL commands.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="finish"><code>finish()</code></h3>
+<p>Waits for all OpenGL commands to complete.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="accumulation-buffer">Accumulation Buffer</h2>
+<h3 id="accumop-value"><code>accum(op, value)</code></h3>
+<p>Performs accumulation buffer operations.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>op</code> - <code>gl.ACCUM</code>, <code>gl.LOAD</code>, <code>gl.RETURN</code>, <code>gl.MULT</code>, or <code>gl.ADD</code>, <code>value</code> - Operation value (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="render-mode">Render Mode</h2>
+<h3 id="render_modemode"><code>render_mode(mode)</code></h3>
+<p>Sets the render mode.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>mode</code> - <code>gl.RENDER</code>, <code>gl.FEEDBACK</code>, or <code>gl.SELECT</code></li>
+<li><strong>Returns</strong>: Previous render mode (int)</li>
+</ul>
+<hr />
+<h2 id="constants-reference">Constants Reference</h2>
+<h3 id="matrix-modes">Matrix Modes</h3>
+<ul>
+<li><code>gl.MODELVIEW</code></li>
+<li><code>gl.PROJECTION</code></li>
+<li><code>gl.TEXTURE</code></li>
+</ul>
+<h3 id="clear-bits">Clear Bits</h3>
+<ul>
+<li><code>gl.COLOR_BUFFER_BIT</code></li>
+<li><code>gl.DEPTH_BUFFER_BIT</code></li>
+<li><code>gl.ACCUM_BUFFER_BIT</code></li>
+<li><code>gl.STENCIL_BUFFER_BIT</code></li>
+</ul>
+<h3 id="primitive-types">Primitive Types</h3>
+<ul>
+<li><code>gl.POINTS</code></li>
+<li><code>gl.LINES</code></li>
+<li><code>gl.LINE_LOOP</code></li>
+<li><code>gl.LINE_STRIP</code></li>
+<li><code>gl.TRIANGLES</code></li>
+<li><code>gl.TRIANGLE_STRIP</code></li>
+<li><code>gl.TRIANGLE_FAN</code></li>
+<li><code>gl.QUADS</code></li>
+<li><code>gl.QUAD_STRIP</code></li>
+<li><code>gl.POLYGON</code></li>
+</ul>
+<h3 id="shading-models">Shading Models</h3>
+<ul>
+<li><code>gl.FLAT</code></li>
+<li><code>gl.SMOOTH</code></li>
+</ul>
+<h3 id="capabilities">Capabilities</h3>
+<ul>
+<li><code>gl.BLEND</code></li>
+<li><code>gl.DEPTH_TEST</code></li>
+<li><code>gl.CULL_FACE</code></li>
+<li><code>gl.LIGHTING</code></li>
+<li><code>gl.LIGHT0</code> through <code>gl.LIGHT7</code></li>
+<li><code>gl.FOG</code></li>
+<li><code>gl.SCISSOR_TEST</code></li>
+<li><code>gl.STENCIL_TEST</code></li>
+<li><code>gl.ALPHA_TEST</code></li>
+<li><code>gl.NORMALIZE</code></li>
+<li><code>gl.COLOR_MATERIAL</code></li>
+</ul>
+<h3 id="blend-factors">Blend Factors</h3>
+<ul>
+<li><code>gl.ZERO</code></li>
+<li><code>gl.ONE</code></li>
+<li><code>gl.SRC_COLOR</code></li>
+<li><code>gl.ONE_MINUS_SRC_COLOR</code></li>
+<li><code>gl.DST_COLOR</code></li>
+<li><code>gl.ONE_MINUS_DST_COLOR</code></li>
+<li><code>gl.SRC_ALPHA</code></li>
+<li><code>gl.ONE_MINUS_SRC_ALPHA</code></li>
+<li><code>gl.DST_ALPHA</code></li>
+<li><code>gl.ONE_MINUS_DST_ALPHA</code></li>
+<li><code>gl.SRC_ALPHA_SATURATE</code></li>
+<li><code>gl.CONSTANT_COLOR</code></li>
+<li><code>gl.ONE_MINUS_CONSTANT_COLOR</code></li>
+<li><code>gl.CONSTANT_ALPHA</code></li>
+<li><code>gl.ONE_MINUS_CONSTANT_ALPHA</code></li>
+</ul>
+<h3 id="blend-equations">Blend Equations</h3>
+<ul>
+<li><code>gl.FUNC_ADD</code></li>
+<li><code>gl.FUNC_SUBTRACT</code></li>
+<li><code>gl.FUNC_REVERSE_SUBTRACT</code></li>
+<li><code>gl.MIN</code></li>
+<li><code>gl.MAX</code></li>
+</ul>
+<h3 id="depthalpha-functions">Depth/Alpha Functions</h3>
+<ul>
+<li><code>gl.NEVER</code></li>
+<li><code>gl.LESS</code></li>
+<li><code>gl.EQUAL</code></li>
+<li><code>gl.LEQUAL</code></li>
+<li><code>gl.GREATER</code></li>
+<li><code>gl.NOTEQUAL</code></li>
+<li><code>gl.GEQUAL</code></li>
+<li><code>gl.ALWAYS</code></li>
+</ul>
+<h3 id="cull-face-modes">Cull Face Modes</h3>
+<ul>
+<li><code>gl.FRONT</code></li>
+<li><code>gl.BACK</code></li>
+<li><code>gl.FRONT_AND_BACK</code></li>
+</ul>
+<h3 id="front-face">Front Face</h3>
+<ul>
+<li><code>gl.CW</code> (clockwise)</li>
+<li><code>gl.CCW</code> (counter-clockwise)</li>
+</ul>
+<h3 id="polygon-modes_1">Polygon Modes</h3>
+<ul>
+<li><code>gl.POINT</code></li>
+<li><code>gl.LINE</code></li>
+<li><code>gl.FILL</code></li>
+</ul>
+<h3 id="hints_1">Hints</h3>
+<ul>
+<li><code>gl.DONT_CARE</code></li>
+<li><code>gl.FASTEST</code></li>
+<li><code>gl.NICEST</code></li>
+</ul>
+<h3 id="fog-modes">Fog Modes</h3>
+<ul>
+<li><code>gl.EXP</code></li>
+<li><code>gl.EXP2</code></li>
+</ul>
+<h3 id="texture-targets">Texture Targets</h3>
+<ul>
+<li><code>gl.TEXTURE_1D</code></li>
+<li><code>gl.TEXTURE_2D</code></li>
+<li><code>gl.TEXTURE_3D</code></li>
+<li><code>gl.TEXTURE_CUBE_MAP</code></li>
+<li><code>gl.TEXTURE_CUBE_MAP_POSITIVE_X</code> through <code>gl.TEXTURE_CUBE_MAP_NEGATIVE_Z</code></li>
+</ul>
+<h3 id="texture-filters">Texture Filters</h3>
+<ul>
+<li><code>gl.NEAREST</code></li>
+<li><code>gl.LINEAR</code></li>
+<li><code>gl.NEAREST_MIPMAP_NEAREST</code></li>
+<li><code>gl.LINEAR_MIPMAP_NEAREST</code></li>
+<li><code>gl.NEAREST_MIPMAP_LINEAR</code></li>
+<li><code>gl.LINEAR_MIPMAP_LINEAR</code></li>
+</ul>
+<h3 id="texture-wrap-modes">Texture Wrap Modes</h3>
+<ul>
+<li><code>gl.CLAMP</code></li>
+<li><code>gl.REPEAT</code></li>
+<li><code>gl.CLAMP_TO_EDGE</code></li>
+<li><code>gl.CLAMP_TO_BORDER</code></li>
+<li><code>gl.MIRRORED_REPEAT</code></li>
+</ul>
+<h3 id="internal-formats">Internal Formats</h3>
+<ul>
+<li><code>gl.ALPHA</code>, <code>gl.ALPHA4</code>, <code>gl.ALPHA8</code>, <code>gl.ALPHA12</code>, <code>gl.ALPHA16</code></li>
+<li><code>gl.LUMINANCE</code>, <code>gl.LUMINANCE4</code>, <code>gl.LUMINANCE8</code>, <code>gl.LUMINANCE12</code>, <code>gl.LUMINANCE16</code></li>
+<li><code>gl.LUMINANCE_ALPHA</code>, <code>gl.LUMINANCE4_ALPHA4</code>, <code>gl.LUMINANCE8_ALPHA8</code></li>
+<li><code>gl.RGB</code>, <code>gl.RGB4</code>, <code>gl.RGB8</code>, <code>gl.RGB10</code>, <code>gl.RGB12</code>, <code>gl.RGB16</code></li>
+<li><code>gl.RGBA</code>, <code>gl.RGBA2</code>, <code>gl.RGBA4</code>, <code>gl.RGB5_A1</code>, <code>gl.RGBA8</code>, <code>gl.RGB10_A2</code>, <code>gl.RGBA12</code>, <code>gl.RGBA16</code></li>
+<li><code>gl.DEPTH_COMPONENT</code>, <code>gl.DEPTH_COMPONENT16</code>, <code>gl.DEPTH_COMPONENT24</code>, <code>gl.DEPTH_COMPONENT32</code></li>
+</ul>
+<h3 id="pixel-data-types">Pixel Data Types</h3>
+<ul>
+<li><code>gl.UNSIGNED_BYTE</code></li>
+<li><code>gl.BYTE</code></li>
+<li><code>gl.UNSIGNED_SHORT</code></li>
+<li><code>gl.SHORT</code></li>
+<li><code>gl.UNSIGNED_INT</code></li>
+<li><code>gl.INT</code></li>
+<li><code>gl.FLOAT</code></li>
+<li><code>gl.DOUBLE</code></li>
+</ul>
+<h3 id="vertex-arrays_1">Vertex Arrays</h3>
+<ul>
+<li><code>gl.VERTEX_ARRAY</code></li>
+<li><code>gl.NORMAL_ARRAY</code></li>
+<li><code>gl.COLOR_ARRAY</code></li>
+<li><code>gl.TEXTURE_COORD_ARRAY</code></li>
+</ul>
+<h3 id="error-codes">Error Codes</h3>
+<ul>
+<li><code>gl.NO_ERROR</code></li>
+<li><code>gl.INVALID_ENUM</code></li>
+<li><code>gl.INVALID_VALUE</code></li>
+<li><code>gl.INVALID_OPERATION</code></li>
+<li><code>gl.STACK_OVERFLOW</code></li>
+<li><code>gl.STACK_UNDERFLOW</code></li>
+<li><code>gl.OUT_OF_MEMORY</code></li>
+</ul>
+<h3 id="getstring-names">GetString Names</h3>
+<ul>
+<li><code>gl.VENDOR</code></li>
+<li><code>gl.RENDERER</code></li>
+<li><code>gl.VERSION</code></li>
+<li><code>gl.EXTENSIONS</code></li>
+</ul>
+<hr />
+<h2 id="complete-example">Complete Example</h2>
+<pre><code class="language-go">import &quot;gl&quot;
+
+// Initialize OpenGL
+gl.init()
+
+// Set up the viewport
+gl.viewport(0, 0, 800, 600)
+
+// Set up projection matrix
+gl.matrix_mode(gl.PROJECTION)
+gl.load_identity()
+gl.ortho(-1, 1, -1, 1, -1, 1)
+
+// Set up modelview matrix
+gl.matrix_mode(gl.MODELVIEW)
+gl.load_identity()
+
+// Clear the screen
+gl.clear_color(0.2, 0.3, 0.4, 1.0)
+gl.clear(gl.COLOR_BUFFER_BIT)
+
+// Enable features
+gl.enable(gl.BLEND)
+gl.blend_func(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
+
+// Draw a triangle
+gl.begin(gl.TRIANGLES)
+gl.color3f(1.0, 0.0, 0.0)
+gl.vertex3f(400, 100, 0)
+gl.color3f(0.0, 1.0, 0.0)
+gl.vertex3f(200, 400, 0)
+gl.color3f(0.0, 0.0, 1.0)
+gl.vertex3f(600, 400, 0)
+gl.end()
+
+// Draw a textured quad
+gl.enable(gl.TEXTURE_2D)
+textures := gl.gen_textures(1)
+gl.bind_texture(gl.TEXTURE_2D, textures[0])
+gl.tex_parameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+gl.tex_parameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+
+// ... set texture data with gl.tex_image2d ...
+
+gl.begin(gl.QUADS)
+gl.tex_coord2f(0, 0)
+gl.vertex3f(0, 0, 0)
+gl.tex_coord2f(1, 0)
+gl.vertex3f(100, 0, 0)
+gl.tex_coord2f(1, 1)
+gl.vertex3f(100, 100, 0)
+gl.tex_coord2f(0, 1)
+gl.vertex3f(0, 100, 0)
+gl.end()
+
+// Flush commands
+gl.flush()
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

@@ -1,0 +1,1217 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Stdlib glut - Tender Docs</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Tender Docs</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../.." class="nav-link">Tender</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Pages</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../builtins/" class="dropdown-item">Builtins</a>
+</li>
+                                    
+<li>
+    <a href="../formatting/" class="dropdown-item">Formatting</a>
+</li>
+                                    
+<li>
+    <a href="../operators/" class="dropdown-item">Operators</a>
+</li>
+                                    
+<li>
+    <a href="../runtime-types/" class="dropdown-item">Runtime Types</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-audio/" class="dropdown-item">Stdlib audio</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-base64/" class="dropdown-item">Stdlib base64</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-bufio/" class="dropdown-item">Stdlib bufio</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-canvas/" class="dropdown-item">Stdlib canvas</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-cmplx/" class="dropdown-item">Stdlib cmplx</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-colors/" class="dropdown-item">Stdlib colors</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-crypto/" class="dropdown-item">Stdlib crypto</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-dll/" class="dropdown-item">Stdlib dll</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-fmt/" class="dropdown-item">Stdlib fmt</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-gl/" class="dropdown-item">Stdlib gl</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-glu/" class="dropdown-item">Stdlib glu</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Stdlib glut</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-graphics/" class="dropdown-item">Stdlib graphics</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-gzip/" class="dropdown-item">Stdlib gzip</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-hex/" class="dropdown-item">Stdlib hex</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-http/" class="dropdown-item">Stdlib http</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-image/" class="dropdown-item">Stdlib image</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-io/" class="dropdown-item">Stdlib io</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-json/" class="dropdown-item">Stdlib json</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-math/" class="dropdown-item">Stdlib math</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-net/" class="dropdown-item">Stdlib net</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-os/" class="dropdown-item">Stdlib os</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-path/" class="dropdown-item">Stdlib path</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-rand/" class="dropdown-item">Stdlib rand</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-strings/" class="dropdown-item">Stdlib strings</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-sync/" class="dropdown-item">Stdlib sync</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-tar/" class="dropdown-item">Stdlib tar</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-times/" class="dropdown-item">Stdlin times</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-websocket/" class="dropdown-item">Stdlib websocket</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-wui/" class="dropdown-item">Stdlib wui</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-xml/" class="dropdown-item">Stdlib xml</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-zip/" class="dropdown-item">Stdlib zip</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib/" class="dropdown-item">Standard Library</a>
+</li>
+                                    
+<li>
+    <a href="../tutorial/" class="dropdown-item">Getting Started</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../stdlib-glu/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../stdlib-graphics/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#stdlib-glut" class="nav-link">Stdlib glut</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#initialization" class="nav-link">Initialization</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#window-management" class="nav-link">Window Management</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#callback-functions" class="nav-link">Callback Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#menus" class="nav-link">Menus</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#colors" class="nav-link">Colors</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#state-queries" class="nav-link">State Queries</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#modifiers" class="nav-link">Modifiers</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#overlay-functions" class="nav-link">Overlay Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#redisplay" class="nav-link">Redisplay</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#double-buffering" class="nav-link">Double Buffering</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#main-loop" class="nav-link">Main Loop</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#font-functions" class="nav-link">Font Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#solid-and-wire-shapes" class="nav-link">Solid and Wire Shapes</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#game-mode" class="nav-link">Game Mode</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#video-resizing" class="nav-link">Video Resizing</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#utility-functions" class="nav-link">Utility Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#constants-reference" class="nav-link">Constants Reference</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#complete-example" class="nav-link">Complete Example</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="stdlib-glut">Stdlib <code>glut</code></h1>
+<p>The <code>glut</code> module provides OpenGL Utility Toolkit (GLUT) bindings for creating windowed OpenGL applications. It handles window creation, event processing, input handling, and rendering callbacks.</p>
+<hr />
+<h2 id="initialization">Initialization</h2>
+<h3 id="init"><code>init()</code></h3>
+<p>Initializes GLUT.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>glut.init()</code></li>
+</ul>
+<h3 id="init_display_modemode"><code>init_display_mode(mode)</code></h3>
+<p>Sets the initial display mode for GLUT windows.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>mode</code> - Display mode flags (bitwise OR of constants)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>glut.init_display_mode(glut.RGBA | glut.DOUBLE | glut.DEPTH)</code></li>
+</ul>
+<h3 id="init_window_sizewidth-height"><code>init_window_size(width, height)</code></h3>
+<p>Sets the initial window size.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>width</code>, <code>height</code> - Window dimensions (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>glut.init_window_size(800, 600)</code></li>
+</ul>
+<h3 id="init_window_positionx-y"><code>init_window_position(x, y)</code></h3>
+<p>Sets the initial window position.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>x</code>, <code>y</code> - Window position (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>glut.init_window_position(100, 100)</code></li>
+</ul>
+<hr />
+<h2 id="window-management">Window Management</h2>
+<h3 id="create_windowtitle"><code>create_window(title)</code></h3>
+<p>Creates a new GLUT window.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>title</code> - Window title (string)</li>
+<li><strong>Returns</strong>: Window ID (int)</li>
+<li><strong>Example</strong>:
+  <code>go
+  win := glut.create_window("My OpenGL Window")</code></li>
+</ul>
+<h3 id="create_sub_windowparent_window-x-y-width-height"><code>create_sub_window(parent_window, x, y, width, height)</code></h3>
+<p>Creates a sub-window.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>parent_window</code> - Parent window ID, <code>x</code>, <code>y</code> - Position, <code>width</code>, <code>height</code> - Dimensions (int)</li>
+<li><strong>Returns</strong>: Sub-window ID (int)</li>
+</ul>
+<h3 id="destroy_windowwindow_id"><code>destroy_window(window_id)</code></h3>
+<p>Destroys a GLUT window.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>window_id</code> - Window ID (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="get_window"><code>get_window()</code></h3>
+<p>Returns the ID of the current window.</p>
+<ul>
+<li><strong>Returns</strong>: Window ID (int)</li>
+<li><strong>Example</strong>: <code>current := glut.get_window()</code></li>
+</ul>
+<h3 id="set_windowwindow_id"><code>set_window(window_id)</code></h3>
+<p>Sets the current window.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>window_id</code> - Window ID (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_window_titletitle"><code>set_window_title(title)</code></h3>
+<p>Sets the title of the current window.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>title</code> - Window title (string)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>glut.set_window_title("New Title")</code></li>
+</ul>
+<h3 id="set_icon_titletitle"><code>set_icon_title(title)</code></h3>
+<p>Sets the icon title of the current window.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>title</code> - Icon title (string)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="position_windowx-y"><code>position_window(x, y)</code></h3>
+<p>Repositions the current window.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>x</code>, <code>y</code> - New window position (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="reshape_windowwidth-height"><code>reshape_window(width, height)</code></h3>
+<p>Reshapes the current window.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>width</code>, <code>height</code> - New dimensions (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="full_screen"><code>full_screen()</code></h3>
+<p>Switches the current window to full-screen mode.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>glut.full_screen()</code></li>
+</ul>
+<h3 id="hide_window"><code>hide_window()</code></h3>
+<p>Hides the current window.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="show_window"><code>show_window()</code></h3>
+<p>Shows the current window.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="iconify_window"><code>iconify_window()</code></h3>
+<p>Iconifies (minimizes) the current window.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="push_window"><code>push_window()</code></h3>
+<p>Pushes the current window onto the window stack.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="pop_window"><code>pop_window()</code></h3>
+<p>Pops the current window from the window stack.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="warp_pointerx-y"><code>warp_pointer(x, y)</code></h3>
+<p>Warps the mouse pointer to the specified position.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>x</code>, <code>y</code> - Position (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_cursorcursor"><code>set_cursor(cursor)</code></h3>
+<p>Sets the cursor for the current window.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>cursor</code> - Cursor constant</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>glut.set_cursor(glut.CURSOR_CROSSHAIR)</code></li>
+</ul>
+<hr />
+<h2 id="callback-functions">Callback Functions</h2>
+<h3 id="display_funccallback"><code>display_func(callback)</code></h3>
+<p>Registers the display callback function.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>callback</code> - Function with no parameters</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  glut.display_func(fn() {
+      gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+      // Rendering code
+      glut.swap_buffers()
+  })</code></li>
+</ul>
+<h3 id="reshape_funccallback"><code>reshape_func(callback)</code></h3>
+<p>Registers the reshape callback function.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>callback</code> - Function with <code>(width, height)</code> parameters (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  glut.reshape_func(fn(w, h) {
+      gl.viewport(0, 0, w, h)
+  })</code></li>
+</ul>
+<h3 id="keyboard_funccallback"><code>keyboard_func(callback)</code></h3>
+<p>Registers the keyboard callback function.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>callback</code> - Function with <code>(key, x, y)</code> parameters (string, int, int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  glut.keyboard_func(fn(key, x, y) {
+      if key == "q" {
+          os.exit(0)
+      }
+  })</code></li>
+</ul>
+<h3 id="keyboard_up_funccallback"><code>keyboard_up_func(callback)</code></h3>
+<p>Registers the keyboard release callback function.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>callback</code> - Function with <code>(key, x, y)</code> parameters (string, int, int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="special_funccallback"><code>special_func(callback)</code></h3>
+<p>Registers the special key callback function (arrow keys, F-keys, etc.).</p>
+<ul>
+<li><strong>Parameters</strong>: <code>callback</code> - Function with <code>(key, x, y)</code> parameters (int, int, int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  glut.special_func(fn(key, x, y) {
+      if key == glut.KEY_LEFT {
+          // Handle left arrow key
+      }
+  })</code></li>
+</ul>
+<h3 id="special_up_funccallback"><code>special_up_func(callback)</code></h3>
+<p>Registers the special key release callback function.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>callback</code> - Function with <code>(key, x, y)</code> parameters (int, int, int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="mouse_funccallback"><code>mouse_func(callback)</code></h3>
+<p>Registers the mouse button callback function.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>callback</code> - Function with <code>(button, state, x, y)</code> parameters (int, int, int, int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  glut.mouse_func(fn(button, state, x, y) {
+      if button == glut.LEFT_BUTTON &amp;&amp; state == glut.DOWN {
+          // Handle left click
+      }
+  })</code></li>
+</ul>
+<h3 id="motion_funccallback"><code>motion_func(callback)</code></h3>
+<p>Registers the mouse motion callback function (when a button is pressed).</p>
+<ul>
+<li><strong>Parameters</strong>: <code>callback</code> - Function with <code>(x, y)</code> parameters (int, int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="passive_motion_funccallback"><code>passive_motion_func(callback)</code></h3>
+<p>Registers the passive mouse motion callback function (no buttons pressed).</p>
+<ul>
+<li><strong>Parameters</strong>: <code>callback</code> - Function with <code>(x, y)</code> parameters (int, int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="entry_funccallback"><code>entry_func(callback)</code></h3>
+<p>Registers the window entry callback function.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>callback</code> - Function with <code>(state)</code> parameter (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  glut.entry_func(fn(state) {
+      if state == glut.ENTERED {
+          // Mouse entered the window
+      }
+  })</code></li>
+</ul>
+<h3 id="visibility_funccallback"><code>visibility_func(callback)</code></h3>
+<p>Registers the window visibility callback function.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>callback</code> - Function with <code>(state)</code> parameter (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="idle_funccallback"><code>idle_func(callback)</code></h3>
+<p>Registers the idle callback function (called when no events are pending).</p>
+<ul>
+<li><strong>Parameters</strong>: <code>callback</code> - Function with no parameters</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  glut.idle_func(fn() {
+      // Background processing
+      glut.post_redisplay()
+  })</code></li>
+</ul>
+<h3 id="timer_funcmsecs-callback-timer_id"><code>timer_func(msecs, callback, timer_id)</code></h3>
+<p>Registers a timer callback.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>msecs</code> - Time in milliseconds (int), <code>callback</code> - Function with <code>(id)</code> parameter (int), <code>timer_id</code> - Timer identifier (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  glut.timer_func(100, fn(id) {
+      // Timer triggered
+  }, 0)</code></li>
+</ul>
+<h3 id="overlay_display_funccallback"><code>overlay_display_func(callback)</code></h3>
+<p>Registers the overlay display callback function.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>callback</code> - Function with no parameters</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="menus">Menus</h2>
+<h3 id="create_menucallback"><code>create_menu(callback)</code></h3>
+<p>Creates a new menu.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>callback</code> - Function with <code>(value)</code> parameter (int)</li>
+<li><strong>Returns</strong>: Menu ID (int)</li>
+<li><strong>Example</strong>:
+  <code>go
+  menu := glut.create_menu(fn(value) {
+      println("Menu item selected:", value)
+  })</code></li>
+</ul>
+<h3 id="destroy_menumenu_id"><code>destroy_menu(menu_id)</code></h3>
+<p>Destroys a menu.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>menu_id</code> - Menu ID (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="get_menu"><code>get_menu()</code></h3>
+<p>Returns the ID of the current menu.</p>
+<ul>
+<li><strong>Returns</strong>: Menu ID (int)</li>
+</ul>
+<h3 id="set_menumenu_id"><code>set_menu(menu_id)</code></h3>
+<p>Sets the current menu.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>menu_id</code> - Menu ID (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="add_menu_entryname-value"><code>add_menu_entry(name, value)</code></h3>
+<p>Adds an entry to the current menu.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>name</code> - Menu entry name (string), <code>value</code> - Value for callback (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  glut.add_menu_entry("Option 1", 1)
+  glut.add_menu_entry("Option 2", 2)</code></li>
+</ul>
+<h3 id="add_sub_menuname-sub_menu_id"><code>add_sub_menu(name, sub_menu_id)</code></h3>
+<p>Adds a sub-menu to the current menu.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>name</code> - Menu entry name (string), <code>sub_menu_id</code> - Sub-menu ID (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="change_to_menu_entryentry-name-value"><code>change_to_menu_entry(entry, name, value)</code></h3>
+<p>Changes an existing menu entry.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>entry</code> - Entry index (int), <code>name</code> - New name (string), <code>value</code> - New value (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="change_to_sub_menuentry-name-sub_menu_id"><code>change_to_sub_menu(entry, name, sub_menu_id)</code></h3>
+<p>Changes an existing menu entry to a sub-menu.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>entry</code> - Entry index (int), <code>name</code> - New name (string), <code>sub_menu_id</code> - Sub-menu ID (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="remove_menu_itementry-name-menu_id"><code>remove_menu_item(entry, name, menu_id)</code></h3>
+<p>Removes a menu item.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>entry</code> - Entry index (int), <code>name</code> - Name (string), <code>menu_id</code> - Menu ID (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="attach_menubutton"><code>attach_menu(button)</code></h3>
+<p>Attaches the current menu to a mouse button.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>button</code> - Mouse button (<code>glut.LEFT_BUTTON</code>, <code>glut.RIGHT_BUTTON</code>, or <code>glut.MIDDLE_BUTTON</code>)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>glut.attach_menu(glut.RIGHT_BUTTON)</code></li>
+</ul>
+<h3 id="detach_menubutton"><code>detach_menu(button)</code></h3>
+<p>Detaches the current menu from a mouse button.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>button</code> - Mouse button (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="menu_state_funccallback"><code>menu_state_func(callback)</code></h3>
+<p>Registers the menu state callback function.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>callback</code> - Function with <code>(status)</code> parameter (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="menu_status_funccallback"><code>menu_status_func(callback)</code></h3>
+<p>Registers the menu status callback function.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>callback</code> - Function with <code>(status, x, y)</code> parameters (int, int, int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="colors">Colors</h2>
+<h3 id="set_colorcell-red-green-blue"><code>set_color(cell, red, green, blue)</code></h3>
+<p>Sets a color in the colormap.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>cell</code> - Color cell index (int), <code>red</code>, <code>green</code>, <code>blue</code> - Color components (float, 0.0-1.0)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="get_colorcell-component"><code>get_color(cell, component)</code></h3>
+<p>Gets a color component from the colormap.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>cell</code> - Color cell index (int), <code>component</code> - <code>glut.RED</code>, <code>glut.GREEN</code>, or <code>glut.BLUE</code> (int)</li>
+<li><strong>Returns</strong>: Color component value (float)</li>
+</ul>
+<h3 id="copy_colormapwindow_id"><code>copy_colormap(window_id)</code></h3>
+<p>Copies the colormap from another window.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>window_id</code> - Source window ID (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="state-queries">State Queries</h2>
+<h3 id="getstate"><code>get(state)</code></h3>
+<p>Gets GLUT state values.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>state</code> - State constant (<code>glut.WINDOW_WIDTH</code>, <code>glut.WINDOW_HEIGHT</code>, etc.)</li>
+<li><strong>Returns</strong>: State value (int)</li>
+<li><strong>Example</strong>:
+  <code>go
+  width := glut.get(glut.WINDOW_WIDTH)
+  height := glut.get(glut.WINDOW_HEIGHT)</code></li>
+</ul>
+<h3 id="device_gettype"><code>device_get(type)</code></h3>
+<p>Gets device state values.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>type</code> - Device constant (<code>glut.HAS_KEYBOARD</code>, <code>glut.NUM_MOUSE_BUTTONS</code>, etc.)</li>
+<li><strong>Returns</strong>: Device state value (int)</li>
+</ul>
+<h3 id="layer_gettype"><code>layer_get(type)</code></h3>
+<p>Gets overlay layer state values.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>type</code> - Layer constant (<code>glut.OVERLAY_POSSIBLE</code>, etc.)</li>
+<li><strong>Returns</strong>: Layer state value (int)</li>
+</ul>
+<h3 id="video_resize_getparam"><code>video_resize_get(param)</code></h3>
+<p>Gets video resize state values.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>param</code> - Video resize parameter constant</li>
+<li><strong>Returns</strong>: Value (int)</li>
+</ul>
+<h3 id="game_mode_getmode"><code>game_mode_get(mode)</code></h3>
+<p>Gets game mode state values.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>mode</code> - Game mode constant</li>
+<li><strong>Returns</strong>: Value (int)</li>
+</ul>
+<hr />
+<h2 id="modifiers">Modifiers</h2>
+<h3 id="get_modifiers"><code>get_modifiers()</code></h3>
+<p>Returns the current modifier key state.</p>
+<ul>
+<li><strong>Returns</strong>: Bitmask of active modifiers (<code>glut.ACTIVE_SHIFT</code>, <code>glut.ACTIVE_CTRL</code>, <code>glut.ACTIVE_ALT</code>)</li>
+<li><strong>Example</strong>:
+  <code>go
+  mods := glut.get_modifiers()
+  if mods &amp; glut.ACTIVE_CTRL != 0 {
+      // Ctrl key is pressed
+  }</code></li>
+</ul>
+<h3 id="ignore_key_repeatignore"><code>ignore_key_repeat(ignore)</code></h3>
+<p>Sets whether to ignore key repeat events.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>ignore</code> - 0 for repeat enabled, 1 for disabled (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_key_repeatrepeat_mode"><code>set_key_repeat(repeat_mode)</code></h3>
+<p>Sets the key repeat mode.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>repeat_mode</code> - <code>glut.KEY_REPEAT_OFF</code>, <code>glut.KEY_REPEAT_ON</code>, or <code>glut.KEY_REPEAT_DEFAULT</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="overlay-functions">Overlay Functions</h2>
+<h3 id="establish_overlay"><code>establish_overlay()</code></h3>
+<p>Establishes an overlay for the current window.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="remove_overlay"><code>remove_overlay()</code></h3>
+<p>Removes the overlay from the current window.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="use_layerlayer"><code>use_layer(layer)</code></h3>
+<p>Sets the current layer to use.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>layer</code> - <code>glut.NORMAL</code> or <code>glut.OVERLAY</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="show_overlay"><code>show_overlay()</code></h3>
+<p>Shows the overlay.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="hide_overlay"><code>hide_overlay()</code></h3>
+<p>Hides the overlay.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="post_overlay_redisplay"><code>post_overlay_redisplay()</code></h3>
+<p>Posts a redisplay event for the overlay.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="post_window_overlay_redisplaywindow_id"><code>post_window_overlay_redisplay(window_id)</code></h3>
+<p>Posts a redisplay event for the overlay of a specific window.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>window_id</code> - Window ID (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="redisplay">Redisplay</h2>
+<h3 id="post_redisplay"><code>post_redisplay()</code></h3>
+<p>Posts a redisplay event for the current window.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="post_window_redisplaywindow_id"><code>post_window_redisplay(window_id)</code></h3>
+<p>Posts a redisplay event for a specific window.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>window_id</code> - Window ID (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="double-buffering">Double Buffering</h2>
+<h3 id="swap_buffers"><code>swap_buffers()</code></h3>
+<p>Swaps the front and back buffers for double-buffered windows.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>glut.swap_buffers()</code></li>
+</ul>
+<hr />
+<h2 id="main-loop">Main Loop</h2>
+<h3 id="main_loop"><code>main_loop()</code></h3>
+<p>Enters the GLUT main event processing loop.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code> (this function never returns)</li>
+<li><strong>Example</strong>: <code>glut.main_loop()</code></li>
+</ul>
+<hr />
+<h2 id="font-functions">Font Functions</h2>
+<h3 id="bitmap_characterfont-char"><code>bitmap_character(font, char)</code></h3>
+<p>Renders a bitmap character.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>font</code> - Font constant, <code>char</code> - Character to render (rune)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="bitmap_lengthfont-string"><code>bitmap_length(font, string)</code></h3>
+<p>Returns the length of a string in pixels for a bitmap font.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>font</code> - Font constant, <code>string</code> - String to measure</li>
+<li><strong>Returns</strong>: Length in pixels (int)</li>
+</ul>
+<h3 id="bitmap_widthfont-char"><code>bitmap_width(font, char)</code></h3>
+<p>Returns the width of a character in a bitmap font.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>font</code> - Font constant, <code>char</code> - Character (rune)</li>
+<li><strong>Returns</strong>: Width in pixels (int)</li>
+</ul>
+<h3 id="stroke_characterfont-char"><code>stroke_character(font, char)</code></h3>
+<p>Renders a stroke character.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>font</code> - Font constant, <code>char</code> - Character to render (rune)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="stroke_lengthfont-string"><code>stroke_length(font, string)</code></h3>
+<p>Returns the length of a string for a stroke font.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>font</code> - Font constant, <code>string</code> - String to measure</li>
+<li><strong>Returns</strong>: Length (int)</li>
+</ul>
+<h3 id="stroke_widthfont-char"><code>stroke_width(font, char)</code></h3>
+<p>Returns the width of a character in a stroke font.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>font</code> - Font constant, <code>char</code> - Character (rune)</li>
+<li><strong>Returns</strong>: Width (int)</li>
+</ul>
+<hr />
+<h2 id="solid-and-wire-shapes">Solid and Wire Shapes</h2>
+<h3 id="solid_sphereradius-slices-stacks"><code>solid_sphere(radius, slices, stacks)</code></h3>
+<h3 id="wire_sphereradius-slices-stacks"><code>wire_sphere(radius, slices, stacks)</code></h3>
+<p>Draws a sphere.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>radius</code> - Sphere radius (float), <code>slices</code> - Number of slices (int), <code>stacks</code> - Number of stacks (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>glut.solid_sphere(1.0, 32, 32)</code></li>
+</ul>
+<h3 id="solid_cubesize"><code>solid_cube(size)</code></h3>
+<h3 id="wire_cubesize"><code>wire_cube(size)</code></h3>
+<p>Draws a cube.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>size</code> - Cube side length (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>glut.solid_cube(2.0)</code></li>
+</ul>
+<h3 id="solid_teapotsize"><code>solid_teapot(size)</code></h3>
+<h3 id="wire_teapotsize"><code>wire_teapot(size)</code></h3>
+<p>Draws a teapot (classic GLUT object).</p>
+<ul>
+<li><strong>Parameters</strong>: <code>size</code> - Teapot size (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="solid_conebase-height-slices-stacks"><code>solid_cone(base, height, slices, stacks)</code></h3>
+<h3 id="wire_conebase-height-slices-stacks"><code>wire_cone(base, height, slices, stacks)</code></h3>
+<p>Draws a cone.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>base</code> - Base radius (float), <code>height</code> - Height (float), <code>slices</code> - Number of slices (int), <code>stacks</code> - Number of stacks (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="solid_torusinner-outer-nsides-rings"><code>solid_torus(inner, outer, nsides, rings)</code></h3>
+<h3 id="wire_torusinner-outer-nsides-rings"><code>wire_torus(inner, outer, nsides, rings)</code></h3>
+<p>Draws a torus.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>inner</code> - Inner radius (float), <code>outer</code> - Outer radius (float), <code>nsides</code> - Number of sides (int), <code>rings</code> - Number of rings (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="solid_dodecahedron"><code>solid_dodecahedron()</code></h3>
+<h3 id="wire_dodecahedron"><code>wire_dodecahedron()</code></h3>
+<p>Draws a dodecahedron.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="solid_icosahedron"><code>solid_icosahedron()</code></h3>
+<h3 id="wire_icosahedron"><code>wire_icosahedron()</code></h3>
+<p>Draws an icosahedron.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="solid_octahedron"><code>solid_octahedron()</code></h3>
+<h3 id="wire_octahedron"><code>wire_octahedron()</code></h3>
+<p>Draws an octahedron.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="solid_tetrahedron"><code>solid_tetrahedron()</code></h3>
+<h3 id="wire_tetrahedron"><code>wire_tetrahedron()</code></h3>
+<p>Draws a tetrahedron.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="game-mode">Game Mode</h2>
+<h3 id="enter_game_mode"><code>enter_game_mode()</code></h3>
+<p>Enters game mode (full-screen with custom resolution).</p>
+<ul>
+<li><strong>Returns</strong>: Window ID (int)</li>
+<li><strong>Example</strong>:
+  <code>go
+  glut.game_mode_string("800x600:32@60")
+  win := glut.enter_game_mode()</code></li>
+</ul>
+<h3 id="leave_game_mode"><code>leave_game_mode()</code></h3>
+<p>Leaves game mode.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="game_mode_stringstring"><code>game_mode_string(string)</code></h3>
+<p>Sets the game mode configuration string.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>string</code> - Mode string (e.g., "800x600:32@60")</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="video-resizing">Video Resizing</h2>
+<h3 id="setup_video_resizing"><code>setup_video_resizing()</code></h3>
+<p>Sets up video resizing.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="stop_video_resizing"><code>stop_video_resizing()</code></h3>
+<p>Stops video resizing.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="video_resizex-y-width-height"><code>video_resize(x, y, width, height)</code></h3>
+<p>Resizes the video display.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>x</code>, <code>y</code> - Position, <code>width</code>, <code>height</code> - Dimensions (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="video_panx-y-width-height"><code>video_pan(x, y, width, height)</code></h3>
+<p>Pans the video display.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>x</code>, <code>y</code> - Position, <code>width</code>, <code>height</code> - Dimensions (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="utility-functions">Utility Functions</h2>
+<h3 id="extension_supportedextension"><code>extension_supported(extension)</code></h3>
+<p>Checks if an OpenGL extension is supported.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>extension</code> - Extension name (string)</li>
+<li><strong>Returns</strong>: Boolean indicating support</li>
+<li><strong>Example</strong>:
+  <code>go
+  if glut.extension_supported("GL_ARB_multitexture") {
+      // Use multitexture
+  }</code></li>
+</ul>
+<h3 id="force_joystick_func"><code>force_joystick_func()</code></h3>
+<p>Forces the joystick callback to be called.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="report_errors"><code>report_errors()</code></h3>
+<p>Reports GLUT errors to stderr.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="constants-reference">Constants Reference</h2>
+<h3 id="display-modes">Display Modes</h3>
+<ul>
+<li><code>glut.RGB</code></li>
+<li><code>glut.RGBA</code></li>
+<li><code>glut.INDEX</code></li>
+<li><code>glut.SINGLE</code></li>
+<li><code>glut.DOUBLE</code></li>
+<li><code>glut.ACCUM</code></li>
+<li><code>glut.ALPHA</code></li>
+<li><code>glut.DEPTH</code></li>
+<li><code>glut.STENCIL</code></li>
+<li><code>glut.MULTISAMPLE</code></li>
+<li><code>glut.STEREO</code></li>
+<li><code>glut.LUMINANCE</code></li>
+</ul>
+<h3 id="mouse-buttons">Mouse Buttons</h3>
+<ul>
+<li><code>glut.LEFT_BUTTON</code></li>
+<li><code>glut.MIDDLE_BUTTON</code></li>
+<li><code>glut.RIGHT_BUTTON</code></li>
+<li><code>glut.DOWN</code></li>
+<li><code>glut.UP</code></li>
+</ul>
+<h3 id="special-keys">Special Keys</h3>
+<ul>
+<li><code>glut.KEY_F1</code> through <code>glut.KEY_F12</code></li>
+<li><code>glut.KEY_LEFT</code></li>
+<li><code>glut.KEY_UP</code></li>
+<li><code>glut.KEY_RIGHT</code></li>
+<li><code>glut.KEY_DOWN</code></li>
+<li><code>glut.KEY_PAGE_UP</code></li>
+<li><code>glut.KEY_PAGE_DOWN</code></li>
+<li><code>glut.KEY_HOME</code></li>
+<li><code>glut.KEY_END</code></li>
+<li><code>glut.KEY_INSERT</code></li>
+</ul>
+<h3 id="modifiers_1">Modifiers</h3>
+<ul>
+<li><code>glut.ACTIVE_SHIFT</code></li>
+<li><code>glut.ACTIVE_CTRL</code></li>
+<li><code>glut.ACTIVE_ALT</code></li>
+</ul>
+<h3 id="entryexit-states">Entry/Exit States</h3>
+<ul>
+<li><code>glut.LEFT</code></li>
+<li><code>glut.ENTERED</code></li>
+</ul>
+<h3 id="font-constants">Font Constants</h3>
+<ul>
+<li><code>glut.STROKE_ROMAN</code></li>
+<li><code>glut.STROKE_MONO_ROMAN</code></li>
+<li><code>glut.BITMAP_9_BY_15</code></li>
+<li><code>glut.BITMAP_8_BY_13</code></li>
+<li><code>glut.BITMAP_TIMES_ROMAN_10</code></li>
+<li><code>glut.BITMAP_TIMES_ROMAN_24</code></li>
+<li><code>glut.BITMAP_HELVETICA_10</code></li>
+<li><code>glut.BITMAP_HELVETICA_12</code></li>
+<li><code>glut.BITMAP_HELVETICA_18</code></li>
+</ul>
+<h3 id="cursors">Cursors</h3>
+<ul>
+<li><code>glut.CURSOR_RIGHT_ARROW</code></li>
+<li><code>glut.CURSOR_LEFT_ARROW</code></li>
+<li><code>glut.CURSOR_INFO</code></li>
+<li><code>glut.CURSOR_DESTROY</code></li>
+<li><code>glut.CURSOR_HELP</code></li>
+<li><code>glut.CURSOR_CYCLE</code></li>
+<li><code>glut.CURSOR_SPRAY</code></li>
+<li><code>glut.CURSOR_WAIT</code></li>
+<li><code>glut.CURSOR_TEXT</code></li>
+<li><code>glut.CURSOR_CROSSHAIR</code></li>
+<li><code>glut.CURSOR_UP_DOWN</code></li>
+<li><code>glut.CURSOR_LEFT_RIGHT</code></li>
+<li><code>glut.CURSOR_NONE</code></li>
+<li><code>glut.CURSOR_FULL_CROSSHAIR</code></li>
+</ul>
+<hr />
+<h2 id="complete-example">Complete Example</h2>
+<pre><code class="language-go">import &quot;gl&quot;
+import &quot;glut&quot;
+import &quot;os&quot;
+
+// Initialize GLUT
+glut.init()
+glut.init_display_mode(glut.RGBA | glut.DOUBLE | glut.DEPTH)
+glut.init_window_size(800, 600)
+glut.init_window_position(100, 100)
+
+// Create window
+win := glut.create_window(&quot;GLUT OpenGL Demo&quot;)
+println(&quot;Window created with ID:&quot;, win)
+
+// Setup callbacks
+glut.display_func(fn() {
+    gl.clear_color(0.2, 0.3, 0.4, 1.0)
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+
+    gl.matrix_mode(gl.MODELVIEW)
+    gl.load_identity()
+
+    // Draw a rotating triangle
+    gl.begin(gl.TRIANGLES)
+    gl.color3f(1.0, 0.0, 0.0)
+    gl.vertex3f(0.0, 0.5, 0.0)
+    gl.color3f(0.0, 1.0, 0.0)
+    gl.vertex3f(-0.5, -0.5, 0.0)
+    gl.color3f(0.0, 0.0, 1.0)
+    gl.vertex3f(0.5, -0.5, 0.0)
+    gl.end()
+
+    glut.swap_buffers()
+})
+
+glut.reshape_func(fn(w, h) {
+    gl.viewport(0, 0, w, h)
+    gl.matrix_mode(gl.PROJECTION)
+    gl.load_identity()
+    gl.ortho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0)
+})
+
+glut.keyboard_func(fn(key, x, y) {
+    if key == &quot;q&quot; || key == &quot;Q&quot; {
+        os.exit(0)
+    }
+})
+
+glut.idle_func(fn() {
+    // Rotate the scene
+    gl.push_matrix()
+    gl.rotatef(0.5, 0.0, 1.0, 0.0)
+    glut.post_redisplay()
+})
+
+// Create menu
+menu := glut.create_menu(fn(value) {
+    println(&quot;Menu selection:&quot;, value)
+})
+glut.add_menu_entry(&quot;Option 1&quot;, 1)
+glut.add_menu_entry(&quot;Option 2&quot;, 2)
+glut.attach_menu(glut.RIGHT_BUTTON)
+
+// Start main loop
+glut.main_loop()
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

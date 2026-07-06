@@ -1,0 +1,625 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Stdlib glu - Tender Docs</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Tender Docs</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../.." class="nav-link">Tender</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Pages</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../builtins/" class="dropdown-item">Builtins</a>
+</li>
+                                    
+<li>
+    <a href="../formatting/" class="dropdown-item">Formatting</a>
+</li>
+                                    
+<li>
+    <a href="../operators/" class="dropdown-item">Operators</a>
+</li>
+                                    
+<li>
+    <a href="../runtime-types/" class="dropdown-item">Runtime Types</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-audio/" class="dropdown-item">Stdlib audio</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-base64/" class="dropdown-item">Stdlib base64</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-bufio/" class="dropdown-item">Stdlib bufio</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-canvas/" class="dropdown-item">Stdlib canvas</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-cmplx/" class="dropdown-item">Stdlib cmplx</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-colors/" class="dropdown-item">Stdlib colors</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-crypto/" class="dropdown-item">Stdlib crypto</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-dll/" class="dropdown-item">Stdlib dll</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-fmt/" class="dropdown-item">Stdlib fmt</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-gl/" class="dropdown-item">Stdlib gl</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Stdlib glu</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-glut/" class="dropdown-item">Stdlib glut</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-graphics/" class="dropdown-item">Stdlib graphics</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-gzip/" class="dropdown-item">Stdlib gzip</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-hex/" class="dropdown-item">Stdlib hex</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-http/" class="dropdown-item">Stdlib http</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-image/" class="dropdown-item">Stdlib image</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-io/" class="dropdown-item">Stdlib io</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-json/" class="dropdown-item">Stdlib json</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-math/" class="dropdown-item">Stdlib math</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-net/" class="dropdown-item">Stdlib net</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-os/" class="dropdown-item">Stdlib os</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-path/" class="dropdown-item">Stdlib path</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-rand/" class="dropdown-item">Stdlib rand</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-strings/" class="dropdown-item">Stdlib strings</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-sync/" class="dropdown-item">Stdlib sync</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-tar/" class="dropdown-item">Stdlib tar</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-times/" class="dropdown-item">Stdlin times</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-websocket/" class="dropdown-item">Stdlib websocket</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-wui/" class="dropdown-item">Stdlib wui</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-xml/" class="dropdown-item">Stdlib xml</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-zip/" class="dropdown-item">Stdlib zip</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib/" class="dropdown-item">Standard Library</a>
+</li>
+                                    
+<li>
+    <a href="../tutorial/" class="dropdown-item">Getting Started</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../stdlib-gl/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../stdlib-glut/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#stdlib-glu" class="nav-link">Stdlib glu</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#core-functions" class="nav-link">Core Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#quadric-functions" class="nav-link">Quadric Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#tessellation-constants" class="nav-link">Tessellation Constants</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#complete-examples" class="nav-link">Complete Examples</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="stdlib-glu">Stdlib <code>glu</code></h1>
+<p>The <code>glu</code> module provides GLU (OpenGL Utility Library) bindings for Tender. It offers higher-level utility functions for OpenGL programming, including NURBS, tessellation, quadric surfaces, and projection utilities.</p>
+<hr />
+<h2 id="core-functions">Core Functions</h2>
+<h3 id="build_2d_mipmapstarget-internal_format-width-height-format-type-pixels"><code>build_2d_mipmaps(target, internal_format, width, height, format, type, pixels)</code></h3>
+<p>Builds a 2D mipmap pyramid from a single image.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>target</code> - Texture target (<code>gl.TEXTURE_2D</code>, etc.)</li>
+<li><code>internal_format</code> - Internal texture format (int)</li>
+<li><code>width</code> - Image width (int)</li>
+<li><code>height</code> - Image height (int)</li>
+<li><code>format</code> - Pixel format (<code>gl.RGB</code>, <code>gl.RGBA</code>, etc.)</li>
+<li><code>type</code> - Pixel data type (<code>gl.UNSIGNED_BYTE</code>, etc.)</li>
+<li><code>pixels</code> - Image data (bytes) or <code>null</code></li>
+<li><strong>Returns</strong>: Error code (int), <code>0</code> on success</li>
+<li><strong>Example</strong>:
+  <code>go
+  err := glu.build_2d_mipmaps(gl.TEXTURE_2D, gl.RGB, 512, 512, gl.RGB, gl.UNSIGNED_BYTE, image_bytes)
+  if err != 0 {
+      println("Mipmap generation failed:", glu.error_string(err))
+  }</code></li>
+</ul>
+<h3 id="look_ateye_x-eye_y-eye_z-center_x-center_y-center_z-up_x-up_y-up_z"><code>look_at(eye_x, eye_y, eye_z, center_x, center_y, center_z, up_x, up_y, up_z)</code></h3>
+<p>Defines a viewing transformation using the camera position, look-at target, and up vector.</p>
+<ul>
+<li><strong>Parameters</strong>: All coordinates as float64</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  glu.look_at(0.0, 0.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)</code></li>
+</ul>
+<h3 id="perspectivefovy-aspect-z_near-z_far"><code>perspective(fovy, aspect, z_near, z_far)</code></h3>
+<p>Sets up a perspective projection matrix.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>fovy</code> - Field of view angle in degrees (float64)</li>
+<li><code>aspect</code> - Aspect ratio (width/height) (float64)</li>
+<li><code>z_near</code> - Near clipping plane distance (float64)</li>
+<li><code>z_far</code> - Far clipping plane distance (float64)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  glu.perspective(45.0, 800.0/600.0, 0.1, 100.0)</code></li>
+</ul>
+<h3 id="projectobj_x-obj_y-obj_z-model_matrix-proj_matrix-viewport"><code>project(obj_x, obj_y, obj_z, model_matrix, proj_matrix, viewport)</code></h3>
+<p>Projects an object coordinate to window coordinates.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>obj_x</code>, <code>obj_y</code>, <code>obj_z</code> - Object coordinates (float64)</li>
+<li><code>model_matrix</code> - 16 float64 values (column-major)</li>
+<li><code>proj_matrix</code> - 16 float64 values (column-major)</li>
+<li><code>viewport</code> - 4 int32 values <code>[x, y, width, height]</code></li>
+<li><strong>Returns</strong>: Array of 3 floats <code>[win_x, win_y, win_z]</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  model := [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+  proj := [0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0]
+  view := [0, 0, 800, 600]
+  result := glu.project(0.0, 0.0, 0.0, model..., proj..., view...)
+  println("Window position:", result[0], result[1], result[2])</code></li>
+</ul>
+<h3 id="unprojectwin_x-win_y-win_z-model_matrix-proj_matrix-viewport"><code>unproject(win_x, win_y, win_z, model_matrix, proj_matrix, viewport)</code></h3>
+<p>Projects window coordinates to object coordinates.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>win_x</code>, <code>win_y</code>, <code>win_z</code> - Window coordinates (float64)</li>
+<li><code>model_matrix</code> - 16 float64 values (column-major)</li>
+<li><code>proj_matrix</code> - 16 float64 values (column-major)</li>
+<li><code>viewport</code> - 4 int32 values <code>[x, y, width, height]</code></li>
+<li><strong>Returns</strong>: Array of 3 floats <code>[obj_x, obj_y, obj_z]</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  result := glu.unproject(mouse_x, screen_height - mouse_y, 0.0, model..., proj..., view...)
+  println("Object position:", result[0], result[1], result[2])</code></li>
+</ul>
+<h3 id="error_stringerror_code"><code>error_string(error_code)</code></h3>
+<p>Returns a human-readable description of a GLU error code.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>error_code</code> - GLU error code (uint32)</li>
+<li><strong>Returns</strong>: Error description string</li>
+<li><strong>Example</strong>:
+  <code>go
+  err := glu.build_2d_mipmaps(...)
+  if err != 0 {
+      println("Error:", glu.error_string(err))
+  }</code></li>
+</ul>
+<hr />
+<h2 id="quadric-functions">Quadric Functions</h2>
+<p>Quadric objects are used to render spheres, cylinders, and disks.</p>
+<h3 id="new_quadric"><code>new_quadric()</code></h3>
+<p>Creates a new quadric object.</p>
+<ul>
+<li><strong>Returns</strong>: Quadric handle (int)</li>
+<li><strong>Example</strong>:
+  <code>go
+  q := glu.new_quadric()</code></li>
+</ul>
+<h3 id="spherequadric-radius-slices-stacks"><code>sphere(quadric, radius, slices, stacks)</code></h3>
+<p>Draws a sphere.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>quadric</code> - Quadric handle (int)</li>
+<li><code>radius</code> - Sphere radius (float32)</li>
+<li><code>slices</code> - Number of longitudinal divisions (int)</li>
+<li><code>stacks</code> - Number of latitudinal divisions (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  q := glu.new_quadric()
+  glu.sphere(q, 1.0, 32, 32)</code></li>
+</ul>
+<h3 id="cylinderquadric-base_radius-top_radius-height-slices-stacks"><code>cylinder(quadric, base_radius, top_radius, height, slices, stacks)</code></h3>
+<p>Draws a cylinder.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>quadric</code> - Quadric handle (int)</li>
+<li><code>base_radius</code> - Bottom radius (float32)</li>
+<li><code>top_radius</code> - Top radius (float32)</li>
+<li><code>height</code> - Cylinder height (float32)</li>
+<li><code>slices</code> - Number of longitudinal divisions (int)</li>
+<li><code>stacks</code> - Number of latitudinal divisions (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  glu.cylinder(q, 1.0, 0.5, 2.0, 32, 16)</code></li>
+</ul>
+<h3 id="diskquadric-inner_radius-outer_radius-slices-loops"><code>disk(quadric, inner_radius, outer_radius, slices, loops)</code></h3>
+<p>Draws a disk.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>quadric</code> - Quadric handle (int)</li>
+<li><code>inner_radius</code> - Inner radius (float32)</li>
+<li><code>outer_radius</code> - Outer radius (float32)</li>
+<li><code>slices</code> - Number of radial divisions (int)</li>
+<li><code>loops</code> - Number of concentric rings (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  glu.disk(q, 0.5, 2.0, 32, 16)</code></li>
+</ul>
+<h3 id="partial_diskquadric-inner_radius-outer_radius-slices-loops-start_angle-sweep_angle"><code>partial_disk(quadric, inner_radius, outer_radius, slices, loops, start_angle, sweep_angle)</code></h3>
+<p>Draws a partial disk.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>quadric</code> - Quadric handle (int)</li>
+<li><code>inner_radius</code> - Inner radius (float32)</li>
+<li><code>outer_radius</code> - Outer radius (float32)</li>
+<li><code>slices</code> - Number of radial divisions (int)</li>
+<li><code>loops</code> - Number of concentric rings (int)</li>
+<li><code>start_angle</code> - Starting angle in degrees (float32)</li>
+<li><code>sweep_angle</code> - Sweep angle in degrees (float32)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  glu.partial_disk(q, 0.5, 2.0, 32, 16, 0.0, 180.0) // Half disk</code></li>
+</ul>
+<hr />
+<h2 id="tessellation-constants">Tessellation Constants</h2>
+<h3 id="tessellation-callback-types">Tessellation Callback Types</h3>
+<ul>
+<li><code>glu.TESS_BEGIN_DATA</code></li>
+<li><code>glu.TESS_VERTEX_DATA</code></li>
+<li><code>glu.TESS_END_DATA</code></li>
+<li><code>glu.TESS_ERROR_DATA</code></li>
+<li><code>glu.TESS_EDGE_FLAG_DATA</code></li>
+<li><code>glu.TESS_COMBINE_DATA</code></li>
+</ul>
+<h3 id="tessellation-properties">Tessellation Properties</h3>
+<ul>
+<li><code>glu.TESS_WINDING_RULE</code></li>
+<li><code>glu.TESS_BOUNDARY_ONLY</code></li>
+<li><code>glu.TESS_TOLERANCE</code></li>
+</ul>
+<h3 id="winding-rules">Winding Rules</h3>
+<ul>
+<li><code>glu.TESS_WINDING_ODD</code></li>
+<li><code>glu.TESS_WINDING_NONZERO</code></li>
+<li><code>glu.TESS_WINDING_POSITIVE</code></li>
+<li><code>glu.TESS_WINDING_NEGATIVE</code></li>
+<li><code>glu.TESS_WINDING_ABS_GEQ_TWO</code></li>
+</ul>
+<hr />
+<h2 id="complete-examples">Complete Examples</h2>
+<h3 id="example-1-perspective-camera-setup">Example 1: Perspective Camera Setup</h3>
+<pre><code class="language-go">import &quot;gl&quot;
+import &quot;glu&quot;
+import &quot;glut&quot;
+
+glut.init()
+gl.init()
+glut.init_display_mode(glut.RGBA | glut.DOUBLE | glut.DEPTH)
+glut.init_window_size(400, 400)
+glut.create_window(&quot;GLU Demo&quot;)
+
+glut.reshape_func(fn(w, h) {
+    gl.viewport(0, 0, w, h)
+    gl.matrix_mode(gl.PROJECTION)
+    gl.load_identity()
+    glu.perspective(45.0, float(w)/float(h), 0.1, 100.0)
+    gl.matrix_mode(gl.MODELVIEW)
+})
+
+glut.display_func(fn() {
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+    gl.load_identity()
+    glu.look_at(0.0, 2.0, 5.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
+
+    // Draw a sphere
+    q := glu.new_quadric()
+    gl.color3f(1.0, 0.5, 0.0)
+    glu.sphere(q, 1.0, 32, 32)
+
+    glut.swap_buffers()
+})
+
+glut.main_loop()
+</code></pre>
+<h3 id="example-2-rendering-various-quadrics">Example 2: Rendering Various Quadrics</h3>
+<pre><code class="language-go">import &quot;gl&quot;
+import &quot;glut&quot;
+import &quot;glu&quot;
+
+glut.init()
+gl.init()
+glut.init_display_mode(glut.RGB | glut.DOUBLE | glut.DEPTH) // Use DOUBLE and DEPTH
+glut.init_window_size(400, 400)
+glut.create_window(&quot;GLU Test&quot;)
+
+// Set up projection matrix in reshape callback
+glut.reshape_func(fn(w, h) {
+    gl.viewport(0, 0, w, h)
+    gl.matrix_mode(gl.PROJECTION)
+    gl.load_identity()
+    glu.perspective(45.0, float(w)/float(h), 0.1, 100.0)
+    gl.matrix_mode(gl.MODELVIEW)
+})
+
+fn draw_scene() {
+    q := glu.new_quadric()
+
+    // Draw a sphere at (-3, 0, 0)
+    gl.push_matrix()
+    gl.translatef(-3.0, 0.0, 0.0)
+    gl.color3f(1.0, 0.0, 0.0)
+    glu.sphere(q, 0.8, 32, 32)
+    gl.pop_matrix()
+
+    // Draw a cylinder at (0, 0, 0)
+    gl.push_matrix()
+    gl.translatef(0.0, 0.0, 0.0)
+    gl.color3f(0.0, 1.0, 0.0)
+    glu.cylinder(q, 0.8, 0.3, 1.5, 32, 16)
+    gl.pop_matrix()
+
+    // Draw a disk at (3, 0, 0)
+    gl.push_matrix()
+    gl.translatef(3.0, 0.0, 0.0)
+    gl.color3f(0.0, 0.0, 1.0)
+    glu.disk(q, 0.2, 0.8, 32, 16)
+    gl.pop_matrix()
+
+    // Draw a partial disk at (0, 0, 3)
+    gl.push_matrix()
+    gl.translatef(0.0, 0.0, 3.0)
+    gl.color3f(1.0, 1.0, 0.0)
+    glu.partial_disk(q, 0.0, 0.8, 32, 16, 0.0, 270.0)
+    gl.pop_matrix()
+}
+
+// Register with GLUT callbacks
+glut.display_func(fn() {
+    gl.clear_color(0.2, 0.3, 0.4, 1.0) // Set clear color
+    gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+
+    gl.matrix_mode(gl.MODELVIEW)
+    gl.load_identity()
+    glu.look_at(0.0, 2.0, 6.0, 0.0, 0.0, 0.0, 0.0, 1.0, 0.0)
+
+    // Enable depth testing
+    gl.enable(gl.DEPTH_TEST)
+    gl.depth_func(gl.LESS)
+
+    draw_scene()
+    glut.swap_buffers()
+})
+
+glut.main_loop()
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>
