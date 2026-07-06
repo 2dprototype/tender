@@ -4,12 +4,13 @@ package stdlib
 
 import (
 	"bytes"
+	"crypto/sha256"
 	"fmt"
 	"image"
 	"image/color"
 	"image/draw"
-	_ "image/jpeg"
-	_ "image/png"
+	"image/jpeg"
+	"image/png"
 	"math"
 	"os"
 	"strings"
@@ -555,6 +556,100 @@ func drawEllipticalArc(state *contextState, x, y, rx, ry, angle1, angle2 float32
 	}
 }
 
+func drawRoundRect(state *contextState, x, y, w, h, rx, ry float32) {
+	if rx <= 0 || ry <= 0 {
+		if len(state.CurrentSubpath) > 0 {
+			state.Subpaths = append(state.Subpaths, state.CurrentSubpath)
+		}
+		state.CurrentSubpath = []Point{
+			{X: x, Y: y},
+			{X: x + w, Y: y},
+			{X: x + w, Y: y + h},
+			{X: x, Y: y + h},
+			{X: x, Y: y},
+		}
+		state.Subpaths = append(state.Subpaths, state.CurrentSubpath)
+		state.CurrentSubpath = nil
+		return
+	}
+
+	drawEllipticalArc(state, x+w-rx, y+ry, rx, ry, 1.5*math.Pi, 2.0*math.Pi)
+	drawEllipticalArc(state, x+w-rx, y+h-ry, rx, ry, 0.0, 0.5*math.Pi)
+	drawEllipticalArc(state, x+rx, y+h-ry, rx, ry, 0.5*math.Pi, 1.0*math.Pi)
+	drawEllipticalArc(state, x+rx, y+ry, rx, ry, 1.0*math.Pi, 1.5*math.Pi)
+
+	if len(state.CurrentSubpath) > 0 {
+		first := state.CurrentSubpath[0]
+		state.CurrentSubpath = append(state.CurrentSubpath, first)
+		state.Subpaths = append(state.Subpaths, state.CurrentSubpath)
+		state.CurrentSubpath = nil
+	}
+}
+
+func captureGLImage(width, height int) image.Image {
+	pix := make([]byte, width*height*4)
+	gl.ReadPixels(0, 0, int32(width), int32(height), gl.RGBA, gl.UNSIGNED_BYTE, unsafe.Pointer(&pix[0]))
+
+	rgba := image.NewRGBA(image.Rect(0, 0, width, height))
+	rowSize := width * 4
+	for y := 0; y < height; y++ {
+		srcRow := (height - 1 - y) * rowSize
+		destRow := y * rgba.Stride
+		copy(rgba.Pix[destRow:destRow+rowSize], pix[srcRow:srcRow+rowSize])
+	}
+	return rgba
+}
+
+type imageTexInfo struct {
+	id     uint32
+	width  int
+	height int
+}
+
+var (
+	bytesImageCacheMu sync.Mutex
+	bytesImageCache   = make(map[[32]byte]imageTexInfo)
+)
+
+func getOrCreateImageBytesTexture(data []byte) (imageTexInfo, error) {
+	hash := sha256.Sum256(data)
+
+	bytesImageCacheMu.Lock()
+	defer bytesImageCacheMu.Unlock()
+
+	if info, ok := bytesImageCache[hash]; ok {
+		return info, nil
+	}
+
+	img, _, err := image.Decode(bytes.NewReader(data))
+	if err != nil {
+		return imageTexInfo{}, err
+	}
+
+	rgba := image.NewRGBA(img.Bounds())
+	draw.Draw(rgba, rgba.Bounds(), img, image.Point{0, 0}, draw.Src)
+
+	var textureID uint32
+	gl.GenTextures(1, &textureID)
+	gl.BindTexture(gl.TEXTURE_2D, textureID)
+	gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+	gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+	gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
+	gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
+
+	w := rgba.Bounds().Dx()
+	h := rgba.Bounds().Dy()
+	gl.TexImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, int32(w), int32(h), 0, gl.RGBA, gl.UNSIGNED_BYTE, unsafe.Pointer(&rgba.Pix[0]))
+
+	info := imageTexInfo{
+		id:     textureID,
+		width:  w,
+		height: h,
+	}
+	bytesImageCache[hash] = info
+	return info, nil
+}
+
 func createDrawingMethods(state *contextState) map[string]tender.Object {
 	return map[string]tender.Object{
 		"hex": &tender.BuiltinFunction{
@@ -777,6 +872,23 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
+		"roundrect": &tender.BuiltinFunction{
+			Name: "roundrect",
+			Value: func(args ...tender.Object) (tender.Object, error) {
+				if len(args) != 6 {
+					return nil, tender.ErrInvalidArgCount
+				}
+				x := toFloat32(args[0])
+				y := toFloat32(args[1])
+				w := toFloat32(args[2])
+				h := toFloat32(args[3])
+				rx := toFloat32(args[4])
+				ry := toFloat32(args[5])
+
+				drawRoundRect(state, x, y, w, h, rx, ry)
+				return tender.NullValue, nil
+			},
+		},
 		"circle": &tender.BuiltinFunction{
 			Name: "circle",
 			Value: func(args ...tender.Object) (tender.Object, error) {
@@ -824,6 +936,22 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				}
 				state.Subpaths = append(state.Subpaths, state.CurrentSubpath)
 				state.CurrentSubpath = nil
+				return tender.NullValue, nil
+			},
+		},
+		"point": &tender.BuiltinFunction{
+			Name: "point",
+			Value: func(args ...tender.Object) (tender.Object, error) {
+				if len(args) != 2 {
+					return nil, tender.ErrInvalidArgCount
+				}
+				x := toFloat32(args[0])
+				y := toFloat32(args[1])
+
+				gl.Color4f(state.R, state.G, state.B, state.A)
+				gl.Begin(gl.POINTS)
+				gl.Vertex2f(x, y)
+				gl.End()
 				return tender.NullValue, nil
 			},
 		},
@@ -1012,26 +1140,45 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 					return nil, tender.ErrInvalidArgCount
 				}
 
-				var texMap *tender.ImmutableMap
-				if m, ok := args[0].(*tender.ImmutableMap); ok {
-					texMap = m
-				} else if mutableMap, ok := args[0].(*tender.Map); ok {
-					texMap = &tender.ImmutableMap{Value: mutableMap.Value}
-				} else {
-					return nil, tender.ErrInvalidArgument
-				}
-
 				var texID uint32
-				if idVal, ok := texMap.Value["id"].(*tender.Int); ok {
-					texID = uint32(idVal.Value)
-				}
-
 				var tw, th float32
-				if wVal, ok := texMap.Value["width"].(*tender.Int); ok {
-					tw = float32(wVal.Value)
-				}
-				if hVal, ok := texMap.Value["height"].(*tender.Int); ok {
-					th = float32(hVal.Value)
+
+				// Support bytes drawing (like canvas drawimage)
+				if bytesObj, ok := args[0].(*tender.Bytes); ok {
+					info, err := getOrCreateImageBytesTexture(bytesObj.Value)
+					if err != nil {
+						return nil, err
+					}
+					texID = info.id
+					tw = float32(info.width)
+					th = float32(info.height)
+				} else if bytesSlice, ok := tender.ToByteSlice(args[0]); ok {
+					info, err := getOrCreateImageBytesTexture(bytesSlice)
+					if err != nil {
+						return nil, err
+					}
+					texID = info.id
+					tw = float32(info.width)
+					th = float32(info.height)
+				} else {
+					var texMap *tender.ImmutableMap
+					if m, ok := args[0].(*tender.ImmutableMap); ok {
+						texMap = m
+					} else if mutableMap, ok := args[0].(*tender.Map); ok {
+						texMap = &tender.ImmutableMap{Value: mutableMap.Value}
+					} else {
+						return nil, tender.ErrInvalidArgument
+					}
+
+					if idVal, ok := texMap.Value["id"].(*tender.Int); ok {
+						texID = uint32(idVal.Value)
+					}
+					if wVal, ok := texMap.Value["width"].(*tender.Int); ok {
+						tw = float32(wVal.Value)
+					}
+					if hVal, ok := texMap.Value["height"].(*tender.Int); ok {
+						th = float32(hVal.Value)
+					}
 				}
 
 				x := toFloat32(args[1])
@@ -1061,26 +1208,45 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 					return nil, tender.ErrInvalidArgCount
 				}
 
-				var texMap *tender.ImmutableMap
-				if m, ok := args[0].(*tender.ImmutableMap); ok {
-					texMap = m
-				} else if mutableMap, ok := args[0].(*tender.Map); ok {
-					texMap = &tender.ImmutableMap{Value: mutableMap.Value}
-				} else {
-					return nil, tender.ErrInvalidArgument
-				}
-
 				var texID uint32
-				if idVal, ok := texMap.Value["id"].(*tender.Int); ok {
-					texID = uint32(idVal.Value)
-				}
-
 				var tw, th float32
-				if wVal, ok := texMap.Value["width"].(*tender.Int); ok {
-					tw = float32(wVal.Value)
-				}
-				if hVal, ok := texMap.Value["height"].(*tender.Int); ok {
-					th = float32(hVal.Value)
+
+				// Support bytes drawing
+				if bytesObj, ok := args[0].(*tender.Bytes); ok {
+					info, err := getOrCreateImageBytesTexture(bytesObj.Value)
+					if err != nil {
+						return nil, err
+					}
+					texID = info.id
+					tw = float32(info.width)
+					th = float32(info.height)
+				} else if bytesSlice, ok := tender.ToByteSlice(args[0]); ok {
+					info, err := getOrCreateImageBytesTexture(bytesSlice)
+					if err != nil {
+						return nil, err
+					}
+					texID = info.id
+					tw = float32(info.width)
+					th = float32(info.height)
+				} else {
+					var texMap *tender.ImmutableMap
+					if m, ok := args[0].(*tender.ImmutableMap); ok {
+						texMap = m
+					} else if mutableMap, ok := args[0].(*tender.Map); ok {
+						texMap = &tender.ImmutableMap{Value: mutableMap.Value}
+					} else {
+						return nil, tender.ErrInvalidArgument
+					}
+
+					if idVal, ok := texMap.Value["id"].(*tender.Int); ok {
+						texID = uint32(idVal.Value)
+					}
+					if wVal, ok := texMap.Value["width"].(*tender.Int); ok {
+						tw = float32(wVal.Value)
+					}
+					if hVal, ok := texMap.Value["height"].(*tender.Int); ok {
+						th = float32(hVal.Value)
+					}
 				}
 
 				sx := toFloat32(args[1])
@@ -1402,6 +1568,88 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 					currentY += fontHeight * lineSpacing
 				}
 				return tender.NullValue, nil
+			},
+		},
+		"encode": &tender.BuiltinFunction{
+			Name: "encode",
+			Value: func(args ...tender.Object) (tender.Object, error) {
+				format := "png"
+				if len(args) >= 1 {
+					if strObj, ok := args[0].(*tender.String); ok {
+						format = strObj.Value
+					}
+				}
+
+				img := captureGLImage(state.Width, state.Height)
+				buffer := new(bytes.Buffer)
+
+				if format == "png" {
+					err := png.Encode(buffer, img)
+					if err != nil {
+						return nil, err
+					}
+				} else if format == "jpeg" || format == "jpg" {
+					err := jpeg.Encode(buffer, img, nil)
+					if err != nil {
+						return nil, err
+					}
+				} else {
+					return nil, fmt.Errorf("unsupported encoding format: %s", format)
+				}
+
+				return &tender.Bytes{Value: buffer.Bytes()}, nil
+			},
+		},
+		"save": &tender.BuiltinFunction{
+			Name: "save",
+			Value: func(args ...tender.Object) (tender.Object, error) {
+				if len(args) < 1 {
+					return nil, tender.ErrInvalidArgCount
+				}
+				pathObj, ok := args[0].(*tender.String)
+				if !ok {
+					return nil, tender.ErrInvalidArgument
+				}
+				path := pathObj.Value
+
+				format := "png"
+				if len(args) >= 2 {
+					if formatObj, ok := args[1].(*tender.String); ok {
+						format = formatObj.Value
+					}
+				} else {
+					if strings.HasSuffix(strings.ToLower(path), ".jpg") || strings.HasSuffix(strings.ToLower(path), ".jpeg") {
+						format = "jpeg"
+					}
+				}
+
+				img := captureGLImage(state.Width, state.Height)
+
+				f, err := os.Create(path)
+				if err != nil {
+					return nil, err
+				}
+				defer f.Close()
+
+				if format == "png" {
+					err = png.Encode(f, img)
+				} else if format == "jpeg" || format == "jpg" {
+					err = jpeg.Encode(f, img, nil)
+				} else {
+					return nil, fmt.Errorf("unsupported save format: %s", format)
+				}
+
+				if err != nil {
+					return nil, err
+				}
+				return tender.NullValue, nil
+			},
+		},
+		"image": &tender.BuiltinFunction{
+			Name: "image",
+			Value: func(args ...tender.Object) (tender.Object, error) {
+				img := captureGLImage(state.Width, state.Height)
+				return makeImage(img), nil
 			},
 		},
 	}

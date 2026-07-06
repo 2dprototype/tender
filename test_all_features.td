@@ -1,19 +1,17 @@
-// tender@v0.0.7
-
 import "graphics"
 import { sin, cos, pi } from "math"
 import { printf } from "fmt"
 import "os"
 
-// Create window and query dimensions
+// 1. Create window and query dimensions
 win := graphics.new_window(800, 600, "Tender 2D Graphics Engine - Comprehensive Test")
 w := win.width
 h := win.height
 printf("Created window of size: %v x %v\n", w, h)
 
-// Load Resources (Font and Image)
-win.load_font("IBMPlexSans-Bold.ttf", 20)
-gopher := win.load_image("gopher.png")
+// 2. Load Resources (Font and Image)
+win.load_font("examples/canvas/IBMPlexSans-Bold.ttf", 20)
+gopher := win.load_image("examples/image/gopher.png")
 printf("Loaded image: width=%v, height=%v\n", gopher.width, gopher.height)
 
 // Load raw bytes of gopher image to test draw_image(bytes)
@@ -30,7 +28,7 @@ mouseY := 300
 lastKey := "None"
 mouseBtnState := "None"
 
-// Register Event Callbacks
+// 3. Register Event Callbacks
 win.on_key(fn(key, x, y) {
     lastKey = key
     printf("Key pressed: '%v' at mouse position (%v, %v)\n", key, x, y)
@@ -65,10 +63,10 @@ win.on_mouse_move(fn(x, y) {
 })
 
 win.on_draw(fn() {
-    // Test Clear (with Hex Color)
+    // 4. Test Clear (with Hex Color)
     win.clear("#1a1a24")
 
-    // Test Basic Shapes & Colors (rgb/rgba/hex, set_line_width, line, rect, circle, stroke, fill)
+    // 5. Test Basic Shapes & Colors (rgb/rgba/hex, set_line_width, line, rect, circle, stroke, fill)
     win.rgba(1.0, 0.0, 0.0, 0.5) // Semi-transparent Red
     win.rect(20, 20, 150, 100)
     win.fill()
@@ -99,7 +97,7 @@ win.on_draw(fn() {
     win.circle(450, 70, 40)
     win.stroke()
 
-    // Test Curves (move_to, line_to, quadratic_to, cubic_to, arc, elliptical_arc)
+    // 6. Test Curves (move_to, line_to, quadratic_to, cubic_to, arc, elliptical_arc)
     win.push()
     win.hex("#ff00ff")
     win.set_line_width(3)
@@ -123,7 +121,7 @@ win.on_draw(fn() {
     win.stroke()
     win.pop()
 
-    // Test Transforms & State (push, pop, translate, scale, rotate)
+    // 7. Test Transforms & State (push, pop, translate, scale, rotate)
     win.push()
     win.translate(100, 350)
     win.rotate(angle)
@@ -134,7 +132,7 @@ win.on_draw(fn() {
     win.stroke()
     win.pop()
 
-    // Test Image Drawing (draw_image, draw_image_rect)
+    // 8. Test Image Drawing (draw_image, draw_image_rect)
     // Draw full image
     win.draw_image(gopher, 250, 300)
 
@@ -147,7 +145,7 @@ win.on_draw(fn() {
     // Src: (10, 10, 80, 80) Dest: (550, 300, 100, 100)
     win.draw_image_rect(gopher, 10, 10, 80, 80, 550, 300, 100, 100)
 
-    // Test Text rendering & Measuring (measure_string, set_font_size, draw_string, draw_string_anchored, draw_string_wrapped)
+    // 9. Test Text rendering & Measuring (measure_string, set_font_size, draw_string, draw_string_anchored, draw_string_wrapped)
     win.hex("#ffffff")
     win.set_font_size(16)
     win.draw_string(20, 470, "Press 's' key to test Save/Encode/Image capturing")
@@ -170,5 +168,5 @@ win.on_update(fn() {
     angle = angle + 0.03
 })
 
-// Run event loop
+// 10. Run event loop
 win.run()
