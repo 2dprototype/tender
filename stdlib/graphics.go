@@ -54,6 +54,13 @@ var graphicsModule = map[string]tender.Object{
 
 			w := toInt(args[0])
 			h := toInt(args[1])
+			
+			glut.Init()
+			glut.InitDisplayMode(glut.RGBA | glut.DOUBLE | glut.DEPTH | uint(0x0400) | uint(0x0800))
+			glut.InitWindowSize(w, h)
+			glut.CreateWindow("")
+			glut.HideWindow()
+			gl.Init()
 
 			state := &contextState{
 				Width:     w,
@@ -65,7 +72,18 @@ var graphicsModule = map[string]tender.Object{
 				LineWidth: 1.0,
 			}
 
+			gl.Viewport(0, 0, int32(w), int32(h))
+			gl.MatrixMode(gl.PROJECTION)
+			gl.LoadIdentity()
+			gl.Ortho(0, float64(w), float64(h), 0, -1, 1)
+			gl.MatrixMode(gl.MODELVIEW)
+			gl.LoadIdentity()
+
 			ctxMap := createDrawingMethods(state)
+
+			ctxMap["width"] = &tender.Int{Value: int64(state.Width)}
+			ctxMap["height"] = &tender.Int{Value: int64(state.Height)}
+
 			return &tender.Map{Value: ctxMap}, nil
 		},
 	},
