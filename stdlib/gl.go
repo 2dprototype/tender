@@ -5,6 +5,7 @@ package stdlib
 import (
 	"os"
 	"image"
+	"image/color"
 	"unsafe"
 
 	"github.com/2dprototype/tender"
@@ -184,6 +185,15 @@ var glModule = map[string]tender.Object{
 	"TEXTURE_CUBE_MAP_NEGATIVE_Y": &tender.Int{Value: int64(gl.TEXTURE_CUBE_MAP_NEGATIVE_Y)},
 	"TEXTURE_CUBE_MAP_POSITIVE_Z": &tender.Int{Value: int64(gl.TEXTURE_CUBE_MAP_POSITIVE_Z)},
 	"TEXTURE_CUBE_MAP_NEGATIVE_Z": &tender.Int{Value: int64(gl.TEXTURE_CUBE_MAP_NEGATIVE_Z)},
+	
+	"TEXTURE0": &tender.Int{Value: int64(gl.TEXTURE0)},
+	"TEXTURE1": &tender.Int{Value: int64(gl.TEXTURE1)},
+	"TEXTURE2": &tender.Int{Value: int64(gl.TEXTURE2)},
+	"TEXTURE3": &tender.Int{Value: int64(gl.TEXTURE3)},
+	"TEXTURE4": &tender.Int{Value: int64(gl.TEXTURE4)},
+	"TEXTURE5": &tender.Int{Value: int64(gl.TEXTURE5)},
+	"TEXTURE6": &tender.Int{Value: int64(gl.TEXTURE6)},
+	"TEXTURE7": &tender.Int{Value: int64(gl.TEXTURE7)},
 
 	// ==================== Texture Parameters ====================
 	"TEXTURE_MIN_FILTER": &tender.Int{Value: int64(gl.TEXTURE_MIN_FILTER)},
@@ -330,6 +340,8 @@ var glModule = map[string]tender.Object{
 	"RENDER":          &tender.Int{Value: int64(gl.RENDER)},
 	"FEEDBACK":        &tender.Int{Value: int64(gl.FEEDBACK)},
 	"SELECT":          &tender.Int{Value: int64(gl.SELECT)},
+	
+	"INFO_LOG_LENGTH": &tender.Int{Value: int64(gl.INFO_LOG_LENGTH)},
 
 	// ==================== Initialization ====================
 	"init": &tender.BuiltinFunction{
@@ -1747,6 +1759,16 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
+	"active_texture": &tender.BuiltinFunction{
+		Name: "active_texture",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
+			texture, _ := tender.ToUint32(args[0])
+			gl.ActiveTexture(texture)
+			return tender.NullValue, nil
+		},
+	},
+
 	"tex_genf": &tender.BuiltinFunction{
 		Name: "tex_genf",
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -2647,97 +2669,6 @@ var glModule = map[string]tender.Object{
 		},
 	},
 	
-	// ==================== Optimized OBJ Loader & Drawer ====================
-	"load_obj": &tender.BuiltinFunction{
-		Name: "load_obj",
-		Value: func(args ...tender.Object) (tender.Object, error) {
-			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
-			path, ok := args[0].(*tender.String)
-			if !ok { return nil, tender.ErrInvalidArgument }
-			
-			mesh, err := LoadOBJ(path.Value)
-			if err != nil { return nil, err }
-			
-			return &tender.Int{Value: int64(compileMeshToDisplayList(mesh))}, nil
-		},
-	},
-
-	"parse_obj": &tender.BuiltinFunction{
-		Name: "parse_obj",
-		Value: func(args ...tender.Object) (tender.Object, error) {
-			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
-			strData, ok := args[0].(*tender.String)
-			if !ok { return nil, tender.ErrInvalidArgument }
-			
-			mesh, err := ParseOBJ([]byte(strData.Value))
-			if err != nil { return nil, err }
-			
-			return &tender.Int{Value: int64(compileMeshToDisplayList(mesh))}, nil
-		},
-	},
-
-	"load_texture": &tender.BuiltinFunction{
-		Name: "load_texture",
-		Value: func(args ...tender.Object) (tender.Object, error) {
-			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
-			path, ok := args[0].(*tender.String)
-			if !ok { return nil, tender.ErrInvalidArgument }
-
-			file, err := os.Open(path.Value)
-			if err != nil { return nil, err }
-			defer file.Close()
-
-			img, _, err := image.Decode(file)
-			if err != nil { return nil, err }
-
-			bounds := img.Bounds()
-			w, h := bounds.Dx(), bounds.Dy()
-			rgba := make([]byte, w*h*4)
-
-			// Fast unroll + pixel conversion + Y-axis flip for OpenGL coordinate layout
-			for y := 0; y < h; y++ {
-				for x := 0; x < w; x++ {
-					r, g, b, a := img.At(x, h-1-y).RGBA()
-					idx := (y*w + x) * 4
-					rgba[idx]   = byte(r >> 8)
-					rgba[idx+1] = byte(g >> 8)
-					rgba[idx+2] = byte(b >> 8)
-					rgba[idx+3] = byte(a >> 8)
-				}
-			}
-
-			var texID uint32
-			gl.GenTextures(1, &texID)
-			gl.BindTexture(gl.TEXTURE_2D, texID)
-
-			gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
-			gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
-			gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT)
-			gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT)
-
-			gl.TexImage2D(gl.TEXTURE_2D, 0, gl.RGBA, int32(w), int32(h), 0, gl.RGBA, gl.UNSIGNED_BYTE, unsafe.Pointer(&rgba[0]))
-
-			return &tender.Int{Value: int64(texID)}, nil
-		},
-	},
-	"draw_obj": &tender.BuiltinFunction{
-		Name: "draw_obj",
-		Value: func(args ...tender.Object) (tender.Object, error) {
-			if len(args) != 1 {
-				return nil, tender.ErrInvalidArgCount
-			}
-			listID, ok := args[0].(*tender.Int)
-			if !ok {
-				return nil, tender.ErrInvalidArgument
-			}
-			
-			// Blistering fast hardware-accelerated draw call
-			gl.CallList(uint32(listID.Value))
-			
-			return tender.NullValue, nil
-		},
-	},
-	
 	// ==================== Shader Constants ====================
 	"FRAGMENT_SHADER": &tender.Int{Value: int64(gl.FRAGMENT_SHADER)},
 	"VERTEX_SHADER":   &tender.Int{Value: int64(gl.VERTEX_SHADER)},
@@ -2820,6 +2751,26 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
+	"delete_shader": &tender.BuiltinFunction{
+		Name: "delete_shader",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
+			shader, _ := tender.ToUint32(args[0])
+			gl.DeleteShader(shader)
+			return tender.NullValue, nil
+		},
+	},
+
+	"delete_program": &tender.BuiltinFunction{
+		Name: "delete_program",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
+			program, _ := tender.ToUint32(args[0])
+			gl.DeleteProgram(program)
+			return tender.NullValue, nil
+		},
+	},
+
 	// ==================== Uniforms & Attributes ====================
 	"get_uniform_location": &tender.BuiltinFunction{
 		Name: "get_uniform_location",
@@ -2828,6 +2779,17 @@ var glModule = map[string]tender.Object{
 			prog, _ := tender.ToUint32(args[0])
 			name, _ := args[1].(*tender.String)
 			loc := gl.GetUniformLocation(prog, gl.Str(name.Value+"\x00"))
+			return &tender.Int{Value: int64(loc)}, nil
+		},
+	},
+
+	"get_attrib_location": &tender.BuiltinFunction{
+		Name: "get_attrib_location",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 { return nil, tender.ErrInvalidArgCount }
+			program, _ := tender.ToUint32(args[0])
+			name, _ := args[1].(*tender.String)
+			loc := gl.GetAttribLocation(program, gl.Str(name.Value+"\x00"))
 			return &tender.Int{Value: int64(loc)}, nil
 		},
 	},
@@ -2896,6 +2858,42 @@ var glModule = map[string]tender.Object{
 			target, _ := tender.ToUint32(args[0])
 			buffer, _ := tender.ToUint32(args[1])
 			gl.BindBuffer(target, buffer)
+			return tender.NullValue, nil
+		},
+	},
+	
+	"delete_buffers": &tender.BuiltinFunction{
+		Name: "delete_buffers",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
+			if arr, ok := args[0].(*tender.Array); ok {
+				buffers := make([]uint32, len(arr.Value))
+				for i, obj := range arr.Value {
+					b, _ := tender.ToUint32(obj)
+					buffers[i] = b
+				}
+				gl.DeleteBuffers(int32(len(buffers)), &buffers[0])
+			} else if b, ok := tender.ToUint32(args[0]); ok {
+				gl.DeleteBuffers(1, &b)
+			}
+			return tender.NullValue, nil
+		},
+	},
+
+	"delete_vertex_arrays": &tender.BuiltinFunction{
+		Name: "delete_vertex_arrays",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
+			if arr, ok := args[0].(*tender.Array); ok {
+				vaos := make([]uint32, len(arr.Value))
+				for i, obj := range arr.Value {
+					v, _ := tender.ToUint32(obj)
+					vaos[i] = v
+				}
+				gl.DeleteVertexArrays(int32(len(vaos)), &vaos[0])
+			} else if v, ok := tender.ToUint32(args[0]); ok {
+				gl.DeleteVertexArrays(1, &v)
+			}
 			return tender.NullValue, nil
 		},
 	},
@@ -3033,6 +3031,58 @@ var glModule = map[string]tender.Object{
 		},
 	},
 	
+	"uniform3f": &tender.BuiltinFunction{
+		Name: "uniform3f",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 4 { return nil, tender.ErrInvalidArgCount }
+			loc, _ := tender.ToInt32(args[0])
+			v0, _ := tender.ToFloat32(args[1])
+			v1, _ := tender.ToFloat32(args[2])
+			v2, _ := tender.ToFloat32(args[3])
+			gl.Uniform3f(loc, v0, v1, v2)
+			return tender.NullValue, nil
+		},
+	},
+
+	"uniform4f": &tender.BuiltinFunction{
+		Name: "uniform4f",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 5 { return nil, tender.ErrInvalidArgCount }
+			loc, _ := tender.ToInt32(args[0])
+			v0, _ := tender.ToFloat32(args[1])
+			v1, _ := tender.ToFloat32(args[2])
+			v2, _ := tender.ToFloat32(args[3])
+			v3, _ := tender.ToFloat32(args[4])
+			gl.Uniform4f(loc, v0, v1, v2, v3)
+			return tender.NullValue, nil
+		},
+	},
+
+	"uniform_matrix4fv": &tender.BuiltinFunction{
+		Name: "uniform_matrix4fv",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 4 { return nil, tender.ErrInvalidArgCount }
+			loc, _ := tender.ToInt32(args[0])
+			count, _ := tender.ToInt32(args[1])
+			transpose, _ := tender.ToBool(args[2])
+
+			arr, ok := args[3].(*tender.Array)
+			if !ok || len(arr.Value) != 16 { return nil, tender.ErrInvalidArgCount }
+			floats := make([]float32, 16)
+			for idx, val := range arr.Value {
+				if f, ok := val.(*tender.Float); ok {
+					floats[idx] = float32(f.Value)
+				} else if intVal, ok := val.(*tender.Int); ok {
+					floats[idx] = float32(intVal.Value)
+				} else {
+					return nil, tender.ErrInvalidArgCount
+				}
+			}
+			gl.UniformMatrix4fv(loc, count, transpose, &floats[0])
+			return tender.NullValue, nil
+		},
+	},
+		
 	// ==================== Shader Compilation Diagnostics ====================
 	"get_shader_iv": &tender.BuiltinFunction{
 		Name: "get_shader_iv",
@@ -3060,5 +3110,167 @@ var glModule = map[string]tender.Object{
 			return &tender.String{Value: string(logBytes)}, nil
 		},
 	},
+	
+	"get_program_iv": &tender.BuiltinFunction{
+		Name: "get_program_iv",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 { return nil, tender.ErrInvalidArgCount }
+			program, _ := tender.ToUint32(args[0])
+			pname, _ := tender.ToUint32(args[1])
+			var param int32
+			gl.GetProgramiv(program, pname, &param)
+			return &tender.Int{Value: int64(param)}, nil
+		},
+	},
 
+	"get_program_info_log": &tender.BuiltinFunction{
+		Name: "get_program_info_log",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
+			program, _ := tender.ToUint32(args[0])
+			var logLength int32
+			gl.GetProgramiv(program, gl.INFO_LOG_LENGTH, &logLength)
+			if logLength == 0 { return &tender.String{Value: ""}, nil }
+			
+			logBytes := make([]byte, logLength)
+			gl.GetProgramInfoLog(program, logLength, nil, &logBytes[0])
+			return &tender.String{Value: string(logBytes)}, nil
+		},
+	},
+	
+	// ==================== Optimized OBJ Loader & Drawer ====================
+	"load_obj": &tender.BuiltinFunction{
+		Name: "load_obj",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
+			path, ok := args[0].(*tender.String)
+			if !ok { return nil, tender.ErrInvalidArgument }
+			
+			mesh, err := LoadOBJ(path.Value)
+			if err != nil { return nil, err }
+			
+			// Passing nil for materials compiles the mesh exactly as it did before
+			return &tender.Int{Value: int64(compileMeshToDisplayList(mesh, nil))}, nil
+		},
+	},
+
+	"load_obj_with_mtl": &tender.BuiltinFunction{
+		Name: "load_obj_with_mtl",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 { return nil, tender.ErrInvalidArgCount }
+			
+			objPath, ok1 := args[0].(*tender.String)
+			mtlPath, ok2 := args[1].(*tender.String)
+			if !ok1 || !ok2 { return nil, tender.ErrInvalidArgument }
+			
+			materials, err := LoadMTL(mtlPath.Value)
+			if err != nil { return nil, err }
+
+			// NOTE: Assumes image paths in the .mtl are relative to the working directory.
+			for _, mat := range materials {
+				if mat.DiffuseMap != "" {
+					texID, err := internalLoadTexture(mat.DiffuseMap)
+					if err == nil {
+						mat.TextureID = texID
+					}
+				}
+			}
+			mesh, err := LoadOBJ(objPath.Value)
+			if err != nil { return nil, err }
+			
+			displayList := compileMeshToDisplayList(mesh, materials)
+			
+			return &tender.Int{Value: int64(displayList)}, nil
+		},
+	},
+
+	"parse_obj": &tender.BuiltinFunction{
+		Name: "parse_obj",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
+			strData, ok := args[0].(*tender.String)
+			if !ok { return nil, tender.ErrInvalidArgument }
+			
+			mesh, err := ParseOBJ([]byte(strData.Value))
+			if err != nil { return nil, err }
+			
+			return &tender.Int{Value: int64(compileMeshToDisplayList(mesh, nil))}, nil
+		},
+	},
+
+	"load_texture": &tender.BuiltinFunction{
+		Name: "load_texture",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
+			
+			path, ok := args[0].(*tender.String)
+			if !ok { return nil, tender.ErrInvalidArgument }
+			
+			texID, err := internalLoadTexture(path.Value)
+			if err != nil { return nil, err }
+			
+			return &tender.Int{Value: int64(texID)}, nil
+		},
+	},
+	
+	"draw_obj": &tender.BuiltinFunction{
+		Name: "draw_obj",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			listID, ok := args[0].(*tender.Int)
+			if !ok {
+				return nil, tender.ErrInvalidArgument
+			}
+			
+			// Blistering fast hardware-accelerated draw call
+			gl.CallList(uint32(listID.Value))
+			
+			return tender.NullValue, nil
+		},
+	},
+
+}
+
+// internalLoadTexture skips script reflection and returns the raw uint32 texture ID.
+func internalLoadTexture(path string) (uint32, error) {
+	file, err := os.Open(path)
+	if err != nil { return 0, err }
+	defer file.Close()
+
+	img, _, err := image.Decode(file)
+	if err != nil { return 0, err }
+
+	bounds := img.Bounds()
+	w, h := bounds.Dx(), bounds.Dy()
+	rgba := make([]byte, w*h*4)
+
+	for y := 0; y < h; y++ {
+		for x := 0; x < w; x++ {
+			// Respect image bounds offsets and flip vertically for OpenGL
+			srcX := bounds.Min.X + x
+			srcY := bounds.Max.Y - 1 - y
+			
+			// NRGBAModel prevents pre-multiplied alpha from darkening your colors
+			c := color.NRGBAModel.Convert(img.At(srcX, srcY)).(color.NRGBA)
+			
+			idx := (y*w + x) * 4
+			rgba[idx]   = c.R
+			rgba[idx+1] = c.G
+			rgba[idx+2] = c.B
+			rgba[idx+3] = c.A
+		}
+	}
+
+	var texID uint32
+	gl.GenTextures(1, &texID)
+	gl.BindTexture(gl.TEXTURE_2D, texID)
+	gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
+	gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
+	gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.REPEAT)
+	gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.REPEAT)
+	gl.TexImage2D(gl.TEXTURE_2D, 0, gl.RGBA, int32(w), int32(h), 0, gl.RGBA, gl.UNSIGNED_BYTE, unsafe.Pointer(&rgba[0]))
+
+	return texID, nil
 }
