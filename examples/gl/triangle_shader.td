@@ -1,36 +1,39 @@
-// tender@v0.0.7
-
 import "gl"
 import "glut"
 import "os"
 import "math"
 
-// Initialize Window Context
+// Initialize Window
 glut.init()
 gl.init()
 glut.init_display_mode(glut.RGBA | glut.DOUBLE)
 glut.init_window_size(400, 400)
-glut.create_window("Tender - Basic Shader Example")
+glut.create_window("Modern OpenGL - Animated Triangle")
 
-// Define Minimal Shaders
+// Vertex Shader
 var vertex_src = `
 #version 120
 attribute vec2 position;
+attribute vec3 color;
+varying vec3 vColor;
 void main() {
+    vColor = color;
     gl_Position = vec4(position, 0.0, 1.0);
 }
 `
 
+// Fragment Shader with time_-based color
 var frag_src = `
 #version 120
-uniform float u_blue;
+uniform float u_time_;
+varying vec3 vColor;
 void main() {
-    // Red = 1.0, Green = 0.5, Blue animates over time
-    gl_FragColor = vec4(1.0, 0.5, u_blue, 1.0);
+    float pulse = sin(u_time_) * 0.5 + 0.5;
+    gl_FragColor = vec4(vColor * pulse, 1.0);
 }
 `
 
-// Compile and Link Shader Program
+// Compile Shaders
 var vs = gl.create_shader(gl.VERTEX_SHADER)
 gl.shader_source(vs, vertex_src)
 gl.compile_shader(vs)
@@ -50,50 +53,48 @@ gl.attach_shader(program, vs)
 gl.attach_shader(program, fs)
 gl.link_program(program)
 
-// Get uniform location for our color animator
-var blue_loc = gl.get_uniform_location(program, "u_blue")
+// Get uniforms
+var time__loc = gl.get_uniform_location(program, "u_time_")
 
-// Setup Simple Triangle Geometry (X, Y coordinates)
-var triangle_vertices = [
-     0.0,  0.5,  // Top
-    -0.5, -0.5,  // Bottom Left
-     0.5, -0.5   // Bottom Right
+// Triangle with colors: position (x,y), color (r,g,b)
+var triangle_data = [
+     0.0,  0.5,  1.0, 0.0, 0.0,  // Top - Red
+    -0.5, -0.5,  0.0, 1.0, 0.0,  // Bottom Left - Green
+     0.5, -0.5,  0.0, 0.0, 1.0   // Bottom Right - Blue
 ]
 
+// Setup VAO/VBO
 var vaos = gl.gen_vertex_arrays(1)
 var vao = vaos[0]
+gl.bind_vertex_array(vao)
 
 var vbos = gl.gen_buffers(1)
 var vbo = vbos[0]
-
-gl.bind_vertex_array(vao)
 gl.bind_buffer(gl.ARRAY_BUFFER, vbo)
+gl.buffer_data(gl.ARRAY_BUFFER, triangle_data, gl.STATIC_DRAW)
 
-// Upload flat float values using your updated Go marshaling function
-gl.buffer_data(gl.ARRAY_BUFFER, triangle_vertices, gl.STATIC_DRAW)
-
-// Map attribute index 0 to 'position' in the vertex shader
+// Position attribute (2 floats)
 gl.enable_vertex_attrib_array(0)
-gl.vertex_attrib_pointer(0, 2, gl.FLOAT, false, 8, 0) // 2 floats * 4 bytes = 8 stride
+gl.vertex_attrib_pointer(0, 2, gl.FLOAT, false, 20, 0)  // 5 floats * 4 bytes = 20
+
+// Color attribute (3 floats)
+gl.enable_vertex_attrib_array(1)
+gl.vertex_attrib_pointer(1, 3, gl.FLOAT, false, 20, 8)   // 8 bytes offset for color
 
 gl.bind_vertex_array(0)
 
-// Render Loop Animation
+// Animation loop
 var time_ = 0.0
 
 glut.display_func(fn() {
-    gl.clear_color(0.1, 0.1, 0.1, 1.0)
+    gl.clear_color(0.1, 0.1, 0.2, 1.0)
     gl.clear(gl.COLOR_BUFFER_BIT)
     
-    // Bind shader program
     gl.use_program(program)
     
-    // Pass time-based values to the uniform (oscillate blue component between 0.0 and 1.0)
-    time_ += 0.03
-    var blue_value = (math.sin(time_) + 1.0) * 0.5
-    gl.uniform1f(blue_loc, blue_value)
+    time_ += 0.02
+    gl.uniform1f(time__loc, time_)
     
-    // Bind geometry and draw
     gl.bind_vertex_array(vao)
     gl.draw_arrays(gl.TRIANGLES, 0, 3)
     gl.bind_vertex_array(0)
