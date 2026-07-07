@@ -2737,4 +2737,328 @@ var glModule = map[string]tender.Object{
 			return tender.NullValue, nil
 		},
 	},
+	
+	// ==================== Shader Constants ====================
+	"FRAGMENT_SHADER": &tender.Int{Value: int64(gl.FRAGMENT_SHADER)},
+	"VERTEX_SHADER":   &tender.Int{Value: int64(gl.VERTEX_SHADER)},
+	"COMPILE_STATUS":  &tender.Int{Value: int64(gl.COMPILE_STATUS)},
+	"LINK_STATUS":     &tender.Int{Value: int64(gl.LINK_STATUS)},
+
+	// ==================== Shader Lifecycle ====================
+	"create_shader": &tender.BuiltinFunction{
+		Name: "create_shader",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
+			shaderType, ok := tender.ToUint32(args[0])
+			if !ok { return nil, tender.ErrInvalidArgument }
+			shader := gl.CreateShader(shaderType)
+			return &tender.Int{Value: int64(shader)}, nil
+		},
+	},
+
+	"shader_source": &tender.BuiltinFunction{
+		Name: "shader_source",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 { return nil, tender.ErrInvalidArgCount }
+			shader, okS := tender.ToUint32(args[0])
+			source, okSrc := args[1].(*tender.String)
+			if !okS || !okSrc { return nil, tender.ErrInvalidArgument }
+			
+			cstrs, free := gl.Strs(source.Value + "\x00")
+			defer free()
+			gl.ShaderSource(shader, 1, cstrs, nil)
+			return tender.NullValue, nil
+		},
+	},
+
+	"compile_shader": &tender.BuiltinFunction{
+		Name: "compile_shader",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
+			shader, _ := tender.ToUint32(args[0])
+			gl.CompileShader(shader)
+			return tender.NullValue, nil
+		},
+	},
+
+	"create_program": &tender.BuiltinFunction{
+		Name: "create_program",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			prog := gl.CreateProgram()
+			return &tender.Int{Value: int64(prog)}, nil
+		},
+	},
+
+	"attach_shader": &tender.BuiltinFunction{
+		Name: "attach_shader",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 { return nil, tender.ErrInvalidArgCount }
+			prog, _ := tender.ToUint32(args[0])
+			shader, _ := tender.ToUint32(args[1])
+			gl.AttachShader(prog, shader)
+			return tender.NullValue, nil
+		},
+	},
+
+	"link_program": &tender.BuiltinFunction{
+		Name: "link_program",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
+			prog, _ := tender.ToUint32(args[0])
+			gl.LinkProgram(prog)
+			return tender.NullValue, nil
+		},
+	},
+
+	"use_program": &tender.BuiltinFunction{
+		Name: "use_program",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
+			prog, _ := tender.ToUint32(args[0])
+			gl.UseProgram(prog)
+			return tender.NullValue, nil
+		},
+	},
+
+	// ==================== Uniforms & Attributes ====================
+	"get_uniform_location": &tender.BuiltinFunction{
+		Name: "get_uniform_location",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 { return nil, tender.ErrInvalidArgCount }
+			prog, _ := tender.ToUint32(args[0])
+			name, _ := args[1].(*tender.String)
+			loc := gl.GetUniformLocation(prog, gl.Str(name.Value+"\x00"))
+			return &tender.Int{Value: int64(loc)}, nil
+		},
+	},
+
+	"uniform1f": &tender.BuiltinFunction{
+		Name: "uniform1f",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			loc, _ := tender.ToInt32(args[0])
+			val, _ := tender.ToFloat32(args[1])
+			gl.Uniform1f(loc, val)
+			return tender.NullValue, nil
+		},
+	},
+	
+	// ==================== Modern OpenGL Constants ====================
+	"ARRAY_BUFFER":         &tender.Int{Value: int64(gl.ARRAY_BUFFER)},
+	"STATIC_DRAW":          &tender.Int{Value: int64(gl.STATIC_DRAW)},
+	"DYNAMIC_DRAW":         &tender.Int{Value: int64(gl.DYNAMIC_DRAW)},
+	"FRAMEBUFFER":          &tender.Int{Value: int64(gl.FRAMEBUFFER)},
+	"COLOR_ATTACHMENT0":    &tender.Int{Value: int64(gl.COLOR_ATTACHMENT0)},
+	"FRAMEBUFFER_COMPLETE": &tender.Int{Value: int64(gl.FRAMEBUFFER_COMPLETE)},
+
+	// ==================== Vertex Arrays (VAO) & Buffers (VBO) ====================
+	"gen_vertex_arrays": &tender.BuiltinFunction{
+		Name: "gen_vertex_arrays",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
+			n, _ := tender.ToInt32(args[0])
+			vaos := make([]uint32, n)
+			gl.GenVertexArrays(n, &vaos[0])
+			
+			arr := make([]tender.Object, n)
+			for i, v := range vaos { arr[i] = &tender.Int{Value: int64(v)} }
+			return &tender.Array{Value: arr}, nil
+		},
+	},
+
+	"bind_vertex_array": &tender.BuiltinFunction{
+		Name: "bind_vertex_array",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
+			array, _ := tender.ToUint32(args[0])
+			gl.BindVertexArray(array)
+			return tender.NullValue, nil
+		},
+	},
+
+	"gen_buffers": &tender.BuiltinFunction{
+		Name: "gen_buffers",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
+			n, _ := tender.ToInt32(args[0])
+			buffers := make([]uint32, n)
+			gl.GenBuffers(n, &buffers[0])
+			
+			arr := make([]tender.Object, n)
+			for i, b := range buffers { arr[i] = &tender.Int{Value: int64(b)} }
+			return &tender.Array{Value: arr}, nil
+		},
+	},
+
+	"bind_buffer": &tender.BuiltinFunction{
+		Name: "bind_buffer",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 { return nil, tender.ErrInvalidArgCount }
+			target, _ := tender.ToUint32(args[0])
+			buffer, _ := tender.ToUint32(args[1])
+			gl.BindBuffer(target, buffer)
+			return tender.NullValue, nil
+		},
+	},
+
+	"buffer_data": &tender.BuiltinFunction{
+		Name: "buffer_data",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 3 { return nil, tender.ErrInvalidArgCount }
+			
+			target, _ := tender.ToUint32(args[0])
+			dataArray, ok := args[1].(*tender.Array)
+			usage, _ := tender.ToUint32(args[2])
+			
+			if !ok || args[1] == tender.NullValue {
+				gl.BufferData(target, 0, nil, usage)
+				return tender.NullValue, nil
+			}
+			
+			// Pack Tender high-level numbers into flat float32 binary data
+			floats := make([]float32, len(dataArray.Value))
+			for i, val := range dataArray.Value {
+				if f, ok := val.(*tender.Float); ok {
+					floats[i] = float32(f.Value)
+				} else if integrity, ok := val.(*tender.Int); ok {
+					floats[i] = float32(integrity.Value)
+				}
+			}
+			
+			size := len(floats) * 4 // 4 bytes per float32
+			gl.BufferData(target, size, unsafe.Pointer(&floats[0]), usage)
+			return tender.NullValue, nil
+		},
+	},
+
+	"enable_vertex_attrib_array": &tender.BuiltinFunction{
+		Name: "enable_vertex_attrib_array",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
+			index, _ := tender.ToUint32(args[0])
+			gl.EnableVertexAttribArray(index)
+			return tender.NullValue, nil
+		},
+	},
+
+	"vertex_attrib_pointer": &tender.BuiltinFunction{
+		Name: "vertex_attrib_pointer",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 6 { return nil, tender.ErrInvalidArgCount }
+			index, _ := tender.ToUint32(args[0])
+			size, _ := tender.ToInt32(args[1])
+			xtype, _ := tender.ToUint32(args[2])
+			normalized, _ := tender.ToBool(args[3])
+			stride, _ := tender.ToInt32(args[4])
+			offset, _ := tender.ToInt(args[5])
+			
+			gl.VertexAttribPointer(index, size, xtype, normalized, stride, unsafe.Pointer(uintptr(offset)))
+			return tender.NullValue, nil
+		},
+	},
+
+	// ==================== Framebuffers (FBO) ====================
+	"gen_framebuffers": &tender.BuiltinFunction{
+		Name: "gen_framebuffers",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
+			n, _ := tender.ToInt32(args[0])
+			fbos := make([]uint32, n)
+			gl.GenFramebuffers(n, &fbos[0])
+			
+			arr := make([]tender.Object, n)
+			for i, f := range fbos { arr[i] = &tender.Int{Value: int64(f)} }
+			return &tender.Array{Value: arr}, nil
+		},
+	},
+
+	"bind_framebuffer": &tender.BuiltinFunction{
+		Name: "bind_framebuffer",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 { return nil, tender.ErrInvalidArgCount }
+			target, _ := tender.ToUint32(args[0])
+			framebuffer, _ := tender.ToUint32(args[1])
+			gl.BindFramebuffer(target, framebuffer)
+			return tender.NullValue, nil
+		},
+	},
+
+	"framebuffer_texture2d": &tender.BuiltinFunction{
+		Name: "framebuffer_texture2d",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 5 { return nil, tender.ErrInvalidArgCount }
+			target, _ := tender.ToUint32(args[0])
+			attachment, _ := tender.ToUint32(args[1])
+			textarget, _ := tender.ToUint32(args[2])
+			texture, _ := tender.ToUint32(args[3])
+			level, _ := tender.ToInt32(args[4])
+			
+			gl.FramebufferTexture2D(target, attachment, textarget, texture, level)
+			return tender.NullValue, nil
+		},
+	},
+
+	// ==================== Advanced UI Blending ====================
+	"blend_func_separate": &tender.BuiltinFunction{
+		Name: "blend_func_separate",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 4 { return nil, tender.ErrInvalidArgCount }
+			sRGB, _ := tender.ToUint32(args[0])
+			dRGB, _ := tender.ToUint32(args[1])
+			sAlpha, _ := tender.ToUint32(args[2])
+			dAlpha, _ := tender.ToUint32(args[3])
+			gl.BlendFuncSeparate(sRGB, dRGB, sAlpha, dAlpha)
+			return tender.NullValue, nil
+		},
+	},
+
+	// ==================== Shader Uniforms Expansion ====================
+	"uniform1i": &tender.BuiltinFunction{
+		Name: "uniform1i",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			loc, _ := tender.ToInt32(args[0])
+			val, _ := tender.ToInt32(args[1])
+			gl.Uniform1i(loc, val)
+			return tender.NullValue, nil
+		},
+	},
+
+	"uniform2f": &tender.BuiltinFunction{
+		Name: "uniform2f",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			loc, _ := tender.ToInt32(args[0])
+			v0, _ := tender.ToFloat32(args[1])
+			v1, _ := tender.ToFloat32(args[2])
+			gl.Uniform2f(loc, v0, v1)
+			return tender.NullValue, nil
+		},
+	},
+	
+	// ==================== Shader Compilation Diagnostics ====================
+	"get_shader_iv": &tender.BuiltinFunction{
+		Name: "get_shader_iv",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 { return nil, tender.ErrInvalidArgCount }
+			shader, _ := tender.ToUint32(args[0])
+			pname, _ := tender.ToUint32(args[1])
+			var param int32
+			gl.GetShaderiv(shader, pname, &param)
+			return &tender.Int{Value: int64(param)}, nil
+		},
+	},
+
+	"get_shader_info_log": &tender.BuiltinFunction{
+		Name: "get_shader_info_log",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
+			shader, _ := tender.ToUint32(args[0])
+			var logLength int32
+			gl.GetShaderiv(shader, gl.INFO_LOG_LENGTH, &logLength)
+			if logLength == 0 { return &tender.String{Value: ""}, nil }
+			
+			logBytes := make([]byte, logLength)
+			gl.GetShaderInfoLog(shader, logLength, nil, &logBytes[0])
+			return &tender.String{Value: string(logBytes)}, nil
+		},
+	},
+
 }

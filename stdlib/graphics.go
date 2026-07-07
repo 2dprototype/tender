@@ -45,6 +45,30 @@ type contextState struct {
 
 // graphicsModule defines the standard package interface mapping for Tender
 var graphicsModule = map[string]tender.Object{
+	"get_context": &tender.BuiltinFunction{
+		Name: "get_context",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 {
+				return nil, tender.ErrInvalidArgCount
+			}
+
+			w := toInt(args[0])
+			h := toInt(args[1])
+
+			state := &contextState{
+				Width:     w,
+				Height:    h,
+				R:         1.0,
+				G:         1.0,
+				B:         1.0,
+				A:         1.0,
+				LineWidth: 1.0,
+			}
+
+			ctxMap := createDrawingMethods(state)
+			return &tender.Map{Value: ctxMap}, nil
+		},
+	},	
 	"new_context": &tender.BuiltinFunction{
 		Name: "new_context",
 		Value: func(args ...tender.Object) (tender.Object, error) {
