@@ -1137,7 +1137,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				var imgData []byte
 				if strVal, ok := args[0].(*tender.String); ok {
 					var err error
-					imgData, err = os.ReadFile(strVal.Value)
+					imgData, err = os.ReadFile(tender.ResolvePath(strVal.Value))
 					if err != nil {
 						return nil, err
 					}
@@ -1334,7 +1334,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				}
 				size := toFloat32(args[1])
 
-				fontBytes, err := os.ReadFile(path.Value)
+				fontBytes, err := os.ReadFile(tender.ResolvePath(path.Value))
 				if err != nil {
 					return nil, err
 				}
@@ -1364,7 +1364,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				}
 				size := toFloat32(args[1])
 
-				fontBytes, err := os.ReadFile(path.Value)
+				fontBytes, err := os.ReadFile(tender.ResolvePath(path.Value))
 				if err != nil {
 					return nil, err
 				}

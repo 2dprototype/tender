@@ -21,6 +21,43 @@ var pathModule = map[string]tender.Object{
 	
 	"walklist":   &tender.UserFunction{Name: "walklist", Value: pathWalkList},
 	"splitlist":  &tender.UserFunction{Name: "splitlist", Value: FuncASRSs(filepath.SplitList)},
+	"resolve": &tender.UserFunction{
+		Name: "resolve", 
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrWrongNumArguments
+			}
+			
+			path, ok := tender.ToString(args[0])
+			if !ok {
+				return nil, tender.ErrInvalidArgumentType{
+					Name: "path", 
+					Expected: "string",
+				}
+			}
+			
+			resolvedPath := tender.ResolvePath(path)
+			return &tender.String{Value: resolvedPath}, nil
+		},
+	},
+
+	"resolve_from": &tender.UserFunction{
+		Name: "resolve_from",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 {
+				return nil, tender.ErrWrongNumArguments
+			}
+			
+			path, ok1 := tender.ToString(args[0])
+			dir, ok2 := tender.ToString(args[1])
+			if !ok1 || !ok2 {
+				return nil, tender.ErrInvalidArgument
+			}
+			
+			resolvedPath := tender.ResolvePathFromDir(path, dir)
+			return &tender.String{Value: resolvedPath}, nil
+		},
+	},
 }
 
 func pathJoin(args ...tender.Object) (ret tender.Object, err error) {

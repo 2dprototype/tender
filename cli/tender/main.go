@@ -116,6 +116,14 @@ func main() {
 		printError(string(err.Error()))
 		os.Exit(1)
 	}
+	
+	// Configure the global path resolver
+	if resolvePath && inputFile != "" {
+		importDir := filepath.Dir(inputFile)
+		tender.SetPathResolution(true, importDir)
+	} else {
+		tender.SetPathResolution(false, "")
+	}
 
 	if len(inputData) > 1 && string(inputData[:2]) == "#!" {
 		copy(inputData, "//")

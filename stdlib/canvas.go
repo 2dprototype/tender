@@ -28,7 +28,7 @@ var canvasModule = map[string]tender.Object{
 			src := args[2]
 
 			if path, ok := tender.ToString(src); ok {
-				err := gg.LoadFont(name, size, path)
+				err := gg.LoadFont(name, size, tender.ResolvePath(path))
 				if err != nil {
 					return wrapError(err), nil
 				}

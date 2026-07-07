@@ -7,6 +7,7 @@ import (
 	"image"
 	"image/color"
 	"unsafe"
+	"path/filepath"
 
 	"github.com/2dprototype/tender"
 	"github.com/2dprototype/tender/v/gl"
@@ -3146,7 +3147,7 @@ var glModule = map[string]tender.Object{
 			path, ok := args[0].(*tender.String)
 			if !ok { return nil, tender.ErrInvalidArgument }
 			
-			mesh, err := LoadOBJ(path.Value)
+			mesh, err := LoadOBJ(tender.ResolvePath(path.Value))
 			if err != nil { return nil, err }
 			
 			// Passing nil for materials compiles the mesh exactly as it did before
@@ -3162,27 +3163,32 @@ var glModule = map[string]tender.Object{
 			objPath, ok1 := args[0].(*tender.String)
 			mtlPath, ok2 := args[1].(*tender.String)
 			if !ok1 || !ok2 { return nil, tender.ErrInvalidArgument }
+
+			resolvedObjPath := tender.ResolvePath(objPath.Value)
+			resolvedMtlPath := tender.ResolvePath(mtlPath.Value)
 			
-			materials, err := LoadMTL(mtlPath.Value)
+			materials, err := LoadMTL(resolvedMtlPath)
 			if err != nil { return nil, err }
 
-			// NOTE: Assumes image paths in the .mtl are relative to the working directory.
+			mtlDir := filepath.Dir(resolvedMtlPath)
 			for _, mat := range materials {
 				if mat.DiffuseMap != "" {
-					texID, err := internalLoadTexture(mat.DiffuseMap)
+					resolvedTexPath := tender.ResolvePathFromDir(mat.DiffuseMap, mtlDir)
+					texID, err := internalLoadTexture(resolvedTexPath)
 					if err == nil {
 						mat.TextureID = texID
 					}
 				}
 			}
-			mesh, err := LoadOBJ(objPath.Value)
+			
+			mesh, err := LoadOBJ(resolvedObjPath)
 			if err != nil { return nil, err }
 			
 			displayList := compileMeshToDisplayList(mesh, materials)
-			
 			return &tender.Int{Value: int64(displayList)}, nil
 		},
 	},
+
 
 	"parse_obj": &tender.BuiltinFunction{
 		Name: "parse_obj",
@@ -3206,7 +3212,7 @@ var glModule = map[string]tender.Object{
 			path, ok := args[0].(*tender.String)
 			if !ok { return nil, tender.ErrInvalidArgument }
 			
-			texID, err := internalLoadTexture(path.Value)
+			texID, err := internalLoadTexture(tender.ResolvePath(path.Value))
 			if err != nil { return nil, err }
 			
 			return &tender.Int{Value: int64(texID)}, nil

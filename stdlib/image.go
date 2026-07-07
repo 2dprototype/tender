@@ -67,7 +67,7 @@ func imageLoad(args ...tender.Object) (tender.Object, error) {
 		}
 	}
 
-	file, err := os.Open(path)
+	file, err := os.Open(tender.ResolvePath(path))
 	if err != nil {
 		return wrapError(err), nil
 	}

@@ -8,6 +8,7 @@ import (
 	"bytes"
 	// "time"
 	"github.com/2dprototype/tender"
+	"os"
 )
 
 var otoCtx *oto.Context
@@ -68,7 +69,22 @@ func audioPlayer(args ...tender.Object) (ret tender.Object, err error) {
 		return nil, tender.ErrWrongNumArguments
 	}
 	
-	data, _ := tender.ToByteSlice(args[0])
+    var data []byte
+    switch arg := args[0].(type) {
+    case *tender.Bytes:
+        data = arg.Value
+    case *tender.String:
+        data, err = os.ReadFile(tender.ResolvePath(arg.Value))
+        if err != nil {
+            return wrapError(err), nil
+        }
+    default:
+        return nil, tender.ErrInvalidArgumentType{
+            Name: "audio_data",
+            Expected: "bytes or string (path)",
+            Found: args[0].TypeName(),
+        }
+    }
 	
 	buf := bytes.NewReader(data)
 	

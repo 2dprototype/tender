@@ -1577,3 +1577,64 @@ func getTypeName(expr parser.Expr) string {
 	}
 }
 
+
+
+// PathResolver defines the interface for resolving import paths
+type PathResolver struct {
+	ResolveImports bool
+	ImportDir      string
+}
+
+var globalPathResolver = &PathResolver{
+	ResolveImports: true,
+	ImportDir:      "",
+}
+
+// SetPathResolution enables/disables path resolution and sets the base directory
+func SetPathResolution(resolve bool, importDir string) {
+	globalPathResolver.ResolveImports = resolve
+	globalPathResolver.ImportDir = importDir
+}
+
+// ResolvePath resolves a path according to the -resolve flag
+// If resolve is true and path is relative, it joins with importDir
+// Otherwise returns the path as-is
+func ResolvePath(path string) string {
+	if !globalPathResolver.ResolveImports {
+		return path
+	}
+	
+	// If it's already absolute, return as-is
+	if filepath.IsAbs(path) {
+		return path
+	}
+	
+	// If we have an import directory, join with it
+	if globalPathResolver.ImportDir != "" {
+		return filepath.Join(globalPathResolver.ImportDir, path)
+	}
+	
+	// Default: return original path
+	return path
+}
+
+// ResolvePathFromDir resolves a path relative to a specific directory
+func ResolvePathFromDir(path, dir string) string {
+	if !globalPathResolver.ResolveImports {
+		return path
+	}
+	
+	if filepath.IsAbs(path) {
+		return path
+	}
+	
+	if dir != "" {
+		return filepath.Join(dir, path)
+	}
+	
+	if globalPathResolver.ImportDir != "" {
+		return filepath.Join(globalPathResolver.ImportDir, path)
+	}
+	
+	return path
+}
