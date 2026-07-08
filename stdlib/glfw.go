@@ -900,6 +900,68 @@ var glfwModule = map[string]tender.Object{
 
 	"DOUBLEBUFFER": &tender.Int{Value: int64(glfw.DoubleBuffer)},
 
+	"FLOATING":              &tender.Int{Value: int64(glfw.Floating)},
+	"FOCUS_ON_SHOW":         &tender.Int{Value: int64(glfw.FocusOnShow)},
+	"CENTER_CURSOR":         &tender.Int{Value: int64(glfw.CenterCursor)},
+	"SCALE_TO_MONITOR":      &tender.Int{Value: int64(glfw.ScaleToMonitor)},
+	"SAMPLES":               &tender.Int{Value: int64(glfw.Samples)},
+	"REFRESH_RATE":          &tender.Int{Value: int64(glfw.RefreshRate)},
+	"STEREO":                &tender.Int{Value: int64(glfw.Stereo)},
+	"SRGB_CAPABLE":          &tender.Int{Value: int64(glfw.SRGBCapable)},
+	"RED_BITS":              &tender.Int{Value: int64(glfw.RedBits)},
+	"GREEN_BITS":            &tender.Int{Value: int64(glfw.GreenBits)},
+	"BLUE_BITS":             &tender.Int{Value: int64(glfw.BlueBits)},
+	"ALPHA_BITS":            &tender.Int{Value: int64(glfw.AlphaBits)},
+	"DEPTH_BITS":            &tender.Int{Value: int64(glfw.DepthBits)},
+	"STENCIL_BITS":          &tender.Int{Value: int64(glfw.StencilBits)},
+	"ACCUM_RED_BITS":        &tender.Int{Value: int64(glfw.AccumRedBits)},
+	"ACCUM_GREEN_BITS":      &tender.Int{Value: int64(glfw.AccumGreenBits)},
+	"ACCUM_BLUE_BITS":       &tender.Int{Value: int64(glfw.AccumBlueBits)},
+	"ACCUM_ALPHA_BITS":      &tender.Int{Value: int64(glfw.AccumAlphaBits)},
+	"AUX_BUFFERS":           &tender.Int{Value: int64(glfw.AuxBuffers)},
+
+	// ================================================================
+	// STANDARD CURSOR SHAPES
+	// ================================================================
+
+	"CURSOR_ARROW":     &tender.Int{Value: int64(glfw.ArrowCursor)},
+	"CURSOR_IBEAM":     &tender.Int{Value: int64(glfw.IBeamCursor)},
+	"CURSOR_CROSSHAIR": &tender.Int{Value: int64(glfw.CrosshairCursor)},
+	"CURSOR_HAND":      &tender.Int{Value: int64(glfw.HandCursor)},
+	"CURSOR_HRESIZE":   &tender.Int{Value: int64(glfw.HResizeCursor)},
+	"CURSOR_VRESIZE":   &tender.Int{Value: int64(glfw.VResizeCursor)},
+
+	// ================================================================
+	// JOYSTICK CONSTANTS
+	// ================================================================
+
+	"JOYSTICK_1":  &tender.Int{Value: int64(glfw.Joystick1)},
+	"JOYSTICK_2":  &tender.Int{Value: int64(glfw.Joystick2)},
+	"JOYSTICK_3":  &tender.Int{Value: int64(glfw.Joystick3)},
+	"JOYSTICK_4":  &tender.Int{Value: int64(glfw.Joystick4)},
+	"JOYSTICK_5":  &tender.Int{Value: int64(glfw.Joystick5)},
+	"JOYSTICK_6":  &tender.Int{Value: int64(glfw.Joystick6)},
+	"JOYSTICK_7":  &tender.Int{Value: int64(glfw.Joystick7)},
+	"JOYSTICK_8":  &tender.Int{Value: int64(glfw.Joystick8)},
+	"JOYSTICK_9":  &tender.Int{Value: int64(glfw.Joystick9)},
+	"JOYSTICK_10": &tender.Int{Value: int64(glfw.Joystick10)},
+	"JOYSTICK_11": &tender.Int{Value: int64(glfw.Joystick11)},
+	"JOYSTICK_12": &tender.Int{Value: int64(glfw.Joystick12)},
+	"JOYSTICK_13": &tender.Int{Value: int64(glfw.Joystick13)},
+	"JOYSTICK_14": &tender.Int{Value: int64(glfw.Joystick14)},
+	"JOYSTICK_15": &tender.Int{Value: int64(glfw.Joystick15)},
+	"JOYSTICK_16": &tender.Int{Value: int64(glfw.Joystick16)},
+
+	"CONNECTED":    &tender.Int{Value: int64(glfw.Connected)},
+	"DISCONNECTED": &tender.Int{Value: int64(glfw.Disconnected)},
+
+	// ================================================================
+	// PERIPHERAL EVENTS (for joystick callback)
+	// ================================================================
+
+	"PERIPHERAL_CONNECTED":    &tender.Int{Value: int64(glfw.Connected)},
+	"PERIPHERAL_DISCONNECTED": &tender.Int{Value: int64(glfw.Disconnected)},
+
 	// ================================================================
 	// KEYBOARD KEYS
 	// ================================================================
@@ -972,6 +1034,43 @@ var glfwModule = map[string]tender.Object{
 	"KEY_RIGHT_SHIFT":  &tender.Int{Value: int64(glfw.KeyRightShift)},
 	"KEY_RIGHT_CONTROL": &tender.Int{Value: int64(glfw.KeyRightControl)},
 	"KEY_RIGHT_ALT":    &tender.Int{Value: int64(glfw.KeyRightAlt)},
+	
+	// ================================================================
+	// MORE KEYBOARD KEYS
+	// ================================================================
+
+	"KEY_GRAVE_ACCENT": &tender.Int{Value: int64(glfw.KeyGraveAccent)},
+	"KEY_WORLD_1":      &tender.Int{Value: int64(glfw.KeyWorld1)},
+	"KEY_WORLD_2":      &tender.Int{Value: int64(glfw.KeyWorld2)},
+	"KEY_PRINT_SCREEN": &tender.Int{Value: int64(glfw.KeyPrintScreen)},
+	"KEY_INSERT":       &tender.Int{Value: int64(glfw.KeyInsert)},
+	"KEY_HOME":         &tender.Int{Value: int64(glfw.KeyHome)},
+	"KEY_PAGE_UP":      &tender.Int{Value: int64(glfw.KeyPageUp)},
+	"KEY_PAGE_DOWN":    &tender.Int{Value: int64(glfw.KeyPageDown)},
+	"KEY_END":          &tender.Int{Value: int64(glfw.KeyEnd)},
+	"KEY_CAPS_LOCK":    &tender.Int{Value: int64(glfw.KeyCapsLock)},
+	"KEY_SCROLL_LOCK":  &tender.Int{Value: int64(glfw.KeyScrollLock)},
+	"KEY_NUM_LOCK":     &tender.Int{Value: int64(glfw.KeyNumLock)},
+	"KEY_PAUSE":        &tender.Int{Value: int64(glfw.KeyPause)},
+	"KEY_MENU":         &tender.Int{Value: int64(glfw.KeyMenu)},
+
+	// ================================================================
+	// MORE MOUSE BUTTONS
+	// ================================================================
+
+	"MOUSE_BUTTON_4": &tender.Int{Value: int64(glfw.MouseButton4)},
+	"MOUSE_BUTTON_5": &tender.Int{Value: int64(glfw.MouseButton5)},
+	"MOUSE_BUTTON_6": &tender.Int{Value: int64(glfw.MouseButton6)},
+	"MOUSE_BUTTON_7": &tender.Int{Value: int64(glfw.MouseButton7)},
+	"MOUSE_BUTTON_8": &tender.Int{Value: int64(glfw.MouseButton8)},
+
+	// ================================================================
+	// MORE MODIFIER KEYS
+	// ================================================================
+
+	"MOD_SUPER": &tender.Int{Value: int64(glfw.ModSuper)},
+	"MOD_CAPS_LOCK": &tender.Int{Value: int64(glfw.ModCapsLock)},
+	"MOD_NUM_LOCK": &tender.Int{Value: int64(glfw.ModNumLock)},
 
 	// ================================================================
 	// KEY ACTIONS
@@ -1004,6 +1103,9 @@ var glfwModule = map[string]tender.Object{
 	"MOD_SHIFT":   &tender.Int{Value: int64(glfw.ModShift)},
 	"MOD_CONTROL": &tender.Int{Value: int64(glfw.ModControl)},
 	"MOD_ALT":     &tender.Int{Value: int64(glfw.ModAlt)},
+
+	"LOCK_KEY_MODS": &tender.Int{Value: int64(glfw.LockKeyMods)},
+	"RAW_MOUSE_MOTION": &tender.Int{Value: int64(glfw.RawMouseMotion)},
 
 	// ================================================================
 	// EXTRA HELPERS
@@ -1045,4 +1147,1012 @@ var glfwModule = map[string]tender.Object{
 			return tender.FromBool(glfw.VulkanSupported()), nil
 		},
 	},
+	
+	
+	// ================================================================
+	// WINDOW ATTRIBUTES & QUERIES
+	// ================================================================
+
+	"get_input_mode": &tender.BuiltinFunction{
+		Name: "get_input_mode",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			mode, okM := tender.ToInt(args[1])
+			if !ok || !okM || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			win := (*glfw.Window)(unsafe.Pointer(uintptr(ptr.Value)))
+			return &tender.Int{Value: int64(win.GetInputMode(glfw.InputMode(mode)))}, nil
+		},
+	},
+
+	"get_window_monitor": &tender.BuiltinFunction{
+		Name: "get_window_monitor",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			if !ok || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			win := (*glfw.Window)(unsafe.Pointer(uintptr(ptr.Value)))
+			m := win.GetMonitor()
+			if m == nil {
+				return tender.NullValue, nil
+			}
+			return &tender.Int{Value: int64(uintptr(unsafe.Pointer(m)))}, nil
+		},
+	},
+
+	"set_window_monitor": &tender.BuiltinFunction{
+		Name: "set_window_monitor",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 7 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			if !ok || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			monitorPtr, okM := args[1].(*tender.Int)
+			if !okM {
+				return nil, tender.ErrInvalidArgument
+			}
+			xpos, okX := tender.ToInt(args[2])
+			ypos, okY := tender.ToInt(args[3])
+			width, okW := tender.ToInt(args[4])
+			height, okH := tender.ToInt(args[5])
+			refreshRate, okR := tender.ToInt(args[6])
+			if !okX || !okY || !okW || !okH || !okR {
+				return nil, tender.ErrInvalidArgument
+			}
+			win := (*glfw.Window)(unsafe.Pointer(uintptr(ptr.Value)))
+			var monitor *glfw.Monitor
+			if monitorPtr.Value != 0 {
+				monitor = (*glfw.Monitor)(unsafe.Pointer(uintptr(monitorPtr.Value)))
+			}
+			win.SetMonitor(monitor, xpos, ypos, width, height, refreshRate)
+			return tender.NullValue, nil
+		},
+	},
+
+	"get_window_attrib": &tender.BuiltinFunction{
+		Name: "get_window_attrib",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			attrib, okA := tender.ToInt(args[1])
+			if !ok || !okA || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			win := (*glfw.Window)(unsafe.Pointer(uintptr(ptr.Value)))
+			return &tender.Int{Value: int64(win.GetAttrib(glfw.Hint(attrib)))}, nil
+		},
+	},
+
+	"set_window_attrib": &tender.BuiltinFunction{
+		Name: "set_window_attrib",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 3 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			attrib, okA := tender.ToInt(args[1])
+			value, okV := tender.ToInt(args[2])
+			if !ok || !okA || !okV || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			win := (*glfw.Window)(unsafe.Pointer(uintptr(ptr.Value)))
+			win.SetAttrib(glfw.Hint(attrib), value)
+			return tender.NullValue, nil
+		},
+	},
+
+	"get_window_content_scale": &tender.BuiltinFunction{
+		Name: "get_window_content_scale",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			if !ok || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			win := (*glfw.Window)(unsafe.Pointer(uintptr(ptr.Value)))
+			x, y := win.GetContentScale()
+			return &tender.Array{Value: []tender.Object{
+				&tender.Float{Value: float64(x)},
+				&tender.Float{Value: float64(y)},
+			}}, nil
+		},
+	},
+
+	"get_window_opacity": &tender.BuiltinFunction{
+		Name: "get_window_opacity",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			if !ok || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			win := (*glfw.Window)(unsafe.Pointer(uintptr(ptr.Value)))
+			return &tender.Float{Value: float64(win.GetOpacity())}, nil
+		},
+	},
+
+	"set_window_opacity": &tender.BuiltinFunction{
+		Name: "set_window_opacity",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			opacity, okO := tender.ToFloat64(args[1])
+			if !ok || !okO || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			win := (*glfw.Window)(unsafe.Pointer(uintptr(ptr.Value)))
+			win.SetOpacity(float32(opacity))
+			return tender.NullValue, nil
+		},
+	},
+
+	"set_window_size_limits": &tender.BuiltinFunction{
+		Name: "set_window_size_limits",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 5 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			minw, okMW := tender.ToInt(args[1])
+			minh, okMH := tender.ToInt(args[2])
+			maxw, okXW := tender.ToInt(args[3])
+			maxh, okXH := tender.ToInt(args[4])
+			if !ok || !okMW || !okMH || !okXW || !okXH || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			win := (*glfw.Window)(unsafe.Pointer(uintptr(ptr.Value)))
+			win.SetSizeLimits(minw, minh, maxw, maxh)
+			return tender.NullValue, nil
+		},
+	},
+
+	"set_window_aspect_ratio": &tender.BuiltinFunction{
+		Name: "set_window_aspect_ratio",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 3 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			numer, okN := tender.ToInt(args[1])
+			denom, okD := tender.ToInt(args[2])
+			if !ok || !okN || !okD || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			win := (*glfw.Window)(unsafe.Pointer(uintptr(ptr.Value)))
+			win.SetAspectRatio(numer, denom)
+			return tender.NullValue, nil
+		},
+	},
+
+	"request_window_attention": &tender.BuiltinFunction{
+		Name: "request_window_attention",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			if !ok || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			win := (*glfw.Window)(unsafe.Pointer(uintptr(ptr.Value)))
+			win.RequestAttention()
+			return tender.NullValue, nil
+		},
+	},
+
+	"set_window_icon": &tender.BuiltinFunction{
+		Name: "set_window_icon",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			if !ok || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			// This is a simplified version - full image support would require more work
+			// For now, just accept null to clear the icon
+			if args[1] == tender.NullValue {
+				win := (*glfw.Window)(unsafe.Pointer(uintptr(ptr.Value)))
+				win.SetIcon(nil)
+				return tender.NullValue, nil
+			}
+			return nil, fmt.Errorf("set_window_icon requires image support (use null to clear)")
+		},
+	},
+
+	// ================================================================
+	// CURSORS
+	// ================================================================
+
+	"create_standard_cursor": &tender.BuiltinFunction{
+		Name: "create_standard_cursor",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			shape, ok := tender.ToInt(args[0])
+			if !ok {
+				return nil, tender.ErrInvalidArgument
+			}
+			cursor := glfw.CreateStandardCursor(glfw.StandardCursor(shape))
+			if cursor == nil {
+				return tender.NullValue, nil
+			}
+			return &tender.Int{Value: int64(uintptr(unsafe.Pointer(cursor)))}, nil
+		},
+	},
+
+	"destroy_cursor": &tender.BuiltinFunction{
+		Name: "destroy_cursor",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			if !ok || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			cursor := (*glfw.Cursor)(unsafe.Pointer(uintptr(ptr.Value)))
+			cursor.Destroy()
+			return tender.NullValue, nil
+		},
+	},
+
+	"set_window_cursor": &tender.BuiltinFunction{
+		Name: "set_window_cursor",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			if !ok || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			cursorPtr, okC := args[1].(*tender.Int)
+			if !okC {
+				return nil, tender.ErrInvalidArgument
+			}
+			win := (*glfw.Window)(unsafe.Pointer(uintptr(ptr.Value)))
+			var cursor *glfw.Cursor
+			if cursorPtr.Value != 0 {
+				cursor = (*glfw.Cursor)(unsafe.Pointer(uintptr(cursorPtr.Value)))
+			}
+			win.SetCursor(cursor)
+			return tender.NullValue, nil
+		},
+	},
+
+	// ================================================================
+	// TIMER
+	// ================================================================
+
+	"get_timer_frequency": &tender.BuiltinFunction{
+		Name: "get_timer_frequency",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 0 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			return &tender.Int{Value: int64(glfw.GetTimerFrequency())}, nil
+		},
+	},
+
+	"get_timer_value": &tender.BuiltinFunction{
+		Name: "get_timer_value",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 0 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			return &tender.Int{Value: int64(glfw.GetTimerValue())}, nil
+		},
+	},
+
+	// ================================================================
+	// GAMEPAD & JOYSTICK
+	// ================================================================
+
+	"update_gamepad_mappings": &tender.BuiltinFunction{
+		Name: "update_gamepad_mappings",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			mapping, ok := args[0].(*tender.String)
+			if !ok {
+				return nil, tender.ErrInvalidArgument
+			}
+			return tender.FromBool(glfw.UpdateGamepadMappings(mapping.Value)), nil
+		},
+	},
+
+	"joystick_present": &tender.BuiltinFunction{
+		Name: "joystick_present",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			jid, ok := tender.ToInt(args[0])
+			if !ok {
+				return nil, tender.ErrInvalidArgument
+			}
+			return tender.FromBool(glfw.Joystick(jid).Present()), nil
+		},
+	},
+
+	"joystick_get_name": &tender.BuiltinFunction{
+		Name: "joystick_get_name",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			jid, ok := tender.ToInt(args[0])
+			if !ok {
+				return nil, tender.ErrInvalidArgument
+			}
+			name := glfw.Joystick(jid).GetName()
+			if name == "" {
+				return tender.NullValue, nil
+			}
+			return &tender.String{Value: name}, nil
+		},
+	},
+
+	"joystick_is_gamepad": &tender.BuiltinFunction{
+		Name: "joystick_is_gamepad",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			jid, ok := tender.ToInt(args[0])
+			if !ok {
+				return nil, tender.ErrInvalidArgument
+			}
+			return tender.FromBool(glfw.Joystick(jid).IsGamepad()), nil
+		},
+	},
+
+	"joystick_get_gamepad_name": &tender.BuiltinFunction{
+		Name: "joystick_get_gamepad_name",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			jid, ok := tender.ToInt(args[0])
+			if !ok {
+				return nil, tender.ErrInvalidArgument
+			}
+			name := glfw.Joystick(jid).GetGamepadName()
+			if name == "" {
+				return tender.NullValue, nil
+			}
+			return &tender.String{Value: name}, nil
+		},
+	},
+
+	"joystick_get_gamepad_state": &tender.BuiltinFunction{
+		Name: "joystick_get_gamepad_state",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			jid, ok := tender.ToInt(args[0])
+			if !ok {
+				return nil, tender.ErrInvalidArgument
+			}
+			state := glfw.Joystick(jid).GetGamepadState()
+			if state == nil {
+				return tender.NullValue, nil
+			}
+			// Convert axes to array
+			axes := make([]tender.Object, len(state.Axes))
+			for i, a := range state.Axes {
+				axes[i] = &tender.Float{Value: float64(a)}
+			}
+			// Convert buttons to array
+			buttons := make([]tender.Object, len(state.Buttons))
+			for i, b := range state.Buttons {
+				buttons[i] = &tender.Int{Value: int64(b)}
+			}
+			return &tender.Map{
+				Value: map[string]tender.Object{
+					"axes":    &tender.Array{Value: axes},
+					"buttons": &tender.Array{Value: buttons},
+				},
+			}, nil
+		},
+	},
+
+	"joystick_get_axes": &tender.BuiltinFunction{
+		Name: "joystick_get_axes",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			jid, ok := tender.ToInt(args[0])
+			if !ok {
+				return nil, tender.ErrInvalidArgument
+			}
+			axes := glfw.Joystick(jid).GetAxes()
+			if axes == nil {
+				return tender.NullValue, nil
+			}
+			result := make([]tender.Object, len(axes))
+			for i, a := range axes {
+				result[i] = &tender.Float{Value: float64(a)}
+			}
+			return &tender.Array{Value: result}, nil
+		},
+	},
+
+	"joystick_get_buttons": &tender.BuiltinFunction{
+		Name: "joystick_get_buttons",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			jid, ok := tender.ToInt(args[0])
+			if !ok {
+				return nil, tender.ErrInvalidArgument
+			}
+			buttons := glfw.Joystick(jid).GetButtons()
+			if buttons == nil {
+				return tender.NullValue, nil
+			}
+			result := make([]tender.Object, len(buttons))
+			for i, b := range buttons {
+				result[i] = &tender.Int{Value: int64(b)}
+			}
+			return &tender.Array{Value: result}, nil
+		},
+	},
+
+	"joystick_get_hats": &tender.BuiltinFunction{
+		Name: "joystick_get_hats",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			jid, ok := tender.ToInt(args[0])
+			if !ok {
+				return nil, tender.ErrInvalidArgument
+			}
+			hats := glfw.Joystick(jid).GetHats()
+			if hats == nil {
+				return tender.NullValue, nil
+			}
+			result := make([]tender.Object, len(hats))
+			for i, h := range hats {
+				result[i] = &tender.Int{Value: int64(h)}
+			}
+			return &tender.Array{Value: result}, nil
+		},
+	},
+
+	"joystick_get_guid": &tender.BuiltinFunction{
+		Name: "joystick_get_guid",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			jid, ok := tender.ToInt(args[0])
+			if !ok {
+				return nil, tender.ErrInvalidArgument
+			}
+			guid := glfw.Joystick(jid).GetGUID()
+			if guid == "" {
+				return tender.NullValue, nil
+			}
+			return &tender.String{Value: guid}, nil
+		},
+	},
+
+	"set_joystick_callback": &tender.BuiltinFunction{
+		Name:      "set_joystick_callback",
+		NeedVMObj: true,
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			vm := args[0].(*tender.VMObj).Value
+			args = args[1:]
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			cb := args[0]
+			if cb != tender.NullValue && !cb.CanCall() {
+				return nil, tender.ErrNotCallable
+			}
+			glfw.SetJoystickCallback(func(joy glfw.Joystick, event glfw.PeripheralEvent) {
+				if _, err := tender.WrapFuncCall(vm, cb,
+					&tender.Int{Value: int64(joy)},
+					&tender.Int{Value: int64(event)},
+				); err != nil {
+					fmt.Println("GLFW joystick callback error:", err)
+				}
+			})
+			return tender.NullValue, nil
+		},
+	},
+
+	// ================================================================
+	// MONITOR EXTENDED INFO
+	// ================================================================
+
+	"get_monitor_video_modes": &tender.BuiltinFunction{
+		Name: "get_monitor_video_modes",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			if !ok || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			m := (*glfw.Monitor)(unsafe.Pointer(uintptr(ptr.Value)))
+			modes := m.GetVideoModes()
+			result := make([]tender.Object, len(modes))
+			for i, mode := range modes {
+				result[i] = &tender.Map{
+					Value: map[string]tender.Object{
+						"width":        &tender.Int{Value: int64(mode.Width)},
+						"height":       &tender.Int{Value: int64(mode.Height)},
+						"refresh_rate": &tender.Int{Value: int64(mode.RefreshRate)},
+					},
+				}
+			}
+			return &tender.Array{Value: result}, nil
+		},
+	},
+
+	"get_monitor_physical_size": &tender.BuiltinFunction{
+		Name: "get_monitor_physical_size",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			if !ok || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			m := (*glfw.Monitor)(unsafe.Pointer(uintptr(ptr.Value)))
+			width, height := m.GetPhysicalSize()
+			return &tender.Array{Value: []tender.Object{
+				&tender.Int{Value: int64(width)},
+				&tender.Int{Value: int64(height)},
+			}}, nil
+		},
+	},
+
+	"get_monitor_workarea": &tender.BuiltinFunction{
+		Name: "get_monitor_workarea",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			if !ok || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			m := (*glfw.Monitor)(unsafe.Pointer(uintptr(ptr.Value)))
+			x, y, width, height := m.GetWorkarea()
+			return &tender.Array{Value: []tender.Object{
+				&tender.Int{Value: int64(x)},
+				&tender.Int{Value: int64(y)},
+				&tender.Int{Value: int64(width)},
+				&tender.Int{Value: int64(height)},
+			}}, nil
+		},
+	},
+
+	"get_monitor_gamma_ramp": &tender.BuiltinFunction{
+		Name: "get_monitor_gamma_ramp",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			if !ok || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			m := (*glfw.Monitor)(unsafe.Pointer(uintptr(ptr.Value)))
+			ramp := m.GetGammaRamp()
+			if ramp == nil {
+				return tender.NullValue, nil
+			}
+			// Convert to Tender arrays
+			red := make([]tender.Object, len(ramp.Red))
+			green := make([]tender.Object, len(ramp.Green))
+			blue := make([]tender.Object, len(ramp.Blue))
+			for i := range ramp.Red {
+				red[i] = &tender.Int{Value: int64(ramp.Red[i])}
+				green[i] = &tender.Int{Value: int64(ramp.Green[i])}
+				blue[i] = &tender.Int{Value: int64(ramp.Blue[i])}
+			}
+			return &tender.Map{
+				Value: map[string]tender.Object{
+					"red":   &tender.Array{Value: red},
+					"green": &tender.Array{Value: green},
+					"blue":  &tender.Array{Value: blue},
+				},
+			}, nil
+		},
+	},
+
+	"set_monitor_gamma_ramp": &tender.BuiltinFunction{
+		Name: "set_monitor_gamma_ramp",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			if !ok || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			rampMap, okR := args[1].(*tender.Map)
+			if !okR {
+				return nil, tender.ErrInvalidArgument
+			}
+			redArr, okRArr := rampMap.Value["red"].(*tender.Array)
+			greenArr, okGArr := rampMap.Value["green"].(*tender.Array)
+			blueArr, okBArr := rampMap.Value["blue"].(*tender.Array)
+			if !okRArr || !okGArr || !okBArr {
+				return nil, tender.ErrInvalidArgument
+			}
+			// Ensure all arrays are same length
+			if len(redArr.Value) != len(greenArr.Value) || len(redArr.Value) != len(blueArr.Value) {
+				return nil, fmt.Errorf("color arrays must have same length")
+			}
+			ramp := &glfw.GammaRamp{
+				Red:   make([]uint16, len(redArr.Value)),
+				Green: make([]uint16, len(greenArr.Value)),
+				Blue:  make([]uint16, len(blueArr.Value)),
+			}
+			for i := range redArr.Value {
+				r, _ := tender.ToUint64(redArr.Value[i])
+				g, _ := tender.ToUint64(greenArr.Value[i])
+				b, _ := tender.ToUint64(blueArr.Value[i])
+				ramp.Red[i] = uint16(r)
+				ramp.Green[i] = uint16(g)
+				ramp.Blue[i] = uint16(b)
+			}
+			m := (*glfw.Monitor)(unsafe.Pointer(uintptr(ptr.Value)))
+			m.SetGammaRamp(ramp)
+			return tender.NullValue, nil
+		},
+	},
+
+	"set_monitor_gamma": &tender.BuiltinFunction{
+		Name: "set_monitor_gamma",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			if !ok || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			gamma, okG := tender.ToFloat64(args[1])
+			if !okG {
+				return nil, tender.ErrInvalidArgument
+			}
+			m := (*glfw.Monitor)(unsafe.Pointer(uintptr(ptr.Value)))
+			m.SetGamma(float32(gamma))
+			return tender.NullValue, nil
+		},
+	},
+
+	// ================================================================
+	// ADDITIONAL EVENT CALLBACKS
+	// ================================================================
+
+	"set_cursor_enter_callback": &tender.BuiltinFunction{
+		Name:      "set_cursor_enter_callback",
+		NeedVMObj: true,
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			vm := args[0].(*tender.VMObj).Value
+			args = args[1:]
+			if len(args) != 2 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			if !ok || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			cb := args[1]
+			if cb != tender.NullValue && !cb.CanCall() {
+				return nil, tender.ErrNotCallable
+			}
+			win := (*glfw.Window)(unsafe.Pointer(uintptr(ptr.Value)))
+			win.SetCursorEnterCallback(func(_ *glfw.Window, entered bool) {
+				if _, err := tender.WrapFuncCall(vm, cb,
+					tender.FromBool(entered),
+				); err != nil {
+					fmt.Println("GLFW cursor enter callback error:", err)
+				}
+			})
+			return tender.NullValue, nil
+		},
+	},
+
+	"set_drop_callback": &tender.BuiltinFunction{
+		Name:      "set_drop_callback",
+		NeedVMObj: true,
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			vm := args[0].(*tender.VMObj).Value
+			args = args[1:]
+			if len(args) != 2 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			if !ok || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			cb := args[1]
+			if cb != tender.NullValue && !cb.CanCall() {
+				return nil, tender.ErrNotCallable
+			}
+			win := (*glfw.Window)(unsafe.Pointer(uintptr(ptr.Value)))
+			win.SetDropCallback(func(_ *glfw.Window, paths []string) {
+				pathObjs := make([]tender.Object, len(paths))
+				for i, p := range paths {
+					pathObjs[i] = &tender.String{Value: p}
+				}
+				if _, err := tender.WrapFuncCall(vm, cb,
+					&tender.Array{Value: pathObjs},
+				); err != nil {
+					fmt.Println("GLFW drop callback error:", err)
+				}
+			})
+			return tender.NullValue, nil
+		},
+	},
+
+	"set_focus_callback": &tender.BuiltinFunction{
+		Name:      "set_focus_callback",
+		NeedVMObj: true,
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			vm := args[0].(*tender.VMObj).Value
+			args = args[1:]
+			if len(args) != 2 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			if !ok || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			cb := args[1]
+			if cb != tender.NullValue && !cb.CanCall() {
+				return nil, tender.ErrNotCallable
+			}
+			win := (*glfw.Window)(unsafe.Pointer(uintptr(ptr.Value)))
+			win.SetFocusCallback(func(_ *glfw.Window, focused bool) {
+				if _, err := tender.WrapFuncCall(vm, cb,
+					tender.FromBool(focused),
+				); err != nil {
+					fmt.Println("GLFW focus callback error:", err)
+				}
+			})
+			return tender.NullValue, nil
+		},
+	},
+
+	"set_iconify_callback": &tender.BuiltinFunction{
+		Name:      "set_iconify_callback",
+		NeedVMObj: true,
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			vm := args[0].(*tender.VMObj).Value
+			args = args[1:]
+			if len(args) != 2 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			if !ok || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			cb := args[1]
+			if cb != tender.NullValue && !cb.CanCall() {
+				return nil, tender.ErrNotCallable
+			}
+			win := (*glfw.Window)(unsafe.Pointer(uintptr(ptr.Value)))
+			win.SetIconifyCallback(func(_ *glfw.Window, iconified bool) {
+				if _, err := tender.WrapFuncCall(vm, cb,
+					tender.FromBool(iconified),
+				); err != nil {
+					fmt.Println("GLFW iconify callback error:", err)
+				}
+			})
+			return tender.NullValue, nil
+		},
+	},
+
+	"set_maximize_callback": &tender.BuiltinFunction{
+		Name:      "set_maximize_callback",
+		NeedVMObj: true,
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			vm := args[0].(*tender.VMObj).Value
+			args = args[1:]
+			if len(args) != 2 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			if !ok || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			cb := args[1]
+			if cb != tender.NullValue && !cb.CanCall() {
+				return nil, tender.ErrNotCallable
+			}
+			win := (*glfw.Window)(unsafe.Pointer(uintptr(ptr.Value)))
+			win.SetMaximizeCallback(func(_ *glfw.Window, maximized bool) {
+				if _, err := tender.WrapFuncCall(vm, cb,
+					tender.FromBool(maximized),
+				); err != nil {
+					fmt.Println("GLFW maximize callback error:", err)
+				}
+			})
+			return tender.NullValue, nil
+		},
+	},
+
+	"set_content_scale_callback": &tender.BuiltinFunction{
+		Name:      "set_content_scale_callback",
+		NeedVMObj: true,
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			vm := args[0].(*tender.VMObj).Value
+			args = args[1:]
+			if len(args) != 2 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			if !ok || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			cb := args[1]
+			if cb != tender.NullValue && !cb.CanCall() {
+				return nil, tender.ErrNotCallable
+			}
+			win := (*glfw.Window)(unsafe.Pointer(uintptr(ptr.Value)))
+			win.SetContentScaleCallback(func(_ *glfw.Window, xscale, yscale float32) {
+				if _, err := tender.WrapFuncCall(vm, cb,
+					&tender.Float{Value: float64(xscale)},
+					&tender.Float{Value: float64(yscale)},
+				); err != nil {
+					fmt.Println("GLFW content scale callback error:", err)
+				}
+			})
+			return tender.NullValue, nil
+		},
+	},
+
+	"set_pos_callback": &tender.BuiltinFunction{
+		Name:      "set_pos_callback",
+		NeedVMObj: true,
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			vm := args[0].(*tender.VMObj).Value
+			args = args[1:]
+			if len(args) != 2 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			if !ok || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			cb := args[1]
+			if cb != tender.NullValue && !cb.CanCall() {
+				return nil, tender.ErrNotCallable
+			}
+			win := (*glfw.Window)(unsafe.Pointer(uintptr(ptr.Value)))
+			win.SetPosCallback(func(_ *glfw.Window, xpos, ypos int) {
+				if _, err := tender.WrapFuncCall(vm, cb,
+					&tender.Int{Value: int64(xpos)},
+					&tender.Int{Value: int64(ypos)},
+				); err != nil {
+					fmt.Println("GLFW pos callback error:", err)
+				}
+			})
+			return tender.NullValue, nil
+		},
+	},
+
+	"set_refresh_callback": &tender.BuiltinFunction{
+		Name:      "set_refresh_callback",
+		NeedVMObj: true,
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			vm := args[0].(*tender.VMObj).Value
+			args = args[1:]
+			if len(args) != 2 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			if !ok || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			cb := args[1]
+			if cb != tender.NullValue && !cb.CanCall() {
+				return nil, tender.ErrNotCallable
+			}
+			win := (*glfw.Window)(unsafe.Pointer(uintptr(ptr.Value)))
+			win.SetRefreshCallback(func(_ *glfw.Window) {
+				if _, err := tender.WrapFuncCall(vm, cb); err != nil {
+					fmt.Println("GLFW refresh callback error:", err)
+				}
+			})
+			return tender.NullValue, nil
+		},
+	},
+
+	// ================================================================
+	// UTILITY FUNCTIONS
+	// ================================================================
+
+	"post_empty_event": &tender.BuiltinFunction{
+		Name: "post_empty_event",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 0 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			glfw.PostEmptyEvent()
+			return tender.NullValue, nil
+		},
+	},
+
+	"raw_mouse_motion_supported": &tender.BuiltinFunction{
+		Name: "raw_mouse_motion_supported",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 0 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			return tender.FromBool(glfw.RawMouseMotionSupported()), nil
+		},
+	},
+
+	"get_key_name": &tender.BuiltinFunction{
+		Name: "get_key_name",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 2 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			key, okK := tender.ToInt(args[0])
+			scancode, okS := tender.ToInt(args[1])
+			if !okK || !okS {
+				return nil, tender.ErrInvalidArgument
+			}
+			name := glfw.GetKeyName(glfw.Key(key), scancode)
+			if name == "" {
+				return tender.NullValue, nil
+			}
+			return &tender.String{Value: name}, nil
+		},
+	},
+
+	"get_key_scancode": &tender.BuiltinFunction{
+		Name: "get_key_scancode",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			key, ok := tender.ToInt(args[0])
+			if !ok {
+				return nil, tender.ErrInvalidArgument
+			}
+			return &tender.Int{Value: int64(glfw.GetKeyScancode(glfw.Key(key)))}, nil
+		},
+	},	
+	
 }

@@ -179,6 +179,7 @@ func writeObjectPretty(builder *strings.Builder, o Object, indentLevel int, visi
 			for k := range obj.Value {
 				keys = append(keys, k)
 			}
+			sortKeys(keys)
 			for i, k := range keys {
 				v := obj.Value[k]
 				builder.WriteString(indent + "  " + k + ": ")
@@ -212,6 +213,7 @@ func writeObjectPretty(builder *strings.Builder, o Object, indentLevel int, visi
 			for k := range obj.Value {
 				keys = append(keys, k)
 			}
+			sortKeys(keys)
 			for i, k := range keys {
 				v := obj.Value[k]
 				builder.WriteString(indent + "  " + k + ": ")
@@ -291,28 +293,6 @@ func writeObjectPretty(builder *strings.Builder, o Object, indentLevel int, visi
 	delete(visited, o)
 }
 
-func ToStringPrettyColored(vm *VM, o Object) string {
-	m, ok := o.(*Map)
-	if ok {
-		if val, ok := m.Value["__print__"]; ok {
-			fn, ok := val.(*CompiledFunction)
-			if ok {
-				vv, _ := WrapFuncCall(vm, fn)
-				s, ok := vv.(*String)
-				if ok {
-					return s.Value
-				} else {
-					return vv.String()
-				}
-			}
-		}
-	}
-	var builder strings.Builder
-	visited := make(map[Object]bool)
-	writeObjectPrettyColored(&builder, o, 0, visited)
-	return builder.String()
-}
-
 func writeObjectPrettyColored(builder *strings.Builder, o Object, indentLevel int, visited map[Object]bool) {
 	indent := strings.Repeat("  ", indentLevel)
 
@@ -333,6 +313,7 @@ func writeObjectPrettyColored(builder *strings.Builder, o Object, indentLevel in
 			for k := range obj.Value {
 				keys = append(keys, k)
 			}
+			sortKeys(keys)
 			for i, k := range keys {
 				v := obj.Value[k]
 				builder.WriteString(indent + "  " + k + ": ")
@@ -366,6 +347,7 @@ func writeObjectPrettyColored(builder *strings.Builder, o Object, indentLevel in
 			for k := range obj.Value {
 				keys = append(keys, k)
 			}
+			sortKeys(keys)
 			for i, k := range keys {
 				v := obj.Value[k]
 				builder.WriteString(indent + "  " + k + ": ")
@@ -449,6 +431,28 @@ func writeObjectPrettyColored(builder *strings.Builder, o Object, indentLevel in
 	}
 
 	delete(visited, o)
+}
+
+func ToStringPrettyColored(vm *VM, o Object) string {
+	m, ok := o.(*Map)
+	if ok {
+		if val, ok := m.Value["__print__"]; ok {
+			fn, ok := val.(*CompiledFunction)
+			if ok {
+				vv, _ := WrapFuncCall(vm, fn)
+				s, ok := vv.(*String)
+				if ok {
+					return s.Value
+				} else {
+					return vv.String()
+				}
+			}
+		}
+	}
+	var builder strings.Builder
+	visited := make(map[Object]bool)
+	writeObjectPrettyColored(&builder, o, 0, visited)
+	return builder.String()
 }
 
 // ToInt will try to convert object o to int32 value.

@@ -1541,3 +1541,58 @@ func builtinIsStruct(args ...Object) (Object, error) {
 	return FalseValue, nil
 }
 
+
+// sortKeys sorts keys alphanumerically (numbers first, then letters)
+func sortKeys(keys []string) {
+	sort.Slice(keys, func(i, j int) bool {
+		return naturalLess(keys[i], keys[j])
+	})
+}
+
+// naturalLess compares two strings alphanumerically (0-9, a-z)
+func naturalLess(a, b string) bool {
+	i, j := 0, 0
+	for i < len(a) && j < len(b) {
+		if isDigit(a[i]) && isDigit(b[j]) {
+			// Compare numeric values
+			numA, lenA := parseNumber(a[i:])
+			numB, lenB := parseNumber(b[j:])
+			if numA != numB {
+				return numA < numB
+			}
+			i += lenA
+			j += lenB
+		} else {
+			// Compare characters case-insensitively
+			ca := toLower(a[i])
+			cb := toLower(b[j])
+			if ca != cb {
+				return ca < cb
+			}
+			i++
+			j++
+		}
+	}
+	return len(a) < len(b)
+}
+
+func isDigit(c byte) bool {
+	return c >= '0' && c <= '9'
+}
+
+func toLower(c byte) byte {
+	if c >= 'A' && c <= 'Z' {
+		return c + 32
+	}
+	return c
+}
+
+func parseNumber(s string) (int64, int) {
+	var num int64
+	i := 0
+	for i < len(s) && isDigit(s[i]) {
+		num = num*10 + int64(s[i]-'0')
+		i++
+	}
+	return num, i
+}
