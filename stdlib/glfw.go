@@ -7,7 +7,7 @@ import (
 	"unsafe"
 
 	"github.com/2dprototype/tender"
-	"github.com/go-gl/glfw/v3.4/glfw"
+	"github.com/2dprototype/tender/v/glfw"
 )
 
 // glfwModule exposes essential GLFW functionality to Tender scripts
@@ -582,24 +582,24 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	// "get_monitor_size": &tender.BuiltinFunction{
-		// Name: "get_monitor_size",
-		// Value: func(args ...tender.Object) (tender.Object, error) {
-			// if len(args) != 1 {
-				// return nil, tender.ErrInvalidArgCount
-			// }
-			// ptr, ok := args[0].(*tender.Int)
-			// if !ok || ptr.Value == 0 {
-				// return nil, tender.ErrInvalidArgument
-			// }
-			// m := (*glfw.Monitor)(unsafe.Pointer(uintptr(ptr.Value)))
-			// w, h := m.GetSize()
-			// return &tender.Array{Value: []tender.Object{
-				// &tender.Int{Value: int64(w)},
-				// &tender.Int{Value: int64(h)},
-			// }}, nil
-		// },
-	// },
+	"get_monitor_pos": &tender.BuiltinFunction{
+		Name: "get_monitor_pos",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			ptr, ok := args[0].(*tender.Int)
+			if !ok || ptr.Value == 0 {
+				return nil, tender.ErrInvalidArgument
+			}
+			m := (*glfw.Monitor)(unsafe.Pointer(uintptr(ptr.Value)))
+			w, h := m.GetPos()
+			return &tender.Array{Value: []tender.Object{
+				&tender.Int{Value: int64(w)},
+				&tender.Int{Value: int64(h)},
+			}}, nil
+		},
+	},
 
 	"get_monitor_name": &tender.BuiltinFunction{
 		Name: "get_monitor_name",
