@@ -1,0 +1,1260 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="light">
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        
+        
+        
+        <link rel="shortcut icon" href="../../img/favicon.ico">
+        <title>Stdlib glfw - Tender Docs</title>
+        <link href="../../css/bootstrap.min.css" rel="stylesheet">
+        <link href="../../css/fontawesome.min.css" rel="stylesheet">
+        <link href="../../css/brands.min.css" rel="stylesheet">
+        <link href="../../css/solid.min.css" rel="stylesheet">
+        <link href="../../css/v4-font-face.min.css" rel="stylesheet">
+        <link href="../../css/base.css" rel="stylesheet">
+        <link id="hljs-light" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github.min.css" >
+        <link id="hljs-dark" rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/styles/github-dark.min.css" disabled>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.8.0/highlight.min.js"></script>
+        <script>hljs.highlightAll();</script> 
+    </head>
+
+    <body>
+        <div class="navbar fixed-top navbar-expand-lg navbar-dark bg-primary">
+            <div class="container">
+                <a class="navbar-brand" href="../..">Tender Docs</a>
+                <!-- Expander button -->
+                <button type="button" class="navbar-toggler" data-bs-toggle="collapse" data-bs-target="#navbar-collapse" aria-controls="navbar-collapse" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+
+                <!-- Expanded navigation -->
+                <div id="navbar-collapse" class="navbar-collapse collapse">
+                        <!-- Main navigation -->
+                        <ul class="nav navbar-nav">
+                            <li class="nav-item">
+                                <a href="../.." class="nav-link">Tender</a>
+                            </li>
+                            <li class="nav-item dropdown">
+                                <a href="#" class="nav-link dropdown-toggle active" aria-current="page" role="button" data-bs-toggle="dropdown"  aria-expanded="false">Pages</a>
+                                <ul class="dropdown-menu">
+                                    
+<li>
+    <a href="../builtins/" class="dropdown-item">Builtins</a>
+</li>
+                                    
+<li>
+    <a href="../formatting/" class="dropdown-item">Formatting</a>
+</li>
+                                    
+<li>
+    <a href="../operators/" class="dropdown-item">Operators</a>
+</li>
+                                    
+<li>
+    <a href="../runtime-types/" class="dropdown-item">Runtime Types</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-audio/" class="dropdown-item">Stdlib audio</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-base64/" class="dropdown-item">Stdlib base64</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-bufio/" class="dropdown-item">Stdlib bufio</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-canvas/" class="dropdown-item">Stdlib canvas</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-cmplx/" class="dropdown-item">Stdlib cmplx</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-colors/" class="dropdown-item">Stdlib colors</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-crypto/" class="dropdown-item">Stdlib crypto</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-dll/" class="dropdown-item">Stdlib dll</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-fmt/" class="dropdown-item">Stdlib fmt</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-gl/" class="dropdown-item">Stdlib gl</a>
+</li>
+                                    
+<li>
+    <a href="./" class="dropdown-item active" aria-current="page">Stdlib glfw</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-glu/" class="dropdown-item">Stdlib glu</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-glut/" class="dropdown-item">Stdlib glut</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-graphics/" class="dropdown-item">Stdlib graphics</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-gzip/" class="dropdown-item">Stdlib gzip</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-hex/" class="dropdown-item">Stdlib hex</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-http/" class="dropdown-item">Stdlib http</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-image/" class="dropdown-item">Stdlib image</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-io/" class="dropdown-item">Stdlib io</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-json/" class="dropdown-item">Stdlib json</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-math/" class="dropdown-item">Stdlib math</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-net/" class="dropdown-item">Stdlib net</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-os/" class="dropdown-item">Stdlib os</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-path/" class="dropdown-item">Stdlib path</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-rand/" class="dropdown-item">Stdlib rand</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-strings/" class="dropdown-item">Stdlib strings</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-sync/" class="dropdown-item">Stdlib sync</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-tar/" class="dropdown-item">Stdlib tar</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-times/" class="dropdown-item">Stdlin times</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-websocket/" class="dropdown-item">Stdlib websocket</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-wui/" class="dropdown-item">Stdlib wui</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-xml/" class="dropdown-item">Stdlib xml</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib-zip/" class="dropdown-item">Stdlib zip</a>
+</li>
+                                    
+<li>
+    <a href="../stdlib/" class="dropdown-item">Standard Library</a>
+</li>
+                                    
+<li>
+    <a href="../tutorial/" class="dropdown-item">Getting Started</a>
+</li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                    <ul class="nav navbar-nav ms-md-auto">
+                        <li class="nav-item">
+                            <a href="#" class="nav-link" data-bs-toggle="modal" data-bs-target="#mkdocs_search_modal">
+                                <i class="fa fa-search"></i> Search
+                            </a>
+                        </li>
+                            <li class="nav-item">
+                                <a rel="prev" href="../stdlib-gl/" class="nav-link">
+                                    <i class="fa fa-arrow-left"></i> Previous
+                                </a>
+                            </li>
+                            <li class="nav-item">
+                                <a rel="next" href="../stdlib-glu/" class="nav-link">
+                                    Next <i class="fa fa-arrow-right"></i>
+                                </a>
+                            </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <div class="container">
+            <div class="row">
+                    <div class="col-md-3"><div class="navbar-expand-md bs-sidebar hidden-print affix" role="complementary">
+    <div class="navbar-header">
+        <button type="button" class="navbar-toggler collapsed" data-bs-toggle="collapse" data-bs-target="#toc-collapse" title="Table of Contents">
+            <span class="fa fa-angle-down"></span>
+        </button>
+    </div>
+
+    
+    <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
+        <ul class="nav flex-column">
+            
+            <li class="nav-item" data-bs-level="1"><a href="#stdlib-glfw" class="nav-link">Stdlib glfw</a>
+              <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#initialization" class="nav-link">Initialization</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#version-information" class="nav-link">Version Information</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#window-management" class="nav-link">Window Management</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#context-management" class="nav-link">Context Management</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#window-hints" class="nav-link">Window Hints</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#input-handling" class="nav-link">Input Handling</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#cursors" class="nav-link">Cursors</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#modifier-keys" class="nav-link">Modifier Keys</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#monitors" class="nav-link">Monitors</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#joysticks-gamepads" class="nav-link">Joysticks &amp; Gamepads</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#clipboard" class="nav-link">Clipboard</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#vulkan" class="nav-link">Vulkan</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#callbacks" class="nav-link">Callbacks</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#complete-example" class="nav-link">Complete Example</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+              </ul>
+            </li>
+        </ul>
+    </div>
+</div></div>
+                    <div class="col-md-9" role="main">
+
+<h1 id="stdlib-glfw">Stdlib <code>glfw</code></h1>
+<p>The <code>glfw</code> module provides bindings for the GLFW library, enabling window creation, OpenGL context management, and input handling for 3D applications. It is designed to work alongside the <code>gl</code> module for complete OpenGL applications.</p>
+<h2 id="initialization">Initialization</h2>
+<h3 id="init"><code>init()</code></h3>
+<p>Initializes the GLFW library.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>glfw.init()</code></li>
+</ul>
+<h3 id="terminate"><code>terminate()</code></h3>
+<p>Terminates the GLFW library and destroys all remaining windows.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>glfw.terminate()</code></li>
+</ul>
+<h3 id="poll_events"><code>poll_events()</code></h3>
+<p>Processes all pending events (keyboard, mouse, window, joystick).</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>glfw.poll_events()</code></li>
+</ul>
+<h3 id="wait_events"><code>wait_events()</code></h3>
+<p>Waits for events to arrive and processes them. Blocks the current thread.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>glfw.wait_events()</code></li>
+</ul>
+<h3 id="post_empty_event"><code>post_empty_event()</code></h3>
+<p>Posts an empty event to wake up <code>wait_events()</code>.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="get_time"><code>get_time()</code></h3>
+<p>Returns the elapsed time since GLFW was initialized, in seconds.</p>
+<ul>
+<li><strong>Returns</strong>: Float (seconds)</li>
+<li><strong>Example</strong>: <code>time := glfw.get_time()</code></li>
+</ul>
+<h3 id="set_timetime"><code>set_time(time)</code></h3>
+<p>Sets the GLFW timer to the specified value.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>time</code> - Time in seconds (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="get_timer_frequency"><code>get_timer_frequency()</code></h3>
+<p>Returns the frequency of the GLFW high-resolution timer.</p>
+<ul>
+<li><strong>Returns</strong>: Integer (frequency in Hz)</li>
+</ul>
+<h3 id="get_timer_value"><code>get_timer_value()</code></h3>
+<p>Returns the current value of the GLFW high-resolution timer.</p>
+<ul>
+<li><strong>Returns</strong>: Integer (timer value)</li>
+</ul>
+<hr />
+<h2 id="version-information">Version Information</h2>
+<h3 id="get_version"><code>get_version()</code></h3>
+<p>Returns the GLFW version.</p>
+<ul>
+<li><strong>Returns</strong>: Array <code>[major, minor, revision]</code></li>
+<li><strong>Example</strong>: <code>major, minor, rev := glfw.get_version()</code></li>
+</ul>
+<h3 id="get_version_string"><code>get_version_string()</code></h3>
+<p>Returns the GLFW version string.</p>
+<ul>
+<li><strong>Returns</strong>: String</li>
+<li><strong>Example</strong>: <code>glfw.get_version_string()</code></li>
+</ul>
+<h3 id="constants">Constants</h3>
+<ul>
+<li><code>glfw.VERSION_MAJOR</code></li>
+<li><code>glfw.VERSION_MINOR</code></li>
+<li><code>glfw.VERSION_REVISION</code></li>
+</ul>
+<hr />
+<h2 id="window-management">Window Management</h2>
+<h3 id="create_windowwidth-height-title"><code>create_window(width, height, title)</code></h3>
+<p>Creates a new window.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>width</code> - Window width (int)</li>
+<li><code>height</code> - Window height (int)</li>
+<li><code>title</code> - Window title (string)</li>
+<li><strong>Returns</strong>: Window ID (int)</li>
+<li><strong>Example</strong>: <code>win := glfw.create_window(800, 600, "My Window")</code></li>
+</ul>
+<h3 id="destroy_windowwindow"><code>destroy_window(window)</code></h3>
+<p>Destroys the specified window.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>window</code> - Window ID (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="window_should_closewindow"><code>window_should_close(window)</code></h3>
+<p>Checks if the window should close.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>window</code> - Window ID (int)</li>
+<li><strong>Returns</strong>: Boolean</li>
+</ul>
+<h3 id="set_window_should_closewindow-value"><code>set_window_should_close(window, value)</code></h3>
+<p>Sets the close flag for the window.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>value</code> - Boolean</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="get_window_sizewindow"><code>get_window_size(window)</code></h3>
+<p>Gets the window size.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>window</code> - Window ID (int)</li>
+<li><strong>Returns</strong>: Array <code>[width, height]</code></li>
+<li><strong>Example</strong>: <code>w, h := glfw.get_window_size(win)</code></li>
+</ul>
+<h3 id="set_window_sizewindow-width-height"><code>set_window_size(window, width, height)</code></h3>
+<p>Sets the window size.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>width</code> - New width (int)</li>
+<li><code>height</code> - New height (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="get_framebuffer_sizewindow"><code>get_framebuffer_size(window)</code></h3>
+<p>Gets the framebuffer size (useful for OpenGL viewport).</p>
+<ul>
+<li><strong>Parameters</strong>: <code>window</code> - Window ID (int)</li>
+<li><strong>Returns</strong>: Array <code>[width, height]</code></li>
+<li><strong>Example</strong>: <code>w, h := glfw.get_framebuffer_size(win)</code></li>
+</ul>
+<h3 id="get_window_poswindow"><code>get_window_pos(window)</code></h3>
+<p>Gets the window position.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>window</code> - Window ID (int)</li>
+<li><strong>Returns</strong>: Array <code>[x, y]</code></li>
+</ul>
+<h3 id="set_window_poswindow-x-y"><code>set_window_pos(window, x, y)</code></h3>
+<p>Sets the window position.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>x</code>, <code>y</code> - Position (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_window_titlewindow-title"><code>set_window_title(window, title)</code></h3>
+<p>Sets the window title.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>title</code> - New title (string)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="iconify_windowwindow"><code>iconify_window(window)</code></h3>
+<p>Iconifies (minimizes) the window.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>window</code> - Window ID (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="restore_windowwindow"><code>restore_window(window)</code></h3>
+<p>Restores the window from iconified or maximized state.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>window</code> - Window ID (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="maximize_windowwindow"><code>maximize_window(window)</code></h3>
+<p>Maximizes the window.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>window</code> - Window ID (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="show_windowwindow"><code>show_window(window)</code></h3>
+<p>Shows the window.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>window</code> - Window ID (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="hide_windowwindow"><code>hide_window(window)</code></h3>
+<p>Hides the window.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>window</code> - Window ID (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="focus_windowwindow"><code>focus_window(window)</code></h3>
+<p>Brings the window to focus.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>window</code> - Window ID (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="request_window_attentionwindow"><code>request_window_attention(window)</code></h3>
+<p>Requests user attention for the window (flashes taskbar entry).</p>
+<ul>
+<li><strong>Parameters</strong>: <code>window</code> - Window ID (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="get_window_monitorwindow"><code>get_window_monitor(window)</code></h3>
+<p>Gets the monitor the window is on.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>window</code> - Window ID (int)</li>
+<li><strong>Returns</strong>: Monitor ID (int) or <code>null</code> if window is windowed</li>
+</ul>
+<h3 id="set_window_monitorwindow-monitor-xpos-ypos-width-height-refreshrate"><code>set_window_monitor(window, monitor, xpos, ypos, width, height, refreshRate)</code></h3>
+<p>Sets the monitor for the window. If monitor is 0, the window becomes windowed.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>monitor</code> - Monitor ID (int) or 0 for windowed</li>
+<li><code>xpos</code>, <code>ypos</code> - Position (int)</li>
+<li><code>width</code>, <code>height</code> - Size (int)</li>
+<li><code>refreshRate</code> - Refresh rate (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="get_window_attribwindow-attrib"><code>get_window_attrib(window, attrib)</code></h3>
+<p>Gets a window attribute.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>attrib</code> - Attribute hint constant</li>
+<li><strong>Returns</strong>: Integer value</li>
+</ul>
+<h3 id="set_window_attribwindow-attrib-value"><code>set_window_attrib(window, attrib, value)</code></h3>
+<p>Sets a window attribute.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>attrib</code> - Attribute hint constant</li>
+<li><code>value</code> - Value (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="get_window_content_scalewindow"><code>get_window_content_scale(window)</code></h3>
+<p>Gets the content scale of the window.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>window</code> - Window ID (int)</li>
+<li><strong>Returns</strong>: Array <code>[xscale, yscale]</code></li>
+</ul>
+<h3 id="get_window_opacitywindow"><code>get_window_opacity(window)</code></h3>
+<p>Gets the window opacity.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>window</code> - Window ID (int)</li>
+<li><strong>Returns</strong>: Float (0.0 - 1.0)</li>
+</ul>
+<h3 id="set_window_opacitywindow-opacity"><code>set_window_opacity(window, opacity)</code></h3>
+<p>Sets the window opacity.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>opacity</code> - Opacity value (float, 0.0 - 1.0)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_window_size_limitswindow-minw-minh-maxw-maxh"><code>set_window_size_limits(window, minw, minh, maxw, maxh)</code></h3>
+<p>Sets the window size limits. Use 0 for no limit.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>minw</code>, <code>minh</code> - Minimum size (int)</li>
+<li><code>maxw</code>, <code>maxh</code> - Maximum size (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_window_aspect_ratiowindow-numer-denom"><code>set_window_aspect_ratio(window, numer, denom)</code></h3>
+<p>Sets the window aspect ratio constraint.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>numer</code>, <code>denom</code> - Aspect ratio numerator and denominator (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_window_iconwindow-icon"><code>set_window_icon(window, icon)</code></h3>
+<p>Sets the window icon. Currently only supports <code>null</code> to clear the icon.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>icon</code> - <code>null</code> to clear, or image data (not yet implemented)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="context-management">Context Management</h2>
+<h3 id="make_context_currentwindow"><code>make_context_current(window)</code></h3>
+<p>Makes the window's OpenGL context current.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>window</code> - Window ID (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>glfw.make_context_current(win)</code></li>
+</ul>
+<h3 id="get_current_context"><code>get_current_context()</code></h3>
+<p>Gets the window with the current OpenGL context.</p>
+<ul>
+<li><strong>Returns</strong>: Window ID (int) or <code>null</code></li>
+</ul>
+<h3 id="swap_bufferswindow"><code>swap_buffers(window)</code></h3>
+<p>Swaps the front and back buffers.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>window</code> - Window ID (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="swap_intervalinterval"><code>swap_interval(interval)</code></h3>
+<p>Sets the swap interval (V-Sync).</p>
+<ul>
+<li><strong>Parameters</strong>: <code>interval</code> - 0 for V-Sync off, 1 for V-Sync on</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="window-hints">Window Hints</h2>
+<h3 id="window_hinthint-value"><code>window_hint(hint, value)</code></h3>
+<p>Sets a window hint before creating the window.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>hint</code> - Hint constant</li>
+<li><code>value</code> - Value (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  glfw.window_hint(glfw.RESIZABLE, 0)
+  glfw.window_hint(glfw.CONTEXT_VERSION_MAJOR, 3)
+  glfw.window_hint(glfw.CONTEXT_VERSION_MINOR, 3)
+  glfw.window_hint(glfw.OPENGL_PROFILE, glfw.OPENGL_CORE_PROFILE)</code></li>
+</ul>
+<h3 id="default_window_hints"><code>default_window_hints()</code></h3>
+<p>Resets all window hints to their default values.</p>
+<ul>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="window-hint-constants">Window Hint Constants</h3>
+<h4 id="window-behavior">Window Behavior</h4>
+<ul>
+<li><code>glfw.RESIZABLE</code></li>
+<li><code>glfw.VISIBLE</code></li>
+<li><code>glfw.DECORATED</code></li>
+<li><code>glfw.FOCUSED</code></li>
+<li><code>glfw.MAXIMIZED</code></li>
+<li><code>glfw.FLOATING</code></li>
+<li><code>glfw.FOCUS_ON_SHOW</code></li>
+<li><code>glfw.TRANSPARENT_FRAMEBUFFER</code></li>
+<li><code>glfw.CENTER_CURSOR</code></li>
+<li><code>glfw.SCALE_TO_MONITOR</code></li>
+</ul>
+<h4 id="opengl-context">OpenGL Context</h4>
+<ul>
+<li><code>glfw.CONTEXT_VERSION_MAJOR</code></li>
+<li><code>glfw.CONTEXT_VERSION_MINOR</code></li>
+<li><code>glfw.OPENGL_PROFILE</code></li>
+<li><code>glfw.OPENGL_CORE_PROFILE</code></li>
+<li><code>glfw.OPENGL_COMPAT_PROFILE</code></li>
+<li><code>glfw.DOUBLEBUFFER</code></li>
+</ul>
+<h4 id="framebuffer">Framebuffer</h4>
+<ul>
+<li><code>glfw.SAMPLES</code> (MSAA)</li>
+<li><code>glfw.REFRESH_RATE</code></li>
+<li><code>glfw.STEREO</code></li>
+<li><code>glfw.SRGB_CAPABLE</code></li>
+<li><code>glfw.RED_BITS</code></li>
+<li><code>glfw.GREEN_BITS</code></li>
+<li><code>glfw.BLUE_BITS</code></li>
+<li><code>glfw.ALPHA_BITS</code></li>
+<li><code>glfw.DEPTH_BITS</code></li>
+<li><code>glfw.STENCIL_BITS</code></li>
+<li><code>glfw.ACCUM_RED_BITS</code></li>
+<li><code>glfw.ACCUM_GREEN_BITS</code></li>
+<li><code>glfw.ACCUM_BLUE_BITS</code></li>
+<li><code>glfw.ACCUM_ALPHA_BITS</code></li>
+<li><code>glfw.AUX_BUFFERS</code></li>
+</ul>
+<hr />
+<h2 id="input-handling">Input Handling</h2>
+<h3 id="keyboard">Keyboard</h3>
+<h4 id="get_keywindow-key"><code>get_key(window, key)</code></h4>
+<p>Gets the state of a key.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>key</code> - Key constant</li>
+<li><strong>Returns</strong>: Action constant (<code>glfw.PRESS</code>, <code>glfw.RELEASE</code>, or <code>glfw.REPEAT</code>)</li>
+<li><strong>Example</strong>: <code>state := glfw.get_key(win, glfw.KEY_ESCAPE)</code></li>
+</ul>
+<h4 id="get_key_namekey-scancode"><code>get_key_name(key, scancode)</code></h4>
+<p>Gets the name of a key.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>key</code> - Key constant</li>
+<li><code>scancode</code> - Scan code (int)</li>
+<li><strong>Returns</strong>: Key name (string) or <code>null</code></li>
+</ul>
+<h4 id="get_key_scancodekey"><code>get_key_scancode(key)</code></h4>
+<p>Gets the platform-specific scan code for a key.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>key</code> - Key constant</li>
+<li><strong>Returns</strong>: Scan code (int)</li>
+</ul>
+<h4 id="key-constants">Key Constants</h4>
+<p><strong>Alphanumeric:</strong>
+- <code>glfw.KEY_A</code> through <code>glfw.KEY_Z</code>
+- <code>glfw.KEY_0</code> through <code>glfw.KEY_9</code></p>
+<p><strong>Function Keys:</strong>
+- <code>glfw.KEY_F1</code> through <code>glfw.KEY_F12</code></p>
+<p><strong>Navigation:</strong>
+- <code>glfw.KEY_UP</code>, <code>glfw.KEY_DOWN</code>, <code>glfw.KEY_LEFT</code>, <code>glfw.KEY_RIGHT</code>
+- <code>glfw.KEY_HOME</code>, <code>glfw.KEY_END</code>, <code>glfw.KEY_PAGE_UP</code>, <code>glfw.KEY_PAGE_DOWN</code></p>
+<p><strong>Modifiers:</strong>
+- <code>glfw.KEY_LEFT_SHIFT</code>, <code>glfw.KEY_RIGHT_SHIFT</code>
+- <code>glfw.KEY_LEFT_CONTROL</code>, <code>glfw.KEY_RIGHT_CONTROL</code>
+- <code>glfw.KEY_LEFT_ALT</code>, <code>glfw.KEY_RIGHT_ALT</code></p>
+<p><strong>Other:</strong>
+- <code>glfw.KEY_ESCAPE</code>, <code>glfw.KEY_ENTER</code>, <code>glfw.KEY_SPACE</code>, <code>glfw.KEY_TAB</code>
+- <code>glfw.KEY_BACKSPACE</code>, <code>glfw.KEY_DELETE</code>, <code>glfw.KEY_INSERT</code>
+- <code>glfw.KEY_PRINT_SCREEN</code>, <code>glfw.KEY_PAUSE</code>
+- <code>glfw.KEY_CAPS_LOCK</code>, <code>glfw.KEY_SCROLL_LOCK</code>, <code>glfw.KEY_NUM_LOCK</code>
+- <code>glfw.KEY_GRAVE_ACCENT</code>, <code>glfw.KEY_WORLD_1</code>, <code>glfw.KEY_WORLD_2</code>
+- <code>glfw.KEY_MENU</code></p>
+<h4 id="key-actions">Key Actions</h4>
+<ul>
+<li><code>glfw.PRESS</code></li>
+<li><code>glfw.RELEASE</code></li>
+<li><code>glfw.REPEAT</code></li>
+</ul>
+<h3 id="mouse">Mouse</h3>
+<h4 id="get_mouse_buttonwindow-button"><code>get_mouse_button(window, button)</code></h4>
+<p>Gets the state of a mouse button.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>button</code> - Mouse button constant</li>
+<li><strong>Returns</strong>: Action constant (<code>glfw.PRESS</code> or <code>glfw.RELEASE</code>)</li>
+</ul>
+<h4 id="get_cursor_poswindow"><code>get_cursor_pos(window)</code></h4>
+<p>Gets the cursor position.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>window</code> - Window ID (int)</li>
+<li><strong>Returns</strong>: Array <code>[x, y]</code> (float)</li>
+</ul>
+<h4 id="set_cursor_poswindow-x-y"><code>set_cursor_pos(window, x, y)</code></h4>
+<p>Sets the cursor position.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>x</code>, <code>y</code> - Position (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h4 id="get_input_modewindow-mode"><code>get_input_mode(window, mode)</code></h4>
+<p>Gets the input mode.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>mode</code> - Input mode constant</li>
+<li><strong>Returns</strong>: Value (int)</li>
+</ul>
+<h4 id="set_input_modewindow-mode-value"><code>set_input_mode(window, mode, value)</code></h4>
+<p>Sets the input mode.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>mode</code> - Input mode constant</li>
+<li><code>value</code> - Value (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>glfw.set_input_mode(win, glfw.CURSOR, glfw.CURSOR_DISABLED)</code></li>
+</ul>
+<h4 id="mouse-button-constants">Mouse Button Constants</h4>
+<ul>
+<li><code>glfw.MOUSE_BUTTON_LEFT</code></li>
+<li><code>glfw.MOUSE_BUTTON_RIGHT</code></li>
+<li><code>glfw.MOUSE_BUTTON_MIDDLE</code></li>
+<li><code>glfw.MOUSE_BUTTON_4</code> through <code>glfw.MOUSE_BUTTON_8</code></li>
+</ul>
+<h4 id="cursor-mode-constants">Cursor Mode Constants</h4>
+<ul>
+<li><code>glfw.CURSOR_NORMAL</code> - Normal cursor operation</li>
+<li><code>glfw.CURSOR_HIDDEN</code> - Cursor is hidden</li>
+<li><code>glfw.CURSOR_DISABLED</code> - Cursor is hidden and locked</li>
+</ul>
+<h4 id="input-mode-constants">Input Mode Constants</h4>
+<ul>
+<li><code>glfw.CURSOR</code> - Cursor mode</li>
+<li><code>glfw.LOCK_KEY_MODS</code> - Lock key modifier detection</li>
+<li><code>glfw.RAW_MOUSE_MOTION</code> - Raw mouse motion</li>
+</ul>
+<hr />
+<h2 id="cursors">Cursors</h2>
+<h3 id="create_standard_cursorshape"><code>create_standard_cursor(shape)</code></h3>
+<p>Creates a standard system cursor.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>shape</code> - Cursor shape constant</li>
+<li><strong>Returns</strong>: Cursor ID (int) or <code>null</code></li>
+<li><strong>Example</strong>: <code>cursor := glfw.create_standard_cursor(glfw.CURSOR_HAND)</code></li>
+</ul>
+<h3 id="destroy_cursorcursor"><code>destroy_cursor(cursor)</code></h3>
+<p>Destroys a cursor.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>cursor</code> - Cursor ID (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_window_cursorwindow-cursor"><code>set_window_cursor(window, cursor)</code></h3>
+<p>Sets the cursor for a window.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>cursor</code> - Cursor ID (int) or 0 for default</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="cursor-shape-constants">Cursor Shape Constants</h3>
+<ul>
+<li><code>glfw.CURSOR_ARROW</code></li>
+<li><code>glfw.CURSOR_IBEAM</code></li>
+<li><code>glfw.CURSOR_CROSSHAIR</code></li>
+<li><code>glfw.CURSOR_HAND</code></li>
+<li><code>glfw.CURSOR_HRESIZE</code></li>
+<li><code>glfw.CURSOR_VRESIZE</code></li>
+</ul>
+<hr />
+<h2 id="modifier-keys">Modifier Keys</h2>
+<h3 id="modifier-constants">Modifier Constants</h3>
+<ul>
+<li><code>glfw.MOD_SHIFT</code></li>
+<li><code>glfw.MOD_CONTROL</code></li>
+<li><code>glfw.MOD_ALT</code></li>
+<li><code>glfw.MOD_SUPER</code></li>
+<li><code>glfw.MOD_CAPS_LOCK</code></li>
+<li><code>glfw.MOD_NUM_LOCK</code></li>
+</ul>
+<hr />
+<h2 id="monitors">Monitors</h2>
+<h3 id="get_primary_monitor"><code>get_primary_monitor()</code></h3>
+<p>Gets the primary monitor.</p>
+<ul>
+<li><strong>Returns</strong>: Monitor ID (int) or <code>null</code></li>
+</ul>
+<h3 id="get_monitor_posmonitor"><code>get_monitor_pos(monitor)</code></h3>
+<p>Gets the monitor position.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>monitor</code> - Monitor ID (int)</li>
+<li><strong>Returns</strong>: Array <code>[x, y]</code></li>
+</ul>
+<h3 id="get_monitor_namemonitor"><code>get_monitor_name(monitor)</code></h3>
+<p>Gets the monitor name.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>monitor</code> - Monitor ID (int)</li>
+<li><strong>Returns</strong>: Monitor name (string)</li>
+</ul>
+<h3 id="get_video_modemonitor"><code>get_video_mode(monitor)</code></h3>
+<p>Gets the current video mode of the monitor.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>monitor</code> - Monitor ID (int)</li>
+<li><strong>Returns</strong>: Map with <code>width</code>, <code>height</code>, <code>refresh_rate</code></li>
+</ul>
+<h3 id="get_monitor_video_modesmonitor"><code>get_monitor_video_modes(monitor)</code></h3>
+<p>Gets all available video modes for the monitor.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>monitor</code> - Monitor ID (int)</li>
+<li><strong>Returns</strong>: Array of video mode maps</li>
+</ul>
+<h3 id="get_monitor_physical_sizemonitor"><code>get_monitor_physical_size(monitor)</code></h3>
+<p>Gets the physical size of the monitor in millimeters.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>monitor</code> - Monitor ID (int)</li>
+<li><strong>Returns</strong>: Array <code>[width, height]</code></li>
+</ul>
+<h3 id="get_monitor_workareamonitor"><code>get_monitor_workarea(monitor)</code></h3>
+<p>Gets the work area of the monitor (excluding taskbars).</p>
+<ul>
+<li><strong>Parameters</strong>: <code>monitor</code> - Monitor ID (int)</li>
+<li><strong>Returns</strong>: Array <code>[x, y, width, height]</code></li>
+</ul>
+<h3 id="get_monitor_gamma_rampmonitor"><code>get_monitor_gamma_ramp(monitor)</code></h3>
+<p>Gets the current gamma ramp of the monitor.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>monitor</code> - Monitor ID (int)</li>
+<li><strong>Returns</strong>: Map with <code>red</code>, <code>green</code>, <code>blue</code> arrays</li>
+</ul>
+<h3 id="set_monitor_gamma_rampmonitor-ramp"><code>set_monitor_gamma_ramp(monitor, ramp)</code></h3>
+<p>Sets the gamma ramp of the monitor.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>monitor</code> - Monitor ID (int)</li>
+<li><code>ramp</code> - Map with <code>red</code>, <code>green</code>, <code>blue</code> arrays (uint16 values)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_monitor_gammamonitor-gamma"><code>set_monitor_gamma(monitor, gamma)</code></h3>
+<p>Sets the gamma of the monitor using a generated ramp.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>monitor</code> - Monitor ID (int)</li>
+<li><code>gamma</code> - Gamma value (float)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="joysticks-gamepads">Joysticks &amp; Gamepads</h2>
+<h3 id="joystick-constants">Joystick Constants</h3>
+<ul>
+<li><code>glfw.JOYSTICK_1</code> through <code>glfw.JOYSTICK_16</code></li>
+</ul>
+<h3 id="joystick-states">Joystick States</h3>
+<ul>
+<li><code>glfw.CONNECTED</code></li>
+<li><code>glfw.DISCONNECTED</code></li>
+</ul>
+<h3 id="joystick-functions">Joystick Functions</h3>
+<h4 id="joystick_presentjid"><code>joystick_present(jid)</code></h4>
+<p>Checks if a joystick is present.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>jid</code> - Joystick ID (int)</li>
+<li><strong>Returns</strong>: Boolean</li>
+</ul>
+<h4 id="joystick_get_namejid"><code>joystick_get_name(jid)</code></h4>
+<p>Gets the joystick name.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>jid</code> - Joystick ID (int)</li>
+<li><strong>Returns</strong>: Name (string) or <code>null</code></li>
+</ul>
+<h4 id="joystick_is_gamepadjid"><code>joystick_is_gamepad(jid)</code></h4>
+<p>Checks if the joystick is a gamepad.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>jid</code> - Joystick ID (int)</li>
+<li><strong>Returns</strong>: Boolean</li>
+</ul>
+<h4 id="joystick_get_gamepad_namejid"><code>joystick_get_gamepad_name(jid)</code></h4>
+<p>Gets the gamepad name.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>jid</code> - Joystick ID (int)</li>
+<li><strong>Returns</strong>: Name (string) or <code>null</code></li>
+</ul>
+<h4 id="joystick_get_gamepad_statejid"><code>joystick_get_gamepad_state(jid)</code></h4>
+<p>Gets the gamepad state.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>jid</code> - Joystick ID (int)</li>
+<li><strong>Returns</strong>: Map with <code>axes</code> and <code>buttons</code> arrays</li>
+</ul>
+<h4 id="joystick_get_axesjid"><code>joystick_get_axes(jid)</code></h4>
+<p>Gets the joystick axes.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>jid</code> - Joystick ID (int)</li>
+<li><strong>Returns</strong>: Array of float values</li>
+</ul>
+<h4 id="joystick_get_buttonsjid"><code>joystick_get_buttons(jid)</code></h4>
+<p>Gets the joystick button states.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>jid</code> - Joystick ID (int)</li>
+<li><strong>Returns</strong>: Array of button states (<code>glfw.PRESS</code> or <code>glfw.RELEASE</code>)</li>
+</ul>
+<h4 id="joystick_get_hatsjid"><code>joystick_get_hats(jid)</code></h4>
+<p>Gets the joystick hat states.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>jid</code> - Joystick ID (int)</li>
+<li><strong>Returns</strong>: Array of hat states</li>
+</ul>
+<h4 id="joystick_get_guidjid"><code>joystick_get_guid(jid)</code></h4>
+<p>Gets the joystick GUID.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>jid</code> - Joystick ID (int)</li>
+<li><strong>Returns</strong>: GUID (string) or <code>null</code></li>
+</ul>
+<h3 id="update_gamepad_mappingsmapping"><code>update_gamepad_mappings(mapping)</code></h3>
+<p>Updates the gamepad mappings from a string.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>mapping</code> - Gamepad mapping string</li>
+<li><strong>Returns</strong>: Boolean (success)</li>
+</ul>
+<hr />
+<h2 id="clipboard">Clipboard</h2>
+<h3 id="get_clipboard_string"><code>get_clipboard_string()</code></h3>
+<p>Gets the clipboard contents.</p>
+<ul>
+<li><strong>Returns</strong>: String</li>
+</ul>
+<h3 id="set_clipboard_stringstr"><code>set_clipboard_string(str)</code></h3>
+<p>Sets the clipboard contents.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>str</code> - String to set</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="vulkan">Vulkan</h2>
+<h3 id="vulkan_supported"><code>vulkan_supported()</code></h3>
+<p>Checks if Vulkan is supported.</p>
+<ul>
+<li><strong>Returns</strong>: Boolean</li>
+</ul>
+<h3 id="raw_mouse_motion_supported"><code>raw_mouse_motion_supported()</code></h3>
+<p>Checks if raw mouse motion is supported.</p>
+<ul>
+<li><strong>Returns</strong>: Boolean</li>
+</ul>
+<hr />
+<h2 id="callbacks">Callbacks</h2>
+<p>All callback functions accept a callable as their last argument. The callable will be invoked when the event occurs. Callbacks are optional - pass <code>null</code> to remove an existing callback.</p>
+<h3 id="set_window_size_callbackwindow-callback"><code>set_window_size_callback(window, callback)</code></h3>
+<p>Called when the window size changes.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>callback</code> - Function <code>func(width, height)</code> or <code>null</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_framebuffer_size_callbackwindow-callback"><code>set_framebuffer_size_callback(window, callback)</code></h3>
+<p>Called when the framebuffer size changes.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>callback</code> - Function <code>func(width, height)</code> or <code>null</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_window_close_callbackwindow-callback"><code>set_window_close_callback(window, callback)</code></h3>
+<p>Called when the user attempts to close the window.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>callback</code> - Function <code>func()</code> or <code>null</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_key_callbackwindow-callback"><code>set_key_callback(window, callback)</code></h3>
+<p>Called when a key is pressed, released, or repeated.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>callback</code> - Function <code>func(key, scancode, action, mods)</code> or <code>null</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_char_callbackwindow-callback"><code>set_char_callback(window, callback)</code></h3>
+<p>Called when a character is typed.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>callback</code> - Function <code>func(char)</code> or <code>null</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_mouse_button_callbackwindow-callback"><code>set_mouse_button_callback(window, callback)</code></h3>
+<p>Called when a mouse button is pressed or released.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>callback</code> - Function <code>func(button, action, mods)</code> or <code>null</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_cursor_pos_callbackwindow-callback"><code>set_cursor_pos_callback(window, callback)</code></h3>
+<p>Called when the cursor moves.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>callback</code> - Function <code>func(x, y)</code> or <code>null</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_cursor_enter_callbackwindow-callback"><code>set_cursor_enter_callback(window, callback)</code></h3>
+<p>Called when the cursor enters or leaves the window.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>callback</code> - Function <code>func(entered)</code> or <code>null</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_scroll_callbackwindow-callback"><code>set_scroll_callback(window, callback)</code></h3>
+<p>Called when the mouse scroll wheel is used.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>callback</code> - Function <code>func(xoffset, yoffset)</code> or <code>null</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_joystick_callbackcallback"><code>set_joystick_callback(callback)</code></h3>
+<p>Called when a joystick connects or disconnects.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>callback</code> - Function <code>func(jid, event)</code> or <code>null</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_drop_callbackwindow-callback"><code>set_drop_callback(window, callback)</code></h3>
+<p>Called when files are dropped onto the window.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>callback</code> - Function <code>func(paths)</code> or <code>null</code> (paths is an array of strings)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_focus_callbackwindow-callback"><code>set_focus_callback(window, callback)</code></h3>
+<p>Called when the window gains or loses focus.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>callback</code> - Function <code>func(focused)</code> or <code>null</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_iconify_callbackwindow-callback"><code>set_iconify_callback(window, callback)</code></h3>
+<p>Called when the window is iconified or restored.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>callback</code> - Function <code>func(iconified)</code> or <code>null</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_maximize_callbackwindow-callback"><code>set_maximize_callback(window, callback)</code></h3>
+<p>Called when the window is maximized or restored.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>callback</code> - Function <code>func(maximized)</code> or <code>null</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_content_scale_callbackwindow-callback"><code>set_content_scale_callback(window, callback)</code></h3>
+<p>Called when the window content scale changes.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>callback</code> - Function <code>func(xscale, yscale)</code> or <code>null</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_pos_callbackwindow-callback"><code>set_pos_callback(window, callback)</code></h3>
+<p>Called when the window position changes.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>callback</code> - Function <code>func(xpos, ypos)</code> or <code>null</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="set_refresh_callbackwindow-callback"><code>set_refresh_callback(window, callback)</code></h3>
+<p>Called when the window needs refreshing.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>window</code> - Window ID (int)</li>
+<li><code>callback</code> - Function <code>func()</code> or <code>null</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="complete-example">Complete Example</h2>
+<pre><code class="language-go">import &quot;gl&quot;
+import &quot;glfw&quot;
+
+glfw.init()
+gl.init()
+
+// Set OpenGL version hints (optional, for modern OpenGL)
+// For compatibility with fixed-function pipeline, use 2.1 or lower
+glfw.window_hint(glfw.CONTEXT_VERSION_MAJOR, 2)
+glfw.window_hint(glfw.CONTEXT_VERSION_MINOR, 1)
+
+window := glfw.create_window(400, 400, &quot;Tender Triangle Test (GLFW)&quot;)
+
+glfw.make_context_current(window)
+
+wh := glfw.get_window_size(window)
+width := wh[0]
+height := wh[1]
+gl.viewport(0, 0, width, height)
+
+gl.matrix_mode(gl.PROJECTION)
+gl.load_identity()
+gl.ortho(-1.0, 1.0, -1.0, 1.0, -1.0, 1.0)
+gl.matrix_mode(gl.MODELVIEW)
+gl.load_identity()
+
+glfw.set_key_callback(window, fn(key, scancode, action, mods){
+    println(&quot;Key: &quot; + key + &quot;, scancode: &quot; + scancode + &quot;, action: &quot; + action + &quot;, mods: &quot; + mods)
+    if key == glfw.KEY_ESCAPE &amp;&amp; action == glfw.PRESS {
+        glfw.set_window_should_close(window, 1)
+    }
+})
+
+glfw.set_window_size_callback(window, fn(w, h){
+    gl.viewport(0, 0, w, h)
+    println(&quot;Window resized to: &quot; + w + &quot;x&quot; + h)
+})
+
+glfw.set_mouse_button_callback(window, fn(button, action, mods){
+    if action == glfw.PRESS {
+        println(&quot;Mouse button &quot; + button + &quot; pressed&quot;)
+    }
+})
+
+for !glfw.window_should_close(window) {
+    gl.clear_color(0.0, 0.0, 0.0, 1.0)
+    gl.clear(gl.COLOR_BUFFER_BIT)
+    gl.load_identity()
+    gl.begin(gl.TRIANGLES)
+    gl.color3f(1.0, 0.0, 0.0) 
+    gl.vertex3f(0.0, 0.75, 0.0)
+    gl.color3f(0.0, 1.0, 0.0)
+    gl.vertex3f(-0.75, -0.75, 0.0)
+    gl.color3f(0.0, 0.0, 1.0) 
+    gl.vertex3f(0.75, -0.75, 0.0)
+    gl.end()
+    gl.flush()
+    glfw.swap_buffers(window)
+    glfw.poll_events()
+}
+
+glfw.destroy_window(window)
+glfw.terminate()
+</code></pre></div>
+            </div>
+        </div>
+
+        <footer class="col-md-12">
+            <hr>
+            <p>Documentation built with <a href="https://www.mkdocs.org/">MkDocs</a>.</p>
+        </footer>
+        <script src="../../js/bootstrap.bundle.min.js"></script>
+        <script>
+            var base_url = "../..",
+                shortcuts = {"help": 191, "next": 78, "previous": 80, "search": 83};
+        </script>
+        <script src="../../js/base.js"></script>
+        <script src="../../search/main.js"></script>
+
+        <div class="modal" id="mkdocs_search_modal" tabindex="-1" role="dialog" aria-labelledby="searchModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="searchModalLabel">Search</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>From here you can search these documents. Enter your search terms below.</p>
+                <form>
+                    <div class="form-group">
+                        <input type="search" class="form-control" placeholder="Search..." id="mkdocs-search-query" title="Type search term here">
+                    </div>
+                </form>
+                <div id="mkdocs-search-results" data-no-results-text="No results found"></div>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div><div class="modal" id="mkdocs_keyboard_modal" tabindex="-1" role="dialog" aria-labelledby="keyboardModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h4 class="modal-title" id="keyboardModalLabel">Keyboard Shortcuts</h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+              <table class="table">
+                <thead>
+                  <tr>
+                    <th style="width: 20%;">Keys</th>
+                    <th>Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td class="help shortcut"><kbd>?</kbd></td>
+                    <td>Open this help</td>
+                  </tr>
+                  <tr>
+                    <td class="next shortcut"><kbd>n</kbd></td>
+                    <td>Next page</td>
+                  </tr>
+                  <tr>
+                    <td class="prev shortcut"><kbd>p</kbd></td>
+                    <td>Previous page</td>
+                  </tr>
+                  <tr>
+                    <td class="search shortcut"><kbd>s</kbd></td>
+                    <td>Search</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+            <div class="modal-footer">
+            </div>
+        </div>
+    </div>
+</div>
+
+    </body>
+</html>

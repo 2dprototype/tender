@@ -98,6 +98,10 @@
 </li>
                                     
 <li>
+    <a href="../stdlib-glfw/" class="dropdown-item">Stdlib glfw</a>
+</li>
+                                    
+<li>
     <a href="../stdlib-glu/" class="dropdown-item">Stdlib glu</a>
 </li>
                                     
@@ -208,7 +212,7 @@
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../stdlib-glu/" class="nav-link">
+                                <a rel="next" href="../stdlib-glfw/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -332,7 +336,23 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#vertex-buffer-objects-vbo" class="nav-link">Vertex Buffer Objects (VBO)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#vertex-array-objects-vao" class="nav-link">Vertex Array Objects (VAO)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#framebuffers-fbo" class="nav-link">Framebuffers (FBO)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-bs-level="2"><a href="#display-lists" class="nav-link">Display Lists</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#shaders" class="nav-link">Shaders</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -352,11 +372,27 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#3d-model-loading-obj-mtl" class="nav-link">3D Model Loading (OBJ &amp; MTL)</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-bs-level="2"><a href="#constants-reference" class="nav-link">Constants Reference</a>
               <ul class="nav flex-column">
               </ul>
             </li>
             <li class="nav-item" data-bs-level="2"><a href="#complete-example" class="nav-link">Complete Example</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#advanced-example-shader-usage" class="nav-link">Advanced Example: Shader Usage</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#advanced-example-vbo-and-vao" class="nav-link">Advanced Example: VBO and VAO</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#advanced-example-model-loading-with-mtl" class="nav-link">Advanced Example: Model Loading with MTL</a>
               <ul class="nav flex-column">
               </ul>
             </li>
@@ -368,7 +404,7 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="stdlib-gl">Stdlib <code>gl</code></h1>
-<p>The <code>gl</code> module provides OpenGL bindings for 3D graphics rendering. It exposes a comprehensive set of OpenGL functions and constants for creating 3D applications with immediate mode rendering, display lists, vertex arrays, lighting, texturing, and more.</p>
+<p>The <code>gl</code> module provides OpenGL bindings for 3D graphics rendering. It exposes a comprehensive set of OpenGL functions and constants for creating 3D applications with immediate mode rendering, display lists, vertex arrays, lighting, texturing, shaders, vertex buffer objects, framebuffers, and 3D model loading.</p>
 <h2 id="initialization">Initialization</h2>
 <h3 id="init"><code>init()</code></h3>
 <p>Initializes OpenGL context.</p>
@@ -591,6 +627,16 @@
 <li><strong>Returns</strong>: <code>null</code></li>
 <li><strong>Example</strong>: <code>gl.blend_func(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)</code></li>
 </ul>
+<h3 id="blend_func_separatesrgb-drgb-salpha-dalpha"><code>blend_func_separate(srgb, drgb, salpha, dalpha)</code></h3>
+<p>Sets separate blending functions for RGB and alpha channels.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>srgb</code> - Source RGB blend factor</li>
+<li><code>drgb</code> - Destination RGB blend factor</li>
+<li><code>salpha</code> - Source Alpha blend factor</li>
+<li><code>dalpha</code> - Destination Alpha blend factor</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
 <h3 id="blend_equationmode"><code>blend_equation(mode)</code></h3>
 <p>Sets the blend equation.</p>
 <ul>
@@ -719,6 +765,15 @@
 <li><strong>Parameters</strong>: <code>mode</code> - <code>gl.FLAT</code> or <code>gl.SMOOTH</code></li>
 <li><strong>Returns</strong>: <code>null</code></li>
 </ul>
+<h3 id="color_materialface-mode"><code>color_material(face, mode)</code></h3>
+<p>Makes material colors track the current color.</p>
+<ul>
+<li><strong>Parameters</strong>: </li>
+<li><code>face</code> - <code>gl.FRONT</code>, <code>gl.BACK</code>, or <code>gl.FRONT_AND_BACK</code></li>
+<li><code>mode</code> - Which material parameters to track (<code>gl.AMBIENT</code>, <code>gl.DIFFUSE</code>, <code>gl.SPECULAR</code>, etc.)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.color_material(gl.FRONT_AND_BACK, gl.DIFFUSE)</code></li>
+</ul>
 <hr />
 <h2 id="hints">Hints</h2>
 <h3 id="hinttarget-mode"><code>hint(target, mode)</code></h3>
@@ -755,15 +810,6 @@
 <li><strong>Returns</strong>: <code>null</code></li>
 <li><strong>Example</strong>: <code>gl.materialfv(gl.FRONT_AND_BACK, gl.SPECULAR, 0.8, 0.8, 0.8, 1.0)</code></li>
 </ul>
-<h3 id="color_materialface-mode"><code>color_material(face, mode)</code></h3>
-<p>Makes material colors track the current color.</p>
-<ul>
-<li><strong>Parameters</strong>: </li>
-<li><code>face</code> - <code>gl.FRONT</code>, <code>gl.BACK</code>, or <code>gl.FRONT_AND_BACK</code></li>
-<li><code>mode</code> - Which material parameters to track (<code>gl.AMBIENT</code>, <code>gl.DIFFUSE</code>, <code>gl.SPECULAR</code>, etc.)</li>
-<li><strong>Returns</strong>: <code>null</code></li>
-<li><strong>Example</strong>: <code>gl.color_material(gl.FRONT_AND_BACK, gl.DIFFUSE)</code></li>
-</ul>
 <hr />
 <h2 id="fog">Fog</h2>
 <h3 id="fogfpname-param"><code>fogf(pname, param)</code></h3>
@@ -798,6 +844,13 @@
 <ul>
 <li><strong>Parameters</strong>: <code>textures</code> - Single texture ID or array of texture IDs</li>
 <li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="active_texturetexture"><code>active_texture(texture)</code></h3>
+<p>Selects which texture unit is active for subsequent texture operations.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>texture</code> - Texture unit constant (<code>gl.TEXTURE0</code>, <code>gl.TEXTURE1</code>, etc.)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.active_texture(gl.TEXTURE0)</code></li>
 </ul>
 <h3 id="tex_image1dtarget-level-internal_format-width-border-format-type-pixels"><code>tex_image1d(target, level, internal_format, width, border, format, type, pixels)</code></h3>
 <p>Sets 1D texture image data.</p>
@@ -923,6 +976,13 @@
 <p>Sets texture coordinate generation parameters.</p>
 <ul>
 <li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="load_texturepath"><code>load_texture(path)</code></h3>
+<p>Loads an image file as an OpenGL texture with automatic vertical flip and alpha handling.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>path</code> - Path to the image file (string)</li>
+<li><strong>Returns</strong>: Texture ID (int)</li>
+<li><strong>Example</strong>: <code>tex := gl.load_texture("texture.png")</code></li>
 </ul>
 <hr />
 <h2 id="pixel-operations">Pixel Operations</h2>
@@ -1050,6 +1110,105 @@
 <li><strong>Returns</strong>: <code>null</code></li>
 </ul>
 <hr />
+<h2 id="vertex-buffer-objects-vbo">Vertex Buffer Objects (VBO)</h2>
+<h3 id="gen_buffersn"><code>gen_buffers(n)</code></h3>
+<p>Generates buffer object names.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>n</code> - Number of buffers to generate (int)</li>
+<li><strong>Returns</strong>: Array of buffer IDs</li>
+<li><strong>Example</strong>: <code>buffers := gl.gen_buffers(1)</code></li>
+</ul>
+<h3 id="bind_buffertarget-buffer"><code>bind_buffer(target, buffer)</code></h3>
+<p>Binds a named buffer object.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>target</code> - <code>gl.ARRAY_BUFFER</code>, <code>gl.ELEMENT_ARRAY_BUFFER</code>, etc., <code>buffer</code> - Buffer ID</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="delete_buffersbuffers"><code>delete_buffers(buffers)</code></h3>
+<p>Deletes named buffer objects.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>buffers</code> - Single buffer ID or array of buffer IDs</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="buffer_datatarget-data-usage"><code>buffer_data(target, data, usage)</code></h3>
+<p>Uploads data to a buffer object.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>target</code> - Buffer target (<code>gl.ARRAY_BUFFER</code>, <code>gl.ELEMENT_ARRAY_BUFFER</code>)</li>
+<li><code>data</code> - Array of numbers to upload as float32 data</li>
+<li><code>usage</code> - <code>gl.STATIC_DRAW</code>, <code>gl.DYNAMIC_DRAW</code>, etc.</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>:
+  <code>go
+  vertices := [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0]
+  gl.buffer_data(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW)</code></li>
+</ul>
+<hr />
+<h2 id="vertex-array-objects-vao">Vertex Array Objects (VAO)</h2>
+<h3 id="gen_vertex_arraysn"><code>gen_vertex_arrays(n)</code></h3>
+<p>Generates vertex array object names.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>n</code> - Number of VAOs to generate (int)</li>
+<li><strong>Returns</strong>: Array of VAO IDs</li>
+<li><strong>Example</strong>: <code>vaos := gl.gen_vertex_arrays(1)</code></li>
+</ul>
+<h3 id="bind_vertex_arrayarray"><code>bind_vertex_array(array)</code></h3>
+<p>Binds a named vertex array object.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>array</code> - VAO ID</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="delete_vertex_arraysarrays"><code>delete_vertex_arrays(arrays)</code></h3>
+<p>Deletes named vertex array objects.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>arrays</code> - Single VAO ID or array of VAO IDs</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="enable_vertex_attrib_arrayindex"><code>enable_vertex_attrib_array(index)</code></h3>
+<p>Enables a vertex attribute array.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>index</code> - Attribute index (uint)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="vertex_attrib_pointerindex-size-type-normalized-stride-offset"><code>vertex_attrib_pointer(index, size, type, normalized, stride, offset)</code></h3>
+<p>Specifies the layout of a vertex attribute.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>index</code> - Attribute index (uint)</li>
+<li><code>size</code> - Number of components (int)</li>
+<li><code>type</code> - Data type (<code>gl.FLOAT</code>, etc.)</li>
+<li><code>normalized</code> - Whether to normalize (bool)</li>
+<li><code>stride</code> - Stride between attributes (int)</li>
+<li><code>offset</code> - Offset into the buffer (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="framebuffers-fbo">Framebuffers (FBO)</h2>
+<h3 id="gen_framebuffersn"><code>gen_framebuffers(n)</code></h3>
+<p>Generates framebuffer object names.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>n</code> - Number of framebuffers to generate (int)</li>
+<li><strong>Returns</strong>: Array of FBO IDs</li>
+<li><strong>Example</strong>: <code>fbos := gl.gen_framebuffers(1)</code></li>
+</ul>
+<h3 id="bind_framebuffertarget-framebuffer"><code>bind_framebuffer(target, framebuffer)</code></h3>
+<p>Binds a named framebuffer object.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>target</code> - <code>gl.FRAMEBUFFER</code>, <code>framebuffer</code> - FBO ID</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="framebuffer_texture2dtarget-attachment-textarget-texture-level"><code>framebuffer_texture2d(target, attachment, textarget, texture, level)</code></h3>
+<p>Attaches a texture to a framebuffer.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>target</code> - <code>gl.FRAMEBUFFER</code></li>
+<li><code>attachment</code> - <code>gl.COLOR_ATTACHMENT0</code>, etc.</li>
+<li><code>textarget</code> - Texture target (<code>gl.TEXTURE_2D</code>, etc.)</li>
+<li><code>texture</code> - Texture ID</li>
+<li><code>level</code> - Mipmap level (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
 <h2 id="display-lists">Display Lists</h2>
 <h3 id="gen_listsrange"><code>gen_lists(range)</code></h3>
 <p>Generates display list names.</p>
@@ -1078,6 +1237,127 @@
 <p>Deletes display lists.</p>
 <ul>
 <li><strong>Parameters</strong>: <code>list</code> - Starting display list ID (uint), <code>range</code> - Number of lists to delete (int)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<hr />
+<h2 id="shaders">Shaders</h2>
+<h3 id="shader-constants">Shader Constants</h3>
+<ul>
+<li><code>gl.VERTEX_SHADER</code></li>
+<li><code>gl.FRAGMENT_SHADER</code></li>
+<li><code>gl.COMPILE_STATUS</code></li>
+<li><code>gl.LINK_STATUS</code></li>
+<li><code>gl.INFO_LOG_LENGTH</code></li>
+</ul>
+<h3 id="create_shadertype"><code>create_shader(type)</code></h3>
+<p>Creates a shader object.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>type</code> - <code>gl.VERTEX_SHADER</code> or <code>gl.FRAGMENT_SHADER</code></li>
+<li><strong>Returns</strong>: Shader ID (int)</li>
+<li><strong>Example</strong>: <code>shader := gl.create_shader(gl.VERTEX_SHADER)</code></li>
+</ul>
+<h3 id="shader_sourceshader-source"><code>shader_source(shader, source)</code></h3>
+<p>Sets the source code for a shader.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>shader</code> - Shader ID, <code>source</code> - Shader source code (string)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="compile_shadershader"><code>compile_shader(shader)</code></h3>
+<p>Compiles a shader.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>shader</code> - Shader ID</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="get_shader_ivshader-pname"><code>get_shader_iv(shader, pname)</code></h3>
+<p>Queries a shader parameter.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>shader</code> - Shader ID, <code>pname</code> - Parameter name</li>
+<li><strong>Returns</strong>: Parameter value (int)</li>
+</ul>
+<h3 id="get_shader_info_logshader"><code>get_shader_info_log(shader)</code></h3>
+<p>Retrieves the shader compilation log.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>shader</code> - Shader ID</li>
+<li><strong>Returns</strong>: Info log (string)</li>
+</ul>
+<h3 id="create_program"><code>create_program()</code></h3>
+<p>Creates a program object.</p>
+<ul>
+<li><strong>Returns</strong>: Program ID (int)</li>
+<li><strong>Example</strong>: <code>program := gl.create_program()</code></li>
+</ul>
+<h3 id="attach_shaderprogram-shader"><code>attach_shader(program, shader)</code></h3>
+<p>Attaches a shader to a program.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>program</code> - Program ID, <code>shader</code> - Shader ID</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="link_programprogram"><code>link_program(program)</code></h3>
+<p>Links a program.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>program</code> - Program ID</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="use_programprogram"><code>use_program(program)</code></h3>
+<p>Installs a program object as part of current rendering state.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>program</code> - Program ID</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="delete_shadershader"><code>delete_shader(shader)</code></h3>
+<p>Deletes a shader object.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>shader</code> - Shader ID</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="delete_programprogram"><code>delete_program(program)</code></h3>
+<p>Deletes a program object.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>program</code> - Program ID</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="get_program_ivprogram-pname"><code>get_program_iv(program, pname)</code></h3>
+<p>Queries a program parameter.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>program</code> - Program ID, <code>pname</code> - Parameter name</li>
+<li><strong>Returns</strong>: Parameter value (int)</li>
+</ul>
+<h3 id="get_program_info_logprogram"><code>get_program_info_log(program)</code></h3>
+<p>Retrieves the program linking log.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>program</code> - Program ID</li>
+<li><strong>Returns</strong>: Info log (string)</li>
+</ul>
+<h3 id="get_uniform_locationprogram-name"><code>get_uniform_location(program, name)</code></h3>
+<p>Returns the location of a uniform variable.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>program</code> - Program ID, <code>name</code> - Uniform name (string)</li>
+<li><strong>Returns</strong>: Uniform location (int) or -1 if not found</li>
+</ul>
+<h3 id="get_attrib_locationprogram-name"><code>get_attrib_location(program, name)</code></h3>
+<p>Returns the location of an attribute variable.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>program</code> - Program ID, <code>name</code> - Attribute name (string)</li>
+<li><strong>Returns</strong>: Attribute location (int) or -1 if not found</li>
+</ul>
+<h3 id="uniform1flocation-value"><code>uniform1f(location, value)</code></h3>
+<h3 id="uniform1ilocation-value"><code>uniform1i(location, value)</code></h3>
+<h3 id="uniform2flocation-v0-v1"><code>uniform2f(location, v0, v1)</code></h3>
+<h3 id="uniform3flocation-v0-v1-v2"><code>uniform3f(location, v0, v1, v2)</code></h3>
+<h3 id="uniform4flocation-v0-v1-v2-v3"><code>uniform4f(location, v0, v1, v2, v3)</code></h3>
+<p>Sets the value of a uniform variable.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>location</code> - Uniform location, value(s)</li>
+<li><strong>Returns</strong>: <code>null</code></li>
+</ul>
+<h3 id="uniform_matrix4fvlocation-count-transpose-matrix"><code>uniform_matrix4fv(location, count, transpose, matrix)</code></h3>
+<p>Sets a 4x4 matrix uniform.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>location</code> - Uniform location</li>
+<li><code>count</code> - Number of matrices (int)</li>
+<li><code>transpose</code> - Whether to transpose (bool)</li>
+<li><code>matrix</code> - Array of 16 float values</li>
 <li><strong>Returns</strong>: <code>null</code></li>
 </ul>
 <hr />
@@ -1138,6 +1418,38 @@
 <li><strong>Returns</strong>: Previous render mode (int)</li>
 </ul>
 <hr />
+<h2 id="3d-model-loading-obj-mtl">3D Model Loading (OBJ &amp; MTL)</h2>
+<h3 id="load_objpath"><code>load_obj(path)</code></h3>
+<p>Loads a Wavefront OBJ file and compiles it into a display list for fast rendering.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>path</code> - Path to the OBJ file (string)</li>
+<li><strong>Returns</strong>: Display list ID (int)</li>
+<li><strong>Example</strong>: <code>model := gl.load_obj("model.obj")</code></li>
+</ul>
+<h3 id="load_obj_with_mtlobj_path-mtl_path"><code>load_obj_with_mtl(obj_path, mtl_path)</code></h3>
+<p>Loads a Wavefront OBJ file with an accompanying MTL material file, including texture mapping support.</p>
+<ul>
+<li><strong>Parameters</strong>:</li>
+<li><code>obj_path</code> - Path to the OBJ file (string)</li>
+<li><code>mtl_path</code> - Path to the MTL file (string)</li>
+<li><strong>Returns</strong>: Display list ID (int)</li>
+<li><strong>Example</strong>: <code>model := gl.load_obj_with_mtl("model.obj", "model.mtl")</code></li>
+</ul>
+<h3 id="parse_objdata"><code>parse_obj(data)</code></h3>
+<p>Parses OBJ data from a string and compiles it into a display list.</p>
+<ul>
+<li><strong>Parameters</strong>: <code>data</code> - OBJ file contents as string</li>
+<li><strong>Returns</strong>: Display list ID (int)</li>
+<li><strong>Example</strong>: <code>model := gl.parse_obj(obj_string)</code></li>
+</ul>
+<h3 id="draw_objlist"><code>draw_obj(list)</code></h3>
+<p>Renders a compiled OBJ model (display list).</p>
+<ul>
+<li><strong>Parameters</strong>: <code>list</code> - Display list ID returned from <code>load_obj</code> or <code>parse_obj</code></li>
+<li><strong>Returns</strong>: <code>null</code></li>
+<li><strong>Example</strong>: <code>gl.draw_obj(model)</code></li>
+</ul>
+<hr />
 <h2 id="constants-reference">Constants Reference</h2>
 <h3 id="matrix-modes">Matrix Modes</h3>
 <ul>
@@ -1183,6 +1495,9 @@
 <li><code>gl.ALPHA_TEST</code></li>
 <li><code>gl.NORMALIZE</code></li>
 <li><code>gl.COLOR_MATERIAL</code></li>
+<li><code>gl.TEXTURE_2D</code></li>
+<li><code>gl.TEXTURE_3D</code></li>
+<li><code>gl.TEXTURE_CUBE_MAP</code></li>
 </ul>
 <h3 id="blend-factors">Blend Factors</h3>
 <ul>
@@ -1256,6 +1571,7 @@
 <li><code>gl.TEXTURE_3D</code></li>
 <li><code>gl.TEXTURE_CUBE_MAP</code></li>
 <li><code>gl.TEXTURE_CUBE_MAP_POSITIVE_X</code> through <code>gl.TEXTURE_CUBE_MAP_NEGATIVE_Z</code></li>
+<li><code>gl.TEXTURE0</code> through <code>gl.TEXTURE7</code></li>
 </ul>
 <h3 id="texture-filters">Texture Filters</h3>
 <ul>
@@ -1282,6 +1598,8 @@
 <li><code>gl.RGB</code>, <code>gl.RGB4</code>, <code>gl.RGB8</code>, <code>gl.RGB10</code>, <code>gl.RGB12</code>, <code>gl.RGB16</code></li>
 <li><code>gl.RGBA</code>, <code>gl.RGBA2</code>, <code>gl.RGBA4</code>, <code>gl.RGB5_A1</code>, <code>gl.RGBA8</code>, <code>gl.RGB10_A2</code>, <code>gl.RGBA12</code>, <code>gl.RGBA16</code></li>
 <li><code>gl.DEPTH_COMPONENT</code>, <code>gl.DEPTH_COMPONENT16</code>, <code>gl.DEPTH_COMPONENT24</code>, <code>gl.DEPTH_COMPONENT32</code></li>
+<li><code>gl.DEPTH_STENCIL</code>, <code>gl.DEPTH24_STENCIL8</code></li>
+<li><code>gl.STENCIL_INDEX</code>, <code>gl.STENCIL_INDEX1</code>, <code>gl.STENCIL_INDEX4</code>, <code>gl.STENCIL_INDEX8</code>, <code>gl.STENCIL_INDEX16</code></li>
 </ul>
 <h3 id="pixel-data-types">Pixel Data Types</h3>
 <ul>
@@ -1300,6 +1618,22 @@
 <li><code>gl.NORMAL_ARRAY</code></li>
 <li><code>gl.COLOR_ARRAY</code></li>
 <li><code>gl.TEXTURE_COORD_ARRAY</code></li>
+</ul>
+<h3 id="buffer-targets">Buffer Targets</h3>
+<ul>
+<li><code>gl.ARRAY_BUFFER</code></li>
+<li><code>gl.ELEMENT_ARRAY_BUFFER</code></li>
+</ul>
+<h3 id="buffer-usage">Buffer Usage</h3>
+<ul>
+<li><code>gl.STATIC_DRAW</code></li>
+<li><code>gl.DYNAMIC_DRAW</code></li>
+</ul>
+<h3 id="framebuffer-constants">Framebuffer Constants</h3>
+<ul>
+<li><code>gl.FRAMEBUFFER</code></li>
+<li><code>gl.COLOR_ATTACHMENT0</code></li>
+<li><code>gl.FRAMEBUFFER_COMPLETE</code></li>
 </ul>
 <h3 id="error-codes">Error Codes</h3>
 <ul>
@@ -1348,11 +1682,11 @@ gl.blend_func(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
 // Draw a triangle
 gl.begin(gl.TRIANGLES)
 gl.color3f(1.0, 0.0, 0.0)
-gl.vertex3f(400, 100, 0)
+gl.vertex3f(0.4, 0.1, 0)
 gl.color3f(0.0, 1.0, 0.0)
-gl.vertex3f(200, 400, 0)
+gl.vertex3f(-0.2, -0.4, 0)
 gl.color3f(0.0, 0.0, 1.0)
-gl.vertex3f(600, 400, 0)
+gl.vertex3f(0.6, -0.4, 0)
 gl.end()
 
 // Draw a textured quad
@@ -1366,16 +1700,141 @@ gl.tex_parameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
 
 gl.begin(gl.QUADS)
 gl.tex_coord2f(0, 0)
-gl.vertex3f(0, 0, 0)
+gl.vertex3f(-0.8, -0.8, 0)
 gl.tex_coord2f(1, 0)
-gl.vertex3f(100, 0, 0)
+gl.vertex3f(0.8, -0.8, 0)
 gl.tex_coord2f(1, 1)
-gl.vertex3f(100, 100, 0)
+gl.vertex3f(0.8, 0.8, 0)
 gl.tex_coord2f(0, 1)
-gl.vertex3f(0, 100, 0)
+gl.vertex3f(-0.8, 0.8, 0)
 gl.end()
 
+// Load and draw a 3D model
+model := gl.load_obj_with_mtl(&quot;teapot.obj&quot;, &quot;teapot.mtl&quot;)
+gl.push_matrix()
+gl.translatef(0, 0, -0.5)
+gl.rotatef(45, 1, 0, 0)
+gl.draw_obj(model)
+gl.pop_matrix()
+
 // Flush commands
+gl.flush()
+</code></pre>
+<hr />
+<h2 id="advanced-example-shader-usage">Advanced Example: Shader Usage</h2>
+<pre><code class="language-go">import &quot;gl&quot;
+
+// Vertex shader source
+vertexSrc := `
+#version 120
+attribute vec3 position;
+uniform mat4 mvp;
+void main() {
+    gl_Position = mvp * vec4(position, 1.0);
+}
+`
+
+// Fragment shader source
+fragmentSrc := `
+#version 120
+uniform vec3 color;
+void main() {
+    gl_FragColor = vec4(color, 1.0);
+}
+`
+
+// Create and compile vertex shader
+vs := gl.create_shader(gl.VERTEX_SHADER)
+gl.shader_source(vs, vertexSrc)
+gl.compile_shader(vs)
+
+// Check compilation
+if gl.get_shader_iv(vs, gl.COMPILE_STATUS) == 0 {
+    println(&quot;Vertex shader error:&quot;, gl.get_shader_info_log(vs))
+    return
+}
+
+// Create and compile fragment shader
+fs := gl.create_shader(gl.FRAGMENT_SHADER)
+gl.shader_source(fs, fragmentSrc)
+gl.compile_shader(fs)
+
+// Link program
+program := gl.create_program()
+gl.attach_shader(program, vs)
+gl.attach_shader(program, fs)
+gl.link_program(program)
+
+// Use program
+gl.use_program(program)
+
+// Set uniforms
+mvpLoc := gl.get_uniform_location(program, &quot;mvp&quot;)
+colorLoc := gl.get_uniform_location(program, &quot;color&quot;)
+gl.uniform3f(colorLoc, 1.0, 0.5, 0.0)
+
+// Set up vertex attributes
+vertices := [0.0, 0.5, 0.0, -0.5, -0.5, 0.0, 0.5, -0.5, 0.0]
+posLoc := gl.get_attrib_location(program, &quot;position&quot;)
+gl.vertex_attrib_pointer(posLoc, 3, gl.FLOAT, false, 0, 0)
+gl.enable_vertex_attrib_array(posLoc)
+
+// Draw
+gl.draw_arrays(gl.TRIANGLES, 0, 3)
+</code></pre>
+<hr />
+<h2 id="advanced-example-vbo-and-vao">Advanced Example: VBO and VAO</h2>
+<pre><code class="language-go">import &quot;gl&quot;
+
+// Generate VBO
+vbo := gl.gen_buffers(1)[0]
+gl.bind_buffer(gl.ARRAY_BUFFER, vbo)
+
+// Upload vertex data
+vertices := [
+    -0.5, -0.5, 0.0,
+     0.5, -0.5, 0.0,
+     0.0,  0.5, 0.0
+]
+gl.buffer_data(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW)
+
+// Generate VAO
+vao := gl.gen_vertex_arrays(1)[0]
+gl.bind_vertex_array(vao)
+
+// Configure vertex attributes
+gl.vertex_attrib_pointer(0, 3, gl.FLOAT, false, 0, 0)
+gl.enable_vertex_attrib_array(0)
+
+// Draw using VAO
+gl.bind_vertex_array(vao)
+gl.draw_arrays(gl.TRIANGLES, 0, 3)
+</code></pre>
+<hr />
+<h2 id="advanced-example-model-loading-with-mtl">Advanced Example: Model Loading with MTL</h2>
+<pre><code class="language-go">import &quot;gl&quot;
+
+// Initialize
+gl.init()
+gl.enable(gl.DEPTH_TEST)
+gl.enable(gl.LIGHTING)
+
+// Load model with textures
+teapot := gl.load_obj_with_mtl(&quot;teapot.obj&quot;, &quot;teapot.mtl&quot;)
+
+// Setup projection
+gl.matrix_mode(gl.PROJECTION)
+gl.load_identity()
+gl.frustum(-1, 1, -1, 1, 1, 100)
+
+// Render loop
+gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+gl.matrix_mode(gl.MODELVIEW)
+gl.load_identity()
+gl.translatef(0, 0, -5)
+gl.rotatef(45, 1, 1, 0)
+
+gl.draw_obj(teapot)
 gl.flush()
 </code></pre></div>
             </div>
