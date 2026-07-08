@@ -1,6 +1,6 @@
 # Stdlib `gl`
 
-The `gl` module provides OpenGL bindings for 3D graphics rendering. It exposes a comprehensive set of OpenGL functions and constants for creating 3D applications with immediate mode rendering, display lists, vertex arrays, lighting, texturing, and more.
+The `gl` module provides OpenGL bindings for 3D graphics rendering. It exposes a comprehensive set of OpenGL functions and constants for creating 3D applications with immediate mode rendering, display lists, vertex arrays, lighting, texturing, shaders, vertex buffer objects, framebuffers, and 3D model loading.
 
 ## Initialization
 
@@ -272,6 +272,17 @@ Sets the pixel blending function.
 - **Returns**: `null`
 - **Example**: `gl.blend_func(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)`
 
+### `blend_func_separate(srgb, drgb, salpha, dalpha)`
+
+Sets separate blending functions for RGB and alpha channels.
+
+- **Parameters**:
+  - `srgb` - Source RGB blend factor
+  - `drgb` - Destination RGB blend factor
+  - `salpha` - Source Alpha blend factor
+  - `dalpha` - Destination Alpha blend factor
+- **Returns**: `null`
+
 ### `blend_equation(mode)`
 
 Sets the blend equation.
@@ -434,6 +445,16 @@ Sets the shading model.
 - **Parameters**: `mode` - `gl.FLAT` or `gl.SMOOTH`
 - **Returns**: `null`
 
+### `color_material(face, mode)`
+
+Makes material colors track the current color.
+
+- **Parameters**: 
+  - `face` - `gl.FRONT`, `gl.BACK`, or `gl.FRONT_AND_BACK`
+  - `mode` - Which material parameters to track (`gl.AMBIENT`, `gl.DIFFUSE`, `gl.SPECULAR`, etc.)
+- **Returns**: `null`
+- **Example**: `gl.color_material(gl.FRONT_AND_BACK, gl.DIFFUSE)`
+
 ---
 
 ## Hints
@@ -479,16 +500,6 @@ Sets material parameters.
 - **Returns**: `null`
 - **Example**: `gl.materialfv(gl.FRONT_AND_BACK, gl.SPECULAR, 0.8, 0.8, 0.8, 1.0)`
 
-### `color_material(face, mode)`
-
-Makes material colors track the current color.
-
-- **Parameters**: 
-  - `face` - `gl.FRONT`, `gl.BACK`, or `gl.FRONT_AND_BACK`
-  - `mode` - Which material parameters to track (`gl.AMBIENT`, `gl.DIFFUSE`, `gl.SPECULAR`, etc.)
-- **Returns**: `null`
-- **Example**: `gl.color_material(gl.FRONT_AND_BACK, gl.DIFFUSE)`
-
 ---
 
 ## Fog
@@ -532,6 +543,14 @@ Deletes named textures.
 
 - **Parameters**: `textures` - Single texture ID or array of texture IDs
 - **Returns**: `null`
+
+### `active_texture(texture)`
+
+Selects which texture unit is active for subsequent texture operations.
+
+- **Parameters**: `texture` - Texture unit constant (`gl.TEXTURE0`, `gl.TEXTURE1`, etc.)
+- **Returns**: `null`
+- **Example**: `gl.active_texture(gl.TEXTURE0)`
 
 ### `tex_image1d(target, level, internal_format, width, border, format, type, pixels)`
 
@@ -672,6 +691,14 @@ Sets texture environment parameters.
 Sets texture coordinate generation parameters.
 
 - **Returns**: `null`
+
+### `load_texture(path)`
+
+Loads an image file as an OpenGL texture with automatic vertical flip and alpha handling.
+
+- **Parameters**: `path` - Path to the image file (string)
+- **Returns**: Texture ID (int)
+- **Example**: `tex := gl.load_texture("texture.png")`
 
 ---
 
@@ -822,6 +849,124 @@ Renders primitives from indexed array data.
 
 ---
 
+## Vertex Buffer Objects (VBO)
+
+### `gen_buffers(n)`
+
+Generates buffer object names.
+
+- **Parameters**: `n` - Number of buffers to generate (int)
+- **Returns**: Array of buffer IDs
+- **Example**: `buffers := gl.gen_buffers(1)`
+
+### `bind_buffer(target, buffer)`
+
+Binds a named buffer object.
+
+- **Parameters**: `target` - `gl.ARRAY_BUFFER`, `gl.ELEMENT_ARRAY_BUFFER`, etc., `buffer` - Buffer ID
+- **Returns**: `null`
+
+### `delete_buffers(buffers)`
+
+Deletes named buffer objects.
+
+- **Parameters**: `buffers` - Single buffer ID or array of buffer IDs
+- **Returns**: `null`
+
+### `buffer_data(target, data, usage)`
+
+Uploads data to a buffer object.
+
+- **Parameters**:
+  - `target` - Buffer target (`gl.ARRAY_BUFFER`, `gl.ELEMENT_ARRAY_BUFFER`)
+  - `data` - Array of numbers to upload as float32 data
+  - `usage` - `gl.STATIC_DRAW`, `gl.DYNAMIC_DRAW`, etc.
+- **Returns**: `null`
+- **Example**:
+  ```go
+  vertices := [0.0, 0.0, 0.0, 1.0, 0.0, 0.0, 0.0, 1.0, 0.0]
+  gl.buffer_data(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW)
+  ```
+
+---
+
+## Vertex Array Objects (VAO)
+
+### `gen_vertex_arrays(n)`
+
+Generates vertex array object names.
+
+- **Parameters**: `n` - Number of VAOs to generate (int)
+- **Returns**: Array of VAO IDs
+- **Example**: `vaos := gl.gen_vertex_arrays(1)`
+
+### `bind_vertex_array(array)`
+
+Binds a named vertex array object.
+
+- **Parameters**: `array` - VAO ID
+- **Returns**: `null`
+
+### `delete_vertex_arrays(arrays)`
+
+Deletes named vertex array objects.
+
+- **Parameters**: `arrays` - Single VAO ID or array of VAO IDs
+- **Returns**: `null`
+
+### `enable_vertex_attrib_array(index)`
+
+Enables a vertex attribute array.
+
+- **Parameters**: `index` - Attribute index (uint)
+- **Returns**: `null`
+
+### `vertex_attrib_pointer(index, size, type, normalized, stride, offset)`
+
+Specifies the layout of a vertex attribute.
+
+- **Parameters**:
+  - `index` - Attribute index (uint)
+  - `size` - Number of components (int)
+  - `type` - Data type (`gl.FLOAT`, etc.)
+  - `normalized` - Whether to normalize (bool)
+  - `stride` - Stride between attributes (int)
+  - `offset` - Offset into the buffer (int)
+- **Returns**: `null`
+
+---
+
+## Framebuffers (FBO)
+
+### `gen_framebuffers(n)`
+
+Generates framebuffer object names.
+
+- **Parameters**: `n` - Number of framebuffers to generate (int)
+- **Returns**: Array of FBO IDs
+- **Example**: `fbos := gl.gen_framebuffers(1)`
+
+### `bind_framebuffer(target, framebuffer)`
+
+Binds a named framebuffer object.
+
+- **Parameters**: `target` - `gl.FRAMEBUFFER`, `framebuffer` - FBO ID
+- **Returns**: `null`
+
+### `framebuffer_texture2d(target, attachment, textarget, texture, level)`
+
+Attaches a texture to a framebuffer.
+
+- **Parameters**:
+  - `target` - `gl.FRAMEBUFFER`
+  - `attachment` - `gl.COLOR_ATTACHMENT0`, etc.
+  - `textarget` - Texture target (`gl.TEXTURE_2D`, etc.)
+  - `texture` - Texture ID
+  - `level` - Mipmap level (int)
+- **Returns**: `null`
+
+---
+
 ## Display Lists
 
 ### `gen_lists(range)`
@@ -856,6 +1001,146 @@ Executes a display list.
 Deletes display lists.
 
 - **Parameters**: `list` - Starting display list ID (uint), `range` - Number of lists to delete (int)
+- **Returns**: `null`
+
+---
+
+## Shaders
+
+### Shader Constants
+
+- `gl.VERTEX_SHADER`
+- `gl.FRAGMENT_SHADER`
+- `gl.COMPILE_STATUS`
+- `gl.LINK_STATUS`
+- `gl.INFO_LOG_LENGTH`
+
+### `create_shader(type)`
+
+Creates a shader object.
+
+- **Parameters**: `type` - `gl.VERTEX_SHADER` or `gl.FRAGMENT_SHADER`
+- **Returns**: Shader ID (int)
+- **Example**: `shader := gl.create_shader(gl.VERTEX_SHADER)`
+
+### `shader_source(shader, source)`
+
+Sets the source code for a shader.
+
+- **Parameters**: `shader` - Shader ID, `source` - Shader source code (string)
+- **Returns**: `null`
+
+### `compile_shader(shader)`
+
+Compiles a shader.
+
+- **Parameters**: `shader` - Shader ID
+- **Returns**: `null`
+
+### `get_shader_iv(shader, pname)`
+
+Queries a shader parameter.
+
+- **Parameters**: `shader` - Shader ID, `pname` - Parameter name
+- **Returns**: Parameter value (int)
+
+### `get_shader_info_log(shader)`
+
+Retrieves the shader compilation log.
+
+- **Parameters**: `shader` - Shader ID
+- **Returns**: Info log (string)
+
+### `create_program()`
+
+Creates a program object.
+
+- **Returns**: Program ID (int)
+- **Example**: `program := gl.create_program()`
+
+### `attach_shader(program, shader)`
+
+Attaches a shader to a program.
+
+- **Parameters**: `program` - Program ID, `shader` - Shader ID
+- **Returns**: `null`
+
+### `link_program(program)`
+
+Links a program.
+
+- **Parameters**: `program` - Program ID
+- **Returns**: `null`
+
+### `use_program(program)`
+
+Installs a program object as part of current rendering state.
+
+- **Parameters**: `program` - Program ID
+- **Returns**: `null`
+
+### `delete_shader(shader)`
+
+Deletes a shader object.
+
+- **Parameters**: `shader` - Shader ID
+- **Returns**: `null`
+
+### `delete_program(program)`
+
+Deletes a program object.
+
+- **Parameters**: `program` - Program ID
+- **Returns**: `null`
+
+### `get_program_iv(program, pname)`
+
+Queries a program parameter.
+
+- **Parameters**: `program` - Program ID, `pname` - Parameter name
+- **Returns**: Parameter value (int)
+
+### `get_program_info_log(program)`
+
+Retrieves the program linking log.
+
+- **Parameters**: `program` - Program ID
+- **Returns**: Info log (string)
+
+### `get_uniform_location(program, name)`
+
+Returns the location of a uniform variable.
+
+- **Parameters**: `program` - Program ID, `name` - Uniform name (string)
+- **Returns**: Uniform location (int) or -1 if not found
+
+### `get_attrib_location(program, name)`
+
+Returns the location of an attribute variable.
+
+- **Parameters**: `program` - Program ID, `name` - Attribute name (string)
+- **Returns**: Attribute location (int) or -1 if not found
+
+### `uniform1f(location, value)`
+### `uniform1i(location, value)`
+### `uniform2f(location, v0, v1)`
+### `uniform3f(location, v0, v1, v2)`
+### `uniform4f(location, v0, v1, v2, v3)`
+
+Sets the value of a uniform variable.
+
+- **Parameters**: `location` - Uniform location, value(s)
+- **Returns**: `null`
+
+### `uniform_matrix4fv(location, count, transpose, matrix)`
+
+Sets a 4x4 matrix uniform.
+
+- **Parameters**:
+  - `location` - Uniform location
+  - `count` - Number of matrices (int)
+  - `transpose` - Whether to transpose (bool)
+  - `matrix` - Array of 16 float values
 - **Returns**: `null`
 
 ---
@@ -933,6 +1218,44 @@ Sets the render mode.
 
 ---
 
+## 3D Model Loading (OBJ & MTL)
+
+### `load_obj(path)`
+
+Loads a Wavefront OBJ file and compiles it into a display list for fast rendering.
+
+- **Parameters**: `path` - Path to the OBJ file (string)
+- **Returns**: Display list ID (int)
+- **Example**: `model := gl.load_obj("model.obj")`
+
+### `load_obj_with_mtl(obj_path, mtl_path)`
+
+Loads a Wavefront OBJ file with an accompanying MTL material file, including texture mapping support.
+
+- **Parameters**:
+  - `obj_path` - Path to the OBJ file (string)
+  - `mtl_path` - Path to the MTL file (string)
+- **Returns**: Display list ID (int)
+- **Example**: `model := gl.load_obj_with_mtl("model.obj", "model.mtl")`
+
+### `parse_obj(data)`
+
+Parses OBJ data from a string and compiles it into a display list.
+
+- **Parameters**: `data` - OBJ file contents as string
+- **Returns**: Display list ID (int)
+- **Example**: `model := gl.parse_obj(obj_string)`
+
+### `draw_obj(list)`
+
+Renders a compiled OBJ model (display list).
+
+- **Parameters**: `list` - Display list ID returned from `load_obj` or `parse_obj`
+- **Returns**: `null`
+- **Example**: `gl.draw_obj(model)`
+
+---
+
 ## Constants Reference
 
 ### Matrix Modes
@@ -974,6 +1297,9 @@ Sets the render mode.
 - `gl.ALPHA_TEST`
 - `gl.NORMALIZE`
 - `gl.COLOR_MATERIAL`
+- `gl.TEXTURE_2D`
+- `gl.TEXTURE_3D`
+- `gl.TEXTURE_CUBE_MAP`
 
 ### Blend Factors
 - `gl.ZERO`
@@ -1038,6 +1364,7 @@ Sets the render mode.
 - `gl.TEXTURE_3D`
 - `gl.TEXTURE_CUBE_MAP`
 - `gl.TEXTURE_CUBE_MAP_POSITIVE_X` through `gl.TEXTURE_CUBE_MAP_NEGATIVE_Z`
+- `gl.TEXTURE0` through `gl.TEXTURE7`
 
 ### Texture Filters
 - `gl.NEAREST`
@@ -1061,6 +1388,8 @@ Sets the render mode.
 - `gl.RGB`, `gl.RGB4`, `gl.RGB8`, `gl.RGB10`, `gl.RGB12`, `gl.RGB16`
 - `gl.RGBA`, `gl.RGBA2`, `gl.RGBA4`, `gl.RGB5_A1`, `gl.RGBA8`, `gl.RGB10_A2`, `gl.RGBA12`, `gl.RGBA16`
 - `gl.DEPTH_COMPONENT`, `gl.DEPTH_COMPONENT16`, `gl.DEPTH_COMPONENT24`, `gl.DEPTH_COMPONENT32`
+- `gl.DEPTH_STENCIL`, `gl.DEPTH24_STENCIL8`
+- `gl.STENCIL_INDEX`, `gl.STENCIL_INDEX1`, `gl.STENCIL_INDEX4`, `gl.STENCIL_INDEX8`, `gl.STENCIL_INDEX16`
 
 ### Pixel Data Types
 - `gl.UNSIGNED_BYTE`
@@ -1077,6 +1406,19 @@ Sets the render mode.
 - `gl.NORMAL_ARRAY`
 - `gl.COLOR_ARRAY`
 - `gl.TEXTURE_COORD_ARRAY`
+
+### Buffer Targets
+- `gl.ARRAY_BUFFER`
+- `gl.ELEMENT_ARRAY_BUFFER`
+
+### Buffer Usage
+- `gl.STATIC_DRAW`
+- `gl.DYNAMIC_DRAW`
+
+### Framebuffer Constants
+- `gl.FRAMEBUFFER`
+- `gl.COLOR_ATTACHMENT0`
+- `gl.FRAMEBUFFER_COMPLETE`
 
 ### Error Codes
 - `gl.NO_ERROR`
@@ -1126,11 +1468,11 @@ gl.blend_func(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
 // Draw a triangle
 gl.begin(gl.TRIANGLES)
 gl.color3f(1.0, 0.0, 0.0)
-gl.vertex3f(400, 100, 0)
+gl.vertex3f(0.4, 0.1, 0)
 gl.color3f(0.0, 1.0, 0.0)
-gl.vertex3f(200, 400, 0)
+gl.vertex3f(-0.2, -0.4, 0)
 gl.color3f(0.0, 0.0, 1.0)
-gl.vertex3f(600, 400, 0)
+gl.vertex3f(0.6, -0.4, 0)
 gl.end()
 
 // Draw a textured quad
@@ -1144,15 +1486,152 @@ gl.tex_parameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
 
 gl.begin(gl.QUADS)
 gl.tex_coord2f(0, 0)
-gl.vertex3f(0, 0, 0)
+gl.vertex3f(-0.8, -0.8, 0)
 gl.tex_coord2f(1, 0)
-gl.vertex3f(100, 0, 0)
+gl.vertex3f(0.8, -0.8, 0)
 gl.tex_coord2f(1, 1)
-gl.vertex3f(100, 100, 0)
+gl.vertex3f(0.8, 0.8, 0)
 gl.tex_coord2f(0, 1)
-gl.vertex3f(0, 100, 0)
+gl.vertex3f(-0.8, 0.8, 0)
 gl.end()
 
+// Load and draw a 3D model
+model := gl.load_obj_with_mtl("teapot.obj", "teapot.mtl")
+gl.push_matrix()
+gl.translatef(0, 0, -0.5)
+gl.rotatef(45, 1, 0, 0)
+gl.draw_obj(model)
+gl.pop_matrix()
+
 // Flush commands
+gl.flush()
+```
+
+---
+
+## Advanced Example: Shader Usage
+
+```go
+import "gl"
+
+// Vertex shader source
+vertexSrc := `
+#version 120
+attribute vec3 position;
+uniform mat4 mvp;
+void main() {
+    gl_Position = mvp * vec4(position, 1.0);
+}
+`
+
+// Fragment shader source
+fragmentSrc := `
+#version 120
+uniform vec3 color;
+void main() {
+    gl_FragColor = vec4(color, 1.0);
+}
+`
+
+// Create and compile vertex shader
+vs := gl.create_shader(gl.VERTEX_SHADER)
+gl.shader_source(vs, vertexSrc)
+gl.compile_shader(vs)
+
+// Check compilation
+if gl.get_shader_iv(vs, gl.COMPILE_STATUS) == 0 {
+    println("Vertex shader error:", gl.get_shader_info_log(vs))
+    return
+}
+
+// Create and compile fragment shader
+fs := gl.create_shader(gl.FRAGMENT_SHADER)
+gl.shader_source(fs, fragmentSrc)
+gl.compile_shader(fs)
+
+// Link program
+program := gl.create_program()
+gl.attach_shader(program, vs)
+gl.attach_shader(program, fs)
+gl.link_program(program)
+
+// Use program
+gl.use_program(program)
+
+// Set uniforms
+mvpLoc := gl.get_uniform_location(program, "mvp")
+colorLoc := gl.get_uniform_location(program, "color")
+gl.uniform3f(colorLoc, 1.0, 0.5, 0.0)
+
+// Set up vertex attributes
+vertices := [0.0, 0.5, 0.0, -0.5, -0.5, 0.0, 0.5, -0.5, 0.0]
+posLoc := gl.get_attrib_location(program, "position")
+gl.vertex_attrib_pointer(posLoc, 3, gl.FLOAT, false, 0, 0)
+gl.enable_vertex_attrib_array(posLoc)
+
+// Draw
+gl.draw_arrays(gl.TRIANGLES, 0, 3)
+```
+
+---
+
+## Advanced Example: VBO and VAO
+
+```go
+import "gl"
+
+// Generate VBO
+vbo := gl.gen_buffers(1)[0]
+gl.bind_buffer(gl.ARRAY_BUFFER, vbo)
+
+// Upload vertex data
+vertices := [
+    -0.5, -0.5, 0.0,
+     0.5, -0.5, 0.0,
+     0.0,  0.5, 0.0
+]
+gl.buffer_data(gl.ARRAY_BUFFER, vertices, gl.STATIC_DRAW)
+
+// Generate VAO
+vao := gl.gen_vertex_arrays(1)[0]
+gl.bind_vertex_array(vao)
+
+// Configure vertex attributes
+gl.vertex_attrib_pointer(0, 3, gl.FLOAT, false, 0, 0)
+gl.enable_vertex_attrib_array(0)
+
+// Draw using VAO
+gl.bind_vertex_array(vao)
+gl.draw_arrays(gl.TRIANGLES, 0, 3)
+```
+
+---
+
+## Advanced Example: Model Loading with MTL
+
+```go
+import "gl"
+
+// Initialize
+gl.init()
+gl.enable(gl.DEPTH_TEST)
+gl.enable(gl.LIGHTING)
+
+// Load model with textures
+teapot := gl.load_obj_with_mtl("teapot.obj", "teapot.mtl")
+
+// Setup projection
+gl.matrix_mode(gl.PROJECTION)
+gl.load_identity()
+gl.frustum(-1, 1, -1, 1, 1, 100)
+
+// Render loop
+gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+gl.matrix_mode(gl.MODELVIEW)
+gl.load_identity()
+gl.translatef(0, 0, -5)
+gl.rotatef(45, 1, 1, 0)
+
+gl.draw_obj(teapot)
 gl.flush()
 ```
