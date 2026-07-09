@@ -1,18 +1,28 @@
 # Tender
 
-**Tender** is a general-purpose programming language specially designed for image processing, 2D graphics, scripting, and more! Here is a quick [tutorial](docs/pages/tutorial.md). Also check the [docs](https://2dprototype.github.io/tender)!
+**Tender** is a experimental programming language specially designed for graphics, image processing, audio, scripting, and more! Here is a quick [tutorial](docs/pages/tutorial.md). Also check the [docs](https://2dprototype.github.io/tender)!
 
 ## Overview
 
 Tender compiles into bytecode and executes on a stack-based virtual machine (VM) written in native Golang.
 
+## Why Tender?
+
+Modern scripting often means installing dozens of packages before drawing a window, loading an image, or making a network request. Tender takes a different approach. It's perfect for building OpenGL (GL, GLUT, GLU, GLFW) prototypes instantly, without hours of build time.
+
+### S³ Philosophy
+
+- **Simple** — Readable syntax with familiar language features
+- **Single Binary** — Compile once. Ship a single executable.
+- **Self-Sufficient** — Graphics, OpenGL, audio, networking, image processing, compression, GUI, and more are included in the standard library.
+
 ## Features
 
-- **Simple and highly readable syntax**  
-- **Compiles to bytecode**  
-- **Supports rich [built-in functions](docs/pages/builtins.md)**  
-- **Includes an extensive [standard library](docs/pages/stdlib.md)**  
-- **Desgined for 2D graphics**  
+- **Simple and highly readable syntax**
+- **Compiles to bytecode**
+- **Supports rich [built-in functions](docs/pages/builtins.md)**
+- **Includes an extensive [standard library](docs/pages/stdlib.md)**
+- **Designed for 2D graphics**
 - **REPL (Read-Eval-Print Loop) for interactive development**
 - **Rich type system** including int, float, string, bool, char, null, big integers, big floats, complex numbers, bytes, arrays (dynamic and immutable), maps (dynamic and immutable), tuples, time values, and error values
 - **User-defined structs** with field types, nested structs, anonymous structs, and embedded fields
@@ -22,7 +32,7 @@ Tender compiles into bytecode and executes on a stack-based virtual machine (VM)
 - **Modular architecture** with import statements, module aliasing, selective imports, embedded file import (`embed()`), and file-based module loading
 - **Runtime type introspection** with `typeof()` and type checking functions
 - **Error handling** through the `error()` expression
-- **Immutable data structures** via `immutable()` expression
+- **Immutable data structures** via `freeze()` builtin
 - **Loop control** with `break` and `continue` statements
 - **For loops** including traditional, for-in, conditional, and infinite loops
 - **Variable declarations** with `var` and constants with `const`
@@ -34,107 +44,63 @@ Tender compiles into bytecode and executes on a stack-based virtual machine (VM)
 
 ### Supported Standard Library
 
-- [math](docs/pages/stdlib-math.md): Mathematical constants and functions  
-- [cmplx](pages/stdlib-cmplx.md): Functions for complex numbers
-- [os](docs/pages/stdlib-os.md): Platform-independent interface to OS functionality  
-- [strings](docs/pages/stdlib-strings.md): String conversion, manipulation, and regular expressions  
-- [times](docs/pages/stdlib-times.md): Time-related functions  
-- [rand](docs/pages/stdlib-rand.md): Random number generation  
-- [fmt](docs/pages/stdlib-fmt.md): Formatting functions  
-- [json](docs/pages/stdlib-json.md): JSON handling functions  
-- [xml](docs/pages/stdlib-xml.md): XML handling functions  
-- [base64](docs/pages/stdlib-base64.md): Base64 encoding and decoding  
-- [hex](docs/pages/stdlib-hex.md): Hexadecimal encoding and decoding  
-- [colors](docs/pages/stdlib-colors.md): Functions to print colored text to the terminal  
-- [gzip](docs/pages/stdlib-gzip.md): Gzip compression and decompression  
-- [zip](docs/pages/stdlib-zip.md): ZIP archive manipulation  
-- [tar](docs/pages/stdlib-tar.md): TAR archive creation and reading  
-- [bufio](docs/pages/stdlib-bufio.md): Buffered I/O functions  
-- [crypto](docs/pages/stdlib-crypto.md): Cryptographic functions  
-- [path](docs/pages/stdlib-path.md): File path manipulation  
-- [image](docs/pages/stdlib-image.md): Image manipulation  
-- [canvas](docs/pages/stdlib-canvas.md): Drawing functions for canvases  
-- [dll](docs/pages/stdlib-dll.md): Dynamic link library interactions  
-- [io](docs/pages/stdlib-io.md): Input and output functions  
-- [audio](docs/pages/stdlib-audio.md): Audio processing  
-- [net](docs/pages/stdlib-net.md): Networking functions  
-- [http](docs/pages/stdlib-http.md): HTTP client and server utilities  
-- [websocket](docs/pages/stdlib-websocket.md): WebSocket communication utilities  
+- [math](docs/pages/stdlib-math.md): Mathematical constants and functions
+- [mathf](docs/pages/stdlib-mathf.md): Unity-inspired math utilities for game development
+- [cmplx](docs/pages/stdlib-cmplx.md): Functions for complex numbers
+- [os](docs/pages/stdlib-os.md): Platform-independent interface to OS functionality
+- [strings](docs/pages/stdlib-strings.md): String conversion, manipulation, and regular expressions
+- [times](docs/pages/stdlib-times.md): Time-related functions
+- [rand](docs/pages/stdlib-rand.md): Random number generation
+- [fmt](docs/pages/stdlib-fmt.md): Formatting functions
+- [json](docs/pages/stdlib-json.md): JSON handling functions
+- [xml](docs/pages/stdlib-xml.md): XML handling functions
+- [base64](docs/pages/stdlib-base64.md): Base64 encoding and decoding
+- [hex](docs/pages/stdlib-hex.md): Hexadecimal encoding and decoding
+- [colors](docs/pages/stdlib-colors.md): Functions to print colored text to the terminal
+- [gzip](docs/pages/stdlib-gzip.md): Gzip compression and decompression
+- [zip](docs/pages/stdlib-zip.md): ZIP archive manipulation
+- [tar](docs/pages/stdlib-tar.md): TAR archive creation and reading
+- [bufio](docs/pages/stdlib-bufio.md): Buffered I/O functions
+- [crypto](docs/pages/stdlib-crypto.md): Cryptographic functions
+- [path](docs/pages/stdlib-path.md): File path manipulation
+- [image](docs/pages/stdlib-image.md): Image manipulation
+- [canvas](docs/pages/stdlib-canvas.md): Drawing functions for canvases
+- [graphics](docs/pages/stdlib-graphics.md): 2D graphics with OpenGL acceleration
+- [gl](docs/pages/stdlib-gl.md): OpenGL bindings for 3D graphics
+- [glu](docs/pages/stdlib-glu.md): OpenGL Utility Library bindings
+- [glut](docs/pages/stdlib-glut.md): OpenGL Utility Toolkit bindings
+- [glfw](docs/pages/stdlib-glfw.md): GLFW window and input management
+- [dll](docs/pages/stdlib-dll.md): Dynamic link library interactions
+- [io](docs/pages/stdlib-io.md): Input and output functions
+- [audio](docs/pages/stdlib-audio.md): Audio processing
+- [net](docs/pages/stdlib-net.md): Networking functions
+- [http](docs/pages/stdlib-http.md): HTTP client and server utilities
+- [websocket](docs/pages/stdlib-websocket.md): WebSocket communication utilities
 - **gob**: Gob Encoding/Decoding
 - **csv**: CSV Encoding/Decoding
-- [wui](pages/stdlib-wui.md)  
-- [sync](pages/stdlib-sync.md)  
+- [wui](docs/pages/stdlib-wui.md): Native Windows GUI framework
+- [sync](docs/pages/stdlib-sync.md): Synchronization primitives
 
 ## Quick Start
 
-1. **Install Tender on your machine.**  
+1. **Install Tender on your machine.**
 2. **Copy the sample code below:**
 
-```go
-// Basic example
-str1 := "hello"
-str2 := "world"
-
-println(str1 + " " + str2)
-```
 
 ```go
-// Template literals example
-name := "Alice"
-age := 30
-message := `Hello ${name}, you are ${age} years old!`
-println(message)  // Output: Hello Alice, you are 30 years old!
-
-// Expressions inside templates
-println(`2 + 3 = ${2 + 3}`)  // Output: 2 + 3 = 5
-
-// Complex expressions
-println(`The result is ${if 5 > 3 { "true" } else { "false" }}`)
-```
-
-```go
-// Structs example
-type user struct {
-    name string
-    age  int
-}
-
-u := user{name: "Alice", age: 30}
-println("Name:", u.name, "Age:", u.age)
-
-// Nested structs
-type point struct {
-    x, y int
-}
-
-type line struct {
-    p1 point
-    p2 point
-}
-
-l := line{
-    p1: point{x: 0, y: 0},
-    p2: point{x: 10, y: 10}
-
-}
-
-println(`line from (${l.p1.x}, ${l.p1.y}) to (${l.p2.x}, ${l.p2.y})`)
-```
-
-```go
-// Canvas drawing example (similar to JS Canvas)
+// Canvas drawing example
 import "canvas"
-	
-var ctx = canvas.new_context(100, 100)
-ctx.hex("#0f0")          // Set color to green
-ctx.dash(4, 2)           // Define dashed stroke
-ctx.rect(25, 25, 50, 50) // Draw a rectangle
+
+ctx := canvas.new_context(100, 100)
+ctx.hex("#0f0") 
+ctx.dash(4, 2)          
+ctx.rect(25, 25, 50, 50) 
 ctx.stroke()
 
-ctx.save_png("out.png")  // Save output as PNG
+ctx.save_png("out.png") 
 ```
 
-3. **Save your code as `hello.td`** (use the `.td` extension).  
+3. **Save your code as `hello.td`** (use the `.td` extension).
 4. **Run your script using the following command:**
 
 ```bash
@@ -147,7 +113,7 @@ tender hello.td
 
 ### Using Go
 
-1. Install the latest version of Go.  
+1. Install the latest version of Go.
 2. Run the following command to install:
 
 ```bash
@@ -161,16 +127,73 @@ Precompiled binaries are available. Download them from the release tags.
 ---
 
 ## Documentation
+
 Check the [docs](https://2dprototype.github.io/tender)!
 
-- **[Runtime Types](docs/pages/runtime-types.md)**  
-- **[Built-in Functions](docs/pages/builtins.md)**  
-- **[Operators](docs/pages/operators.md)**  
-- **[Standard Library](docs/pages/stdlib.md)**  
+- **[Runtime Types](docs/pages/runtime-types.md)**
+- **[Built-in Functions](docs/pages/builtins.md)**
+- **[Operators](docs/pages/operators.md)**
+- **[Standard Library](docs/pages/stdlib.md)**
 
 ## Examples
 
+### Hello, World
+
+```go
+println("Hello, World!")
+```
+
+---
+
+### Graphics
+
+```go
+import "graphics"
+
+win := graphics.new_window(400, 400, "Tender")
+
+win.on_draw(fn() {
+    win.clear("#000")
+	win.hex("#f00")
+    win.circle(200, 200, 100)
+    win.fill()
+})
+
+win.run()
+```
+
+---
+
+### OpenGL
+
+```go
+import "gl"
+import "glut"
+
+glut.init()
+gl.init()
+glut.init_display_mode(glut.RGBA | glut.DOUBLE | glut.DEPTH)
+glut.init_window_size(400, 400)
+glut.create_window("Tender OpenGL")
+
+glut.display_func(fn() {
+    gl.clear(gl.COLOR_BUFFER_BIT)
+    gl.begin(gl.TRIANGLES)
+    gl.color3f(1, 0, 0)
+    gl.vertex2f(0, 0.8)
+    gl.color3f(0, 1, 0)
+    gl.vertex2f(-0.8, -0.8)
+    gl.color3f(0, 0, 1)
+    gl.vertex2f(0.8, -0.8)
+    gl.end()
+    glut.swap_buffers()
+})
+
+glut.main_loop()
+```
+
 ### Basic Examples
+
 ```go
 // Variable declarations
 var name = "Tender"
@@ -212,7 +235,7 @@ person.age = 26
 var num = int("123")
 if is_string(num) {
     println("This is a string")
-} 
+}
 else {
     println("This is not a string")
 }
@@ -225,6 +248,7 @@ if is_error(result) {
 ```
 
 ### Advanced Examples
+
 ```go
 // Pipe operators for functional composition
 var result = [1, 2, 3, 4, 6] |> sort |> reverse |> println
@@ -239,7 +263,7 @@ for item in items {
 }
 
 // Optional chaining
-var user = {	
+var user = {
     profile: {
         name: "jack"
     }
@@ -323,11 +347,11 @@ Tender provides a rich type system with support for:
 
 Tender uses the following dependencies:
 
-- [go-mp3](https://github.com/hajimehoshi/go-mp3)  
-- [gorilla/websocket](https://github.com/gorilla/websocket)  
-- [ebitengine/oto/v3](https://github.com/ebitengine/oto/v3)  
-- [exp/shiny](https://pkg.go.dev/golang.org/x/exp/shiny)  
-- [fogleman/gg](https://github.com/fogleman/gg)  
+- [go-mp3](https://github.com/hajimehoshi/go-mp3)
+- [gorilla/websocket](https://github.com/gorilla/websocket)
+- [ebitengine/oto/v3](https://github.com/ebitengine/oto/v3)
+- [exp/shiny](https://pkg.go.dev/golang.org/x/exp/shiny)
+- [fogleman/gg](https://github.com/fogleman/gg)
 
 ---
 
