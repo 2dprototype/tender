@@ -8,7 +8,7 @@
         
         
         <link rel="shortcut icon" href="../../img/favicon.ico">
-        <title>Stdlib canvas - Tender Docs</title>
+        <title>Stdlib mathf - Tender Docs</title>
         <link href="../../css/bootstrap.min.css" rel="stylesheet">
         <link href="../../css/fontawesome.min.css" rel="stylesheet">
         <link href="../../css/brands.min.css" rel="stylesheet">
@@ -70,7 +70,7 @@
 </li>
                                     
 <li>
-    <a href="./" class="dropdown-item active" aria-current="page">Stdlib canvas</a>
+    <a href="../stdlib-canvas/" class="dropdown-item">Stdlib canvas</a>
 </li>
                                     
 <li>
@@ -142,7 +142,7 @@
 </li>
                                     
 <li>
-    <a href="../stdlib-mathf/" class="dropdown-item">Stdlib mathf</a>
+    <a href="./" class="dropdown-item active" aria-current="page">Stdlib mathf</a>
 </li>
                                     
 <li>
@@ -211,12 +211,12 @@
                             </a>
                         </li>
                             <li class="nav-item">
-                                <a rel="prev" href="../stdlib-bufio/" class="nav-link">
+                                <a rel="prev" href="../stdlib-math/" class="nav-link">
                                     <i class="fa fa-arrow-left"></i> Previous
                                 </a>
                             </li>
                             <li class="nav-item">
-                                <a rel="next" href="../stdlib-cmplx/" class="nav-link">
+                                <a rel="next" href="../stdlib-net/" class="nav-link">
                                     Next <i class="fa fa-arrow-right"></i>
                                 </a>
                             </li>
@@ -238,8 +238,24 @@
     <div id="toc-collapse" class="navbar-collapse collapse card bg-body-tertiary">
         <ul class="nav flex-column">
             
-            <li class="nav-item" data-bs-level="2"><a href="#stdlib-canvas" class="nav-link">Stdlib canvas</a>
+            <li class="nav-item" data-bs-level="1"><a href="#stdlib-mathf" class="nav-link">Stdlib mathf</a>
               <ul class="nav flex-column">
+            <li class="nav-item" data-bs-level="2"><a href="#constants" class="nav-link">Constants</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#functions" class="nav-link">Functions</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#examples" class="nav-link">Examples</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
+            <li class="nav-item" data-bs-level="2"><a href="#constants-example" class="nav-link">Constants Example</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
               </ul>
             </li>
         </ul>
@@ -247,176 +263,148 @@
 </div></div>
                     <div class="col-md-9" role="main">
 
-<h2 id="stdlib-canvas">Stdlib <code>canvas</code></h2>
-<p>The <code>canvas</code> module provides functionalities for creating and manipulating graphical elements.</p>
-<h3 id="functions">Functions</h3>
-<h4 id="new_contextwidth-height"><code>new_context(width, height)</code></h4>
-<p>Creates a new canvas context with the specified width and height.</p>
+<h1 id="stdlib-mathf">Stdlib <code>mathf</code></h1>
+<p>The <code>mathf</code> module provides mathematical utilities for common operations including interpolation, angle manipulation, power-of-two calculations, and noise generation. It's inspired by Unity's Mathf library and optimized for game development and real-time applications.</p>
+<h2 id="constants">Constants</h2>
 <ul>
-<li><code>width</code>: Width of the canvas context.</li>
-<li><code>height</code>: Height of the canvas context.</li>
+<li><code>deg2rad</code>: Conversion factor from degrees to radians (π/180).</li>
+<li><code>rad2deg</code>: Conversion factor from radians to degrees (180/π).</li>
+<li><code>eps</code>: Epsilon value (2^-52) used for floating-point comparisons.</li>
+<li><code>neg_inf</code>: Negative infinity value.</li>
 </ul>
-<h4 id="load_imageimage_bytes"><code>load_image(image_bytes)</code></h4>
-<p>Loads an image from the provided byte array.</p>
+<h2 id="functions">Functions</h2>
+<h3 id="core-utilities">Core Utilities</h3>
 <ul>
-<li><code>image_bytes</code>: Byte array representing the image data.</li>
+<li>
+<p><code>abs(x)</code>: Returns the absolute value of x.</p>
+</li>
+<li>
+<p><code>sign(x)</code>: Returns 1 if x is positive or zero, -1 if x is negative.</p>
+</li>
+<li>
+<p><code>clamp(value, min, max)</code>: Clamps a value between a minimum and maximum float value.</p>
+</li>
+<li>
+<p><code>clamp01(value)</code>: Clamps a value between 0 and 1.</p>
+</li>
+<li>
+<p><code>approx(a, b)</code>: Compares two floating-point values and returns true if they are similar within epsilon tolerance.</p>
+</li>
+<li>
+<p><code>closest_pow2(value)</code>: Returns the closest power of two value (32-bit).</p>
+</li>
+<li>
+<p><code>closest_pow2l(value)</code>: Returns the closest power of two value (64-bit).</p>
+</li>
+<li>
+<p><code>is_pow2(value)</code>: Returns true if the value is a power of two.</p>
+</li>
+<li>
+<p><code>next_pow2(value)</code>: Returns the next power of two value.</p>
+</li>
+<li>
+<p><code>round(x)</code>: Returns x rounded to the nearest integer (ties to even).</p>
+</li>
 </ul>
-<h4 id="radiansdegrees"><code>radians(degrees)</code></h4>
-<p>Converts degrees to radians.</p>
+<h3 id="angle-utilities">Angle Utilities</h3>
 <ul>
-<li><code>degrees</code>: Angle in degrees.</li>
+<li>
+<p><code>delta_angle(current, target)</code>: Calculates the shortest difference between two given angles in degrees.</p>
+</li>
+<li>
+<p><code>lerp_angle(a, b, t)</code>: Same as lerp but ensures values interpolate correctly when they wrap around 360 degrees.</p>
+</li>
+<li>
+<p><code>move_angle(current, target, max_delta)</code>: Moves an angle towards a target angle with a maximum delta step.</p>
+</li>
 </ul>
-<h4 id="degreesradians"><code>degrees(radians)</code></h4>
-<p>Converts radians to degrees.</p>
+<h3 id="interpolation-smoothing">Interpolation &amp; Smoothing</h3>
 <ul>
-<li><code>radians</code>: Angle in radians.</li>
+<li>
+<p><code>lerp(a, b, t)</code>: Linearly interpolates between a and b by t (clamped between 0 and 1).</p>
+</li>
+<li>
+<p><code>lerp_uncl(a, b, t)</code>: Linearly interpolates between a and b by t (unclamped).</p>
+</li>
+<li>
+<p><code>inverse_lerp(a, b, value)</code>: Calculates the linear parameter t that produces the interpolant value within the range [a, b].</p>
+</li>
+<li>
+<p><code>move_towards(current, target, max_delta)</code>: Moves a value towards a target with a maximum delta step.</p>
+</li>
+<li>
+<p><code>smooth_step(from, to, t)</code>: Interpolates between from and to with smoothing at the limits (Hermite interpolation).</p>
+</li>
 </ul>
-<h4 id="load_fontname-size-src"><code>load_font(name, size, src)</code></h4>
-<p>Loads a font and registers it under a name.</p>
+<h3 id="loops-waves">Loops &amp; Waves</h3>
 <ul>
-<li><code>name</code>: String name for the font.</li>
-<li><code>size</code>: Point size.</li>
-<li><code>src</code>: File path (string) or byte data (bytes).</li>
+<li>
+<p><code>repeat(t, length)</code>: Loops the value t so that it is never larger than length and never smaller than 0.</p>
+</li>
+<li>
+<p><code>pingpong(t, length)</code>: Ping-pongs the value t so that it oscillates between 0 and length.</p>
+</li>
 </ul>
-<h4 id="load_fontdataname-size-font_data"><code>load_fontdata(name, size, font_data)</code></h4>
-<p>Loads a font from binary data and registers it under a name.</p>
+<h3 id="color-space">Color Space</h3>
 <ul>
-<li><code>name</code>: String name for the font.</li>
-<li><code>size</code>: Point size.</li>
-<li><code>font_data</code>: Binary data (bytes).</li>
+<li>
+<p><code>gamma2linear(value)</code>: Converts the given value from gamma (sRGB) to linear color space.</p>
+</li>
+<li>
+<p><code>linear2gamma(value)</code>: Converts the given value from linear to gamma (sRGB) color space.</p>
+</li>
 </ul>
-<h4 id="new_windowwidth-height-title-update_function"><code>new_window(width, height, title, update_function)</code></h4>
-<p>Creates a new window with the specified width, height, and title. The <code>update_function</code> is called to update the content of the window.</p>
+<h3 id="noise">Noise</h3>
 <ul>
-<li><code>width</code>: Width of the window.</li>
-<li><code>height</code>: Height of the window.</li>
-<li><code>title</code>: Title of the window.</li>
-<li><code>update_function</code>: Function responsible for updating the content of the window.</li>
+<li><code>perlin(x, y)</code>: Generates 2D Perlin noise value in the range [-1, 1].</li>
 </ul>
-<pre><code class="language-go">import &quot;canvas&quot;
+<h3 id="optimization">Optimization</h3>
+<ul>
+<li><code>inv_sqrt(x)</code>: Returns the inverse square root of x using the Quake III fast algorithm.</li>
+</ul>
+<h2 id="examples">Examples</h2>
+<pre><code class="language-go">import &quot;mathf&quot;
 
-canvas.new_window(600, 400, &quot;Hello World&quot;, fn(w){
-    for {}
-})
+// Core utilities
+mathf.abs(-5)           // 5
+mathf.sign(-3.5)        // -1
+mathf.clamp(10, 0, 5)   // 5
+mathf.clamp01(0.8)      // 0.8
+mathf.approx(0.1, 0.1000001) // true
+mathf.is_pow2(8)        // true
+mathf.next_pow2(5)      // 8
+mathf.round(2.5)        // 2 (ties to even)
+
+// Interpolation
+mathf.lerp(0, 10, 0.5)  // 5
+mathf.inverse_lerp(0, 10, 5) // 0.5
+mathf.smooth_step(0, 10, 0.5) // 5 (with smooth easing)
+
+// Angles
+mathf.delta_angle(350, 10) // 20 (shortest path)
+mathf.lerp_angle(350, 10, 0.5) // 0 (correctly wraps)
+
+// Loops
+mathf.repeat(5, 3)     // 2
+mathf.pingpong(5, 3)   // 1
+
+// Color
+mathf.gamma2linear(0.5)  // 0.217637640824031
+mathf.linear2gamma(0.5)  // 0.7297400528400191
+
+// Noise
+mathf.perlin(0.5, 0.3)  // Perlin noise value between -1 and 1
+
+// Optimization
+mathf.inv_sqrt(4)       // 0.5 (fast inverse square root)
 </code></pre>
-<h4 id="new_windowoptions-update_function"><code>new_window(options, update_function)</code></h4>
-<p><em>Note: Only supports on <code>windows</code> platform.</em></p>
-<p>Creates a new window with the specified options. The <code>update_function</code> is called to update the content of the window.</p>
-<pre><code class="language-go">import &quot;canvas&quot;
+<h2 id="constants-example">Constants Example</h2>
+<pre><code class="language-go">import &quot;mathf&quot;
 
-var options = {
-    width: 600,
-    height: 400,
-    title: &quot;Hello World&quot;,
-    fullscreen: false,
-    borderless: false,
-    top_most: false,
-    no_scaling: false,
-    x: 200,
-    y: 10
-}
-
-canvas.new_window(options, fn(w){
-    for {}
-})
-</code></pre>
-<h3 id="canvas-context-functions">canvas Context Functions</h3>
-<h4 id="drawing-functions">Drawing Functions</h4>
-<ul>
-<li><code>drawimage(image_bytes, x, y)</code></li>
-<li><code>drawimage_anchored(image_bytes, x, y, anchor_x, anchor_y)</code></li>
-<li><code>savepng(filename)</code></li>
-<li><code>point(x, y)</code></li>
-<li><code>line(x1, y1, x2, y2)</code></li>
-<li><code>rect(x, y, width, height)</code></li>
-<li><code>polygon(sides, x_center, y_center, radius, rotation)</code></li>
-<li><code>rounderect(x, y, width, height, radius)</code></li>
-<li><code>circle(x, y, radius)</code></li>
-<li><code>arc(x, y, radius, start_angle, end_angle)</code></li>
-<li><code>ellipse(x, y, x_radius, y_radius)</code></li>
-<li><code>ellipsearc(x, y, x_radius, y_radius, start_angle, end_angle)</code></li>
-</ul>
-<h4 id="style-functions">Style Functions</h4>
-<ul>
-<li><code>set_pixel(x, y)</code></li>
-<li><code>rgb(r, g, b)</code></li>
-<li><code>rgba(r, g, b, a)</code></li>
-<li><code>rgb255(r, g, b)</code></li>
-<li><code>rgba255(r, g, b, a)</code></li>
-<li><code>hex(color)</code></li>
-<li><code>linewidth(width)</code></li>
-<li><code>dashoffset(offset)</code></li>
-<li><code>dash(...)</code></li>
-</ul>
-<h4 id="path-functions">Path Functions</h4>
-<ul>
-<li><code>move_to(x, y)</code></li>
-<li><code>line_to(x, y)</code></li>
-<li><code>quadratic_to(x1, y1, x2, y2)</code></li>
-<li><code>cubic_to(x1, y1, x2, y2, x3, y3)</code></li>
-<li><code>closepath()</code></li>
-<li><code>clearpath()</code></li>
-<li><code>newsubpath()</code></li>
-<li><code>clear()</code></li>
-</ul>
-<h4 id="drawing-state-functions">Drawing State Functions</h4>
-<ul>
-<li><code>stroke()</code></li>
-<li><code>fill()</code></li>
-<li><code>stroke_preserve()</code></li>
-<li><code>fill_preserve()</code></li>
-<li><code>push()</code></li>
-<li><code>pop()</code></li>
-<li><code>clip()</code></li>
-<li><code>clip_preserve()</code></li>
-<li><code>resetclip()</code></li>
-</ul>
-<h4 id="text-functions">Text Functions</h4>
-<ul>
-<li><code>text(text, x, y)</code></li>
-<li><code>text_anchored(text, x, y, anchor_x, anchor_y)</code></li>
-<li><code>measure_text(text)</code></li>
-<li><code>measure_multiline_text(text)</code></li>
-<li><code>load_fontface(font_path, size)</code></li>
-<li><code>fontface(font_data, size)</code></li>
-<li><code>set_font(name)</code></li>
-<li><code>fontheight()</code></li>
-</ul>
-<h4 id="transformation-functions">Transformation Functions</h4>
-<ul>
-<li><code>identity()</code></li>
-<li><code>translate(x, y)</code></li>
-<li><code>scale(scale_x, scale_y)</code></li>
-<li><code>rotate(angle)</code></li>
-<li><code>shear(shear_x, shear_y)</code></li>
-<li><code>scaleabout(scale_x, scale_y, x, y)</code></li>
-<li><code>rotateabout(angle, x, y)</code></li>
-<li><code>shearabout(shear_x, shear_y, x, y)</code></li>
-<li><code>transform_point(x, y)</code></li>
-</ul>
-<h4 id="other-functions">Other Functions</h4>
-<ul>
-<li><code>height()</code></li>
-<li><code>width()</code></li>
-<li><code>wordwrap(text, max_width)</code></li>
-</ul>
-<h4 id="image-functions">Image Functions</h4>
-<ul>
-<li><code>image()</code></li>
-</ul>
-<h3 id="example-usage">Example Usage</h3>
-<pre><code class="language-go">import &quot;canvas&quot;
-
-ctx := canvas.new_context(200, 200)
-
-ctx.hex(`#121212`)
-ctx.clear()
-ctx.hex(&quot;#0f0&quot;)
-ctx.dash(4)
-ctx.rect(50, 50, 100, 100)
-ctx.stroke()    
-
-ctx.save_png(&quot;output.png&quot;)
+mathf.deg2rad          // 0.017453292519943295
+mathf.rad2deg          // 57.29577951308232
+mathf.eps              // 2.220446049250313e-16
+mathf.neg_inf          // -Infinity
 </code></pre></div>
             </div>
         </div>

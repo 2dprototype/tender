@@ -142,6 +142,10 @@
 </li>
                                     
 <li>
+    <a href="pages/stdlib-mathf/" class="dropdown-item">Stdlib mathf</a>
+</li>
+                                    
+<li>
     <a href="pages/stdlib-net/" class="dropdown-item">Stdlib net</a>
 </li>
                                     
@@ -240,6 +244,10 @@
               <ul class="nav flex-column">
               </ul>
             </li>
+            <li class="nav-item" data-bs-level="2"><a href="#why-tender" class="nav-link">Why Tender?</a>
+              <ul class="nav flex-column">
+              </ul>
+            </li>
             <li class="nav-item" data-bs-level="2"><a href="#features" class="nav-link">Features</a>
               <ul class="nav flex-column">
               </ul>
@@ -292,16 +300,24 @@
                     <div class="col-md-9" role="main">
 
 <h1 id="tender">Tender</h1>
-<p><strong>Tender</strong> is a general-purpose programming language specially designed for image processing, 2D graphics, scripting, and more! Here is a quick <a href="pages/tutorial/">tutorial</a>. Also check the <a href="https://2dprototype.github.io/tender">docs</a>!</p>
+<p><strong>Tender</strong> is an experimental programming language specially designed for graphics, image processing, audio, scripting, and more! Here is a quick <a href="pages/tutorial/">tutorial</a>. Also check the <a href="https://github.com/2dprototype/tender">repo</a>!</p>
 <h2 id="overview">Overview</h2>
 <p>Tender compiles into bytecode and executes on a stack-based virtual machine (VM) written in native Golang.</p>
+<h2 id="why-tender">Why Tender?</h2>
+<p>Modern scripting often means installing dozens of packages before drawing a window, loading an image, or making a network request. Tender takes a different approach.</p>
+<h3 id="s3-philosophy">S³ Philosophy</h3>
+<ul>
+<li><strong>Simple</strong> — Readable syntax with familiar language features</li>
+<li><strong>Single Binary</strong> — Compile once. Ship a single executable.</li>
+<li><strong>Self-Sufficient</strong> — Graphics, OpenGL, audio, networking, image processing, compression, GUI, and more are included in the standard library.</li>
+</ul>
 <h2 id="features">Features</h2>
 <ul>
-<li><strong>Simple and highly readable syntax</strong>  </li>
-<li><strong>Compiles to bytecode</strong>  </li>
-<li><strong>Supports rich <a href="pages/builtins/">built-in functions</a></strong>  </li>
-<li><strong>Includes an extensive <a href="pages/stdlib/">standard library</a></strong>  </li>
-<li><strong>Designed for 2D graphics</strong>  </li>
+<li><strong>Simple and highly readable syntax</strong></li>
+<li><strong>Compiles to bytecode</strong></li>
+<li><strong>Supports rich <a href="pages/builtins/">built-in functions</a></strong></li>
+<li><strong>Includes an extensive <a href="pages/stdlib/">standard library</a></strong></li>
+<li><strong>Designed for 2D graphics</strong></li>
 <li><strong>REPL (Read-Eval-Print Loop) for interactive development</strong></li>
 <li><strong>Rich type system</strong> including int, float, string, bool, char, null, big integers, big floats, complex numbers, bytes, arrays (dynamic and immutable), maps (dynamic and immutable), tuples, time values, and error values</li>
 <li><strong>User-defined structs</strong> with field types, nested structs, anonymous structs, and embedded fields</li>
@@ -311,7 +327,7 @@
 <li><strong>Modular architecture</strong> with import statements, module aliasing, selective imports, embedded file import (<code>embed()</code>), and file-based module loading</li>
 <li><strong>Runtime type introspection</strong> with <code>typeof()</code> and type checking functions</li>
 <li><strong>Error handling</strong> through the <code>error()</code> expression</li>
-<li><strong>Immutable data structures</strong> via <code>immutable()</code> expression</li>
+<li><strong>Immutable data structures</strong> via <code>freeze()</code> builtin</li>
 <li><strong>Loop control</strong> with <code>break</code> and <code>continue</code> statements</li>
 <li><strong>For loops</strong> including traditional, for-in, conditional, and infinite loops</li>
 <li><strong>Variable declarations</strong> with <code>var</code> and constants with <code>const</code></li>
@@ -323,100 +339,61 @@
 </ul>
 <h3 id="supported-standard-library">Supported Standard Library</h3>
 <ul>
-<li><a href="pages/stdlib-math/">math</a>: Mathematical constants and functions  </li>
+<li><a href="pages/stdlib-math/">math</a>: Mathematical constants and functions</li>
+<li><a href="pages/stdlib-mathf/">mathf</a>: Unity-inspired math utilities for game development</li>
 <li><a href="pages/stdlib-cmplx/">cmplx</a>: Functions for complex numbers</li>
-<li><a href="pages/stdlib-os/">os</a>: Platform-independent interface to OS functionality  </li>
-<li><a href="pages/stdlib-strings/">strings</a>: String conversion, manipulation, and regular expressions  </li>
-<li><a href="pages/stdlib-times/">times</a>: Time-related functions  </li>
-<li><a href="pages/stdlib-rand/">rand</a>: Random number generation  </li>
-<li><a href="pages/stdlib-fmt/">fmt</a>: Formatting functions  </li>
-<li><a href="pages/stdlib-json/">json</a>: JSON handling functions  </li>
-<li><a href="pages/stdlib-xml/">xml</a>: XML handling functions  </li>
-<li><a href="pages/stdlib-base64/">base64</a>: Base64 encoding and decoding  </li>
-<li><a href="pages/stdlib-hex/">hex</a>: Hexadecimal encoding and decoding  </li>
-<li><a href="pages/stdlib-colors/">colors</a>: Functions to print colored text to the terminal  </li>
-<li><a href="pages/stdlib-gzip/">gzip</a>: Gzip compression and decompression  </li>
-<li><a href="pages/stdlib-zip/">zip</a>: ZIP archive manipulation  </li>
-<li><a href="pages/stdlib-tar/">tar</a>: TAR archive creation and reading  </li>
-<li><a href="pages/stdlib-bufio/">bufio</a>: Buffered I/O functions  </li>
-<li><a href="pages/stdlib-crypto/">crypto</a>: Cryptographic functions  </li>
-<li><a href="pages/stdlib-path/">path</a>: File path manipulation  </li>
-<li><a href="pages/stdlib-image/">image</a>: Image manipulation  </li>
-<li><a href="pages/stdlib-canvas/">canvas</a>: Drawing functions for canvases  </li>
-<li><a href="pages/stdlib-dll/">dll</a>: Dynamic link library interactions  </li>
-<li><a href="pages/stdlib-io/">io</a>: Input and output functions  </li>
-<li><a href="pages/stdlib-audio/">audio</a>: Audio processing  </li>
-<li><a href="pages/stdlib-net/">net</a>: Networking functions  </li>
-<li><a href="pages/stdlib-http/">http</a>: HTTP client and server utilities  </li>
-<li><a href="pages/stdlib-websocket/">websocket</a>: WebSocket communication utilities  </li>
-<li><a href="pages/stdlib-sync/">sync</a>: Synchronization primitives</li>
+<li><a href="pages/stdlib-os/">os</a>: Platform-independent interface to OS functionality</li>
+<li><a href="pages/stdlib-strings/">strings</a>: String conversion, manipulation, and regular expressions</li>
+<li><a href="pages/stdlib-times/">times</a>: Time-related functions</li>
+<li><a href="pages/stdlib-rand/">rand</a>: Random number generation</li>
+<li><a href="pages/stdlib-fmt/">fmt</a>: Formatting functions</li>
+<li><a href="pages/stdlib-json/">json</a>: JSON handling functions</li>
+<li><a href="pages/stdlib-xml/">xml</a>: XML handling functions</li>
+<li><a href="pages/stdlib-base64/">base64</a>: Base64 encoding and decoding</li>
+<li><a href="pages/stdlib-hex/">hex</a>: Hexadecimal encoding and decoding</li>
+<li><a href="pages/stdlib-colors/">colors</a>: Functions to print colored text to the terminal</li>
+<li><a href="pages/stdlib-gzip/">gzip</a>: Gzip compression and decompression</li>
+<li><a href="pages/stdlib-zip/">zip</a>: ZIP archive manipulation</li>
+<li><a href="pages/stdlib-tar/">tar</a>: TAR archive creation and reading</li>
+<li><a href="pages/stdlib-bufio/">bufio</a>: Buffered I/O functions</li>
+<li><a href="pages/stdlib-crypto/">crypto</a>: Cryptographic functions</li>
+<li><a href="pages/stdlib-path/">path</a>: File path manipulation</li>
+<li><a href="pages/stdlib-image/">image</a>: Image manipulation</li>
+<li><a href="pages/stdlib-canvas/">canvas</a>: Drawing functions for canvases</li>
+<li><a href="pages/stdlib-graphics/">graphics</a>: 2D graphics with OpenGL acceleration</li>
+<li><a href="pages/stdlib-gl/">gl</a>: OpenGL bindings for 3D graphics</li>
+<li><a href="pages/stdlib-glu/">glu</a>: OpenGL Utility Library bindings</li>
+<li><a href="pages/stdlib-glut/">glut</a>: OpenGL Utility Toolkit bindings</li>
+<li><a href="pages/stdlib-glfw/">glfw</a>: GLFW window and input management</li>
+<li><a href="pages/stdlib-dll/">dll</a>: Dynamic link library interactions</li>
+<li><a href="pages/stdlib-io/">io</a>: Input and output functions</li>
+<li><a href="pages/stdlib-audio/">audio</a>: Audio processing</li>
+<li><a href="pages/stdlib-net/">net</a>: Networking functions</li>
+<li><a href="pages/stdlib-http/">http</a>: HTTP client and server utilities</li>
+<li><a href="pages/stdlib-websocket/">websocket</a>: WebSocket communication utilities</li>
 <li><strong>gob</strong>: Gob Encoding/Decoding</li>
 <li><strong>csv</strong>: CSV Encoding/Decoding</li>
-<li><a href="pages/stdlib-wui/">wui</a>  </li>
-<li><a href="pages/stdlib-sync/">sync</a>  </li>
+<li><a href="pages/stdlib-wui/">wui</a>: Native Windows GUI framework</li>
+<li><a href="pages/stdlib-sync/">sync</a>: Synchronization primitives</li>
 </ul>
 <h2 id="quick-start">Quick Start</h2>
 <ol>
-<li><strong>Install Tender on your machine.</strong>  </li>
+<li><strong>Install Tender on your machine.</strong></li>
 <li><strong>Copy the sample code below:</strong></li>
 </ol>
-<pre><code class="language-go">// Basic example
-str1 := &quot;hello&quot;
-str2 := &quot;world&quot;
-
-println(str1 + &quot; &quot; + str2)
-</code></pre>
-<pre><code class="language-go">// Template literals example
-name := &quot;Alice&quot;
-age := 30
-message := `Hello ${name}, you are ${age} years old!`
-println(message)  // Output: Hello Alice, you are 30 years old!
-
-// Expressions inside templates
-println(`2 + 3 = ${2 + 3}`)  // Output: 2 + 3 = 5
-
-// Complex expressions
-println(`The result is ${if 5 &gt; 3 { &quot;true&quot; } else { &quot;false&quot; }}`)
-</code></pre>
-<pre><code class="language-go">// Structs example
-type user struct {
-    name string
-    age  int
-}
-
-u := user{name: &quot;Alice&quot;, age: 30}
-println(&quot;Name:&quot;, u.name, &quot;Age:&quot;, u.age)
-
-// Nested structs
-type point struct {
-    x, y int
-}
-
-type line struct {
-    p1 point
-    p2 point
-}
-
-l := line{
-    p1: point{x: 0, y: 0},
-    p2: point{x: 10, y: 10}
-}
-
-println(`line from (${l.p1.x}, ${l.p1.y}) to (${l.p2.x}, ${l.p2.y})`)
-</code></pre>
-<pre><code class="language-go">// Canvas drawing example (similar to JS Canvas)
+<pre><code class="language-go">// Canvas drawing example
 import &quot;canvas&quot;
 
-var ctx = canvas.new_context(100, 100)
-ctx.hex(&quot;#0f0&quot;)          // Set color to green
-ctx.dash(4, 2)           // Define dashed stroke
-ctx.rect(25, 25, 50, 50) // Draw a rectangle
+ctx := canvas.new_context(100, 100)
+ctx.hex(&quot;#0f0&quot;)
+ctx.dash(4, 2)
+ctx.rect(25, 25, 50, 50)
 ctx.stroke()
 
-ctx.save_png(&quot;out.png&quot;)  // Save output as PNG
+ctx.save_png(&quot;out.png&quot;)
 </code></pre>
 <ol>
-<li><strong>Save your code as <code>hello.td</code></strong> (use the <code>.td</code> extension).  </li>
+<li><strong>Save your code as <code>hello.td</code></strong> (use the <code>.td</code> extension).</li>
 <li><strong>Run your script using the following command:</strong></li>
 </ol>
 <pre><code class="language-bash">tender hello.td
@@ -425,7 +402,7 @@ ctx.save_png(&quot;out.png&quot;)  // Save output as PNG
 <h2 id="installation">Installation</h2>
 <h3 id="using-go">Using Go</h3>
 <ol>
-<li>Install the latest version of Go.  </li>
+<li>Install the latest version of Go.</li>
 <li>Run the following command to install:</li>
 </ol>
 <pre><code class="language-bash">go install github.com/2dprototype/tender/cli/tender@latest
@@ -436,12 +413,56 @@ ctx.save_png(&quot;out.png&quot;)  // Save output as PNG
 <h2 id="documentation">Documentation</h2>
 <p>Check the <a href="https://2dprototype.github.io/tender">docs</a>!</p>
 <ul>
-<li><strong><a href="pages/runtime-types/">Runtime Types</a></strong>  </li>
-<li><strong><a href="pages/builtins/">Built-in Functions</a></strong>  </li>
-<li><strong><a href="pages/operators/">Operators</a></strong>  </li>
-<li><strong><a href="pages/stdlib/">Standard Library</a></strong>  </li>
+<li><strong><a href="pages/runtime-types/">Runtime Types</a></strong></li>
+<li><strong><a href="pages/builtins/">Built-in Functions</a></strong></li>
+<li><strong><a href="pages/operators/">Operators</a></strong></li>
+<li><strong><a href="pages/stdlib/">Standard Library</a></strong></li>
 </ul>
 <h2 id="examples">Examples</h2>
+<h3 id="hello-world">Hello, World</h3>
+<pre><code class="language-go">println(&quot;Hello, World!&quot;)
+</code></pre>
+<hr />
+<h3 id="graphics">Graphics</h3>
+<pre><code class="language-go">import &quot;graphics&quot;
+
+win := graphics.new_window(400, 400, &quot;Tender&quot;)
+
+win.on_draw(fn() {
+    win.clear(&quot;#000&quot;)
+    win.hex(&quot;#f00&quot;)
+    win.circle(200, 200, 100)
+    win.fill()
+})
+
+win.run()
+</code></pre>
+<hr />
+<h3 id="opengl">OpenGL</h3>
+<pre><code class="language-go">import &quot;gl&quot;
+import &quot;glut&quot;
+
+glut.init()
+gl.init()
+glut.init_display_mode(glut.RGBA | glut.DOUBLE | glut.DEPTH)
+glut.init_window_size(400, 400)
+glut.create_window(&quot;Tender OpenGL&quot;)
+
+glut.display_func(fn() {
+    gl.clear(gl.COLOR_BUFFER_BIT)
+    gl.begin(gl.TRIANGLES)
+    gl.color3f(1, 0, 0)
+    gl.vertex2f(0, 0.8)
+    gl.color3f(0, 1, 0)
+    gl.vertex2f(-0.8, -0.8)
+    gl.color3f(0, 0, 1)
+    gl.vertex2f(0.8, -0.8)
+    gl.end()
+    glut.swap_buffers()
+})
+
+glut.main_loop()
+</code></pre>
 <h3 id="basic-examples">Basic Examples</h3>
 <pre><code class="language-go">// Variable declarations
 var name = &quot;Tender&quot;
@@ -483,7 +504,7 @@ person.age = 26
 var num = int(&quot;123&quot;)
 if is_string(num) {
     println(&quot;This is a string&quot;)
-} 
+}
 else {
     println(&quot;This is not a string&quot;)
 }
@@ -508,7 +529,7 @@ for item in items {
 }
 
 // Optional chaining
-var user = {    
+var user = {
     profile: {
         name: &quot;jack&quot;
     }
@@ -660,11 +681,11 @@ tender -help
 <h2 id="dependencies">Dependencies</h2>
 <p>Tender uses the following dependencies:</p>
 <ul>
-<li><a href="https://github.com/hajimehoshi/go-mp3">go-mp3</a>  </li>
-<li><a href="https://github.com/gorilla/websocket">gorilla/websocket</a>  </li>
-<li><a href="https://github.com/ebitengine/oto/v3">ebitengine/oto/v3</a>  </li>
-<li><a href="https://pkg.go.dev/golang.org/x/exp/shiny">exp/shiny</a>  </li>
-<li><a href="https://github.com/fogleman/gg">fogleman/gg</a>  </li>
+<li><a href="https://github.com/hajimehoshi/go-mp3">go-mp3</a></li>
+<li><a href="https://github.com/gorilla/websocket">gorilla/websocket</a></li>
+<li><a href="https://github.com/ebitengine/oto/v3">ebitengine/oto/v3</a></li>
+<li><a href="https://pkg.go.dev/golang.org/x/exp/shiny">exp/shiny</a></li>
+<li><a href="https://github.com/fogleman/gg">fogleman/gg</a></li>
 </ul>
 <hr />
 <h2 id="syntax-highlighting">Syntax Highlighting</h2>
@@ -758,5 +779,5 @@ tender -help
 
 <!--
 MkDocs version : 1.6.1
-Build Date UTC : 2026-07-08 14:49:56.987464+00:00
+Build Date UTC : 2026-07-09 11:42:54.466817+00:00
 -->
