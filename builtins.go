@@ -4,7 +4,6 @@ import "fmt"
 import "sort"
 import "time"
 import "os"
-import "unsafe"
 import "github.com/2dprototype/tender/v/colorable"
 import "math/big"
 
@@ -16,10 +15,6 @@ func addBuiltinFunction(name string, fn CallableFunc, needVMObj bool) {
 }
 
 func init() {
-	addBuiltinFunction("pointer", builtinPointer, true)
-	addBuiltinFunction("deref", builtinDeref, false)
-	addBuiltinFunction("set", builtinSet, false)
-	addBuiltinFunction("is_pointer", builtinIsPointer, false)
 	addBuiltinFunction("debug", builtinDebug, true)
 	addBuiltinFunction("sysout", builtinSysout, false)
 	addBuiltinFunction("print", builtinPrint, false)
@@ -78,85 +73,6 @@ func init() {
 func GetAllBuiltinFunctions() []*NativeFunction {
 	return append([]*NativeFunction{}, builtinFuncs...)
 }
-
-
-
-// Pointer builtins
-func builtinPointer(args ...Object) (Object, error) {
-    if len(args) != 2 {
-        return nil, ErrWrongNumArguments
-    }
-
-    // first argument is VM object (because needVMObj = true)
-    vm := args[0].(*VMObj).Value
-    arg := args[1]
-
-    // find the variable slot reference in the environment
-    name, ok := vm.FindGlobalIndexByValue(arg)
-    if !ok {
-        // fallback to normal behavior (value only)
-        slot := &arg
-        return &Pointer{Slot: slot, Address: uintptr(unsafe.Pointer(slot))}, nil
-    }
-
-    slot := vm.GetGlobalSlotPointer(name)
-    return &Pointer{
-        Slot:    slot,
-        Address: uintptr(unsafe.Pointer(slot)),
-    }, nil
-}
-
-
-func builtinDeref(args ...Object) (Object, error) {
-    if len(args) != 1 {
-        return nil, ErrWrongNumArguments
-    }
-
-    p, ok := args[0].(*Pointer)
-    if !ok {
-        return nil, ErrInvalidArgumentType{
-            Name:     "first",
-            Expected: "pointer",
-            Found:    args[0].TypeName(),
-        }
-    }
-    if p.Slot == nil || *p.Slot == nil {
-        return NullValue, nil
-    }
-    return *p.Slot, nil
-}
-
-func builtinSet(args ...Object) (Object, error) {
-    if len(args) != 2 {
-        return nil, ErrWrongNumArguments
-    }
-
-    p, ok := args[0].(*Pointer)
-    if !ok {
-        return nil, ErrInvalidArgumentType{
-            Name:     "first",
-            Expected: "pointer",
-            Found:    args[0].TypeName(),
-        }
-    }
-    if p.Slot == nil {
-        return wrapError(fmt.Errorf("null pointer assignment")), nil
-    }
-
-    *p.Slot = args[1]
-    return args[1], nil
-}
-
-func builtinIsPointer(args ...Object) (Object, error) {
-	if len(args) != 1 {
-		return nil, ErrWrongNumArguments
-	}
-	if _, ok := args[0].(*Pointer); ok {
-		return TrueValue, nil
-	}
-	return FalseValue, nil
-}
-
 
 func builtinDebug(args ...Object) (Object, error) {
 	vm := args[0].(*VMObj).Value

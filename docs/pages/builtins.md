@@ -189,7 +189,7 @@ cost because no clone can mutate it.
 // Immutable input with no mutable children is returned as the same object.
 a := immutable([1, 2, 3])
 b := freeze(a)
-// b == a (same pointer, no allocation)
+// b == a 
 ```
 
 ## format

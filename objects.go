@@ -2258,59 +2258,6 @@ func (o *Null) Value() Object {
 	return o
 }
 
-
-
-
-// Pointer represents a pointer to another object.
-type Pointer struct {
-    ObjectImpl
-    Slot    *Object // points to a variable’s memory slot (real reference)
-    Address uintptr
-}
-
-func (p *Pointer) TypeName() string { return "pointer" }
-
-func (p *Pointer) String() string {
-    if p.Slot == nil || *p.Slot == nil {
-        return fmt.Sprintf("&<nil>@%#x", p.Address)
-    }
-    return fmt.Sprintf("&%s@%#x", (*p.Slot).TypeName(), p.Address)
-}
-
-func (p *Pointer) Copy() Object {
-    return &Pointer{Slot: p.Slot, Address: p.Address}
-}
-
-func (p *Pointer) IsFalsy() bool {
-    return p.Slot == nil
-}
-
-func (p *Pointer) Equals(x Object) bool {
-    q, ok := x.(*Pointer)
-    if !ok {
-        return false
-    }
-    return p.Address == q.Address
-}
-
-
-func (p *Pointer) IndexGet(index Object) (Object, error) {
-	strIdx, ok := index.(*String)
-	if !ok {
-		return nil, ErrInvalidIndexType
-	}
-	switch strIdx.Value {
-	case "addr":
-		return &Int{Value: int64(p.Address)}, nil
-	case "val":
-		if *p.Slot == nil {
-			return NullValue, nil
-		}
-		return *p.Slot, nil
-	}
-	return nil, nil
-}
-
 var StructTypes = make(map[string]*StructType)
 
 func zeroValue(typeName string) Object {
