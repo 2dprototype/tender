@@ -28,12 +28,20 @@ var stmtStart = map[token.Token]bool{
 
 // Error represents a parser error.
 type Error struct {
-	Pos SourceFilePos
-	Msg string
+	Pos  SourceFilePos
+	Msg  string
+	File *SourceFile
 }
 
 func (e Error) Error() string {
+	var frame string
+	if e.File != nil && len(e.File.Src) > 0 {
+		frame = FormatErrorFrame(e.File.Set(), e.File.FileSetPos(e.Pos.Offset), NoPos)
+	}
 	if e.Pos.Filename != "" || e.Pos.IsValid() {
+		if frame != "" {
+			return fmt.Sprintf("Parse Error: %s\n%s\n\tat %s", e.Msg, frame, e.Pos)
+		}
 		return fmt.Sprintf("Parse Error: %s\n\tat %s", e.Msg, e.Pos)
 	}
 	return fmt.Sprintf("Parse Error: %s", e.Msg)
@@ -43,8 +51,8 @@ func (e Error) Error() string {
 type ErrorList []*Error
 
 // Add adds a new parser error to the collection.
-func (p *ErrorList) Add(pos SourceFilePos, msg string) {
-	*p = append(*p, &Error{pos, msg})
+func (p *ErrorList) Add(pos SourceFilePos, msg string, file *SourceFile) {
+	*p = append(*p, &Error{Pos: pos, Msg: msg, File: file})
 }
 
 // Len returns the number of elements in the collection.
@@ -114,6 +122,7 @@ type Parser struct {
 
 // NewParser creates a Parser.
 func NewParser(file *SourceFile, src []byte, trace io.Writer) *Parser {
+	file.Src = src
 	p := &Parser{
 		file:     file,
 		trace:    trace != nil,
@@ -121,7 +130,7 @@ func NewParser(file *SourceFile, src []byte, trace io.Writer) *Parser {
 	}
 	p.scanner = NewScanner(p.file, src,
 		func(pos SourceFilePos, msg string) {
-			p.errors.Add(pos, msg)
+			p.errors.Add(pos, msg, p.file)
 		}, 0)
 	p.next()
 	return p
@@ -1639,7 +1648,7 @@ func (p *Parser) error(pos Pos, msg string) {
 		// too many errors; terminate early
 		panic(bailout{})
 	}
-	p.errors.Add(filePos, msg)
+	p.errors.Add(filePos, msg, p.file)
 }
 
 func (p *Parser) errorExpected(pos Pos, msg string) {

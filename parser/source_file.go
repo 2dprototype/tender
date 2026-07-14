@@ -3,6 +3,7 @@ package parser
 import (
 	"fmt"
 	"sort"
+	"strings"
 )
 
 // SourceFilePos represents a position information in the file.
@@ -141,6 +142,8 @@ type SourceFile struct {
 	// Lines contains the offset of the first character for each line
 	// (the first entry is always 0)
 	Lines []int
+	// Source code contents
+	Src []byte
 }
 
 // Set returns SourceFileSet.
@@ -228,4 +231,80 @@ func searchInts(a []int, x int) int {
 		}
 	}
 	return i - 1
+}
+
+func FormatErrorFrame(fileSet *SourceFileSet, pos Pos, endPos Pos) string {
+	if fileSet == nil || pos == NoPos {
+		return ""
+	}
+
+	file := fileSet.File(pos)
+	if file == nil || len(file.Src) == 0 {
+		return ""
+	}
+
+	filePos := file.Position(pos)
+	line := filePos.Line
+	column := filePos.Column
+
+	if line < 1 || line > len(file.Lines) {
+		return ""
+	}
+
+	// Calculate line start and end offsets in file.Src
+	startOffset := file.Lines[line-1]
+	endOffset := file.Size
+	if line < len(file.Lines) {
+		endOffset = file.Lines[line]
+	}
+
+	// Extract the line text and remove any trailing newline characters
+	lineBytes := file.Src[startOffset:endOffset]
+	lineStr := string(lineBytes)
+	lineStr = strings.TrimRight(lineStr, "\r\n")
+
+	// Calculate the length of the underline span
+	spanLen := 1
+	if endPos != NoPos && endPos > pos {
+		// Limit span to the end of the current line
+		nodeOffset := file.Offset(pos)
+		nodeEndOffset := file.Offset(endPos)
+		if nodeEndOffset > startOffset && nodeEndOffset <= endOffset {
+			spanLen = nodeEndOffset - nodeOffset
+		} else if nodeEndOffset > endOffset {
+			spanLen = endOffset - nodeOffset
+		}
+	}
+	if spanLen < 1 {
+		spanLen = 1
+	}
+
+	// Build the display
+	var sb strings.Builder
+	
+	// Add arrow and filename/position
+	fmt.Fprintf(&sb, "   --> %s:%d:%d\n", filePos.Filename, line, column)
+	
+	// Format code line with line number padding
+	lineNumStr := fmt.Sprintf("%d", line)
+	padding := strings.Repeat(" ", len(lineNumStr))
+	
+	fmt.Fprintf(&sb, "   %s |\n", padding)
+	fmt.Fprintf(&sb, "   %s | %s\n", lineNumStr, lineStr)
+	
+	// Underline span using caret '^'
+	// Handle tabs properly in column alignment:
+	var underlinePrefix strings.Builder
+	for i := 0; i < column-1 && i < len(lineStr); i++ {
+		if lineStr[i] == '\t' {
+			underlinePrefix.WriteByte('\t')
+		} else {
+			underlinePrefix.WriteByte(' ')
+		}
+	}
+	underline := strings.Repeat("^", spanLen)
+	
+	fmt.Fprintf(&sb, "   %s | %s%s", padding, underlinePrefix.String(), underline)
+
+	return sb.String()
 }

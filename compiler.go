@@ -38,6 +38,10 @@ type CompilerError struct {
 
 func (e *CompilerError) Error() string {
 	filePos := e.FileSet.Position(e.Node.Pos())
+	frame := parser.FormatErrorFrame(e.FileSet, e.Node.Pos(), e.Node.End())
+	if frame != "" {
+		return fmt.Sprintf("Compile Error: %s\n%s\n\tat %s", e.Err.Error(), frame, filePos)
+	}
 	return fmt.Sprintf("Compile Error: %s\n\tat %s", e.Err.Error(), filePos)
 }
 

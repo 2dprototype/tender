@@ -337,10 +337,20 @@ func (v *VM) postRun() (err error) {
 	}
 	if err != nil {
 		var e ErrPanic
+		var frameStr string
+		frames := v.callers()
+		if len(frames) > 0 {
+			topPos := frames[0].fn.SourcePos(frames[0].ip)
+			frameStr = parser.FormatErrorFrame(v.fileSet, topPos, parser.NoPos)
+		}
+		if frameStr != "" {
+			frameStr = "\n" + frameStr
+		}
+
 		if errors.As(err, &e) {
-			err = fmt.Errorf("\nRuntime Panic: %v%s\n%s", e.perr, v.callStack(nil), e.stack)
+			err = fmt.Errorf("\nRuntime Panic: %v%s%s\n%s", e.perr, frameStr, v.callStack(frames), e.stack)
 		} else {
-			err = fmt.Errorf("\nRuntime Error: %w%s", err, v.callStack(nil))
+			err = fmt.Errorf("\nRuntime Error: %w%s%s", err, frameStr, v.callStack(frames))
 		}
 	}
 
