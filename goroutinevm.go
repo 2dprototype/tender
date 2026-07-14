@@ -19,7 +19,7 @@ type ret struct {
 }
 
 type goroutineVM struct {
-	*VM      // if not nil, run CompiledFunction in VM
+	*VM      // if not nil, run Function in VM
 	ret      // return value
 	waitChan chan ret
 	done     int64
@@ -27,10 +27,10 @@ type goroutineVM struct {
 
 // Starts a independent concurrent goroutine which runs fn(arg1, arg2, ...)
 	//
-	// If fn is CompiledFunction, the current running VM will be cloned to create
-	// a new VM in which the CompiledFunction will be running.
+	// If fn is Function, the current running VM will be cloned to create
+	// a new VM in which the Function will be running.
 	//
-	// The fn can also be any object that has Call() method, such as BuiltinFunction,
+	// The fn can also be any object that has Call() method, such as NativeFunction,
 	// in which case no cloned VM will be created.
 	//
 	// Returns a goroutineVM object that has wait, result, abort methods.
@@ -62,7 +62,7 @@ func builtinGovm(args ...Object) (Object, error) {
 	}
 	
 	var callers []frame
-	cfn, compiled := fn.(*CompiledFunction)
+	cfn, compiled := fn.(*Function)
 	if compiled {
 	gvm.VM = vm.ShallowClone()
 	} else {
@@ -94,7 +94,7 @@ func builtinGovm(args ...Object) (Object, error) {
 		val, err = gvm.RunCompiled(cfn, args[1:]...)
 		} else {
 			var nargs []Object
-			if bltnfn, ok := fn.(*BuiltinFunction); ok {
+			if bltnfn, ok := fn.(*NativeFunction); ok {
 				if bltnfn.NeedVMObj {
 					// pass VM as the first para to builtin functions
 					nargs = append(nargs, vm.selfObject())
@@ -106,9 +106,9 @@ func builtinGovm(args ...Object) (Object, error) {
 		}()
 		
 		obj := map[string]Object{
-			"result": &BuiltinFunction{Value: gvm.getRet},
-			"wait":   &BuiltinFunction{Value: gvm.waitTimeout},
-			"abort":  &BuiltinFunction{Value: gvm.abort},
+			"result": &NativeFunction{Value: gvm.getRet},
+			"wait":   &NativeFunction{Value: gvm.waitTimeout},
+			"abort":  &NativeFunction{Value: gvm.abort},
 		}
 		return &Map{Value: obj}, nil
 }
@@ -220,9 +220,9 @@ func builtinMakechan(args ...Object) (Object, error) {
 	
 	oc := make(objchan, size)
 	obj := map[string]Object{
-		"send":  &BuiltinFunction{Value: oc.send, NeedVMObj: true},
-		"recv":  &BuiltinFunction{Value: oc.recv, NeedVMObj: true},
-		"close": &BuiltinFunction{Value: oc.close},
+		"send":  &NativeFunction{Value: oc.send, NeedVMObj: true},
+		"recv":  &NativeFunction{Value: oc.recv, NeedVMObj: true},
+		"close": &NativeFunction{Value: oc.close},
 	}
 	return &Map{Value: obj}, nil
 }
@@ -282,7 +282,7 @@ func WrapFuncCall(vm *VM, args ...Object) (retVal Object, err error) {
 		return nil, ErrInvalidArgumentType{Name: "first", Expected: "callable function", Found: fn.TypeName()}
 	}
 	
-	cfn, compiled := fn.(*CompiledFunction)
+	cfn, compiled := fn.(*Function)
 	clone := vm.ShallowClone()
 	
 	if err := vm.addChild(clone); err != nil {
@@ -302,7 +302,7 @@ func WrapFuncCall(vm *VM, args ...Object) (retVal Object, err error) {
 	}
 	
 	var nargs []Object
-	if bltnfn, ok := fn.(*BuiltinFunction); ok {
+	if bltnfn, ok := fn.(*NativeFunction); ok {
 		if bltnfn.NeedVMObj {
 			nargs = append(nargs, clone.selfObject())
 		}
@@ -328,7 +328,7 @@ func WrapFuncCall(vm *VM, args ...Object) (retVal Object, err error) {
 		// }
 	// }
 	
-	// cfn, compiled := fn.(*CompiledFunction)
+	// cfn, compiled := fn.(*Function)
 	
 	// // Create a shallow clone for execution. 
 	// // This gives us fresh frames and stack, but shares globals.
@@ -349,7 +349,7 @@ func WrapFuncCall(vm *VM, args ...Object) (retVal Object, err error) {
 	
 	// // Execute Builtin Functions
 	// var nargs []Object
-	// if bltnfn, ok := fn.(*BuiltinFunction); ok {
+	// if bltnfn, ok := fn.(*NativeFunction); ok {
 		// if bltnfn.NeedVMObj {
 			// // pass the cloned VM as the first param to builtin functions
 			// nargs = append(nargs, clone.selfObject())

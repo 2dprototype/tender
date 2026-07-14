@@ -252,7 +252,7 @@ var glutModule = map[string]tender.Object{
 	// ============================================================
 	// SYSTEM FUNCTIONS
 	// ============================================================
-	"init": &tender.BuiltinFunction{
+	"init": &tender.NativeFunction{
 		Name: "init",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -263,7 +263,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"init_display_mode": &tender.BuiltinFunction{
+	"init_display_mode": &tender.NativeFunction{
 		Name: "init_display_mode",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -278,7 +278,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"init_window_size": &tender.BuiltinFunction{
+	"init_window_size": &tender.NativeFunction{
 		Name: "init_window_size",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -294,7 +294,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"init_window_position": &tender.BuiltinFunction{
+	"init_window_position": &tender.NativeFunction{
 		Name: "init_window_position",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -310,7 +310,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"create_window": &tender.BuiltinFunction{
+	"create_window": &tender.NativeFunction{
 		Name: "create_window",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -325,7 +325,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"create_sub_window": &tender.BuiltinFunction{
+	"create_sub_window": &tender.NativeFunction{
 		Name: "create_sub_window",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 5 {
@@ -344,7 +344,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"destroy_window": &tender.BuiltinFunction{
+	"destroy_window": &tender.NativeFunction{
 		Name: "destroy_window",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -359,7 +359,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"get_window": &tender.BuiltinFunction{
+	"get_window": &tender.NativeFunction{
 		Name: "get_window",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -370,7 +370,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"set_window": &tender.BuiltinFunction{
+	"set_window": &tender.NativeFunction{
 		Name: "set_window",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -385,7 +385,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"set_window_title": &tender.BuiltinFunction{
+	"set_window_title": &tender.NativeFunction{
 		Name: "set_window_title",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -400,7 +400,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"set_icon_title": &tender.BuiltinFunction{
+	"set_icon_title": &tender.NativeFunction{
 		Name: "set_icon_title",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -415,7 +415,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"position_window": &tender.BuiltinFunction{
+	"position_window": &tender.NativeFunction{
 		Name: "position_window",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -431,7 +431,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"reshape_window": &tender.BuiltinFunction{
+	"reshape_window": &tender.NativeFunction{
 		Name: "reshape_window",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -447,7 +447,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"full_screen": &tender.BuiltinFunction{
+	"full_screen": &tender.NativeFunction{
 		Name: "full_screen",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -458,7 +458,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"hide_window": &tender.BuiltinFunction{
+	"hide_window": &tender.NativeFunction{
 		Name: "hide_window",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -469,7 +469,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"show_window": &tender.BuiltinFunction{
+	"show_window": &tender.NativeFunction{
 		Name: "show_window",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -480,7 +480,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"iconify_window": &tender.BuiltinFunction{
+	"iconify_window": &tender.NativeFunction{
 		Name: "iconify_window",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -491,7 +491,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"push_window": &tender.BuiltinFunction{
+	"push_window": &tender.NativeFunction{
 		Name: "push_window",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -502,7 +502,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"pop_window": &tender.BuiltinFunction{
+	"pop_window": &tender.NativeFunction{
 		Name: "pop_window",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -513,7 +513,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"warp_pointer": &tender.BuiltinFunction{
+	"warp_pointer": &tender.NativeFunction{
 		Name: "warp_pointer",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -529,7 +529,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"set_cursor": &tender.BuiltinFunction{
+	"set_cursor": &tender.NativeFunction{
 		Name: "set_cursor",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -548,7 +548,7 @@ var glutModule = map[string]tender.Object{
 	// ============================================================
 	// CALLBACK FUNCTIONS (VM-Aware) - With Error Printing
 	// ============================================================
-	"display_func": &tender.BuiltinFunction{
+	"display_func": &tender.NativeFunction{
 		Name:      "display_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -569,7 +569,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"reshape_func": &tender.BuiltinFunction{
+	"reshape_func": &tender.NativeFunction{
 		Name:      "reshape_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -593,7 +593,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"keyboard_func": &tender.BuiltinFunction{
+	"keyboard_func": &tender.NativeFunction{
 		Name:      "keyboard_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -618,7 +618,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"keyboard_up_func": &tender.BuiltinFunction{
+	"keyboard_up_func": &tender.NativeFunction{
 		Name:      "keyboard_up_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -643,7 +643,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"special_func": &tender.BuiltinFunction{
+	"special_func": &tender.NativeFunction{
 		Name:      "special_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -668,7 +668,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"special_up_func": &tender.BuiltinFunction{
+	"special_up_func": &tender.NativeFunction{
 		Name:      "special_up_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -693,7 +693,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"mouse_func": &tender.BuiltinFunction{
+	"mouse_func": &tender.NativeFunction{
 		Name:      "mouse_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -719,7 +719,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"motion_func": &tender.BuiltinFunction{
+	"motion_func": &tender.NativeFunction{
 		Name:      "motion_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -743,7 +743,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"passive_motion_func": &tender.BuiltinFunction{
+	"passive_motion_func": &tender.NativeFunction{
 		Name:      "passive_motion_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -767,7 +767,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"entry_func": &tender.BuiltinFunction{
+	"entry_func": &tender.NativeFunction{
 		Name:      "entry_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -790,7 +790,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"visibility_func": &tender.BuiltinFunction{
+	"visibility_func": &tender.NativeFunction{
 		Name:      "visibility_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -813,7 +813,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"idle_func": &tender.BuiltinFunction{
+	"idle_func": &tender.NativeFunction{
 		Name:      "idle_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -834,7 +834,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"timer_func": &tender.BuiltinFunction{
+	"timer_func": &tender.NativeFunction{
 		Name:      "timer_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -864,7 +864,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"overlay_display_func": &tender.BuiltinFunction{
+	"overlay_display_func": &tender.NativeFunction{
 		Name:      "overlay_display_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -885,7 +885,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"spaceball_motion_func": &tender.BuiltinFunction{
+	"spaceball_motion_func": &tender.NativeFunction{
 		Name:      "spaceball_motion_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -910,7 +910,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"spaceball_rotate_func": &tender.BuiltinFunction{
+	"spaceball_rotate_func": &tender.NativeFunction{
 		Name:      "spaceball_rotate_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -935,7 +935,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"spaceball_button_func": &tender.BuiltinFunction{
+	"spaceball_button_func": &tender.NativeFunction{
 		Name:      "spaceball_button_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -959,7 +959,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"button_box_func": &tender.BuiltinFunction{
+	"button_box_func": &tender.NativeFunction{
 		Name:      "button_box_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -983,7 +983,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"dials_func": &tender.BuiltinFunction{
+	"dials_func": &tender.NativeFunction{
 		Name:      "dials_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -1007,7 +1007,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"tablet_motion_func": &tender.BuiltinFunction{
+	"tablet_motion_func": &tender.NativeFunction{
 		Name:      "tablet_motion_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -1031,7 +1031,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"tablet_button_func": &tender.BuiltinFunction{
+	"tablet_button_func": &tender.NativeFunction{
 		Name:      "tablet_button_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -1057,7 +1057,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"joystick_func": &tender.BuiltinFunction{
+	"joystick_func": &tender.NativeFunction{
 		Name:      "joystick_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -1087,7 +1087,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"window_status_func": &tender.BuiltinFunction{
+	"window_status_func": &tender.NativeFunction{
 		Name:      "window_status_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -1110,7 +1110,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"menu_state_func": &tender.BuiltinFunction{
+	"menu_state_func": &tender.NativeFunction{
 		Name:      "menu_state_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -1133,7 +1133,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"menu_status_func": &tender.BuiltinFunction{
+	"menu_status_func": &tender.NativeFunction{
 		Name:      "menu_status_func",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -1162,7 +1162,7 @@ var glutModule = map[string]tender.Object{
 	// MENU FUNCTIONS
 	// ============================================================
 
-	"create_menu": &tender.BuiltinFunction{
+	"create_menu": &tender.NativeFunction{
 		Name:      "create_menu",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -1184,7 +1184,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"destroy_menu": &tender.BuiltinFunction{
+	"destroy_menu": &tender.NativeFunction{
 		Name: "destroy_menu",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1199,7 +1199,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"get_menu": &tender.BuiltinFunction{
+	"get_menu": &tender.NativeFunction{
 		Name: "get_menu",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -1210,7 +1210,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"set_menu": &tender.BuiltinFunction{
+	"set_menu": &tender.NativeFunction{
 		Name: "set_menu",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1225,7 +1225,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"add_menu_entry": &tender.BuiltinFunction{
+	"add_menu_entry": &tender.NativeFunction{
 		Name: "add_menu_entry",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1244,7 +1244,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"add_sub_menu": &tender.BuiltinFunction{
+	"add_sub_menu": &tender.NativeFunction{
 		Name: "add_sub_menu",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1263,7 +1263,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"change_to_menu_entry": &tender.BuiltinFunction{
+	"change_to_menu_entry": &tender.NativeFunction{
 		Name: "change_to_menu_entry",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -1280,7 +1280,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"change_to_sub_menu": &tender.BuiltinFunction{
+	"change_to_sub_menu": &tender.NativeFunction{
 		Name: "change_to_sub_menu",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -1297,7 +1297,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"remove_menu_item": &tender.BuiltinFunction{
+	"remove_menu_item": &tender.NativeFunction{
 		Name: "remove_menu_item",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -1314,7 +1314,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"attach_menu": &tender.BuiltinFunction{
+	"attach_menu": &tender.NativeFunction{
 		Name: "attach_menu",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1329,7 +1329,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"detach_menu": &tender.BuiltinFunction{
+	"detach_menu": &tender.NativeFunction{
 		Name: "detach_menu",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1347,7 +1347,7 @@ var glutModule = map[string]tender.Object{
 	// ============================================================
 	// GET / SET COLOR FUNCTIONS
 	// ============================================================
-	"set_color": &tender.BuiltinFunction{
+	"set_color": &tender.NativeFunction{
 		Name: "set_color",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 {
@@ -1365,7 +1365,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"get_color": &tender.BuiltinFunction{
+	"get_color": &tender.NativeFunction{
 		Name: "get_color",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1381,7 +1381,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"copy_colormap": &tender.BuiltinFunction{
+	"copy_colormap": &tender.NativeFunction{
 		Name: "copy_colormap",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1399,7 +1399,7 @@ var glutModule = map[string]tender.Object{
 	// ============================================================
 	// GET FUNCTION
 	// ============================================================
-	"get": &tender.BuiltinFunction{
+	"get": &tender.NativeFunction{
 		Name: "get",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1417,7 +1417,7 @@ var glutModule = map[string]tender.Object{
 	// ============================================================
 	// MODIFIER FUNCTIONS
 	// ============================================================
-	"get_modifiers": &tender.BuiltinFunction{
+	"get_modifiers": &tender.NativeFunction{
 		Name: "get_modifiers",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -1428,7 +1428,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"ignore_key_repeat": &tender.BuiltinFunction{
+	"ignore_key_repeat": &tender.NativeFunction{
 		Name: "ignore_key_repeat",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1443,7 +1443,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"set_key_repeat": &tender.BuiltinFunction{
+	"set_key_repeat": &tender.NativeFunction{
 		Name: "set_key_repeat",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1461,7 +1461,7 @@ var glutModule = map[string]tender.Object{
 	// ============================================================
 	// DEVICE FUNCTIONS
 	// ============================================================
-	"device_get": &tender.BuiltinFunction{
+	"device_get": &tender.NativeFunction{
 		Name: "device_get",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1479,7 +1479,7 @@ var glutModule = map[string]tender.Object{
 	// ============================================================
 	// OVERLAY FUNCTIONS
 	// ============================================================
-	"establish_overlay": &tender.BuiltinFunction{
+	"establish_overlay": &tender.NativeFunction{
 		Name: "establish_overlay",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -1490,7 +1490,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"remove_overlay": &tender.BuiltinFunction{
+	"remove_overlay": &tender.NativeFunction{
 		Name: "remove_overlay",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -1501,7 +1501,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"use_layer": &tender.BuiltinFunction{
+	"use_layer": &tender.NativeFunction{
 		Name: "use_layer",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1516,7 +1516,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"show_overlay": &tender.BuiltinFunction{
+	"show_overlay": &tender.NativeFunction{
 		Name: "show_overlay",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -1527,7 +1527,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"hide_overlay": &tender.BuiltinFunction{
+	"hide_overlay": &tender.NativeFunction{
 		Name: "hide_overlay",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -1538,7 +1538,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"post_overlay_redisplay": &tender.BuiltinFunction{
+	"post_overlay_redisplay": &tender.NativeFunction{
 		Name: "post_overlay_redisplay",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -1549,7 +1549,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"post_window_overlay_redisplay": &tender.BuiltinFunction{
+	"post_window_overlay_redisplay": &tender.NativeFunction{
 		Name: "post_window_overlay_redisplay",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1564,7 +1564,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"layer_get": &tender.BuiltinFunction{
+	"layer_get": &tender.NativeFunction{
 		Name: "layer_get",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1582,7 +1582,7 @@ var glutModule = map[string]tender.Object{
 	// ============================================================
 	// POST REDISPLAY FUNCTIONS
 	// ============================================================
-	"post_redisplay": &tender.BuiltinFunction{
+	"post_redisplay": &tender.NativeFunction{
 		Name: "post_redisplay",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -1593,7 +1593,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"post_window_redisplay": &tender.BuiltinFunction{
+	"post_window_redisplay": &tender.NativeFunction{
 		Name: "post_window_redisplay",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1611,7 +1611,7 @@ var glutModule = map[string]tender.Object{
 	// ============================================================
 	// SWAP BUFFERS
 	// ============================================================
-	"swap_buffers": &tender.BuiltinFunction{
+	"swap_buffers": &tender.NativeFunction{
 		Name: "swap_buffers",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -1625,7 +1625,7 @@ var glutModule = map[string]tender.Object{
 	// ============================================================
 	// MAIN LOOP
 	// ============================================================
-	"main_loop": &tender.BuiltinFunction{
+	"main_loop": &tender.NativeFunction{
 		Name: "main_loop",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -1639,7 +1639,7 @@ var glutModule = map[string]tender.Object{
 	// ============================================================
 	// GAME MODE FUNCTIONS
 	// ============================================================
-	"enter_game_mode": &tender.BuiltinFunction{
+	"enter_game_mode": &tender.NativeFunction{
 		Name: "enter_game_mode",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -1650,7 +1650,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"leave_game_mode": &tender.BuiltinFunction{
+	"leave_game_mode": &tender.NativeFunction{
 		Name: "leave_game_mode",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -1661,7 +1661,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"game_mode_string": &tender.BuiltinFunction{
+	"game_mode_string": &tender.NativeFunction{
 		Name: "game_mode_string",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1676,7 +1676,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"game_mode_get": &tender.BuiltinFunction{
+	"game_mode_get": &tender.NativeFunction{
 		Name: "game_mode_get",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1691,7 +1691,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"force_joystick_func": &tender.BuiltinFunction{
+	"force_joystick_func": &tender.NativeFunction{
 		Name: "force_joystick_func",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -1705,7 +1705,7 @@ var glutModule = map[string]tender.Object{
 	// ============================================================
 	// VIDEO RESIZE FUNCTIONS
 	// ============================================================
-	"setup_video_resizing": &tender.BuiltinFunction{
+	"setup_video_resizing": &tender.NativeFunction{
 		Name: "setup_video_resizing",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -1716,7 +1716,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"stop_video_resizing": &tender.BuiltinFunction{
+	"stop_video_resizing": &tender.NativeFunction{
 		Name: "stop_video_resizing",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -1727,7 +1727,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"video_resize": &tender.BuiltinFunction{
+	"video_resize": &tender.NativeFunction{
 		Name: "video_resize",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 {
@@ -1745,7 +1745,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"video_pan": &tender.BuiltinFunction{
+	"video_pan": &tender.NativeFunction{
 		Name: "video_pan",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 {
@@ -1763,7 +1763,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"video_resize_get": &tender.BuiltinFunction{
+	"video_resize_get": &tender.NativeFunction{
 		Name: "video_resize_get",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1781,7 +1781,7 @@ var glutModule = map[string]tender.Object{
 	// ============================================================
 	// FONT FUNCTIONS
 	// ============================================================
-	"bitmap_character": &tender.BuiltinFunction{
+	"bitmap_character": &tender.NativeFunction{
 		Name: "bitmap_character",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1797,7 +1797,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"bitmap_length": &tender.BuiltinFunction{
+	"bitmap_length": &tender.NativeFunction{
 		Name: "bitmap_length",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1813,7 +1813,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"bitmap_width": &tender.BuiltinFunction{
+	"bitmap_width": &tender.NativeFunction{
 		Name: "bitmap_width",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1829,7 +1829,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"stroke_character": &tender.BuiltinFunction{
+	"stroke_character": &tender.NativeFunction{
 		Name: "stroke_character",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1845,7 +1845,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"stroke_length": &tender.BuiltinFunction{
+	"stroke_length": &tender.NativeFunction{
 		Name: "stroke_length",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1861,7 +1861,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"stroke_width": &tender.BuiltinFunction{
+	"stroke_width": &tender.NativeFunction{
 		Name: "stroke_width",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1880,7 +1880,7 @@ var glutModule = map[string]tender.Object{
 	// ============================================================
 	// SOLID AND WIRE SHAPES
 	// ============================================================
-	"solid_sphere": &tender.BuiltinFunction{
+	"solid_sphere": &tender.NativeFunction{
 		Name: "solid_sphere",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -1897,7 +1897,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"wire_sphere": &tender.BuiltinFunction{
+	"wire_sphere": &tender.NativeFunction{
 		Name: "wire_sphere",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -1914,7 +1914,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"solid_cube": &tender.BuiltinFunction{
+	"solid_cube": &tender.NativeFunction{
 		Name: "solid_cube",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1929,7 +1929,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"wire_cube": &tender.BuiltinFunction{
+	"wire_cube": &tender.NativeFunction{
 		Name: "wire_cube",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1944,7 +1944,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"solid_teapot": &tender.BuiltinFunction{
+	"solid_teapot": &tender.NativeFunction{
 		Name: "solid_teapot",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1959,7 +1959,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"wire_teapot": &tender.BuiltinFunction{
+	"wire_teapot": &tender.NativeFunction{
 		Name: "wire_teapot",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1974,7 +1974,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"solid_cone": &tender.BuiltinFunction{
+	"solid_cone": &tender.NativeFunction{
 		Name: "solid_cone",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 {
@@ -1992,7 +1992,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"wire_cone": &tender.BuiltinFunction{
+	"wire_cone": &tender.NativeFunction{
 		Name: "wire_cone",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 {
@@ -2010,7 +2010,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"solid_torus": &tender.BuiltinFunction{
+	"solid_torus": &tender.NativeFunction{
 		Name: "solid_torus",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 {
@@ -2028,7 +2028,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"wire_torus": &tender.BuiltinFunction{
+	"wire_torus": &tender.NativeFunction{
 		Name: "wire_torus",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 {
@@ -2046,7 +2046,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"solid_dodecahedron": &tender.BuiltinFunction{
+	"solid_dodecahedron": &tender.NativeFunction{
 		Name: "solid_dodecahedron",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -2057,7 +2057,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"wire_dodecahedron": &tender.BuiltinFunction{
+	"wire_dodecahedron": &tender.NativeFunction{
 		Name: "wire_dodecahedron",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -2068,7 +2068,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"solid_icosahedron": &tender.BuiltinFunction{
+	"solid_icosahedron": &tender.NativeFunction{
 		Name: "solid_icosahedron",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -2079,7 +2079,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"wire_icosahedron": &tender.BuiltinFunction{
+	"wire_icosahedron": &tender.NativeFunction{
 		Name: "wire_icosahedron",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -2090,7 +2090,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"solid_octahedron": &tender.BuiltinFunction{
+	"solid_octahedron": &tender.NativeFunction{
 		Name: "solid_octahedron",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -2101,7 +2101,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"wire_octahedron": &tender.BuiltinFunction{
+	"wire_octahedron": &tender.NativeFunction{
 		Name: "wire_octahedron",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -2112,7 +2112,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"solid_tetrahedron": &tender.BuiltinFunction{
+	"solid_tetrahedron": &tender.NativeFunction{
 		Name: "solid_tetrahedron",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -2123,7 +2123,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"wire_tetrahedron": &tender.BuiltinFunction{
+	"wire_tetrahedron": &tender.NativeFunction{
 		Name: "wire_tetrahedron",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -2134,7 +2134,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"extension_supported": &tender.BuiltinFunction{
+	"extension_supported": &tender.NativeFunction{
 		Name: "extension_supported",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -2152,7 +2152,7 @@ var glutModule = map[string]tender.Object{
 		},
 	},
 
-	"report_errors": &tender.BuiltinFunction{
+	"report_errors": &tender.NativeFunction{
 		Name: "report_errors",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {

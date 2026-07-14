@@ -345,7 +345,7 @@ var glModule = map[string]tender.Object{
 	"INFO_LOG_LENGTH": &tender.Int{Value: int64(gl.INFO_LOG_LENGTH)},
 
 	// ==================== Initialization ====================
-	"init": &tender.BuiltinFunction{
+	"init": &tender.NativeFunction{
 		Name: "init",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -359,7 +359,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Matrix Operations ====================
-	"matrix_mode": &tender.BuiltinFunction{
+	"matrix_mode": &tender.NativeFunction{
 		Name: "matrix_mode",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -374,7 +374,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"load_identity": &tender.BuiltinFunction{
+	"load_identity": &tender.NativeFunction{
 		Name: "load_identity",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -385,7 +385,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"push_matrix": &tender.BuiltinFunction{
+	"push_matrix": &tender.NativeFunction{
 		Name: "push_matrix",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -396,7 +396,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"pop_matrix": &tender.BuiltinFunction{
+	"pop_matrix": &tender.NativeFunction{
 		Name: "pop_matrix",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -407,7 +407,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"mult_matrixf": &tender.BuiltinFunction{
+	"mult_matrixf": &tender.NativeFunction{
 		Name: "mult_matrixf",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 16 {
@@ -426,7 +426,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"load_matrixf": &tender.BuiltinFunction{
+	"load_matrixf": &tender.NativeFunction{
 		Name: "load_matrixf",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 16 {
@@ -445,7 +445,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"translatef": &tender.BuiltinFunction{
+	"translatef": &tender.NativeFunction{
 		Name: "translatef",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -462,7 +462,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"rotatef": &tender.BuiltinFunction{
+	"rotatef": &tender.NativeFunction{
 		Name: "rotatef",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 {
@@ -480,7 +480,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"scalef": &tender.BuiltinFunction{
+	"scalef": &tender.NativeFunction{
 		Name: "scalef",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -498,7 +498,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Viewport and Scissor ====================
-	"viewport": &tender.BuiltinFunction{
+	"viewport": &tender.NativeFunction{
 		Name: "viewport",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 {
@@ -516,7 +516,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"scissor": &tender.BuiltinFunction{
+	"scissor": &tender.NativeFunction{
 		Name: "scissor",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 {
@@ -535,7 +535,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Clearing ====================
-	"clear": &tender.BuiltinFunction{
+	"clear": &tender.NativeFunction{
 		Name: "clear",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -550,7 +550,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"clear_color": &tender.BuiltinFunction{
+	"clear_color": &tender.NativeFunction{
 		Name: "clear_color",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 {
@@ -568,7 +568,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"clear_depth": &tender.BuiltinFunction{
+	"clear_depth": &tender.NativeFunction{
 		Name: "clear_depth",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -583,7 +583,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"clear_stencil": &tender.BuiltinFunction{
+	"clear_stencil": &tender.NativeFunction{
 		Name: "clear_stencil",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -598,7 +598,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"clear_accum": &tender.BuiltinFunction{
+	"clear_accum": &tender.NativeFunction{
 		Name: "clear_accum",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 {
@@ -617,7 +617,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Primitives ====================
-	"begin": &tender.BuiltinFunction{
+	"begin": &tender.NativeFunction{
 		Name: "begin",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -632,7 +632,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"end": &tender.BuiltinFunction{
+	"end": &tender.NativeFunction{
 		Name: "end",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -643,7 +643,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"vertex2f": &tender.BuiltinFunction{
+	"vertex2f": &tender.NativeFunction{
 		Name: "vertex2f",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -659,7 +659,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"vertex3f": &tender.BuiltinFunction{
+	"vertex3f": &tender.NativeFunction{
 		Name: "vertex3f",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -676,7 +676,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"vertex4f": &tender.BuiltinFunction{
+	"vertex4f": &tender.NativeFunction{
 		Name: "vertex4f",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 {
@@ -694,7 +694,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"vertex2d": &tender.BuiltinFunction{
+	"vertex2d": &tender.NativeFunction{
 		Name: "vertex2d",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -710,7 +710,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"vertex3d": &tender.BuiltinFunction{
+	"vertex3d": &tender.NativeFunction{
 		Name: "vertex3d",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -727,7 +727,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"vertex4d": &tender.BuiltinFunction{
+	"vertex4d": &tender.NativeFunction{
 		Name: "vertex4d",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 {
@@ -745,7 +745,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"vertex2i": &tender.BuiltinFunction{
+	"vertex2i": &tender.NativeFunction{
 		Name: "vertex2i",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -761,7 +761,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"vertex3i": &tender.BuiltinFunction{
+	"vertex3i": &tender.NativeFunction{
 		Name: "vertex3i",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -779,7 +779,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Colors ====================
-	"color3f": &tender.BuiltinFunction{
+	"color3f": &tender.NativeFunction{
 		Name: "color3f",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -796,7 +796,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"color4f": &tender.BuiltinFunction{
+	"color4f": &tender.NativeFunction{
 		Name: "color4f",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 {
@@ -814,7 +814,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"color3ub": &tender.BuiltinFunction{
+	"color3ub": &tender.NativeFunction{
 		Name: "color3ub",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -831,7 +831,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"color4ub": &tender.BuiltinFunction{
+	"color4ub": &tender.NativeFunction{
 		Name: "color4ub",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 {
@@ -850,7 +850,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Normals ====================
-	"normal3f": &tender.BuiltinFunction{
+	"normal3f": &tender.NativeFunction{
 		Name: "normal3f",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -868,7 +868,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Texture Coordinates ====================
-	"tex_coord2f": &tender.BuiltinFunction{
+	"tex_coord2f": &tender.NativeFunction{
 		Name: "tex_coord2f",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -885,7 +885,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Enable/Disable ====================
-	"enable": &tender.BuiltinFunction{
+	"enable": &tender.NativeFunction{
 		Name: "enable",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -900,7 +900,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"disable": &tender.BuiltinFunction{
+	"disable": &tender.NativeFunction{
 		Name: "disable",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -915,7 +915,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"is_enabled": &tender.BuiltinFunction{
+	"is_enabled": &tender.NativeFunction{
 		Name: "is_enabled",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -933,7 +933,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Blending ====================
-	"blend_func": &tender.BuiltinFunction{
+	"blend_func": &tender.NativeFunction{
 		Name: "blend_func",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -949,7 +949,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"blend_equation": &tender.BuiltinFunction{
+	"blend_equation": &tender.NativeFunction{
 		Name: "blend_equation",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -964,7 +964,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"blend_color": &tender.BuiltinFunction{
+	"blend_color": &tender.NativeFunction{
 		Name: "blend_color",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 {
@@ -983,7 +983,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Depth Test ====================
-	"depth_func": &tender.BuiltinFunction{
+	"depth_func": &tender.NativeFunction{
 		Name: "depth_func",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -998,7 +998,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"depth_mask": &tender.BuiltinFunction{
+	"depth_mask": &tender.NativeFunction{
 		Name: "depth_mask",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1013,7 +1013,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"depth_range": &tender.BuiltinFunction{
+	"depth_range": &tender.NativeFunction{
 		Name: "depth_range",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1030,7 +1030,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Alpha Test ====================
-	"alpha_func": &tender.BuiltinFunction{
+	"alpha_func": &tender.NativeFunction{
 		Name: "alpha_func",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1047,7 +1047,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Culling ====================
-	"cull_face": &tender.BuiltinFunction{
+	"cull_face": &tender.NativeFunction{
 		Name: "cull_face",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1062,7 +1062,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"front_face": &tender.BuiltinFunction{
+	"front_face": &tender.NativeFunction{
 		Name: "front_face",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1078,7 +1078,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Polygon Modes ====================
-	"polygon_mode": &tender.BuiltinFunction{
+	"polygon_mode": &tender.NativeFunction{
 		Name: "polygon_mode",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1094,7 +1094,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"polygon_offset": &tender.BuiltinFunction{
+	"polygon_offset": &tender.NativeFunction{
 		Name: "polygon_offset",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1111,7 +1111,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Line & Point Sizes ====================
-	"line_width": &tender.BuiltinFunction{
+	"line_width": &tender.NativeFunction{
 		Name: "line_width",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1126,7 +1126,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"point_size": &tender.BuiltinFunction{
+	"point_size": &tender.NativeFunction{
 		Name: "point_size",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1142,7 +1142,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Stencil ====================
-	"stencil_func": &tender.BuiltinFunction{
+	"stencil_func": &tender.NativeFunction{
 		Name: "stencil_func",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -1159,7 +1159,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"stencil_mask": &tender.BuiltinFunction{
+	"stencil_mask": &tender.NativeFunction{
 		Name: "stencil_mask",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1174,7 +1174,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"stencil_op": &tender.BuiltinFunction{
+	"stencil_op": &tender.NativeFunction{
 		Name: "stencil_op",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -1192,7 +1192,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== State Saving ====================
-	"push_attrib": &tender.BuiltinFunction{
+	"push_attrib": &tender.NativeFunction{
 		Name: "push_attrib",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1207,7 +1207,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"pop_attrib": &tender.BuiltinFunction{
+	"pop_attrib": &tender.NativeFunction{
 		Name: "pop_attrib",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -1218,7 +1218,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"push_client_attrib": &tender.BuiltinFunction{
+	"push_client_attrib": &tender.NativeFunction{
 		Name: "push_client_attrib",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1233,7 +1233,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"pop_client_attrib": &tender.BuiltinFunction{
+	"pop_client_attrib": &tender.NativeFunction{
 		Name: "pop_client_attrib",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -1245,7 +1245,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Shading ====================
-	"shade_model": &tender.BuiltinFunction{
+	"shade_model": &tender.NativeFunction{
 		Name: "shade_model",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1261,7 +1261,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Hints ====================
-	"hint": &tender.BuiltinFunction{
+	"hint": &tender.NativeFunction{
 		Name: "hint",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1278,7 +1278,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Lighting ====================
-	"lightf": &tender.BuiltinFunction{
+	"lightf": &tender.NativeFunction{
 		Name: "lightf",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -1295,7 +1295,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"lightfv": &tender.BuiltinFunction{
+	"lightfv": &tender.NativeFunction{
 		Name: "lightfv",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			// Accept variable number of floats (4 for color/position, 1 for scalar)
@@ -1324,7 +1324,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"lighti": &tender.BuiltinFunction{
+	"lighti": &tender.NativeFunction{
 		Name: "lighti",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -1341,7 +1341,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"light_modelf": &tender.BuiltinFunction{
+	"light_modelf": &tender.NativeFunction{
 		Name: "light_modelf",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1357,7 +1357,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"light_modeli": &tender.BuiltinFunction{
+	"light_modeli": &tender.NativeFunction{
 		Name: "light_modeli",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1373,7 +1373,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"materialf": &tender.BuiltinFunction{
+	"materialf": &tender.NativeFunction{
 		Name: "materialf",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -1390,7 +1390,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"materialfv": &tender.BuiltinFunction{
+	"materialfv": &tender.NativeFunction{
 		Name: "materialfv",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) < 3 {
@@ -1418,7 +1418,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Fog ====================
-	"fogf": &tender.BuiltinFunction{
+	"fogf": &tender.NativeFunction{
 		Name: "fogf",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1434,7 +1434,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"fogfv": &tender.BuiltinFunction{
+	"fogfv": &tender.NativeFunction{
 		Name: "fogfv",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) < 2 {
@@ -1458,7 +1458,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Textures ====================
-	"gen_textures": &tender.BuiltinFunction{
+	"gen_textures": &tender.NativeFunction{
 		Name: "gen_textures",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1479,7 +1479,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"bind_texture": &tender.BuiltinFunction{
+	"bind_texture": &tender.NativeFunction{
 		Name: "bind_texture",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1495,7 +1495,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"delete_textures": &tender.BuiltinFunction{
+	"delete_textures": &tender.NativeFunction{
 		Name: "delete_textures",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1523,7 +1523,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"tex_image2d": &tender.BuiltinFunction{
+	"tex_image2d": &tender.NativeFunction{
 		Name: "tex_image2d",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 9 {
@@ -1556,7 +1556,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"tex_sub_image2d": &tender.BuiltinFunction{
+	"tex_sub_image2d": &tender.NativeFunction{
 		Name: "tex_sub_image2d",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 9 {
@@ -1584,7 +1584,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"tex_parameterf": &tender.BuiltinFunction{
+	"tex_parameterf": &tender.NativeFunction{
 		Name: "tex_parameterf",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -1601,7 +1601,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"tex_parameteri": &tender.BuiltinFunction{
+	"tex_parameteri": &tender.NativeFunction{
 		Name: "tex_parameteri",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -1618,7 +1618,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"tex_parameteriv": &tender.BuiltinFunction{
+	"tex_parameteriv": &tender.NativeFunction{
 		Name: "tex_parameteriv",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) < 3 {
@@ -1645,7 +1645,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"tex_parameterfv": &tender.BuiltinFunction{
+	"tex_parameterfv": &tender.NativeFunction{
 		Name: "tex_parameterfv",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) < 3 {
@@ -1672,7 +1672,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"tex_envf": &tender.BuiltinFunction{
+	"tex_envf": &tender.NativeFunction{
 		Name: "tex_envf",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -1689,7 +1689,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"tex_envi": &tender.BuiltinFunction{
+	"tex_envi": &tender.NativeFunction{
 		Name: "tex_envi",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -1706,7 +1706,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"tex_envfv": &tender.BuiltinFunction{
+	"tex_envfv": &tender.NativeFunction{
 		Name: "tex_envfv",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) < 3 {
@@ -1733,7 +1733,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"tex_enviv": &tender.BuiltinFunction{
+	"tex_enviv": &tender.NativeFunction{
 		Name: "tex_enviv",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) < 3 {
@@ -1760,7 +1760,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"active_texture": &tender.BuiltinFunction{
+	"active_texture": &tender.NativeFunction{
 		Name: "active_texture",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
@@ -1770,7 +1770,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"tex_genf": &tender.BuiltinFunction{
+	"tex_genf": &tender.NativeFunction{
 		Name: "tex_genf",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -1787,7 +1787,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"tex_gend": &tender.BuiltinFunction{
+	"tex_gend": &tender.NativeFunction{
 		Name: "tex_gend",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -1804,7 +1804,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"tex_geni": &tender.BuiltinFunction{
+	"tex_geni": &tender.NativeFunction{
 		Name: "tex_geni",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -1822,7 +1822,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Vertex Arrays ====================
-	"enable_client_state": &tender.BuiltinFunction{
+	"enable_client_state": &tender.NativeFunction{
 		Name: "enable_client_state",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1837,7 +1837,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"disable_client_state": &tender.BuiltinFunction{
+	"disable_client_state": &tender.NativeFunction{
 		Name: "disable_client_state",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1852,7 +1852,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"vertex_pointer": &tender.BuiltinFunction{
+	"vertex_pointer": &tender.NativeFunction{
 		Name: "vertex_pointer",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 {
@@ -1875,7 +1875,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"normal_pointer": &tender.BuiltinFunction{
+	"normal_pointer": &tender.NativeFunction{
 		Name: "normal_pointer",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -1896,7 +1896,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"color_pointer": &tender.BuiltinFunction{
+	"color_pointer": &tender.NativeFunction{
 		Name: "color_pointer",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 {
@@ -1918,7 +1918,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"tex_coord_pointer": &tender.BuiltinFunction{
+	"tex_coord_pointer": &tender.NativeFunction{
 		Name: "tex_coord_pointer",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 {
@@ -1940,7 +1940,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"draw_arrays": &tender.BuiltinFunction{
+	"draw_arrays": &tender.NativeFunction{
 		Name: "draw_arrays",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -1957,7 +1957,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"draw_elements": &tender.BuiltinFunction{
+	"draw_elements": &tender.NativeFunction{
 		Name: "draw_elements",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 {
@@ -1980,7 +1980,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Display Lists ====================
-	"gen_lists": &tender.BuiltinFunction{
+	"gen_lists": &tender.NativeFunction{
 		Name: "gen_lists",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1995,7 +1995,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"new_list": &tender.BuiltinFunction{
+	"new_list": &tender.NativeFunction{
 		Name: "new_list",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -2011,7 +2011,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"end_list": &tender.BuiltinFunction{
+	"end_list": &tender.NativeFunction{
 		Name: "end_list",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -2022,7 +2022,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"call_list": &tender.BuiltinFunction{
+	"call_list": &tender.NativeFunction{
 		Name: "call_list",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -2037,7 +2037,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"delete_lists": &tender.BuiltinFunction{
+	"delete_lists": &tender.NativeFunction{
 		Name: "delete_lists",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -2054,7 +2054,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Pixel Storage ====================
-	"pixel_storei": &tender.BuiltinFunction{
+	"pixel_storei": &tender.NativeFunction{
 		Name: "pixel_storei",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -2071,7 +2071,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Query & Sync ====================
-	"get_error": &tender.BuiltinFunction{
+	"get_error": &tender.NativeFunction{
 		Name: "get_error",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -2082,7 +2082,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"get_integerv": &tender.BuiltinFunction{
+	"get_integerv": &tender.NativeFunction{
 		Name: "get_integerv",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -2098,7 +2098,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"get_floatv": &tender.BuiltinFunction{
+	"get_floatv": &tender.NativeFunction{
 		Name: "get_floatv",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -2114,7 +2114,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"get_doublev": &tender.BuiltinFunction{
+	"get_doublev": &tender.NativeFunction{
 		Name: "get_doublev",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -2130,7 +2130,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"get_booleanv": &tender.BuiltinFunction{
+	"get_booleanv": &tender.NativeFunction{
 		Name: "get_booleanv",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -2149,7 +2149,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"get_string": &tender.BuiltinFunction{
+	"get_string": &tender.NativeFunction{
 		Name: "get_string",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -2184,7 +2184,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Flush & Finish ====================
-	"flush": &tender.BuiltinFunction{
+	"flush": &tender.NativeFunction{
 		Name: "flush",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -2195,7 +2195,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"finish": &tender.BuiltinFunction{
+	"finish": &tender.NativeFunction{
 		Name: "finish",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -2207,7 +2207,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Accumulation Buffer ====================
-	"accum": &tender.BuiltinFunction{
+	"accum": &tender.NativeFunction{
 		Name: "accum",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -2224,7 +2224,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Render Mode ====================
-	"render_mode": &tender.BuiltinFunction{
+	"render_mode": &tender.NativeFunction{
 		Name: "render_mode",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -2239,7 +2239,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 	// ==================== Matrix Projection ====================
-	"ortho": &tender.BuiltinFunction{
+	"ortho": &tender.NativeFunction{
 		Name: "ortho",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 6 {
@@ -2256,7 +2256,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"frustum": &tender.BuiltinFunction{
+	"frustum": &tender.NativeFunction{
 		Name: "frustum",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 6 {
@@ -2274,7 +2274,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Raster Position ====================
-	"raster_pos2i": &tender.BuiltinFunction{
+	"raster_pos2i": &tender.NativeFunction{
 		Name: "raster_pos2i",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -2287,7 +2287,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"raster_pos2f": &tender.BuiltinFunction{
+	"raster_pos2f": &tender.NativeFunction{
 		Name: "raster_pos2f",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -2300,7 +2300,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"raster_pos3f": &tender.BuiltinFunction{
+	"raster_pos3f": &tender.NativeFunction{
 		Name: "raster_pos3f",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -2315,7 +2315,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Bitmap & Pixel Drawing ====================
-	"bitmap": &tender.BuiltinFunction{
+	"bitmap": &tender.NativeFunction{
 		Name: "bitmap",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 7 {
@@ -2345,7 +2345,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"draw_pixels": &tender.BuiltinFunction{
+	"draw_pixels": &tender.NativeFunction{
 		Name: "draw_pixels",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 5 {
@@ -2365,7 +2365,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Pixel Read / Copy / Zoom ====================
-	"read_pixels": &tender.BuiltinFunction{
+	"read_pixels": &tender.NativeFunction{
 		Name: "read_pixels",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 7 {
@@ -2386,7 +2386,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"copy_pixels": &tender.BuiltinFunction{
+	"copy_pixels": &tender.NativeFunction{
 		Name: "copy_pixels",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 5 {
@@ -2402,7 +2402,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"pixel_zoom": &tender.BuiltinFunction{
+	"pixel_zoom": &tender.NativeFunction{
 		Name: "pixel_zoom",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -2416,7 +2416,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Colour Mask & Logic Op ====================
-	"color_mask": &tender.BuiltinFunction{
+	"color_mask": &tender.NativeFunction{
 		Name: "color_mask",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 {
@@ -2431,7 +2431,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"logic_op": &tender.BuiltinFunction{
+	"logic_op": &tender.NativeFunction{
 		Name: "logic_op",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -2444,7 +2444,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Color Material ====================
-	"color_material": &tender.BuiltinFunction{
+	"color_material": &tender.NativeFunction{
 		Name: "color_material",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -2458,7 +2458,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Clipping Planes ====================
-	"clip_plane": &tender.BuiltinFunction{
+	"clip_plane": &tender.NativeFunction{
 		Name: "clip_plane",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 5 {
@@ -2479,7 +2479,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== 1D / 3D Textures ====================
-	"tex_image1d": &tender.BuiltinFunction{
+	"tex_image1d": &tender.NativeFunction{
 		Name: "tex_image1d",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 8 {
@@ -2505,7 +2505,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"tex_image3d": &tender.BuiltinFunction{
+	"tex_image3d": &tender.NativeFunction{
 		Name: "tex_image3d",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 10 {
@@ -2533,7 +2533,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"tex_sub_image1d": &tender.BuiltinFunction{
+	"tex_sub_image1d": &tender.NativeFunction{
 		Name: "tex_sub_image1d",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 7 {
@@ -2554,7 +2554,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"tex_sub_image3d": &tender.BuiltinFunction{
+	"tex_sub_image3d": &tender.NativeFunction{
 		Name: "tex_sub_image3d",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 10 { // now 10 arguments: target, level, xoffset, yoffset, zoffset, width, height, depth, format, typ, data
@@ -2584,7 +2584,7 @@ var glModule = map[string]tender.Object{
 	},
 	
 	// ==================== Copy Texture ====================
-	"copy_tex_image2d": &tender.BuiltinFunction{
+	"copy_tex_image2d": &tender.NativeFunction{
 		Name: "copy_tex_image2d",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 8 {
@@ -2603,7 +2603,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"copy_tex_sub_image2d": &tender.BuiltinFunction{
+	"copy_tex_sub_image2d": &tender.NativeFunction{
 		Name: "copy_tex_sub_image2d",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 8 {
@@ -2623,7 +2623,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Texture Queries ====================
-	"get_tex_parameteriv": &tender.BuiltinFunction{
+	"get_tex_parameteriv": &tender.NativeFunction{
 		Name: "get_tex_parameteriv",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -2637,7 +2637,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"get_tex_parameterfv": &tender.BuiltinFunction{
+	"get_tex_parameterfv": &tender.NativeFunction{
 		Name: "get_tex_parameterfv",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -2651,7 +2651,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"get_tex_image": &tender.BuiltinFunction{
+	"get_tex_image": &tender.NativeFunction{
 		Name: "get_tex_image",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 5 {
@@ -2677,7 +2677,7 @@ var glModule = map[string]tender.Object{
 	"LINK_STATUS":     &tender.Int{Value: int64(gl.LINK_STATUS)},
 
 	// ==================== Shader Lifecycle ====================
-	"create_shader": &tender.BuiltinFunction{
+	"create_shader": &tender.NativeFunction{
 		Name: "create_shader",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
@@ -2688,7 +2688,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"shader_source": &tender.BuiltinFunction{
+	"shader_source": &tender.NativeFunction{
 		Name: "shader_source",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 { return nil, tender.ErrInvalidArgCount }
@@ -2703,7 +2703,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"compile_shader": &tender.BuiltinFunction{
+	"compile_shader": &tender.NativeFunction{
 		Name: "compile_shader",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
@@ -2713,7 +2713,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"create_program": &tender.BuiltinFunction{
+	"create_program": &tender.NativeFunction{
 		Name: "create_program",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			prog := gl.CreateProgram()
@@ -2721,7 +2721,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"attach_shader": &tender.BuiltinFunction{
+	"attach_shader": &tender.NativeFunction{
 		Name: "attach_shader",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 { return nil, tender.ErrInvalidArgCount }
@@ -2732,7 +2732,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"link_program": &tender.BuiltinFunction{
+	"link_program": &tender.NativeFunction{
 		Name: "link_program",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
@@ -2742,7 +2742,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"use_program": &tender.BuiltinFunction{
+	"use_program": &tender.NativeFunction{
 		Name: "use_program",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
@@ -2752,7 +2752,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"delete_shader": &tender.BuiltinFunction{
+	"delete_shader": &tender.NativeFunction{
 		Name: "delete_shader",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
@@ -2762,7 +2762,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"delete_program": &tender.BuiltinFunction{
+	"delete_program": &tender.NativeFunction{
 		Name: "delete_program",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
@@ -2773,7 +2773,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Uniforms & Attributes ====================
-	"get_uniform_location": &tender.BuiltinFunction{
+	"get_uniform_location": &tender.NativeFunction{
 		Name: "get_uniform_location",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 { return nil, tender.ErrInvalidArgCount }
@@ -2784,7 +2784,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"get_attrib_location": &tender.BuiltinFunction{
+	"get_attrib_location": &tender.NativeFunction{
 		Name: "get_attrib_location",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 { return nil, tender.ErrInvalidArgCount }
@@ -2795,7 +2795,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"uniform1f": &tender.BuiltinFunction{
+	"uniform1f": &tender.NativeFunction{
 		Name: "uniform1f",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			loc, _ := tender.ToInt32(args[0])
@@ -2814,7 +2814,7 @@ var glModule = map[string]tender.Object{
 	"FRAMEBUFFER_COMPLETE": &tender.Int{Value: int64(gl.FRAMEBUFFER_COMPLETE)},
 
 	// ==================== Vertex Arrays (VAO) & Buffers (VBO) ====================
-	"gen_vertex_arrays": &tender.BuiltinFunction{
+	"gen_vertex_arrays": &tender.NativeFunction{
 		Name: "gen_vertex_arrays",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
@@ -2828,7 +2828,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"bind_vertex_array": &tender.BuiltinFunction{
+	"bind_vertex_array": &tender.NativeFunction{
 		Name: "bind_vertex_array",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
@@ -2838,7 +2838,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"gen_buffers": &tender.BuiltinFunction{
+	"gen_buffers": &tender.NativeFunction{
 		Name: "gen_buffers",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
@@ -2852,7 +2852,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"bind_buffer": &tender.BuiltinFunction{
+	"bind_buffer": &tender.NativeFunction{
 		Name: "bind_buffer",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 { return nil, tender.ErrInvalidArgCount }
@@ -2863,7 +2863,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 	
-	"delete_buffers": &tender.BuiltinFunction{
+	"delete_buffers": &tender.NativeFunction{
 		Name: "delete_buffers",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
@@ -2881,7 +2881,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"delete_vertex_arrays": &tender.BuiltinFunction{
+	"delete_vertex_arrays": &tender.NativeFunction{
 		Name: "delete_vertex_arrays",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
@@ -2899,7 +2899,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"buffer_data": &tender.BuiltinFunction{
+	"buffer_data": &tender.NativeFunction{
 		Name: "buffer_data",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 { return nil, tender.ErrInvalidArgCount }
@@ -2929,7 +2929,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"enable_vertex_attrib_array": &tender.BuiltinFunction{
+	"enable_vertex_attrib_array": &tender.NativeFunction{
 		Name: "enable_vertex_attrib_array",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
@@ -2939,7 +2939,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"vertex_attrib_pointer": &tender.BuiltinFunction{
+	"vertex_attrib_pointer": &tender.NativeFunction{
 		Name: "vertex_attrib_pointer",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 6 { return nil, tender.ErrInvalidArgCount }
@@ -2956,7 +2956,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Framebuffers (FBO) ====================
-	"gen_framebuffers": &tender.BuiltinFunction{
+	"gen_framebuffers": &tender.NativeFunction{
 		Name: "gen_framebuffers",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
@@ -2970,7 +2970,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"bind_framebuffer": &tender.BuiltinFunction{
+	"bind_framebuffer": &tender.NativeFunction{
 		Name: "bind_framebuffer",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 { return nil, tender.ErrInvalidArgCount }
@@ -2981,7 +2981,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"framebuffer_texture2d": &tender.BuiltinFunction{
+	"framebuffer_texture2d": &tender.NativeFunction{
 		Name: "framebuffer_texture2d",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 5 { return nil, tender.ErrInvalidArgCount }
@@ -2997,7 +2997,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Advanced UI Blending ====================
-	"blend_func_separate": &tender.BuiltinFunction{
+	"blend_func_separate": &tender.NativeFunction{
 		Name: "blend_func_separate",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 { return nil, tender.ErrInvalidArgCount }
@@ -3011,7 +3011,7 @@ var glModule = map[string]tender.Object{
 	},
 
 	// ==================== Shader Uniforms Expansion ====================
-	"uniform1i": &tender.BuiltinFunction{
+	"uniform1i": &tender.NativeFunction{
 		Name: "uniform1i",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			loc, _ := tender.ToInt32(args[0])
@@ -3021,7 +3021,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"uniform2f": &tender.BuiltinFunction{
+	"uniform2f": &tender.NativeFunction{
 		Name: "uniform2f",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			loc, _ := tender.ToInt32(args[0])
@@ -3032,7 +3032,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 	
-	"uniform3f": &tender.BuiltinFunction{
+	"uniform3f": &tender.NativeFunction{
 		Name: "uniform3f",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 { return nil, tender.ErrInvalidArgCount }
@@ -3045,7 +3045,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"uniform4f": &tender.BuiltinFunction{
+	"uniform4f": &tender.NativeFunction{
 		Name: "uniform4f",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 5 { return nil, tender.ErrInvalidArgCount }
@@ -3059,7 +3059,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"uniform_matrix4fv": &tender.BuiltinFunction{
+	"uniform_matrix4fv": &tender.NativeFunction{
 		Name: "uniform_matrix4fv",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 { return nil, tender.ErrInvalidArgCount }
@@ -3085,7 +3085,7 @@ var glModule = map[string]tender.Object{
 	},
 		
 	// ==================== Shader Compilation Diagnostics ====================
-	"get_shader_iv": &tender.BuiltinFunction{
+	"get_shader_iv": &tender.NativeFunction{
 		Name: "get_shader_iv",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 { return nil, tender.ErrInvalidArgCount }
@@ -3097,7 +3097,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"get_shader_info_log": &tender.BuiltinFunction{
+	"get_shader_info_log": &tender.NativeFunction{
 		Name: "get_shader_info_log",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
@@ -3112,7 +3112,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 	
-	"get_program_iv": &tender.BuiltinFunction{
+	"get_program_iv": &tender.NativeFunction{
 		Name: "get_program_iv",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 { return nil, tender.ErrInvalidArgCount }
@@ -3124,7 +3124,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"get_program_info_log": &tender.BuiltinFunction{
+	"get_program_info_log": &tender.NativeFunction{
 		Name: "get_program_info_log",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
@@ -3140,7 +3140,7 @@ var glModule = map[string]tender.Object{
 	},
 	
 	// ==================== Optimized OBJ Loader & Drawer ====================
-	"load_obj": &tender.BuiltinFunction{
+	"load_obj": &tender.NativeFunction{
 		Name: "load_obj",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
@@ -3155,7 +3155,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"load_obj_with_mtl": &tender.BuiltinFunction{
+	"load_obj_with_mtl": &tender.NativeFunction{
 		Name: "load_obj_with_mtl",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 { return nil, tender.ErrInvalidArgCount }
@@ -3190,7 +3190,7 @@ var glModule = map[string]tender.Object{
 	},
 
 
-	"parse_obj": &tender.BuiltinFunction{
+	"parse_obj": &tender.NativeFunction{
 		Name: "parse_obj",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
@@ -3204,7 +3204,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 
-	"load_texture": &tender.BuiltinFunction{
+	"load_texture": &tender.NativeFunction{
 		Name: "load_texture",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 { return nil, tender.ErrInvalidArgCount }
@@ -3219,7 +3219,7 @@ var glModule = map[string]tender.Object{
 		},
 	},
 	
-	"draw_obj": &tender.BuiltinFunction{
+	"draw_obj": &tender.NativeFunction{
 		Name: "draw_obj",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {

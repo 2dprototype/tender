@@ -15,16 +15,16 @@ import (
 )
 
 var dllModule = map[string]tender.Object{
-	"call_dll":      &tender.UserFunction{Name: "call_dll", Value: callDLLWrapper},
-	"new":           &tender.UserFunction{Name: "new", Value: dllNew},
-	"load":          &tender.UserFunction{Name: "load", Value: dllLoad},
-	"last_error":    &tender.UserFunction{Name: "last_error", Value: getLastError},
-	"free_library":  &tender.UserFunction{Name: "free_library", Value: freeLibrary},
-	"get_proc_address": &tender.UserFunction{Name: "get_proc_address", Value: getProcAddress},
-	"memory":        &tender.UserFunction{Name: "memory", Value: memoryOperations},
-	"callback":      &tender.UserFunction{Name: "callback", Value: createCallback},
-	"struct":        &tender.UserFunction{Name: "struct", Value: createStruct},
-	"pointer":       &tender.UserFunction{Name: "pointer", Value: pointerOperations},
+	"call_dll":      &tender.NativeFunction{Name: "call_dll", Value: callDLLWrapper},
+	"new":           &tender.NativeFunction{Name: "new", Value: dllNew},
+	"load":          &tender.NativeFunction{Name: "load", Value: dllLoad},
+	"last_error":    &tender.NativeFunction{Name: "last_error", Value: getLastError},
+	"free_library":  &tender.NativeFunction{Name: "free_library", Value: freeLibrary},
+	"get_proc_address": &tender.NativeFunction{Name: "get_proc_address", Value: getProcAddress},
+	"memory":        &tender.NativeFunction{Name: "memory", Value: memoryOperations},
+	"callback":      &tender.NativeFunction{Name: "callback", Value: createCallback},
+	"struct":        &tender.NativeFunction{Name: "struct", Value: createStruct},
+	"pointer":       &tender.NativeFunction{Name: "pointer", Value: pointerOperations},
 }
 
 // Extended DLL structure to track loaded libraries
@@ -96,7 +96,7 @@ func dllNew(args ...tender.Object) (ret tender.Object, err error) {
 func makeDLLObject(ctx *DLLContext) *tender.ImmutableMap {
 	return &tender.ImmutableMap{
 		Value: map[string]tender.Object{
-			"proc": &tender.UserFunction{
+			"proc": &tender.NativeFunction{
 				Name:  "proc",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
@@ -130,7 +130,7 @@ func makeDLLObject(ctx *DLLContext) *tender.ImmutableMap {
 				}
 				return ctx.dll.Name
 			}()},
-			"unload": &tender.UserFunction{
+			"unload": &tender.NativeFunction{
 				Name: "unload",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if ctx.isLazy {
@@ -152,7 +152,7 @@ func makeDLLObject(ctx *DLLContext) *tender.ImmutableMap {
 
 func makeProcObject(proc interface{}, isLazy bool, ctx *DLLContext) *tender.ImmutableMap {
 	procMap := map[string]tender.Object{
-		"call": &tender.UserFunction{
+		"call": &tender.NativeFunction{
 			Name:  "call",
 			Value: makeProcCaller(proc, isLazy),
 		},
@@ -395,7 +395,7 @@ func getProcAddress(args ...tender.Object) (ret tender.Object, err error) {
 func memoryOperations(args ...tender.Object) (ret tender.Object, err error) {
 	return &tender.ImmutableMap{
 		Value: map[string]tender.Object{
-			"alloc": &tender.UserFunction{
+			"alloc": &tender.NativeFunction{
 				Name: "alloc",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					size := 1024
@@ -425,7 +425,7 @@ func memoryOperations(args ...tender.Object) (ret tender.Object, err error) {
 					return createPointerObject(ptr, size), nil
 				},
 			},
-			"free": &tender.UserFunction{
+			"free": &tender.NativeFunction{
 				Name: "free",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
@@ -455,7 +455,7 @@ func memoryOperations(args ...tender.Object) (ret tender.Object, err error) {
 					return tender.TrueValue, nil
 				},
 			},
-			"copy": &tender.UserFunction{
+			"copy": &tender.NativeFunction{
 				Name: "copy",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 3 {
@@ -481,7 +481,7 @@ func memoryOperations(args ...tender.Object) (ret tender.Object, err error) {
 					return tender.TrueValue, nil
 				},
 			},
-			"read_string": &tender.UserFunction{
+			"read_string": &tender.NativeFunction{
 				Name: "read_string",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) < 1 {
@@ -572,7 +572,7 @@ func createStruct(args ...tender.Object) (ret tender.Object, err error) {
 func pointerOperations(args ...tender.Object) (ret tender.Object, err error) {
 	return &tender.ImmutableMap{
 		Value: map[string]tender.Object{
-			"create": &tender.UserFunction{
+			"create": &tender.NativeFunction{
 				Name: "create",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
@@ -591,7 +591,7 @@ func pointerOperations(args ...tender.Object) (ret tender.Object, err error) {
 					return createPointerObject(uintptr(addr), 0), nil
 				},
 			},
-			"offset": &tender.UserFunction{
+			"offset": &tender.NativeFunction{
 				Name: "offset",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 2 {
@@ -620,7 +620,7 @@ func pointerOperations(args ...tender.Object) (ret tender.Object, err error) {
 					return createPointerObject(newPtr, 0), nil
 				},
 			},
-			"read_int": &tender.UserFunction{
+			"read_int": &tender.NativeFunction{
 				Name: "read_int",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
@@ -642,7 +642,7 @@ func pointerOperations(args ...tender.Object) (ret tender.Object, err error) {
 					return &tender.Int{Value: int64(value)}, nil
 				},
 			},
-			"write_int": &tender.UserFunction{
+			"write_int": &tender.NativeFunction{
 				Name: "write_int",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 2 {
@@ -673,7 +673,7 @@ func pointerOperations(args ...tender.Object) (ret tender.Object, err error) {
 					return tender.TrueValue, nil
 				},
 			},
-			"read_bytes": &tender.UserFunction{
+			"read_bytes": &tender.NativeFunction{
 				Name: "read_bytes",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 2 {
@@ -711,7 +711,7 @@ func pointerOperations(args ...tender.Object) (ret tender.Object, err error) {
 					return &tender.Bytes{Value: data}, nil
 				},
 			},
-			"write_bytes": &tender.UserFunction{
+			"write_bytes": &tender.NativeFunction{
 				Name: "write_bytes",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 2 {

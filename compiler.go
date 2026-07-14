@@ -52,7 +52,7 @@ type Compiler struct {
 	scopes          []compilationScope
 	scopeIndex      int
 	modules         *ModuleMap
-	compiledModules map[string]*CompiledFunction
+	compiledModules map[string]*Function
 	allowFileImport bool
 	loops           []*loop
 	loopIndex       int
@@ -91,7 +91,7 @@ func NewCompiler(file *parser.SourceFile, symbolTable *SymbolTable, constants []
 		loopIndex:       -1,
 		trace:           trace,
 		modules:         modules,
-		compiledModules: make(map[string]*CompiledFunction),
+		compiledModules: make(map[string]*Function),
 	}
 }
 
@@ -608,7 +608,7 @@ func (c *Compiler) Compile(node parser.Node) error {
 			}
 		}
 
-		compiledFunction := &CompiledFunction{
+		compiledFunction := &Function{
 			Instructions:  instructions,
 			NumLocals:     numLocals,
 			NumParameters: len(node.Type.Params.List),
@@ -793,7 +793,7 @@ func (c *Compiler) Compile(node parser.Node) error {
 func (c *Compiler) Bytecode() *Bytecode {
 	return &Bytecode{
 		FileSet: c.file.Set(),
-		MainFunction: &CompiledFunction{
+		MainFunction: &Function{
 			Instructions: append(c.currentInstructions(), parser.OpSuspend),
 			SourceMap:    c.currentSourceMap(),
 		},
@@ -1189,7 +1189,7 @@ func (c *Compiler) checkCyclicImports(
 	return nil
 }
 
-func (c *Compiler) compileModule(node parser.Node, modulePath string, src []byte, isFile bool) (*CompiledFunction, error) {
+func (c *Compiler) compileModule(node parser.Node, modulePath string, src []byte, isFile bool) (*Function, error) {
 	if err := c.checkCyclicImports(node, modulePath); err != nil {
 		return nil, err
 	}
@@ -1229,7 +1229,7 @@ func (c *Compiler) compileModule(node parser.Node, modulePath string, src []byte
 	return compiledFunc, nil
 }
 
-func (c *Compiler) loadCompiledModule(modulePath string) (mod *CompiledFunction, ok bool) {
+func (c *Compiler) loadCompiledModule(modulePath string) (mod *Function, ok bool) {
 	if c.parent != nil {
 		return c.parent.loadCompiledModule(modulePath)
 	}
@@ -1239,7 +1239,7 @@ func (c *Compiler) loadCompiledModule(modulePath string) (mod *CompiledFunction,
 
 func (c *Compiler) storeCompiledModule(
 	modulePath string,
-	module *CompiledFunction,
+	module *Function,
 ) {
 	if c.parent != nil {
 		c.parent.storeCompiledModule(modulePath, module)

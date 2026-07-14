@@ -7,8 +7,8 @@ import (
 )
 
 var syncModule = map[string]tender.Object{
-	"mutex": &tender.UserFunction{Name: "mutex", Value: syncNewMutex},
-	// "lock_os_thread": &tender.BuiltinFunction{
+	"mutex": &tender.NativeFunction{Name: "mutex", Value: syncNewMutex},
+	// "lock_os_thread": &tender.NativeFunction{
 		// Name: "lock_os_thread",
 		// Value: func(args ...tender.Object) (tender.Object, error) {
 			// if len(args) != 0 {
@@ -30,13 +30,13 @@ func syncNewMutex(args ...tender.Object) (tender.Object, error) {
 func makeMutexObj(mu *sync.Mutex) *tender.ImmutableMap {
 	return &tender.ImmutableMap{
 		Value: map[string]tender.Object{
-			"lock": &tender.UserFunction{
+			"lock": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					mu.Lock()
 					return nil, nil
 				},
 			},
-			"unlock": &tender.UserFunction{
+			"unlock": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					mu.Unlock()
 					return nil, nil

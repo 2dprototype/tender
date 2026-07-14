@@ -11,191 +11,191 @@ import (
 )
 
 var stringsModule = map[string]tender.Object{
-	"re_match": &tender.UserFunction{
+	"re_match": &tender.NativeFunction{
 		Name:  "re_match",
 		Value: stringsREMatch,
 	}, // re_match(pattern, strings) => bool/error
-	"re_find": &tender.UserFunction{
+	"re_find": &tender.NativeFunction{
 		Name:  "re_find",
 		Value: stringsREFind,
 	}, // re_find(pattern, strings, count) => [[{strings:,begin:,end:}]]/null
-	"re_replace": &tender.UserFunction{
+	"re_replace": &tender.NativeFunction{
 		Name:  "re_replace",
 		Value: stringsREReplace,
 	}, // re_replace(pattern, strings, repl) => string/error
-	"re_split": &tender.UserFunction{
+	"re_split": &tender.NativeFunction{
 		Name:  "re_split",
 		Value: stringsRESplit,
 	}, // re_split(pattern, strings, count) => [string]/error
-	"re_compile": &tender.UserFunction{
+	"re_compile": &tender.NativeFunction{
 		Name:  "re_compile",
 		Value: stringsRECompile,
 	}, // re_compile(pattern) => Regexp/error
-	"compare": &tender.UserFunction{
+	"compare": &tender.NativeFunction{
 		Name:  "compare",
 		Value: FuncASSRI(strings.Compare),
 	}, // compare(a, b) => int
-	"contains": &tender.UserFunction{
+	"contains": &tender.NativeFunction{
 		Name:  "contains",
 		Value: FuncASSRB(strings.Contains),
 	}, // contains(s, substr) => bool
-	"contains_any": &tender.UserFunction{
+	"contains_any": &tender.NativeFunction{
 		Name:  "contains_any",
 		Value: FuncASSRB(strings.ContainsAny),
 	}, // contains_any(s, chars) => bool
-	"count": &tender.UserFunction{
+	"count": &tender.NativeFunction{
 		Name:  "count",
 		Value: FuncASSRI(strings.Count),
 	}, // count(s, substr) => int
-	"equal_fold": &tender.UserFunction{
+	"equal_fold": &tender.NativeFunction{
 		Name:  "equal_fold",
 		Value: FuncASSRB(strings.EqualFold),
 	}, // "equal_fold(s, t) => bool
-	"fields": &tender.UserFunction{
+	"fields": &tender.NativeFunction{
 		Name:  "fields",
 		Value: FuncASRSs(strings.Fields),
 	}, // fields(s) => [string]
-	"has_prefix": &tender.UserFunction{
+	"has_prefix": &tender.NativeFunction{
 		Name:  "has_prefix",
 		Value: FuncASSRB(strings.HasPrefix),
 	}, // has_prefix(s, prefix) => bool
-	"has_suffix": &tender.UserFunction{
+	"has_suffix": &tender.NativeFunction{
 		Name:  "has_suffix",
 		Value: FuncASSRB(strings.HasSuffix),
 	}, // has_suffix(s, suffix) => bool
-	"index": &tender.UserFunction{
+	"index": &tender.NativeFunction{
 		Name:  "index",
 		Value: FuncASSRI(strings.Index),
 	}, // index(s, substr) => int
-	"index_any": &tender.UserFunction{
+	"index_any": &tender.NativeFunction{
 		Name:  "index_any",
 		Value: FuncASSRI(strings.IndexAny),
 	}, // index_any(s, chars) => int
-	"join": &tender.UserFunction{
+	"join": &tender.NativeFunction{
 		Name:  "join",
 		Value: stringsJoin,
 	}, // join(arr, sep) => string
-	"last_index": &tender.UserFunction{
+	"last_index": &tender.NativeFunction{
 		Name:  "last_index",
 		Value: FuncASSRI(strings.LastIndex),
 	}, // last_index(s, substr) => int
-	"last_index_any": &tender.UserFunction{
+	"last_index_any": &tender.NativeFunction{
 		Name:  "last_index_any",
 		Value: FuncASSRI(strings.LastIndexAny),
 	}, // last_index_any(s, chars) => int
-	"repeat": &tender.UserFunction{
+	"repeat": &tender.NativeFunction{
 		Name:  "repeat",
 		Value: stringsRepeat,
 	}, // repeat(s, count) => string
-	"replace": &tender.UserFunction{
+	"replace": &tender.NativeFunction{
 		Name:  "replace",
 		Value: stringsReplace,
 	}, // replace(s, old, new, n) => string
-	"substr": &tender.UserFunction{
+	"substr": &tender.NativeFunction{
 		Name:  "substr",
 		Value: stringsSubstring,
 	}, // substr(s, lower, upper) => string
-	"split": &tender.UserFunction{
+	"split": &tender.NativeFunction{
 		Name:  "split",
 		Value: FuncASSRSs(strings.Split),
 	}, // split(s, sep) => [string]
-	"split_after": &tender.UserFunction{
+	"split_after": &tender.NativeFunction{
 		Name:  "split_after",
 		Value: FuncASSRSs(strings.SplitAfter),
 	}, // split_after(s, sep) => [string]
-	"split_after_n": &tender.UserFunction{
+	"split_after_n": &tender.NativeFunction{
 		Name:  "split_after_n",
 		Value: FuncASSIRSs(strings.SplitAfterN),
 	}, // split_after_n(s, sep, n) => [string]
-	"split_n": &tender.UserFunction{
+	"split_n": &tender.NativeFunction{
 		Name:  "split_n",
 		Value: FuncASSIRSs(strings.SplitN),
 	}, // split_n(s, sep, n) => [string]
-	"title": &tender.UserFunction{
+	"title": &tender.NativeFunction{
 		Name:  "title",
 		Value: FuncASRS(strings.Title),
 	}, // title(s) => string
-	"to_lower": &tender.UserFunction{
+	"to_lower": &tender.NativeFunction{
 		Name:  "to_lower",
 		Value: FuncASRS(strings.ToLower),
 	}, // to_lower(s) => string
-	"to_title": &tender.UserFunction{
+	"to_title": &tender.NativeFunction{
 		Name:  "to_title",
 		Value: FuncASRS(strings.ToTitle),
 	}, // to_title(s) => string
-	"to_upper": &tender.UserFunction{
+	"to_upper": &tender.NativeFunction{
 		Name:  "to_upper",
 		Value: FuncASRS(strings.ToUpper),
 	}, // to_upper(s) => string
-	"pad_left": &tender.UserFunction{
+	"pad_left": &tender.NativeFunction{
 		Name:  "pad_left",
 		Value: stringsPadLeft,
 	}, // pad_left(s, pad_len, pad_with) => string
-	"pad_right": &tender.UserFunction{
+	"pad_right": &tender.NativeFunction{
 		Name:  "pad_right",
 		Value: stringsPadRight,
 	}, // pad_right(s, pad_len, pad_with) => string
-	"trim": &tender.UserFunction{
+	"trim": &tender.NativeFunction{
 		Name:  "trim",
 		Value: FuncASSRS(strings.Trim),
 	}, // trim(s, cutset) => string
-	"trim_left": &tender.UserFunction{
+	"trim_left": &tender.NativeFunction{
 		Name:  "trim_left",
 		Value: FuncASSRS(strings.TrimLeft),
 	}, // trim_left(s, cutset) => string
-	"trim_prefix": &tender.UserFunction{
+	"trim_prefix": &tender.NativeFunction{
 		Name:  "trim_prefix",
 		Value: FuncASSRS(strings.TrimPrefix),
 	}, // trim_prefix(s, prefix) => string
-	"trim_right": &tender.UserFunction{
+	"trim_right": &tender.NativeFunction{
 		Name:  "trim_right",
 		Value: FuncASSRS(strings.TrimRight),
 	}, // trim_right(s, cutset) => string
-	"trim_space": &tender.UserFunction{
+	"trim_space": &tender.NativeFunction{
 		Name:  "trim_space",
 		Value: FuncASRS(strings.TrimSpace),
 	}, // trim_space(s) => string
-	"trim_suffix": &tender.UserFunction{
+	"trim_suffix": &tender.NativeFunction{
 		Name:  "trim_suffix",
 		Value: FuncASSRS(strings.TrimSuffix),
 	}, // trim_suffix(s, suffix) => string
-	"atoi": &tender.UserFunction{
+	"atoi": &tender.NativeFunction{
 		Name:  "atoi",
 		Value: FuncASRIE(strconv.Atoi),
 	}, // atoi(str) => int/error
-	"format_bool": &tender.UserFunction{
+	"format_bool": &tender.NativeFunction{
 		Name:  "format_bool",
 		Value: stringsFormatBool,
 	}, // format_bool(b) => string
-	"format_float": &tender.UserFunction{
+	"format_float": &tender.NativeFunction{
 		Name:  "format_float",
 		Value: stringsFormatFloat,
 	}, // format_float(f, fmt, prec, bits) => string
-	"format_int": &tender.UserFunction{
+	"format_int": &tender.NativeFunction{
 		Name:  "format_int",
 		Value: stringsFormatInt,
 	}, // format_int(i, base) => string
-	"itoa": &tender.UserFunction{
+	"itoa": &tender.NativeFunction{
 		Name:  "itoa",
 		Value: FuncAIRS(strconv.Itoa),
 	}, // itoa(i) => string
-	"parse_bool": &tender.UserFunction{
+	"parse_bool": &tender.NativeFunction{
 		Name:  "parse_bool",
 		Value: stringsParseBool,
 	}, // parse_bool(str) => bool/error
-	"parse_float": &tender.UserFunction{
+	"parse_float": &tender.NativeFunction{
 		Name:  "parse_float",
 		Value: stringsParseFloat,
 	}, // parse_float(str, bits) => float/error
-	"parse_int": &tender.UserFunction{
+	"parse_int": &tender.NativeFunction{
 		Name:  "parse_int",
 		Value: stringsParseInt,
 	}, // parse_int(str, base, bits) => int/error
-	"quote": &tender.UserFunction{
+	"quote": &tender.NativeFunction{
 		Name:  "quote",
 		Value: FuncASRS(strconv.Quote),
 	}, // quote(str) => string
-	"unquote": &tender.UserFunction{
+	"unquote": &tender.NativeFunction{
 		Name:  "unquote",
 		Value: FuncASRSE(strconv.Unquote),
 	}, // unquote(str) => string/error

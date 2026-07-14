@@ -13,8 +13,8 @@ var upgrader = websocket.Upgrader{
 }
 
 var websocketModule = map[string]tender.Object{
-	"dial": &tender.UserFunction{Value: wsDial},
-	"listen_and_serve": &tender.BuiltinFunction{
+	"dial": &tender.NativeFunction{Value: wsDial},
+	"listen_and_serve": &tender.NativeFunction{
 		Name:      "listen_and_serve",
 		Value:     wsListenAndServe,
 		NeedVMObj: true,
@@ -87,7 +87,7 @@ func wsDial(args ...tender.Object) (tender.Object, error) {
 func makeWsConn(conn *websocket.Conn) *tender.ImmutableMap {
 	return &tender.ImmutableMap{
 		Value: map[string]tender.Object{
-			"read_message": &tender.UserFunction{
+			"read_message": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					t, b, err := conn.ReadMessage()
 					if err != nil {
@@ -101,7 +101,7 @@ func makeWsConn(conn *websocket.Conn) *tender.ImmutableMap {
 					}, nil
 				},
 			},
-			"write_message": &tender.UserFunction{
+			"write_message": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 2 { return nil, tender.ErrWrongNumArguments }
 					t, _ := tender.ToInt(args[0])
@@ -114,7 +114,7 @@ func makeWsConn(conn *websocket.Conn) *tender.ImmutableMap {
 					return nil, nil
 				},
 			},
-			"close": &tender.UserFunction{
+			"close": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					err := conn.Close()
 					if err != nil {

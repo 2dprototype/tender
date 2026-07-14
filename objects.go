@@ -229,7 +229,7 @@ func (o *Array) IndexGet(index Object) (res Object, err error) {
 			return &Int{Value: int64(len(o.Value))}, nil
 		}
 		if method, exists := arrayMethods[strIdx.Value]; exists {
-			return &BuiltinFunction{
+			return &NativeFunction{
 				Name: strIdx.Value,
 				Value: func(args ...Object) (Object, error) {
 					return method(append([]Object{o}, args...)...)
@@ -328,8 +328,8 @@ func (o *Bool) GobEncode() (b []byte, err error) {
 	return
 }
 
-// BuiltinFunction represents a builtin function.
-type BuiltinFunction struct {
+// NativeFunction represents a native function.
+type NativeFunction struct {
 	ObjectImpl
 	Name      string
 	Value     CallableFunc
@@ -337,32 +337,32 @@ type BuiltinFunction struct {
 }
 
 // TypeName returns the name of the type.
-func (o *BuiltinFunction) TypeName() string {
-	return "builtin-function:" + o.Name
+func (o *NativeFunction) TypeName() string {
+	return "native-function"
 }
 
-func (o *BuiltinFunction) String() string {
-	return "<builtin-function>"
+func (o *NativeFunction) String() string {
+	return "<native-function>"
 }
 
 // Copy returns a copy of the type.
-func (o *BuiltinFunction) Copy() Object {
-	return &BuiltinFunction{Value: o.Value, NeedVMObj: o.NeedVMObj}
+func (o *NativeFunction) Copy() Object {
+	return &NativeFunction{Value: o.Value, NeedVMObj: o.NeedVMObj}
 }
 
 // Equals returns true if the value of the type is equal to the value of
 // another object.
-func (o *BuiltinFunction) Equals(_ Object) bool {
+func (o *NativeFunction) Equals(_ Object) bool {
 	return false
 }
 
-// Call executes a builtin function.
-func (o *BuiltinFunction) Call(args ...Object) (Object, error) {
+// Call executes a native function.
+func (o *NativeFunction) Call(args ...Object) (Object, error) {
 	return o.Value(args...)
 }
 
 // CanCall returns whether the Object can be Called.
-func (o *BuiltinFunction) CanCall() bool {
+func (o *NativeFunction) CanCall() bool {
 	return true
 }
 
@@ -627,8 +627,8 @@ func (o *Char) Equals(x Object) bool {
 	return o.Value == t.Value
 }
 
-// CompiledFunction represents a compiled function.
-type CompiledFunction struct {
+// Function represents a compiled function.
+type Function struct {
 	ObjectImpl
 	Instructions  []byte
 	NumLocals     int // number of local variables (including function parameters)
@@ -639,17 +639,17 @@ type CompiledFunction struct {
 }
 
 // TypeName returns the name of the type.
-func (o *CompiledFunction) TypeName() string {
-	return "compiled-function"
+func (o *Function) TypeName() string {
+	return "function"
 }
 
-func (o *CompiledFunction) String() string {
-	return "<compiled-function>"
+func (o *Function) String() string {
+	return "<function>"
 }
 
 // Copy returns a copy of the type.
-func (o *CompiledFunction) Copy() Object {
-	return &CompiledFunction{
+func (o *Function) Copy() Object {
+	return &Function{
 		Instructions:  append([]byte{}, o.Instructions...),
 		NumLocals:     o.NumLocals,
 		NumParameters: o.NumParameters,
@@ -661,12 +661,12 @@ func (o *CompiledFunction) Copy() Object {
 
 // Equals returns true if the value of the type is equal to the value of
 // another object.
-func (o *CompiledFunction) Equals(_ Object) bool {
+func (o *Function) Equals(_ Object) bool {
 	return false
 }
 
 // SourcePos returns the source position of the instruction at ip.
-func (o *CompiledFunction) SourcePos(ip int) parser.Pos {
+func (o *Function) SourcePos(ip int) parser.Pos {
 	for ip >= 0 {
 		if p, ok := o.SourceMap[ip]; ok {
 			return p
@@ -677,7 +677,7 @@ func (o *CompiledFunction) SourcePos(ip int) parser.Pos {
 }
 
 // CanCall returns whether the Object can be Called.
-func (o *CompiledFunction) CanCall() bool {
+func (o *Function) CanCall() bool {
 	return true
 }
 
@@ -800,7 +800,7 @@ func (o *ImmutableArray) IndexGet(index Object) (res Object, err error) {
 			return &Int{Value: int64(len(o.Value))}, nil
 		}
 		if method, exists := immutableArrayMethods[strIdx.Value]; exists {
-			return &BuiltinFunction{
+			return &NativeFunction{
 				Name: strIdx.Value,
 				Value: func(args ...Object) (Object, error) {
 					return method(append([]Object{o}, args...)...)
@@ -2258,43 +2258,7 @@ func (o *Null) Value() Object {
 	return o
 }
 
-// UserFunction represents a user function.
-type UserFunction struct {
-	ObjectImpl
-	Name       string
-	Value      CallableFunc
-	EncodingID string
-}
 
-// TypeName returns the name of the type.
-func (o *UserFunction) TypeName() string {
-	return "user-function:" + o.Name
-}
-
-func (o *UserFunction) String() string {
-	return "<user-function>"
-}
-
-// Copy returns a copy of the type.
-func (o *UserFunction) Copy() Object {
-	return &UserFunction{Value: o.Value}
-}
-
-// Equals returns true if the value of the type is equal to the value of
-// another object.
-func (o *UserFunction) Equals(_ Object) bool {
-	return false
-}
-
-// Call invokes a user function.
-func (o *UserFunction) Call(args ...Object) (Object, error) {
-	return o.Value(args...)
-}
-
-// CanCall returns whether the Object can be Called.
-func (o *UserFunction) CanCall() bool {
-	return true
-}
 
 
 // Pointer represents a pointer to another object.

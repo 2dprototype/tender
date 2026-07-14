@@ -14,8 +14,8 @@ import (
 var otoCtx *oto.Context
 
 var audioModule = map[string]tender.Object{
-	"init": &tender.UserFunction{Name: "init", Value: audioInit},
-	"player": &tender.UserFunction{Name: "player", Value: audioPlayer},
+	"init": &tender.NativeFunction{Name: "init", Value: audioInit},
+	"player": &tender.NativeFunction{Name: "player", Value: audioPlayer},
 }
 
 func audioInit(args ...tender.Object) (ret tender.Object, err error) {
@@ -52,11 +52,11 @@ func audioInit(args ...tender.Object) (ret tender.Object, err error) {
 	<-readyChan
 	return &tender.ImmutableMap{
 		Value: map[string]tender.Object{
-			"suspend": &tender.UserFunction{
+			"suspend": &tender.NativeFunction{
 			Name:  "suspend",
 			Value: FuncARE(otoCtx.Suspend),
 			},	
-			"resume": &tender.UserFunction{
+			"resume": &tender.NativeFunction{
 				Name:  "resume",
 				Value: FuncARE(otoCtx.Resume),
 			},	
@@ -99,61 +99,61 @@ func audioPlayer(args ...tender.Object) (ret tender.Object, err error) {
 		Value: map[string]tender.Object{
 			"decoder" : &tender.ImmutableMap{
 				Value: map[string]tender.Object{
-					"length": &tender.UserFunction{
+					"length": &tender.NativeFunction{
 						Name:  "length",
 						Value: FuncARI64(decoded.Length),
 					},	
-					"sample_rate": &tender.UserFunction{
+					"sample_rate": &tender.NativeFunction{
 						Name:  "sample_rate",
 						Value: FuncARI(decoded.SampleRate),
 					},	
-					"seek": &tender.UserFunction{
+					"seek": &tender.NativeFunction{
 						Name:  "seek",
 						Value: FuncAI64IRI64E(decoded.Seek),
 					},	
 				},
 			},
-			"play": &tender.UserFunction{
+			"play": &tender.NativeFunction{
 				Name:  "play",
 				Value: FuncAR(player.Play),
 			},		
-			"pause": &tender.UserFunction{
+			"pause": &tender.NativeFunction{
 				Name:  "pause",
 				Value: FuncAR(player.Pause),
 			},	
-			"is_playing": &tender.UserFunction{
+			"is_playing": &tender.NativeFunction{
 				Name:  "is_playing",
 				Value: FuncARB(player.IsPlaying),
 			},	
-			"close": &tender.UserFunction{
+			"close": &tender.NativeFunction{
 				Name:  "close",
 				Value: FuncARE(player.Close),
 			},	
-			"err": &tender.UserFunction{
+			"err": &tender.NativeFunction{
 				Name:  "err",
 				Value: FuncARE(player.Err),
 			},	
-			"reset": &tender.UserFunction{
+			"reset": &tender.NativeFunction{
 				Name:  "reset",
 				Value: FuncAR(player.Reset),
 			},	
-			"buffered_size": &tender.UserFunction{
+			"buffered_size": &tender.NativeFunction{
 				Name:  "buffered_size",
 				Value: FuncARI(player.BufferedSize),
 			},	
-			"set_buffer_size": &tender.UserFunction{
+			"set_buffer_size": &tender.NativeFunction{
 				Name:  "set_buffer_size",
 				Value: FuncAIR(player.SetBufferSize),
 			},	
-			"set_volume": &tender.UserFunction{
+			"set_volume": &tender.NativeFunction{
 				Name:  "set_volume",
 				Value: FuncAFR(player.SetVolume),
 			},
-			"volume": &tender.UserFunction{
+			"volume": &tender.NativeFunction{
 				Name:  "volume",
 				Value: FuncARF(player.Volume),
 			},	
-			"seek": &tender.UserFunction{
+			"seek": &tender.NativeFunction{
 				Name:  "seek",
 				Value: FuncAI64IRI64E(player.Seek),
 			},

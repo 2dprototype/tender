@@ -13,13 +13,13 @@ import (
 
 var cryptoRSAModule = &tender.ImmutableMap{
 	Value: map[string]tender.Object{
-		"generate_key": &tender.UserFunction{Name: "generate_key", Value: rsaGenerateKey},
-		"encrypt":      &tender.UserFunction{Name: "encrypt", Value: rsaEncrypt},
-		"decrypt":      &tender.UserFunction{Name: "decrypt", Value: rsaDecrypt},
-		"sign":         &tender.UserFunction{Name: "sign", Value: rsaSign},
-		"verify":       &tender.UserFunction{Name: "verify", Value: rsaVerify},
-		"export_key":   &tender.UserFunction{Name: "export_key", Value: rsaExportKey},
-		"import_key":   &tender.UserFunction{Name: "import_key", Value: rsaImportKey},
+		"generate_key": &tender.NativeFunction{Name: "generate_key", Value: rsaGenerateKey},
+		"encrypt":      &tender.NativeFunction{Name: "encrypt", Value: rsaEncrypt},
+		"decrypt":      &tender.NativeFunction{Name: "decrypt", Value: rsaDecrypt},
+		"sign":         &tender.NativeFunction{Name: "sign", Value: rsaSign},
+		"verify":       &tender.NativeFunction{Name: "verify", Value: rsaVerify},
+		"export_key":   &tender.NativeFunction{Name: "export_key", Value: rsaExportKey},
+		"import_key":   &tender.NativeFunction{Name: "import_key", Value: rsaImportKey},
 	},
 }
 

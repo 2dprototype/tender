@@ -9,8 +9,8 @@ import (
 
 // CSVModule exports the functions for encoding/decoding CSV strings.
 var csvModule = map[string]tender.Object{
-	"decode": &tender.UserFunction{Name: "decode", Value: csvDecode},
-	"encode": &tender.UserFunction{Name: "encode", Value: csvEncode},
+	"decode": &tender.NativeFunction{Name: "decode", Value: csvDecode},
+	"encode": &tender.NativeFunction{Name: "encode", Value: csvEncode},
 }
 
 // csvDecode decodes a CSV string into a array of arrays (rows and columns).

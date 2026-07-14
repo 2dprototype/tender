@@ -7,8 +7,8 @@ import (
 )
 
 var gzipModule = map[string]tender.Object{
-	"compress":   &tender.UserFunction{Name: "compress", Value: gzipCompress},
-	"decompress": &tender.UserFunction{Name: "decompress", Value: gzipDecompress},
+	"compress":   &tender.NativeFunction{Name: "compress", Value: gzipCompress},
+	"decompress": &tender.NativeFunction{Name: "decompress", Value: gzipDecompress},
 }
 
 func gzipCompress(args ...tender.Object) (ret tender.Object, err error) {

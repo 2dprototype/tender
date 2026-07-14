@@ -18,215 +18,215 @@ var mathModule = map[string]tender.Object{
 	"log2E":   &tender.Float{Value: math.Log2E},
 	"ln10":    &tender.Float{Value: math.Ln10},
 	"log10E":  &tender.Float{Value: math.Log10E},
-	"abs": &tender.UserFunction{
+	"abs": &tender.NativeFunction{
 		Name:  "abs",
 		Value: FuncAFRF(math.Abs),
 	},
-	"acos": &tender.UserFunction{
+	"acos": &tender.NativeFunction{
 		Name:  "acos",
 		Value: FuncAFRF(math.Acos),
 	},
-	"acosh": &tender.UserFunction{
+	"acosh": &tender.NativeFunction{
 		Name:  "acosh",
 		Value: FuncAFRF(math.Acosh),
 	},
-	"asin": &tender.UserFunction{
+	"asin": &tender.NativeFunction{
 		Name:  "asin",
 		Value: FuncAFRF(math.Asin),
 	},
-	"asinh": &tender.UserFunction{
+	"asinh": &tender.NativeFunction{
 		Name:  "asinh",
 		Value: FuncAFRF(math.Asinh),
 	},
-	"atan": &tender.UserFunction{
+	"atan": &tender.NativeFunction{
 		Name:  "atan",
 		Value: FuncAFRF(math.Atan),
 	},
-	"atan2": &tender.UserFunction{
+	"atan2": &tender.NativeFunction{
 		Name:  "atan2",
 		Value: FuncAFFRF(math.Atan2),
 	},
-	"atanh": &tender.UserFunction{
+	"atanh": &tender.NativeFunction{
 		Name:  "atanh",
 		Value: FuncAFRF(math.Atanh),
 	},
-	"cbrt": &tender.UserFunction{
+	"cbrt": &tender.NativeFunction{
 		Name:  "cbrt",
 		Value: FuncAFRF(math.Cbrt),
 	},
-	"ceil": &tender.UserFunction{
+	"ceil": &tender.NativeFunction{
 		Name:  "ceil",
 		Value: FuncAFRF(math.Ceil),
 	},
-	"copysign": &tender.UserFunction{
+	"copysign": &tender.NativeFunction{
 		Name:  "copysign",
 		Value: FuncAFFRF(math.Copysign),
 	},
-	"cos": &tender.UserFunction{
+	"cos": &tender.NativeFunction{
 		Name:  "cos",
 		Value: FuncAFRF(math.Cos),
 	},
-	"cosh": &tender.UserFunction{
+	"cosh": &tender.NativeFunction{
 		Name:  "cosh",
 		Value: FuncAFRF(math.Cosh),
 	},
-	"dim": &tender.UserFunction{
+	"dim": &tender.NativeFunction{
 		Name:  "dim",
 		Value: FuncAFFRF(math.Dim),
 	},
-	"erf": &tender.UserFunction{
+	"erf": &tender.NativeFunction{
 		Name:  "erf",
 		Value: FuncAFRF(math.Erf),
 	},
-	"erfc": &tender.UserFunction{
+	"erfc": &tender.NativeFunction{
 		Name:  "erfc",
 		Value: FuncAFRF(math.Erfc),
 	},
-	"exp": &tender.UserFunction{
+	"exp": &tender.NativeFunction{
 		Name:  "exp",
 		Value: FuncAFRF(math.Exp),
 	},
-	"exp2": &tender.UserFunction{
+	"exp2": &tender.NativeFunction{
 		Name:  "exp2",
 		Value: FuncAFRF(math.Exp2),
 	},
-	"expm1": &tender.UserFunction{
+	"expm1": &tender.NativeFunction{
 		Name:  "expm1",
 		Value: FuncAFRF(math.Expm1),
 	},
-	"floor": &tender.UserFunction{
+	"floor": &tender.NativeFunction{
 		Name:  "floor",
 		Value: FuncAFRF(math.Floor),
 	},
-	"gamma": &tender.UserFunction{
+	"gamma": &tender.NativeFunction{
 		Name:  "gamma",
 		Value: FuncAFRF(math.Gamma),
 	},
-	"hypot": &tender.UserFunction{
+	"hypot": &tender.NativeFunction{
 		Name:  "hypot",
 		Value: FuncAFFRF(math.Hypot),
 	},
-	"ilogb": &tender.UserFunction{
+	"ilogb": &tender.NativeFunction{
 		Name:  "ilogb",
 		Value: FuncAFRI(math.Ilogb),
 	},
-	"inf": &tender.UserFunction{
+	"inf": &tender.NativeFunction{
 		Name:  "inf",
 		Value: FuncAIRF(math.Inf),
 	},
-	"is_inf": &tender.UserFunction{
+	"is_inf": &tender.NativeFunction{
 		Name:  "is_inf",
 		Value: FuncAFIRB(math.IsInf),
 	},
-	"is_nan": &tender.UserFunction{
+	"is_nan": &tender.NativeFunction{
 		Name:  "is_nan",
 		Value: FuncAFRB(math.IsNaN),
 	},
-	"j0": &tender.UserFunction{
+	"j0": &tender.NativeFunction{
 		Name:  "j0",
 		Value: FuncAFRF(math.J0),
 	},
-	"j1": &tender.UserFunction{
+	"j1": &tender.NativeFunction{
 		Name:  "j1",
 		Value: FuncAFRF(math.J1),
 	},
-	"jn": &tender.UserFunction{
+	"jn": &tender.NativeFunction{
 		Name:  "jn",
 		Value: FuncAIFRF(math.Jn),
 	},
-	"ldexp": &tender.UserFunction{
+	"ldexp": &tender.NativeFunction{
 		Name:  "ldexp",
 		Value: FuncAFIRF(math.Ldexp),
 	},
-	"log": &tender.UserFunction{
+	"log": &tender.NativeFunction{
 		Name:  "log",
 		Value: FuncAFRF(math.Log),
 	},
-	"log10": &tender.UserFunction{
+	"log10": &tender.NativeFunction{
 		Name:  "log10",
 		Value: FuncAFRF(math.Log10),
 	},
-	"log1p": &tender.UserFunction{
+	"log1p": &tender.NativeFunction{
 		Name:  "log1p",
 		Value: FuncAFRF(math.Log1p),
 	},
-	"log2": &tender.UserFunction{
+	"log2": &tender.NativeFunction{
 		Name:  "log2",
 		Value: FuncAFRF(math.Log2),
 	},
-	"logb": &tender.UserFunction{
+	"logb": &tender.NativeFunction{
 		Name:  "logb",
 		Value: FuncAFRF(math.Logb),
 	},
-	"max": &tender.UserFunction{
+	"max": &tender.NativeFunction{
 		Name:  "max",
 		Value: FuncAFFRF(math.Max),
 	},
-	"min": &tender.UserFunction{
+	"min": &tender.NativeFunction{
 		Name:  "min",
 		Value: FuncAFFRF(math.Min),
 	},
-	"mod": &tender.UserFunction{
+	"mod": &tender.NativeFunction{
 		Name:  "mod",
 		Value: FuncAFFRF(math.Mod),
 	},
-	"nan": &tender.UserFunction{
+	"nan": &tender.NativeFunction{
 		Name:  "nan",
 		Value: FuncARF(math.NaN),
 	},
-	"nextafter": &tender.UserFunction{
+	"nextafter": &tender.NativeFunction{
 		Name:  "nextafter",
 		Value: FuncAFFRF(math.Nextafter),
 	},
-	"pow": &tender.UserFunction{
+	"pow": &tender.NativeFunction{
 		Name:  "pow",
 		Value: FuncAFFRF(math.Pow),
 	},
-	"pow10": &tender.UserFunction{
+	"pow10": &tender.NativeFunction{
 		Name:  "pow10",
 		Value: FuncAIRF(math.Pow10),
 	},
-	"remainder": &tender.UserFunction{
+	"remainder": &tender.NativeFunction{
 		Name:  "remainder",
 		Value: FuncAFFRF(math.Remainder),
 	},
-	"signbit": &tender.UserFunction{
+	"signbit": &tender.NativeFunction{
 		Name:  "signbit",
 		Value: FuncAFRB(math.Signbit),
 	},
-	"sin": &tender.UserFunction{
+	"sin": &tender.NativeFunction{
 		Name:  "sin",
 		Value: FuncAFRF(math.Sin),
 	},
-	"sinh": &tender.UserFunction{
+	"sinh": &tender.NativeFunction{
 		Name:  "sinh",
 		Value: FuncAFRF(math.Sinh),
 	},
-	"sqrt": &tender.UserFunction{
+	"sqrt": &tender.NativeFunction{
 		Name:  "sqrt",
 		Value: FuncAFRF(math.Sqrt),
 	},
-	"tan": &tender.UserFunction{
+	"tan": &tender.NativeFunction{
 		Name:  "tan",
 		Value: FuncAFRF(math.Tan),
 	},
-	"tanh": &tender.UserFunction{
+	"tanh": &tender.NativeFunction{
 		Name:  "tanh",
 		Value: FuncAFRF(math.Tanh),
 	},
-	"trunc": &tender.UserFunction{
+	"trunc": &tender.NativeFunction{
 		Name:  "trunc",
 		Value: FuncAFRF(math.Trunc),
 	},
-	"y0": &tender.UserFunction{
+	"y0": &tender.NativeFunction{
 		Name:  "y0",
 		Value: FuncAFRF(math.Y0),
 	},
-	"y1": &tender.UserFunction{
+	"y1": &tender.NativeFunction{
 		Name:  "y1",
 		Value: FuncAFRF(math.Y1),
 	},
-	"yn": &tender.UserFunction{
+	"yn": &tender.NativeFunction{
 		Name:  "yn",
 		Value: FuncAIFRF(math.Yn),
 	},

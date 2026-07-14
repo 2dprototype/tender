@@ -15,11 +15,11 @@ import (
 
 var cryptoECDSAModule = &tender.ImmutableMap{
 	Value: map[string]tender.Object{
-		"generate_key": &tender.UserFunction{Name: "generate_key", Value: ecdsaGenerateKey},
-		"sign":         &tender.UserFunction{Name: "sign", Value: ecdsaSign},
-		"verify":       &tender.UserFunction{Name: "verify", Value: ecdsaVerify},
-		"export_key":   &tender.UserFunction{Name: "export_key", Value: ecdsaExportKey},
-		"import_key":   &tender.UserFunction{Name: "import_key", Value: ecdsaImportKey},
+		"generate_key": &tender.NativeFunction{Name: "generate_key", Value: ecdsaGenerateKey},
+		"sign":         &tender.NativeFunction{Name: "sign", Value: ecdsaSign},
+		"verify":       &tender.NativeFunction{Name: "verify", Value: ecdsaVerify},
+		"export_key":   &tender.NativeFunction{Name: "export_key", Value: ecdsaExportKey},
+		"import_key":   &tender.NativeFunction{Name: "import_key", Value: ecdsaImportKey},
 	},
 }
 

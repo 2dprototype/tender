@@ -9,19 +9,19 @@ import (
 )
 
 var jsonModule = map[string]tender.Object{
-	"decode": &tender.UserFunction{
+	"decode": &tender.NativeFunction{
 		Name:  "decode",
 		Value: jsonDecode,
 	},
-	"encode": &tender.UserFunction{
+	"encode": &tender.NativeFunction{
 		Name:  "encode",
 		Value: jsonEncode,
 	},
-	"indent": &tender.UserFunction{
+	"indent": &tender.NativeFunction{
 		Name:  "encode",
 		Value: jsonIndent,
 	},
-	"html_escape": &tender.UserFunction{
+	"html_escape": &tender.NativeFunction{
 		Name:  "html_escape",
 		Value: jsonHTMLEscape,
 	},

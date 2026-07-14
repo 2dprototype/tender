@@ -409,15 +409,15 @@ func (b *WUIButton) IndexGet(index tender.Object) (res tender.Object, err error)
 
 	switch strIdx.Value {
 	case "set_text":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncASR(b.Value.SetText),
 		}
 	case "text":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncARS(b.Value.Text),
 		}
 	case "set_font":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 1 {
 					return nil, tender.ErrWrongNumArguments
@@ -435,7 +435,7 @@ func (b *WUIButton) IndexGet(index tender.Object) (res tender.Object, err error)
 			},
 		}
 	case "font":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -445,11 +445,11 @@ func (b *WUIButton) IndexGet(index tender.Object) (res tender.Object, err error)
 			},
 		}
 	case "focus":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAR(b.Value.Focus),
 		}
 	case "has_focus":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -461,7 +461,7 @@ func (b *WUIButton) IndexGet(index tender.Object) (res tender.Object, err error)
 			},
 		}
 	case "set_onclick":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			NeedVMObj: true,
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				vm := args[0].(*tender.VMObj).Value
@@ -476,7 +476,7 @@ func (b *WUIButton) IndexGet(index tender.Object) (res tender.Object, err error)
 			},
 		}
 	case "onclick":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -486,7 +486,7 @@ func (b *WUIButton) IndexGet(index tender.Object) (res tender.Object, err error)
 			},
 		}
 	case "set_on_tab_focus":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			NeedVMObj: true,
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				vm := args[0].(*tender.VMObj).Value
@@ -501,7 +501,7 @@ func (b *WUIButton) IndexGet(index tender.Object) (res tender.Object, err error)
 			},
 		}
 	case "on_tab_focus":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -511,7 +511,7 @@ func (b *WUIButton) IndexGet(index tender.Object) (res tender.Object, err error)
 			},
 		}
 	case "set_bounds":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 4 {
 					return nil, tender.ErrWrongNumArguments
@@ -525,11 +525,11 @@ func (b *WUIButton) IndexGet(index tender.Object) (res tender.Object, err error)
 			},
 		}
 	case "set_enabled":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncABR(b.Value.SetEnabled),
 		}
 	case "enabled":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -541,11 +541,11 @@ func (b *WUIButton) IndexGet(index tender.Object) (res tender.Object, err error)
 			},
 		}
 	case "set_visible":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncABR(b.Value.SetVisible),
 		}
 	case "visible":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -569,19 +569,19 @@ func (c *WUICheckBox) IndexGet(index tender.Object) (res tender.Object, err erro
 
 	switch strIdx.Value {
 	case "set_text":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncASR(c.Value.SetText),
 		}
 	case "text":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncARS(c.Value.Text),
 		}
 	case "set_checked":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncABR(c.Value.SetChecked),
 		}
 	case "checked":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -593,7 +593,7 @@ func (c *WUICheckBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_font":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 1 {
 					return nil, tender.ErrWrongNumArguments
@@ -611,7 +611,7 @@ func (c *WUICheckBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "font":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -621,11 +621,11 @@ func (c *WUICheckBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "focus":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAR(c.Value.Focus),
 		}
 	case "has_focus":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -637,7 +637,7 @@ func (c *WUICheckBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_on_change":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			NeedVMObj: true,
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				vm := args[0].(*tender.VMObj).Value
@@ -658,7 +658,7 @@ func (c *WUICheckBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_on_tab_focus":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			NeedVMObj: true,
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				vm := args[0].(*tender.VMObj).Value
@@ -673,7 +673,7 @@ func (c *WUICheckBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "on_tab_focus":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -682,7 +682,7 @@ func (c *WUICheckBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_bounds":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 4 {
 					return nil, tender.ErrWrongNumArguments
@@ -708,15 +708,15 @@ func (c *WUIComboBox) IndexGet(index tender.Object) (res tender.Object, err erro
 
 	switch strIdx.Value {
 	case "set_text":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncASR(c.Value.SetText),
 		}
 	case "text":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncARS(c.Value.Text),
 		}
 	case "set_items":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 1 {
 					return nil, tender.ErrWrongNumArguments
@@ -738,19 +738,19 @@ func (c *WUIComboBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "add_item":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncASR(c.Value.AddItem),
 		}
 	case "clear":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAR(c.Value.Clear),
 		}
 	case "set_selected_index":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAIR(c.Value.SetSelectedIndex),
 		}
 	case "selected_index":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -759,7 +759,7 @@ func (c *WUIComboBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "items":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -773,11 +773,11 @@ func (c *WUIComboBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "focus":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAR(c.Value.Focus),
 		}
 	case "has_focus":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -789,7 +789,7 @@ func (c *WUIComboBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_font":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 1 {
 					return nil, tender.ErrWrongNumArguments
@@ -807,7 +807,7 @@ func (c *WUIComboBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "font":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -817,7 +817,7 @@ func (c *WUIComboBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_on_change":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			NeedVMObj: true,
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				vm := args[0].(*tender.VMObj).Value
@@ -832,7 +832,7 @@ func (c *WUIComboBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_on_tab_focus":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			NeedVMObj: true,
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				vm := args[0].(*tender.VMObj).Value
@@ -847,7 +847,7 @@ func (c *WUIComboBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "on_tab_focus":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -856,7 +856,7 @@ func (c *WUIComboBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_bounds":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 4 {
 					return nil, tender.ErrWrongNumArguments
@@ -882,15 +882,15 @@ func (e *WUIEditLine) IndexGet(index tender.Object) (res tender.Object, err erro
 
 	switch strIdx.Value {
 	case "set_text":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncASR(e.Value.SetText),
 		}
 	case "text":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncARS(e.Value.Text),
 		}
 	case "set_bounds":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 4 {
 					return nil, tender.ErrWrongNumArguments
@@ -904,7 +904,7 @@ func (e *WUIEditLine) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_font":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 1 {
 					return nil, tender.ErrWrongNumArguments
@@ -922,7 +922,7 @@ func (e *WUIEditLine) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "character_limit":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -931,11 +931,11 @@ func (e *WUIEditLine) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_character_limit":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAIR(e.Value.SetCharacterLimit),
 		}
 	case "cursor_position":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -948,11 +948,11 @@ func (e *WUIEditLine) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_cursor_position":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAIR(e.Value.SetCursorPosition),
 		}
 	case "is_password":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -964,11 +964,11 @@ func (e *WUIEditLine) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_is_password":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncABR(e.Value.SetIsPassword),
 		}
 	case "read_only":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -980,15 +980,15 @@ func (e *WUIEditLine) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_read_only":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncABR(e.Value.SetReadOnly),
 		}
 	case "select_all":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAR(e.Value.SelectAll),
 		}
 	case "set_selection":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 2 {
 					return nil, tender.ErrWrongNumArguments
@@ -1000,7 +1000,7 @@ func (e *WUIEditLine) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_on_tab_focus":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			NeedVMObj: true,
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				vm := args[0].(*tender.VMObj).Value
@@ -1015,7 +1015,7 @@ func (e *WUIEditLine) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_on_text_change":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			NeedVMObj: true,
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				vm := args[0].(*tender.VMObj).Value
@@ -1030,7 +1030,7 @@ func (e *WUIEditLine) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "on_tab_focus":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1039,7 +1039,7 @@ func (e *WUIEditLine) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "on_text_change":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1060,7 +1060,7 @@ func (f *WUIFloatUpDown) IndexGet(index tender.Object) (res tender.Object, err e
 
 	switch strIdx.Value {
 	case "set_min":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 1 {
 					return nil, tender.ErrWrongNumArguments
@@ -1071,7 +1071,7 @@ func (f *WUIFloatUpDown) IndexGet(index tender.Object) (res tender.Object, err e
 			},
 		}
 	case "set_max":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 1 {
 					return nil, tender.ErrWrongNumArguments
@@ -1082,7 +1082,7 @@ func (f *WUIFloatUpDown) IndexGet(index tender.Object) (res tender.Object, err e
 			},
 		}
 	case "set_value":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 1 {
 					return nil, tender.ErrWrongNumArguments
@@ -1093,7 +1093,7 @@ func (f *WUIFloatUpDown) IndexGet(index tender.Object) (res tender.Object, err e
 			},
 		}
 	case "value":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1102,7 +1102,7 @@ func (f *WUIFloatUpDown) IndexGet(index tender.Object) (res tender.Object, err e
 			},
 		}
 	case "min":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1111,7 +1111,7 @@ func (f *WUIFloatUpDown) IndexGet(index tender.Object) (res tender.Object, err e
 			},
 		}
 	case "max":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1120,7 +1120,7 @@ func (f *WUIFloatUpDown) IndexGet(index tender.Object) (res tender.Object, err e
 			},
 		}
 	case "min_max":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1133,7 +1133,7 @@ func (f *WUIFloatUpDown) IndexGet(index tender.Object) (res tender.Object, err e
 			},
 		}
 	case "set_min_max":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 2 {
 					return nil, tender.ErrWrongNumArguments
@@ -1145,7 +1145,7 @@ func (f *WUIFloatUpDown) IndexGet(index tender.Object) (res tender.Object, err e
 			},
 		}
 	case "precision":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1154,11 +1154,11 @@ func (f *WUIFloatUpDown) IndexGet(index tender.Object) (res tender.Object, err e
 			},
 		}
 	case "set_precision":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAIR(f.Value.SetPrecision),
 		}
 	case "cursor_position":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1171,15 +1171,15 @@ func (f *WUIFloatUpDown) IndexGet(index tender.Object) (res tender.Object, err e
 			},
 		}
 	case "set_cursor_position":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAIR(f.Value.SetCursorPosition),
 		}
 	case "select_all":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAR(f.Value.SelectAll),
 		}
 	case "set_selection":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 2 {
 					return nil, tender.ErrWrongNumArguments
@@ -1191,7 +1191,7 @@ func (f *WUIFloatUpDown) IndexGet(index tender.Object) (res tender.Object, err e
 			},
 		}
 	case "set_on_tab_focus":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			NeedVMObj: true,
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				vm := args[0].(*tender.VMObj).Value
@@ -1206,7 +1206,7 @@ func (f *WUIFloatUpDown) IndexGet(index tender.Object) (res tender.Object, err e
 			},
 		}
 	case "set_on_value_change":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			NeedVMObj: true,
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				vm := args[0].(*tender.VMObj).Value
@@ -1221,7 +1221,7 @@ func (f *WUIFloatUpDown) IndexGet(index tender.Object) (res tender.Object, err e
 			},
 		}
 	case "on_tab_focus":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1230,7 +1230,7 @@ func (f *WUIFloatUpDown) IndexGet(index tender.Object) (res tender.Object, err e
 			},
 		}
 	case "on_value_change":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1239,7 +1239,7 @@ func (f *WUIFloatUpDown) IndexGet(index tender.Object) (res tender.Object, err e
 			},
 		}
 	case "set_bounds":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 4 {
 					return nil, tender.ErrWrongNumArguments
@@ -1254,7 +1254,7 @@ func (f *WUIFloatUpDown) IndexGet(index tender.Object) (res tender.Object, err e
 		}
 	// Position and size methods
 	case "set_pos":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 2 {
 					return nil, tender.ErrWrongNumArguments
@@ -1266,7 +1266,7 @@ func (f *WUIFloatUpDown) IndexGet(index tender.Object) (res tender.Object, err e
 			},
 		}
 	case "set_size":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 2 {
 					return nil, tender.ErrWrongNumArguments
@@ -1278,19 +1278,19 @@ func (f *WUIFloatUpDown) IndexGet(index tender.Object) (res tender.Object, err e
 			},
 		}
 	case "set_x":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAIR(f.Value.SetX),
 		}
 	case "set_y":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAIR(f.Value.SetY),
 		}
 	case "set_width":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAIR(f.Value.SetWidth),
 		}
 	case "set_height":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAIR(f.Value.SetHeight),
 		}
 	}
@@ -1306,19 +1306,19 @@ func (i *WUIIntUpDown) IndexGet(index tender.Object) (res tender.Object, err err
 
 	switch strIdx.Value {
 	case "set_min":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAIR(i.Value.SetMin),
 		}
 	case "set_max":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAIR(i.Value.SetMax),
 		}
 	case "set_value":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAIR(i.Value.SetValue),
 		}
 	case "value":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1327,7 +1327,7 @@ func (i *WUIIntUpDown) IndexGet(index tender.Object) (res tender.Object, err err
 			},
 		}
 	case "min":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1336,7 +1336,7 @@ func (i *WUIIntUpDown) IndexGet(index tender.Object) (res tender.Object, err err
 			},
 		}
 	case "max":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1345,7 +1345,7 @@ func (i *WUIIntUpDown) IndexGet(index tender.Object) (res tender.Object, err err
 			},
 		}
 	case "min_max":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1358,7 +1358,7 @@ func (i *WUIIntUpDown) IndexGet(index tender.Object) (res tender.Object, err err
 			},
 		}
 	case "set_min_max":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 2 {
 					return nil, tender.ErrWrongNumArguments
@@ -1370,7 +1370,7 @@ func (i *WUIIntUpDown) IndexGet(index tender.Object) (res tender.Object, err err
 			},
 		}
 	case "cursor_position":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1383,15 +1383,15 @@ func (i *WUIIntUpDown) IndexGet(index tender.Object) (res tender.Object, err err
 			},
 		}
 	case "set_cursor_position":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAIR(i.Value.SetCursorPosition),
 		}
 	case "select_all":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAR(i.Value.SelectAll),
 		}
 	case "set_selection":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 2 {
 					return nil, tender.ErrWrongNumArguments
@@ -1403,7 +1403,7 @@ func (i *WUIIntUpDown) IndexGet(index tender.Object) (res tender.Object, err err
 			},
 		}
 	case "set_on_tab_focus":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			NeedVMObj: true,
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				vm := args[0].(*tender.VMObj).Value
@@ -1418,7 +1418,7 @@ func (i *WUIIntUpDown) IndexGet(index tender.Object) (res tender.Object, err err
 			},
 		}
 	case "set_on_value_change":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			NeedVMObj: true,
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				vm := args[0].(*tender.VMObj).Value
@@ -1433,7 +1433,7 @@ func (i *WUIIntUpDown) IndexGet(index tender.Object) (res tender.Object, err err
 			},
 		}
 	case "on_tab_focus":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1442,7 +1442,7 @@ func (i *WUIIntUpDown) IndexGet(index tender.Object) (res tender.Object, err err
 			},
 		}
 	case "on_value_change":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1451,7 +1451,7 @@ func (i *WUIIntUpDown) IndexGet(index tender.Object) (res tender.Object, err err
 			},
 		}
 	case "set_bounds":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 4 {
 					return nil, tender.ErrWrongNumArguments
@@ -1466,7 +1466,7 @@ func (i *WUIIntUpDown) IndexGet(index tender.Object) (res tender.Object, err err
 		}
 	// Position and size methods
 	case "set_pos":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 2 {
 					return nil, tender.ErrWrongNumArguments
@@ -1478,7 +1478,7 @@ func (i *WUIIntUpDown) IndexGet(index tender.Object) (res tender.Object, err err
 			},
 		}
 	case "set_size":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 2 {
 					return nil, tender.ErrWrongNumArguments
@@ -1490,27 +1490,27 @@ func (i *WUIIntUpDown) IndexGet(index tender.Object) (res tender.Object, err err
 			},
 		}
 	case "set_x":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAIR(i.Value.SetX),
 		}
 	case "set_y":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAIR(i.Value.SetY),
 		}
 	case "set_width":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAIR(i.Value.SetWidth),
 		}
 	case "set_height":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAIR(i.Value.SetHeight),
 		}
 	case "set_visible":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncABR(i.Value.SetVisible),
 		}
 	case "visible":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1534,15 +1534,15 @@ func (l *WUILabel) IndexGet(index tender.Object) (res tender.Object, err error) 
 
 	switch strIdx.Value {
 	case "set_text":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncASR(l.Value.SetText),
 		}
 	case "text":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncARS(l.Value.Text),
 		}
 	case "set_alignment":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 1 {
 					return nil, tender.ErrWrongNumArguments
@@ -1553,7 +1553,7 @@ func (l *WUILabel) IndexGet(index tender.Object) (res tender.Object, err error) 
 			},
 		}
 	case "alignment":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1562,7 +1562,7 @@ func (l *WUILabel) IndexGet(index tender.Object) (res tender.Object, err error) 
 			},
 		}
 	case "set_font":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 1 {
 					return nil, tender.ErrWrongNumArguments
@@ -1580,7 +1580,7 @@ func (l *WUILabel) IndexGet(index tender.Object) (res tender.Object, err error) 
 			},
 		}
 	case "font":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1590,11 +1590,11 @@ func (l *WUILabel) IndexGet(index tender.Object) (res tender.Object, err error) 
 			},
 		}
 	case "focus":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAR(l.Value.Focus),
 		}
 	case "has_focus":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1606,7 +1606,7 @@ func (l *WUILabel) IndexGet(index tender.Object) (res tender.Object, err error) 
 			},
 		}
 	case "set_bounds":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 4 {
 					return nil, tender.ErrWrongNumArguments
@@ -1632,7 +1632,7 @@ func (p *WUIPaintBox) IndexGet(index tender.Object) (res tender.Object, err erro
 
 	switch strIdx.Value {
 	case "set_bounds":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 4 {
 					return nil, tender.ErrWrongNumArguments
@@ -1646,7 +1646,7 @@ func (p *WUIPaintBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "anchors":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1659,7 +1659,7 @@ func (p *WUIPaintBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "bounds":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1674,7 +1674,7 @@ func (p *WUIPaintBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "enabled":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1686,11 +1686,11 @@ func (p *WUIPaintBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_enabled":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncABR(p.Value.SetEnabled),
 		}
 	case "handle":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1699,7 +1699,7 @@ func (p *WUIPaintBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "height":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1708,7 +1708,7 @@ func (p *WUIPaintBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "horizontal_anchor":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1717,7 +1717,7 @@ func (p *WUIPaintBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_on_mouse_move":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			NeedVMObj: true,
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				vm := args[0].(*tender.VMObj).Value
@@ -1734,7 +1734,7 @@ func (p *WUIPaintBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_on_paint":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			NeedVMObj: true,
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				vm := args[0].(*tender.VMObj).Value
@@ -1751,7 +1751,7 @@ func (p *WUIPaintBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_on_resize":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			NeedVMObj: true,
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				vm := args[0].(*tender.VMObj).Value
@@ -1766,7 +1766,7 @@ func (p *WUIPaintBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "on_resize":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1775,11 +1775,11 @@ func (p *WUIPaintBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "paint":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAR(p.Value.Paint),
 		}
 	case "parent":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1793,7 +1793,7 @@ func (p *WUIPaintBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "position":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1806,7 +1806,7 @@ func (p *WUIPaintBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_anchors":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 2 {
 					return nil, tender.ErrWrongNumArguments
@@ -1818,11 +1818,11 @@ func (p *WUIPaintBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_height":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAIR(p.Value.SetHeight),
 		}
 	case "set_horizontal_anchor":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 1 {
 					return nil, tender.ErrWrongNumArguments
@@ -1833,7 +1833,7 @@ func (p *WUIPaintBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_position":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 2 {
 					return nil, tender.ErrWrongNumArguments
@@ -1845,7 +1845,7 @@ func (p *WUIPaintBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_size":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 2 {
 					return nil, tender.ErrWrongNumArguments
@@ -1857,7 +1857,7 @@ func (p *WUIPaintBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_vertical_anchor":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 1 {
 					return nil, tender.ErrWrongNumArguments
@@ -1868,23 +1868,23 @@ func (p *WUIPaintBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "set_visible":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncABR(p.Value.SetVisible),
 		}
 	case "set_width":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAIR(p.Value.SetWidth),
 		}
 	case "set_x":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAIR(p.Value.SetX),
 		}
 	case "set_y":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAIR(p.Value.SetY),
 		}
 	case "size":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1897,7 +1897,7 @@ func (p *WUIPaintBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "vertical_anchor":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1906,7 +1906,7 @@ func (p *WUIPaintBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "visible":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1918,7 +1918,7 @@ func (p *WUIPaintBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "width":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1927,7 +1927,7 @@ func (p *WUIPaintBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "x":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1936,7 +1936,7 @@ func (p *WUIPaintBox) IndexGet(index tender.Object) (res tender.Object, err erro
 			},
 		}
 	case "y":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -1969,7 +1969,7 @@ func (c *WUICanvas) IndexGet(index tender.Object) (res tender.Object, err error)
 
     switch strIdx.Value {
     case "arc":
-        res = &tender.BuiltinFunction{
+        res = &tender.NativeFunction{
             Value: func(args ...tender.Object) (tender.Object, error) {
                 if len(args) != 7 {
                     return nil, tender.ErrWrongNumArguments
@@ -1993,11 +1993,11 @@ func (c *WUICanvas) IndexGet(index tender.Object) (res tender.Object, err error)
             },
         }
     case "clear_draw_regions":
-        res = &tender.BuiltinFunction{
+        res = &tender.NativeFunction{
             Value: FuncAR(c.Value.ClearDrawRegions),
         }
     case "draw_ellipse":
-        res = &tender.BuiltinFunction{
+        res = &tender.NativeFunction{
             Value: func(args ...tender.Object) (tender.Object, error) {
                 if len(args) != 5 {
                     return nil, tender.ErrWrongNumArguments
@@ -2019,7 +2019,7 @@ func (c *WUICanvas) IndexGet(index tender.Object) (res tender.Object, err error)
             },
         }
     case "draw_image":
-        res = &tender.BuiltinFunction{
+        res = &tender.NativeFunction{
             Value: func(args ...tender.Object) (tender.Object, error) {
                 if len(args) != 4 {
                     return nil, tender.ErrWrongNumArguments
@@ -2047,7 +2047,7 @@ func (c *WUICanvas) IndexGet(index tender.Object) (res tender.Object, err error)
             },
         }
     case "draw_pie":
-        res = &tender.BuiltinFunction{
+        res = &tender.NativeFunction{
             Value: func(args ...tender.Object) (tender.Object, error) {
                 if len(args) != 7 {
                     return nil, tender.ErrWrongNumArguments
@@ -2071,7 +2071,7 @@ func (c *WUICanvas) IndexGet(index tender.Object) (res tender.Object, err error)
             },
         }
     case "draw_rect":
-        res = &tender.BuiltinFunction{
+        res = &tender.NativeFunction{
             Value: func(args ...tender.Object) (tender.Object, error) {
                 if len(args) != 5 {
                     return nil, tender.ErrWrongNumArguments
@@ -2093,7 +2093,7 @@ func (c *WUICanvas) IndexGet(index tender.Object) (res tender.Object, err error)
             },
         }
     case "fill_ellipse":
-        res = &tender.BuiltinFunction{
+        res = &tender.NativeFunction{
             Value: func(args ...tender.Object) (tender.Object, error) {
                 if len(args) != 5 {
                     return nil, tender.ErrWrongNumArguments
@@ -2115,7 +2115,7 @@ func (c *WUICanvas) IndexGet(index tender.Object) (res tender.Object, err error)
             },
         }
     case "fill_pie":
-        res = &tender.BuiltinFunction{
+        res = &tender.NativeFunction{
             Value: func(args ...tender.Object) (tender.Object, error) {
                 if len(args) != 7 {
                     return nil, tender.ErrWrongNumArguments
@@ -2139,7 +2139,7 @@ func (c *WUICanvas) IndexGet(index tender.Object) (res tender.Object, err error)
             },
         }
     case "fill_rect":
-        res = &tender.BuiltinFunction{
+        res = &tender.NativeFunction{
             Value: func(args ...tender.Object) (tender.Object, error) {
                 if len(args) != 5 {
                     return nil, tender.ErrWrongNumArguments
@@ -2161,7 +2161,7 @@ func (c *WUICanvas) IndexGet(index tender.Object) (res tender.Object, err error)
             },
         }
     case "handle":
-        res = &tender.BuiltinFunction{
+        res = &tender.NativeFunction{
             Value: func(args ...tender.Object) (tender.Object, error) {
                 if len(args) != 0 {
                     return nil, tender.ErrWrongNumArguments
@@ -2170,7 +2170,7 @@ func (c *WUICanvas) IndexGet(index tender.Object) (res tender.Object, err error)
             },
         }
     case "height":
-        res = &tender.BuiltinFunction{
+        res = &tender.NativeFunction{
             Value: func(args ...tender.Object) (tender.Object, error) {
                 if len(args) != 0 {
                     return nil, tender.ErrWrongNumArguments
@@ -2179,7 +2179,7 @@ func (c *WUICanvas) IndexGet(index tender.Object) (res tender.Object, err error)
             },
         }
     case "line":
-        res = &tender.BuiltinFunction{
+        res = &tender.NativeFunction{
             Value: func(args ...tender.Object) (tender.Object, error) {
                 if len(args) != 5 {
                     return nil, tender.ErrWrongNumArguments
@@ -2201,7 +2201,7 @@ func (c *WUICanvas) IndexGet(index tender.Object) (res tender.Object, err error)
             },
         }
     case "polygon":
-        res = &tender.BuiltinFunction{
+        res = &tender.NativeFunction{
             Value: func(args ...tender.Object) (tender.Object, error) {
                 if len(args) != 2 {
                     return nil, tender.ErrWrongNumArguments
@@ -2241,7 +2241,7 @@ func (c *WUICanvas) IndexGet(index tender.Object) (res tender.Object, err error)
             },
         }
     case "polyline":
-        res = &tender.BuiltinFunction{
+        res = &tender.NativeFunction{
             Value: func(args ...tender.Object) (tender.Object, error) {
                 if len(args) != 2 {
                     return nil, tender.ErrWrongNumArguments
@@ -2281,11 +2281,11 @@ func (c *WUICanvas) IndexGet(index tender.Object) (res tender.Object, err error)
             },
         }
     case "pop_draw_region":
-        res = &tender.BuiltinFunction{
+        res = &tender.NativeFunction{
             Value: FuncAR(c.Value.PopDrawRegion),
         }
     case "push_draw_region":
-        res = &tender.BuiltinFunction{
+        res = &tender.NativeFunction{
             Value: func(args ...tender.Object) (tender.Object, error) {
                 if len(args) != 4 {
                     return nil, tender.ErrWrongNumArguments
@@ -2299,7 +2299,7 @@ func (c *WUICanvas) IndexGet(index tender.Object) (res tender.Object, err error)
             },
         }
     case "set_font":
-        res = &tender.BuiltinFunction{
+        res = &tender.NativeFunction{
             Value: func(args ...tender.Object) (tender.Object, error) {
                 if len(args) != 1 {
                     return nil, tender.ErrWrongNumArguments
@@ -2317,7 +2317,7 @@ func (c *WUICanvas) IndexGet(index tender.Object) (res tender.Object, err error)
             },
         }
     case "size":
-        res = &tender.BuiltinFunction{
+        res = &tender.NativeFunction{
             Value: func(args ...tender.Object) (tender.Object, error) {
                 if len(args) != 0 {
                     return nil, tender.ErrWrongNumArguments
@@ -2330,7 +2330,7 @@ func (c *WUICanvas) IndexGet(index tender.Object) (res tender.Object, err error)
             },
         }
     case "text_extent":
-        res = &tender.BuiltinFunction{
+        res = &tender.NativeFunction{
             Value: func(args ...tender.Object) (tender.Object, error) {
                 if len(args) != 1 {
                     return nil, tender.ErrWrongNumArguments
@@ -2351,7 +2351,7 @@ func (c *WUICanvas) IndexGet(index tender.Object) (res tender.Object, err error)
             },
         }
     case "text_out":
-        res = &tender.BuiltinFunction{
+        res = &tender.NativeFunction{
             Value: func(args ...tender.Object) (tender.Object, error) {
                 if len(args) != 4 {
                     return nil, tender.ErrWrongNumArguments
@@ -2379,7 +2379,7 @@ func (c *WUICanvas) IndexGet(index tender.Object) (res tender.Object, err error)
             },
         }
     case "text_rect":
-        res = &tender.BuiltinFunction{
+        res = &tender.NativeFunction{
             Value: func(args ...tender.Object) (tender.Object, error) {
                 if len(args) != 6 {
                     return nil, tender.ErrWrongNumArguments
@@ -2409,7 +2409,7 @@ func (c *WUICanvas) IndexGet(index tender.Object) (res tender.Object, err error)
             },
         }
     case "text_rect_extent":
-        res = &tender.BuiltinFunction{
+        res = &tender.NativeFunction{
             Value: func(args ...tender.Object) (tender.Object, error) {
                 if len(args) != 2 {
                     return nil, tender.ErrWrongNumArguments
@@ -2431,7 +2431,7 @@ func (c *WUICanvas) IndexGet(index tender.Object) (res tender.Object, err error)
             },
         }
     case "text_rect_format":
-        res = &tender.BuiltinFunction{
+        res = &tender.NativeFunction{
             Value: func(args ...tender.Object) (tender.Object, error) {
                 if len(args) != 7 {
                     return nil, tender.ErrWrongNumArguments
@@ -2469,7 +2469,7 @@ func (c *WUICanvas) IndexGet(index tender.Object) (res tender.Object, err error)
             },
         }
     case "width":
-        res = &tender.BuiltinFunction{
+        res = &tender.NativeFunction{
             Value: func(args ...tender.Object) (tender.Object, error) {
                 if len(args) != 0 {
                     return nil, tender.ErrWrongNumArguments

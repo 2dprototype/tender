@@ -8,11 +8,11 @@ import "unsafe"
 import "github.com/2dprototype/tender/v/colorable"
 import "math/big"
 
-var builtinFuncs []*BuiltinFunction
+var builtinFuncs []*NativeFunction
 
 // if needVMObj is true, VM will pass [VMObj, args...] to fn when calling it.
 func addBuiltinFunction(name string, fn CallableFunc, needVMObj bool) {
-	builtinFuncs = append(builtinFuncs, &BuiltinFunction{Name: name, Value: fn, NeedVMObj: needVMObj})
+	builtinFuncs = append(builtinFuncs, &NativeFunction{Name: name, Value: fn, NeedVMObj: needVMObj})
 }
 
 func init() {
@@ -75,8 +75,8 @@ func init() {
 }
 
 // GetAllBuiltinFunctions returns all builtin function objects.
-func GetAllBuiltinFunctions() []*BuiltinFunction {
-	return append([]*BuiltinFunction{}, builtinFuncs...)
+func GetAllBuiltinFunctions() []*NativeFunction {
+	return append([]*NativeFunction{}, builtinFuncs...)
 }
 
 
@@ -996,7 +996,7 @@ func builtinIsFunction(args ...Object) (Object, error) {
 		return nil, ErrWrongNumArguments
 	}
 	switch args[0].(type) {
-	case *CompiledFunction:
+	case *Function:
 		return TrueValue, nil
 	}
 	return FalseValue, nil

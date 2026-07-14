@@ -15,7 +15,7 @@ import (
 func makeImageFilters(img image.Image) *tender.ImmutableMap {
 	return &tender.ImmutableMap{
 		Value: map[string]tender.Object{
-			"blur": &tender.UserFunction{
+			"blur": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
 						return nil, tender.ErrWrongNumArguments
@@ -25,7 +25,7 @@ func makeImageFilters(img image.Image) *tender.ImmutableMap {
 					return makeImage(newImg), nil
 				},
 			},
-			"bnw": &tender.UserFunction{
+			"bnw": &tender.NativeFunction{
 				Name: "bnw",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
@@ -36,7 +36,7 @@ func makeImageFilters(img image.Image) *tender.ImmutableMap {
 				},
 			},
 			// "glitch" filter: optionally accepts a maxShift (default 20)
-			"glitch": &tender.UserFunction{
+			"glitch": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
 						return nil, tender.ErrWrongNumArguments
@@ -45,28 +45,28 @@ func makeImageFilters(img image.Image) *tender.ImmutableMap {
 					return makeImage(applyGlitchParallel(img, m)), nil
 				},
 			},
-			"invert": &tender.UserFunction{
+			"invert": &tender.NativeFunction{
 				Name: "invert",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					newImg := applyInvertParallel(img)
 					return makeImage(newImg), nil
 				},
 			},
-			"grayscale": &tender.UserFunction{
+			"grayscale": &tender.NativeFunction{
 				Name: "grayscale",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					newImg := applyGrayscaleParallel(img)
 					return makeImage(newImg), nil
 				},
 			},
-			"sepia": &tender.UserFunction{
+			"sepia": &tender.NativeFunction{
 				Name: "sepia",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					newImg := applySepiaParallel(img)
 					return makeImage(newImg), nil
 				},
 			},
-			"brightness": &tender.UserFunction{
+			"brightness": &tender.NativeFunction{
 				Name: "brightness",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					// Required: offset (can be negative)
@@ -85,7 +85,7 @@ func makeImageFilters(img image.Image) *tender.ImmutableMap {
 					return makeImage(newImg), nil
 				},
 			},
-			"contrast": &tender.UserFunction{
+			"contrast": &tender.NativeFunction{
 				Name: "contrast",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					// Required: factor (float, e.g., 1.0 = no change)
@@ -104,7 +104,7 @@ func makeImageFilters(img image.Image) *tender.ImmutableMap {
 					return makeImage(newImg), nil
 				},
 			},
-			"saturation": &tender.UserFunction{
+			"saturation": &tender.NativeFunction{
 				Name: "saturation",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					// Required: factor (float; 0 = grayscale, 1 = original)
@@ -123,7 +123,7 @@ func makeImageFilters(img image.Image) *tender.ImmutableMap {
 					return makeImage(newImg), nil
 				},
 			},
-			"sharpen": &tender.UserFunction{
+			"sharpen": &tender.NativeFunction{
 				Name: "sharpen",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					newImg := applyConvolutionParallel(img, [][]float64{
@@ -134,7 +134,7 @@ func makeImageFilters(img image.Image) *tender.ImmutableMap {
 					return makeImage(newImg), nil
 				},
 			},
-			"emboss": &tender.UserFunction{
+			"emboss": &tender.NativeFunction{
 				Name: "emboss",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					// Using an emboss kernel with an offset to recenter colors.
@@ -146,7 +146,7 @@ func makeImageFilters(img image.Image) *tender.ImmutableMap {
 					return makeImage(newImg), nil
 				},
 			},
-			"edge": &tender.UserFunction{
+			"edge": &tender.NativeFunction{
 				Name: "edge",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					// Edge detection kernel; offset added for visibility.
@@ -159,7 +159,7 @@ func makeImageFilters(img image.Image) *tender.ImmutableMap {
 				},
 			},
             // New filters
-            "hue": &tender.UserFunction{
+            "hue": &tender.NativeFunction{
                 Name: "hue",
                 Value: func(args ...tender.Object) (tender.Object, error) {
                     if len(args) != 1 {
@@ -177,7 +177,7 @@ func makeImageFilters(img image.Image) *tender.ImmutableMap {
                 },
             },
             
-            "temperature": &tender.UserFunction{
+            "temperature": &tender.NativeFunction{
                 Name: "temperature",
                 Value: func(args ...tender.Object) (tender.Object, error) {
                     if len(args) != 1 {
@@ -195,7 +195,7 @@ func makeImageFilters(img image.Image) *tender.ImmutableMap {
                 },
             },
             
-            "vignette": &tender.UserFunction{
+            "vignette": &tender.NativeFunction{
                 Name: "vignette",
                 Value: func(args ...tender.Object) (tender.Object, error) {
                     if len(args) != 1 {
@@ -213,7 +213,7 @@ func makeImageFilters(img image.Image) *tender.ImmutableMap {
                 },
             },
             
-            "pixelate": &tender.UserFunction{
+            "pixelate": &tender.NativeFunction{
                 Name: "pixelate",
                 Value: func(args ...tender.Object) (tender.Object, error) {
                     if len(args) != 1 {
@@ -231,7 +231,7 @@ func makeImageFilters(img image.Image) *tender.ImmutableMap {
                 },
             },
             
-            "sobel": &tender.UserFunction{
+            "sobel": &tender.NativeFunction{
                 Name: "sobel",
                 Value: func(args ...tender.Object) (tender.Object, error) {
                     return makeImage(applySobelEdgeDetection(img)), nil

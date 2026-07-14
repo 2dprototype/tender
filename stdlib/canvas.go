@@ -13,11 +13,11 @@ import (
 )
 
 var canvasModule = map[string]tender.Object{
-	"new_context": &tender.UserFunction{Name: "new_context", Value: ggNewContext},
-	"load_image": &tender.UserFunction{Name:  "load_image", Value: imageLoad},	
-	"radians": &tender.UserFunction{Name: "radians", Value: FuncAFRF(gg.Radians)},
-	"degrees": &tender.UserFunction{Name: "degrees", Value: FuncAFRF(gg.Degrees)},
-	"load_font": &tender.UserFunction{
+	"new_context": &tender.NativeFunction{Name: "new_context", Value: ggNewContext},
+	"load_image": &tender.NativeFunction{Name:  "load_image", Value: imageLoad},	
+	"radians": &tender.NativeFunction{Name: "radians", Value: FuncAFRF(gg.Radians)},
+	"degrees": &tender.NativeFunction{Name: "degrees", Value: FuncAFRF(gg.Degrees)},
+	"load_font": &tender.NativeFunction{
 		Name: "load_font",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -43,7 +43,7 @@ var canvasModule = map[string]tender.Object{
 			return &tender.Null{}, nil
 		},
 	},
-	"load_fontdata": &tender.UserFunction{
+	"load_fontdata": &tender.NativeFunction{
 		Name: "load_fontdata",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -78,7 +78,7 @@ func ggNewContext(args ...tender.Object) (ret tender.Object, err error) {
 func makeGGContext(ctx *gg.Context) *tender.ImmutableMap {
 	return &tender.ImmutableMap{
 		Value: map[string]tender.Object{
-			"drawimage": &tender.UserFunction{
+			"drawimage": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 3 {
 						return nil, tender.ErrWrongNumArguments
@@ -94,7 +94,7 @@ func makeGGContext(ctx *gg.Context) *tender.ImmutableMap {
 					return nil, nil
 				},
 			},	
-			"drawimage_anchored": &tender.UserFunction{
+			"drawimage_anchored": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 5 {
 						return nil, tender.ErrWrongNumArguments
@@ -112,19 +112,19 @@ func makeGGContext(ctx *gg.Context) *tender.ImmutableMap {
 					return nil, nil
 				},
 				},	
-			"save_png": &tender.UserFunction{
+			"save_png": &tender.NativeFunction{
 				Value: FuncASRE(ctx.SavePNG),
 			},	
-			"point": &tender.UserFunction{
+			"point": &tender.NativeFunction{
 				Value: FuncAFFFR(ctx.DrawPoint),
 			},	
-			"line": &tender.UserFunction{
+			"line": &tender.NativeFunction{
 				Value: FuncAFFFFR(ctx.DrawLine),
 			},	
-			"rect": &tender.UserFunction{
+			"rect": &tender.NativeFunction{
 				Value: FuncAFFFFR(ctx.DrawRectangle),
 			},
-			"polygon": &tender.UserFunction{
+			"polygon": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 5 {
 						return nil, tender.ErrWrongNumArguments
@@ -138,47 +138,47 @@ func makeGGContext(ctx *gg.Context) *tender.ImmutableMap {
 					return nil, nil
 				},
 			},	
-			"roundrect": &tender.UserFunction{
+			"roundrect": &tender.NativeFunction{
 				Value: FuncAFFFFFR(ctx.DrawRoundedRectangle),
 			},
-			"circle": &tender.UserFunction{
+			"circle": &tender.NativeFunction{
 				Value: FuncAFFFR(ctx.DrawCircle),
 			},	
-			"arc": &tender.UserFunction{
+			"arc": &tender.NativeFunction{
 				Value: FuncAFFFFFR(ctx.DrawArc),
 			},
-			"ellipse": &tender.UserFunction{
+			"ellipse": &tender.NativeFunction{
 				Value: FuncAFFFFR(ctx.DrawEllipse),
 			},
-			"ellipsearc": &tender.UserFunction{
+			"ellipsearc": &tender.NativeFunction{
 				Value: FuncAFFFFFFR(ctx.DrawEllipticalArc),
 			},
-			"set_pixel": &tender.UserFunction{
+			"set_pixel": &tender.NativeFunction{
 				Name:  "set_pixel",
 				Value: FuncAIIR(ctx.SetPixel),
 			},	
-			"rgb": &tender.UserFunction{
+			"rgb": &tender.NativeFunction{
 				Value: FuncAFFFR(ctx.SetRGB),
 			},
-			"rgba": &tender.UserFunction{
+			"rgba": &tender.NativeFunction{
 				Value: FuncAFFFFR(ctx.SetRGBA),
 			},	
-			"rgba255": &tender.UserFunction{
+			"rgba255": &tender.NativeFunction{
 				Value: FuncAIIIIR(ctx.SetRGBA255),
 			},	
-			"rgb255": &tender.UserFunction{
+			"rgb255": &tender.NativeFunction{
 				Value: FuncAIIIR(ctx.SetRGB255),
 			},
-			"hex": &tender.UserFunction{
+			"hex": &tender.NativeFunction{
 				Value: FuncASR(ctx.SetHexColor),
 			},
-			"linewidth": &tender.UserFunction{
+			"linewidth": &tender.NativeFunction{
 				Value: FuncAFR(ctx.SetLineWidth),
 			},	
-			"dashoffset": &tender.UserFunction{
+			"dashoffset": &tender.NativeFunction{
 				Value: FuncAFR(ctx.SetDashOffset),
 			},
-			"dash": &tender.UserFunction{
+			"dash": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) < 1 {
 						return nil, tender.ErrWrongNumArguments
@@ -192,125 +192,125 @@ func makeGGContext(ctx *gg.Context) *tender.ImmutableMap {
 					return &tender.Null{}, nil
 				},
 			},	
-			"move_to": &tender.UserFunction{
+			"move_to": &tender.NativeFunction{
 				Value: FuncAFFR(ctx.MoveTo),
 			},	
-			"line_to": &tender.UserFunction{
+			"line_to": &tender.NativeFunction{
 				Value: FuncAFFR(ctx.LineTo),
 			},	
-			"quadratic_to": &tender.UserFunction{
+			"quadratic_to": &tender.NativeFunction{
 				Value: FuncAFFFFR(ctx.QuadraticTo),
 			},	
-			"cubic_to": &tender.UserFunction{
+			"cubic_to": &tender.NativeFunction{
 				Value: FuncAFFFFFFR(ctx.CubicTo),
 			},
-			"closepath": &tender.UserFunction{
+			"closepath": &tender.NativeFunction{
 				Value: FuncAR(ctx.ClosePath),
 			},	
-			"clearpath": &tender.UserFunction{
+			"clearpath": &tender.NativeFunction{
 				Value: FuncAR(ctx.ClearPath),
 			},	
-			"newsubpath": &tender.UserFunction{
+			"newsubpath": &tender.NativeFunction{
 				Value: FuncAR(ctx.NewSubPath),
 			},	
-			"clear": &tender.UserFunction{
+			"clear": &tender.NativeFunction{
 				Value: FuncAR(ctx.Clear),
 			},
-			"stroke": &tender.UserFunction{
+			"stroke": &tender.NativeFunction{
 				Value: FuncAR(ctx.Stroke),
 			},	
-			"fill": &tender.UserFunction{
+			"fill": &tender.NativeFunction{
 				Value: FuncAR(ctx.Fill),
 			},		
-			"stroke_preserve": &tender.UserFunction{
+			"stroke_preserve": &tender.NativeFunction{
 				Value: FuncAR(ctx.StrokePreserve),
 			},	
-			"fill_preserve": &tender.UserFunction{
+			"fill_preserve": &tender.NativeFunction{
 				Value: FuncAR(ctx.FillPreserve),
 			},	
-			"text": &tender.UserFunction{
+			"text": &tender.NativeFunction{
 				Value: FuncASFFR(ctx.DrawString),
 			},	
-			"text_anchored": &tender.UserFunction{
+			"text_anchored": &tender.NativeFunction{
 				Value: FuncASFFFFR(ctx.DrawStringAnchored),
 			},	
-			"measure_text": &tender.UserFunction{
+			"measure_text": &tender.NativeFunction{
 				Value: FuncASRFF(ctx.MeasureString),
 			},	
-			"measure_multiline_text": &tender.UserFunction{
+			"measure_multiline_text": &tender.NativeFunction{
 				Value: FuncASFRFF(ctx.MeasureMultilineString),
 			},	
-			"load_fontface": &tender.UserFunction{
+			"load_fontface": &tender.NativeFunction{
 				Value: FuncASFRE(ctx.LoadFontFace),
 			},	
-			"fontface": &tender.UserFunction{
+			"fontface": &tender.NativeFunction{
 				Value: FuncAYFRE(ctx.FontFace),
 			},	
-			"fontheight": &tender.UserFunction{
+			"fontheight": &tender.NativeFunction{
 				Value: FuncARF(ctx.FontHeight),
 			},	
-			"set_font": &tender.UserFunction{
+			"set_font": &tender.NativeFunction{
 				Value: FuncASRE(ctx.SetFont),
 			},
-			"identity": &tender.UserFunction{
+			"identity": &tender.NativeFunction{
 				Name:  "identity",
 				Value: FuncAR(ctx.Identity),
 			},	
-			"translate": &tender.UserFunction{
+			"translate": &tender.NativeFunction{
 				Value: FuncAFFR(ctx.Translate),
 			},	
-			"scale": &tender.UserFunction{
+			"scale": &tender.NativeFunction{
 				Value: FuncAFFR(ctx.Scale),
 			},	
-			"rotate": &tender.UserFunction{
+			"rotate": &tender.NativeFunction{
 				Value: FuncAFR(ctx.Rotate),
 			},	
-			"shear": &tender.UserFunction{
+			"shear": &tender.NativeFunction{
 				Value: FuncAFFR(ctx.Shear),
 			},
-			"scaleabout": &tender.UserFunction{
+			"scaleabout": &tender.NativeFunction{
 				Value: FuncAFFFFR(ctx.ScaleAbout),
 			},	
-			"rotateabout": &tender.UserFunction{
+			"rotateabout": &tender.NativeFunction{
 				Value: FuncAFFFR(ctx.RotateAbout),
 			},
-			"shearabout": &tender.UserFunction{
+			"shearabout": &tender.NativeFunction{
 				Value: FuncAFFFFR(ctx.ShearAbout),
 			},	
-			"transform_point": &tender.UserFunction{
+			"transform_point": &tender.NativeFunction{
 				Value: FuncAFFRFF(ctx.TransformPoint),
 			},
-			"invertmask": &tender.UserFunction{
+			"invertmask": &tender.NativeFunction{
 				Value: FuncAR(ctx.InvertMask),
 			},	
-			"inverty": &tender.UserFunction{
+			"inverty": &tender.NativeFunction{
 				Value: FuncAR(ctx.InvertY),
 			},	
-			"push": &tender.UserFunction{
+			"push": &tender.NativeFunction{
 				Value: FuncAR(ctx.Push),
 			},	
-			"pop": &tender.UserFunction{
+			"pop": &tender.NativeFunction{
 				Value: FuncAR(ctx.Pop),
 			},	
-			"clip": &tender.UserFunction{
+			"clip": &tender.NativeFunction{
 				Value: FuncAR(ctx.Clip),
 			},		
-			"clip_preserve": &tender.UserFunction{
+			"clip_preserve": &tender.NativeFunction{
 				Value: FuncAR(ctx.ClipPreserve),
 			},	
-			"resetclip": &tender.UserFunction{
+			"resetclip": &tender.NativeFunction{
 				Value: FuncAR(ctx.ResetClip),
 			},
-			"height": &tender.UserFunction{
+			"height": &tender.NativeFunction{
 				Value: FuncARI(ctx.Height),
 			},	
-			"width": &tender.UserFunction{
+			"width": &tender.NativeFunction{
 				Value: FuncARI(ctx.Width),
 			},	
-			"wordwrap": &tender.UserFunction{
+			"wordwrap": &tender.NativeFunction{
 				Value: FuncASFRSs(ctx.WordWrap),
 			},
-			"image": &tender.UserFunction{
+			"image": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 0 {
 						return nil, tender.ErrWrongNumArguments

@@ -31,7 +31,7 @@ func init() {
 	gob.Register(&tender.Bool{})
 	gob.Register(&tender.Bytes{})
 	gob.Register(&tender.Char{})
-	gob.Register(&tender.CompiledFunction{})
+	gob.Register(&tender.Function{})
 	gob.Register(&tender.Error{})
 	gob.Register(&tender.Int{})
 	gob.Register(&tender.Float{})
@@ -44,8 +44,8 @@ func init() {
 	gob.Register(&tender.String{})
 	gob.Register(&tender.Time{})
 	gob.Register(&tender.Null{})
-	gob.Register(&tender.UserFunction{})
-	gob.Register(&tender.BuiltinFunction{})
+	gob.Register(&tender.NativeFunction{})
+	gob.Register(&tender.NativeFunction{})
 	gob.Register(&tender.Tuple{})
 	gob.Register(&tender.Struct{})
 	gob.Register(&tender.StructType{})
@@ -266,7 +266,7 @@ func RunREPL(modules *tender.ModuleMap, in io.Reader, out io.Writer) {
 
 	// embed println function
 	symbol := symbolTable.Define("__repl_println__")
-	globals[symbol.Index] = &tender.BuiltinFunction{
+	globals[symbol.Index] = &tender.NativeFunction{
 		Name: "__repl_println__",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (ret tender.Object, err error) { 

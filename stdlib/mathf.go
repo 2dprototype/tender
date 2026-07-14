@@ -35,36 +35,36 @@ var (
 
 var mathfModule = map[string]tender.Object{
 	// Core Utilities
-	"abs":           &tender.UserFunction{Name: "abs", Value: mathfAbs},
-	"sign":          &tender.UserFunction{Name: "sign", Value: mathfSign},
-	"clamp":         &tender.UserFunction{Name: "clamp", Value: mathfClamp},
-	"clamp01":       &tender.UserFunction{Name: "clamp01", Value: mathfClamp01},
-	"approx":        &tender.UserFunction{Name: "approx", Value: mathfApproximately},
-	"closest_pow2":  &tender.UserFunction{Name: "closest_pow2", Value: mathfClosestPowerOfTwo},
-	"closest_pow2l": &tender.UserFunction{Name: "closest_pow2l", Value: mathfClosestPowerOfTwoLong},
-	"is_pow2":       &tender.UserFunction{Name: "is_pow2", Value: mathfIsPowerOfTwo},
-	"next_pow2":     &tender.UserFunction{Name: "next_pow2", Value: mathfNextPowerOfTwo},
-	"round":         &tender.UserFunction{Name: "round", Value: mathfRound},
+	"abs":           &tender.NativeFunction{Name: "abs", Value: mathfAbs},
+	"sign":          &tender.NativeFunction{Name: "sign", Value: mathfSign},
+	"clamp":         &tender.NativeFunction{Name: "clamp", Value: mathfClamp},
+	"clamp01":       &tender.NativeFunction{Name: "clamp01", Value: mathfClamp01},
+	"approx":        &tender.NativeFunction{Name: "approx", Value: mathfApproximately},
+	"closest_pow2":  &tender.NativeFunction{Name: "closest_pow2", Value: mathfClosestPowerOfTwo},
+	"closest_pow2l": &tender.NativeFunction{Name: "closest_pow2l", Value: mathfClosestPowerOfTwoLong},
+	"is_pow2":       &tender.NativeFunction{Name: "is_pow2", Value: mathfIsPowerOfTwo},
+	"next_pow2":     &tender.NativeFunction{Name: "next_pow2", Value: mathfNextPowerOfTwo},
+	"round":         &tender.NativeFunction{Name: "round", Value: mathfRound},
 
 	// Angle Utilities
-	"delta_angle":  &tender.UserFunction{Name: "delta_angle", Value: mathfDeltaAngle},
-	"lerp_angle":   &tender.UserFunction{Name: "lerp_angle", Value: mathfLerpAngle},
-	"move_angle":   &tender.UserFunction{Name: "move_angle", Value: mathfMoveTowardsAngle},
+	"delta_angle":  &tender.NativeFunction{Name: "delta_angle", Value: mathfDeltaAngle},
+	"lerp_angle":   &tender.NativeFunction{Name: "lerp_angle", Value: mathfLerpAngle},
+	"move_angle":   &tender.NativeFunction{Name: "move_angle", Value: mathfMoveTowardsAngle},
 
 	// Interpolation & Smoothing
-	"lerp":        &tender.UserFunction{Name: "lerp", Value: mathfLerp},
-	"lerp_uncl":   &tender.UserFunction{Name: "lerp_uncl", Value: mathfLerpUnclamped},
-	"inverse_lerp": &tender.UserFunction{Name: "inverse_lerp", Value: mathfInverseLerp},
-	"move_towards": &tender.UserFunction{Name: "move_towards", Value: mathfMoveTowards},
-	"smooth_step":  &tender.UserFunction{Name: "smooth_step", Value: mathfSmoothStep},
+	"lerp":        &tender.NativeFunction{Name: "lerp", Value: mathfLerp},
+	"lerp_uncl":   &tender.NativeFunction{Name: "lerp_uncl", Value: mathfLerpUnclamped},
+	"inverse_lerp": &tender.NativeFunction{Name: "inverse_lerp", Value: mathfInverseLerp},
+	"move_towards": &tender.NativeFunction{Name: "move_towards", Value: mathfMoveTowards},
+	"smooth_step":  &tender.NativeFunction{Name: "smooth_step", Value: mathfSmoothStep},
 
 	// Loops & Waves
-	"repeat":   &tender.UserFunction{Name: "repeat", Value: mathfRepeat},
-	"pingpong": &tender.UserFunction{Name: "pingpong", Value: mathfPingPong},
+	"repeat":   &tender.NativeFunction{Name: "repeat", Value: mathfRepeat},
+	"pingpong": &tender.NativeFunction{Name: "pingpong", Value: mathfPingPong},
 
 	// Color Space
-	"gamma2linear": &tender.UserFunction{Name: "gamma2linear", Value: mathfGammaToLinear},
-	"linear2gamma": &tender.UserFunction{Name: "linear2gamma", Value: mathfLinearToGamma},
+	"gamma2linear": &tender.NativeFunction{Name: "gamma2linear", Value: mathfGammaToLinear},
+	"linear2gamma": &tender.NativeFunction{Name: "linear2gamma", Value: mathfLinearToGamma},
 
 	// Constants
 	"deg2rad":  &tender.Float{Value: deg2radConst},
@@ -73,10 +73,10 @@ var mathfModule = map[string]tender.Object{
 	"neg_inf":  &tender.Float{Value: math.Inf(-1)},
 
 	// Noise
-	"perlin": &tender.UserFunction{Name: "perlin", Value: mathfPerlinNoise},
+	"perlin": &tender.NativeFunction{Name: "perlin", Value: mathfPerlinNoise},
 
 	// Optimization
-	"inv_sqrt": &tender.UserFunction{Name: "inv_sqrt", Value: mathfInvSqrt},
+	"inv_sqrt": &tender.NativeFunction{Name: "inv_sqrt", Value: mathfInvSqrt},
 }
 
 // --- Optimized Helper functions (inline-able) ---

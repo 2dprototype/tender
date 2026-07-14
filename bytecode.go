@@ -13,7 +13,7 @@ import (
 // Bytecode is a compiled instructions and constants.
 type Bytecode struct {
 	FileSet      *parser.SourceFileSet
-	MainFunction *CompiledFunction
+	MainFunction *Function
 	Constants    []Object
 }
 
@@ -65,7 +65,7 @@ func (b *Bytecode) FormatInstructions() []string {
 func (b *Bytecode) FormatConstants() (output []string) {
 	for cidx, cn := range b.Constants {
 		switch cn := cn.(type) {
-		case *CompiledFunction:
+		case *Function:
 			output = append(output, fmt.Sprintf(
 				"[% 3d] (Compiled Function|%p)", cidx, &cn))
 			for _, l := range FormatInstructions(cn.Instructions, 0) {
@@ -114,7 +114,7 @@ func (b *Bytecode) RemoveDuplicates() {
 	var deduped []Object
 
 	indexMap := make(map[int]int) // mapping from old constant index to new index
-	fns := make(map[*CompiledFunction]int)
+	fns := make(map[*Function]int)
 	ints := make(map[int64]int)
 	bigints := make(map[*big.Int]int)
 	strings := make(map[string]int)
@@ -141,7 +141,7 @@ func (b *Bytecode) RemoveDuplicates() {
 				indexMap[curIdx] = newIdx
 				deduped = append(deduped, c)
 			}
-		case *CompiledFunction:
+		case *Function:
 			if newIdx, ok := fns[c]; ok {
 				indexMap[curIdx] = newIdx
 			} else {
@@ -239,7 +239,7 @@ func (b *Bytecode) RemoveDuplicates() {
 	// other compiled functions in constants
 	for _, c := range b.Constants {
 		switch c := c.(type) {
-		case *CompiledFunction:
+		case *Function:
 			updateConstIndexes(c.Instructions, indexMap)
 		}
 	}
@@ -294,7 +294,7 @@ func fixDecodedObject(o Object, modules *ModuleMap) (Object, error) {
 
 		for k, v := range o.Value {
 			// encoding of user function not supported
-			if _, isUserFunction := v.(*UserFunction); isUserFunction {
+			if _, isNativeFunction := v.(*NativeFunction); isNativeFunction {
 				return nil, fmt.Errorf("user function not decodable")
 			}
 
@@ -351,7 +351,7 @@ func inferModuleName(mod *ImmutableMap) string {
 	// gob.Register(&Bool{})
 	// gob.Register(&Bytes{})
 	// gob.Register(&Char{})
-	// gob.Register(&CompiledFunction{})
+	// gob.Register(&Function{})
 	// gob.Register(&Error{})
 	// gob.Register(&Float{})
 	// gob.Register(&BigFloat{})
@@ -363,8 +363,8 @@ func inferModuleName(mod *ImmutableMap) string {
 	// gob.Register(&String{})
 	// gob.Register(&Time{})
 	// gob.Register(&Null{})
-	// gob.Register(&UserFunction{})
-	// gob.Register(&BuiltinFunction{})
+	// gob.Register(&NativeFunction{})
+	// gob.Register(&NativeFunction{})
 	// gob.Register(&Struct{})
 	// gob.Register(&StructType{})
 	// gob.Register(&BoundMethod{})

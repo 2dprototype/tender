@@ -10,10 +10,10 @@ import (
 var ioModule = map[string]tender.Object{
 	// "writer":    &IOWriter{},
 	// "reader":    &IOReader{},
-	"readfile":  &tender.UserFunction{Value: ioReadFile},
-	"writefile": &tender.UserFunction{Value: ioWriteFile},
-	"read_all":  &tender.UserFunction{Value: ioReadAll},
-	"read_full": &tender.UserFunction{Value: ioReadFull},
+	"readfile":  &tender.NativeFunction{Value: ioReadFile},
+	"writefile": &tender.NativeFunction{Value: ioWriteFile},
+	"read_all":  &tender.NativeFunction{Value: ioReadAll},
+	"read_full": &tender.NativeFunction{Value: ioReadFull},
 }
 
 
@@ -39,7 +39,7 @@ func (o *IOWriter) IndexGet(index tender.Object) (res tender.Object, err error) 
 	strIdx, ok := index.(*tender.String) 
 	if ok {
 		if strIdx.Value == "write" {
-			res = &tender.BuiltinFunction{
+			res = &tender.NativeFunction{
 				Value: FuncAYRIE(o.Value.Write),
 			}
 		} 
@@ -69,7 +69,7 @@ func (o *IOReader) IndexGet(index tender.Object) (res tender.Object, err error) 
 	strIdx, ok := index.(*tender.String) 
 	if ok {
 		if strIdx.Value == "read" {
-			res = &tender.BuiltinFunction{
+			res = &tender.NativeFunction{
 				Value: FuncAYRIE(o.Value.Read),
 			}
 		} 

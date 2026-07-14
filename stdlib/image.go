@@ -16,9 +16,9 @@ import (
 )
 
 var imageModule = map[string]tender.Object{
-	"new": &tender.UserFunction{Value: imageNew},
-	"load" : &tender.UserFunction{Value: imageLoad},
-	"decode" : &tender.UserFunction{Value: imageDecode},
+	"new": &tender.NativeFunction{Value: imageNew},
+	"load" : &tender.NativeFunction{Value: imageLoad},
+	"decode" : &tender.NativeFunction{Value: imageDecode},
 	"formats" : &tender.ImmutableArray{Value: []tender.Object{
 			&tender.String{Value: "png"},
 			&tender.String{Value: "jpeg"},
@@ -113,7 +113,7 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 	return &tender.ImmutableMap{
 		Value: map[string]tender.Object{
 			"filters": makeImageFilters(img),
-			"encode" : &tender.UserFunction{
+			"encode" : &tender.NativeFunction{
 				Name: "encode",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
@@ -154,7 +154,7 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 					return &tender.Bytes{Value: buffer.Bytes()}, nil
 				},
 			},
-			"bounds": &tender.UserFunction{
+			"bounds": &tender.NativeFunction{
 				Name: "bounds",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 0 {
@@ -164,7 +164,7 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 					return makeRectangle(rect), nil
 				},
 			},
-			"at": &tender.UserFunction{
+			"at": &tender.NativeFunction{
 				Name: "at",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 2 {
@@ -186,7 +186,7 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 					return makeColor(color), nil
 				},
 			},
-			"pixels": &tender.UserFunction{
+			"pixels": &tender.NativeFunction{
 				Name: "pixels",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 0 {
@@ -196,7 +196,7 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 					return &tender.Int{Value: int64((bounds.Max.X - bounds.Min.X) * (bounds.Max.Y - bounds.Min.Y))}, nil
 				},
 			},	
-			"get_pixels": &tender.UserFunction{
+			"get_pixels": &tender.NativeFunction{
 				Name: "get_pixels",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 0 {
@@ -216,7 +216,7 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 					return &tender.Array{Value: pixels}, nil
 				},
 			},	
-			"set_pixels": &tender.UserFunction{
+			"set_pixels": &tender.NativeFunction{
 				Name: "set_pixels",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
@@ -249,7 +249,7 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 					return nil, nil
 				},
 			},
-			"set": &tender.UserFunction{
+			"set": &tender.NativeFunction{
 				Name: "set",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 3 {
@@ -289,7 +289,7 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 					return nil, nil
 				},
 			},
-			"save": &tender.UserFunction{
+			"save": &tender.NativeFunction{
 				Name: "save",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 2 {

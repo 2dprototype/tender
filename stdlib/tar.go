@@ -8,8 +8,8 @@ import (
 )
 
 var tarModule = map[string]tender.Object{
-	"writer": &tender.UserFunction{Name: "writer", Value: tarNewWriter},
-	"reader": &tender.UserFunction{Name: "reader", Value: tarNewReader},
+	"writer": &tender.NativeFunction{Name: "writer", Value: tarNewWriter},
+	"reader": &tender.NativeFunction{Name: "reader", Value: tarNewReader},
 }
 
 func tarNewWriter(args ...tender.Object) (tender.Object, error) {
@@ -22,7 +22,7 @@ func tarNewWriter(args ...tender.Object) (tender.Object, error) {
 
 	return &tender.ImmutableMap{
 		Value: map[string]tender.Object{
-			"create": &tender.UserFunction{
+			"create": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 2 {
 						return nil, tender.ErrWrongNumArguments
@@ -46,7 +46,7 @@ func tarNewWriter(args ...tender.Object) (tender.Object, error) {
 					return nil, nil
 				},
 			},
-			"bytes": &tender.UserFunction{
+			"bytes": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 0 {
 						return nil, tender.ErrWrongNumArguments
@@ -54,7 +54,7 @@ func tarNewWriter(args ...tender.Object) (tender.Object, error) {
 					return &tender.Bytes{Value: tarBuffer.Bytes()}, nil
 				},
 			},
-			"close": &tender.UserFunction{
+			"close": &tender.NativeFunction{
 				Value: FuncARE(tarWriter.Close),
 			},
 		},

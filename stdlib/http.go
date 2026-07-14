@@ -10,15 +10,15 @@ import (
 )
 
 var httpModule = map[string]tender.Object{
-	"get":     &tender.UserFunction{Name: "get", Value: httpGet},
-	"post":    &tender.UserFunction{Name: "post", Value: httpPost},
-	"put":     &tender.UserFunction{Name: "put", Value: httpPut},
-	"delete":  &tender.UserFunction{Name: "delete", Value: httpDelete},
-	"patch":   &tender.UserFunction{Name: "patch", Value: httpPatch},
-	"options": &tender.UserFunction{Name: "options", Value: httpOptions},
-	"head":    &tender.UserFunction{Name: "head", Value: httpHead},
-	"trace":   &tender.UserFunction{Name: "trace", Value: httpTrace},
-	"listen_and_serve": &tender.BuiltinFunction{
+	"get":     &tender.NativeFunction{Name: "get", Value: httpGet},
+	"post":    &tender.NativeFunction{Name: "post", Value: httpPost},
+	"put":     &tender.NativeFunction{Name: "put", Value: httpPut},
+	"delete":  &tender.NativeFunction{Name: "delete", Value: httpDelete},
+	"patch":   &tender.NativeFunction{Name: "patch", Value: httpPatch},
+	"options": &tender.NativeFunction{Name: "options", Value: httpOptions},
+	"head":    &tender.NativeFunction{Name: "head", Value: httpHead},
+	"trace":   &tender.NativeFunction{Name: "trace", Value: httpTrace},
+	"listen_and_serve": &tender.NativeFunction{
 		Name:      "listen_and_serve", 
 		Value:     httpListenAndServe,
 		NeedVMObj: true,
@@ -65,7 +65,7 @@ func makeHttpReq(req *http.Request) *tender.ImmutableMap {
 		Value: map[string]tender.Object{
 			"close":   tender.FromBool(req.Close),
 			// "method":  &tender.String{Value: req.Method},
-			"method":  &tender.UserFunction{
+			"method":  &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 0 {
 						return nil, tender.ErrWrongNumArguments
@@ -73,10 +73,10 @@ func makeHttpReq(req *http.Request) *tender.ImmutableMap {
 					return &tender.String{Value: req.Method}, nil
 				},
 			},
-			"url":     &tender.UserFunction{Value: FuncARS(req.URL.String)},
+			"url":     &tender.NativeFunction{Value: FuncARS(req.URL.String)},
 			"headers": makeHeaderMap(req.Header),
 			// Executes the request and returns only the body as bytes.
-			"body": &tender.UserFunction{
+			"body": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 0 {
 						return nil, tender.ErrWrongNumArguments
@@ -95,7 +95,7 @@ func makeHttpReq(req *http.Request) *tender.ImmutableMap {
 				},
 			},
 			// Executes the request and returns a full response object.
-			"execute": &tender.UserFunction{
+			"execute": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 0 {
 						return nil, tender.ErrWrongNumArguments
@@ -114,7 +114,7 @@ func makeHttpReq(req *http.Request) *tender.ImmutableMap {
 				},
 			},
 			// Get the value of a header by key.
-			"get_header": &tender.UserFunction{
+			"get_header": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
 						return nil, tender.ErrWrongNumArguments
@@ -124,7 +124,7 @@ func makeHttpReq(req *http.Request) *tender.ImmutableMap {
 				},
 			},
 			// Set a header (overwrites if exists).
-			"set_header": &tender.UserFunction{
+			"set_header": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 2 {
 						return nil, tender.ErrWrongNumArguments
@@ -136,7 +136,7 @@ func makeHttpReq(req *http.Request) *tender.ImmutableMap {
 				},
 			},
 			// Set the request body.
-			"set_body": &tender.UserFunction{
+			"set_body": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
 						return nil, tender.ErrWrongNumArguments
@@ -147,7 +147,7 @@ func makeHttpReq(req *http.Request) *tender.ImmutableMap {
 				},
 			},
 			// Change the HTTP method.
-			"set_method": &tender.UserFunction{
+			"set_method": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
 						return nil, tender.ErrWrongNumArguments
@@ -158,7 +158,7 @@ func makeHttpReq(req *http.Request) *tender.ImmutableMap {
 				},
 			},
 			// Change the URL.
-			"set_url": &tender.UserFunction{
+			"set_url": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
 						return nil, tender.ErrWrongNumArguments
@@ -339,7 +339,7 @@ func makeInboundRes(realWriter http.ResponseWriter) (*tender.ImmutableMap, *inbo
 
 	return &tender.ImmutableMap{
 		Value: map[string]tender.Object{
-			"set_status": &tender.UserFunction{
+			"set_status": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 { return nil, tender.ErrWrongNumArguments }
 					val, _ := tender.ToInt(args[0])
@@ -347,7 +347,7 @@ func makeInboundRes(realWriter http.ResponseWriter) (*tender.ImmutableMap, *inbo
 					return nil, nil
 				},
 			},
-			"set_header": &tender.UserFunction{
+			"set_header": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 2 { return nil, tender.ErrWrongNumArguments }
 					k, _ := tender.ToString(args[0])
@@ -356,7 +356,7 @@ func makeInboundRes(realWriter http.ResponseWriter) (*tender.ImmutableMap, *inbo
 					return nil, nil
 				},
 			},
-			"write": &tender.UserFunction{
+			"write": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 { return nil, tender.ErrWrongNumArguments }
 					switch b := args[0].(type) {

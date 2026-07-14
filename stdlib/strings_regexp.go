@@ -10,7 +10,7 @@ func makeStringsRegexp(re *regexp.Regexp) *tender.ImmutableMap {
 	return &tender.ImmutableMap{
 		Value: map[string]tender.Object{
 			// match(strings) => bool
-			"match": &tender.UserFunction{
+			"match": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (
 					ret tender.Object,
 					err error,
@@ -42,7 +42,7 @@ func makeStringsRegexp(re *regexp.Regexp) *tender.ImmutableMap {
 
 			// find(strings) 			=> array(array({strings:,begin:,end:}))/null
 			// find(strings, maxCount) => array(array({strings:,begin:,end:}))/null
-			"find": &tender.UserFunction{
+			"find": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (
 					ret tender.Object,
 					err error,
@@ -136,7 +136,7 @@ func makeStringsRegexp(re *regexp.Regexp) *tender.ImmutableMap {
 			},
 
 			// replace(src, repl) => string
-			"replace": &tender.UserFunction{
+			"replace": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (
 					ret tender.Object,
 					err error,
@@ -179,7 +179,7 @@ func makeStringsRegexp(re *regexp.Regexp) *tender.ImmutableMap {
 
 			// split(strings) 			 => array(string)
 			// split(strings, maxCount) => array(string)
-			"split": &tender.UserFunction{
+			"split": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (
 					ret tender.Object,
 					err error,

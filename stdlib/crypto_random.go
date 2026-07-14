@@ -10,10 +10,10 @@ import (
 
 var cryptoRandomModule = &tender.ImmutableMap{
 	Value: map[string]tender.Object{
-		"bytes":      &tender.UserFunction{Name: "bytes", Value: randomBytes},
-		"int":        &tender.UserFunction{Name: "int", Value: randomInt},
-		"float":      &tender.UserFunction{Name: "float", Value: randomFloat},
-		"uuid":       &tender.UserFunction{Name: "uuid", Value: randomUUID},
+		"bytes":      &tender.NativeFunction{Name: "bytes", Value: randomBytes},
+		"int":        &tender.NativeFunction{Name: "int", Value: randomInt},
+		"float":      &tender.NativeFunction{Name: "float", Value: randomFloat},
+		"uuid":       &tender.NativeFunction{Name: "uuid", Value: randomUUID},
 	},
 }
 

@@ -7,12 +7,12 @@ import (
 )
 
 var netModule = map[string]tender.Object{
-	"dnslookup":        &tender.UserFunction{Value: netDnsLookup},
-	"resolve_tcp_addr": &tender.UserFunction{Value: netResolveTCPAddr},
-	"resolve_udp_addr": &tender.UserFunction{Value: netResolveUDPAddr},
-	"dial":             &tender.UserFunction{Value: netDial},
-	"dialtcp":          &tender.UserFunction{Value: netDialTCP},
-	"listen":           &tender.UserFunction{Value: netListen},
+	"dnslookup":        &tender.NativeFunction{Value: netDnsLookup},
+	"resolve_tcp_addr": &tender.NativeFunction{Value: netResolveTCPAddr},
+	"resolve_udp_addr": &tender.NativeFunction{Value: netResolveUDPAddr},
+	"dial":             &tender.NativeFunction{Value: netDial},
+	"dialtcp":          &tender.NativeFunction{Value: netDialTCP},
+	"listen":           &tender.NativeFunction{Value: netListen},
 }
 
 
@@ -49,24 +49,24 @@ func netDial(args ...tender.Object) (tender.Object, error) {
 func makeNetConn(conn net.Conn) *tender.ImmutableMap {
 	return &tender.ImmutableMap{
 		Value: map[string]tender.Object{
-			"close": &tender.UserFunction{
+			"close": &tender.NativeFunction{
 				Value: FuncARE(conn.Close),
 			},
-			"read": &tender.UserFunction{
+			"read": &tender.NativeFunction{
 				Value: FuncAYRIE(conn.Read),
 			},
-			"write": &tender.UserFunction{
+			"write": &tender.NativeFunction{
 				Value: FuncAYRIE(conn.Write),
 			},
 			"remote_addr": &tender.String{Value: conn.RemoteAddr().String()},
 			"local_addr":  &tender.String{Value: conn.LocalAddr().String()},
-			"set_deadline": &tender.UserFunction{
+			"set_deadline": &tender.NativeFunction{
 				Value: FuncATRE(conn.SetDeadline),
 			},
-			"set_readdeadline": &tender.UserFunction{
+			"set_readdeadline": &tender.NativeFunction{
 				Value: FuncATRE(conn.SetReadDeadline),
 			},
-			"set_writedeadline": &tender.UserFunction{
+			"set_writedeadline": &tender.NativeFunction{
 				Value: FuncATRE(conn.SetWriteDeadline),
 			},
 		},
@@ -134,7 +134,7 @@ func netListen(args ...tender.Object) (tender.Object, error) {
 func makeNetListener(ln net.Listener) *tender.ImmutableMap {
 	return &tender.ImmutableMap{
 		Value: map[string]tender.Object{
-			"accept": &tender.UserFunction{
+			"accept": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					conn, err := ln.Accept()
 					if err != nil {
@@ -143,7 +143,7 @@ func makeNetListener(ln net.Listener) *tender.ImmutableMap {
 					return makeNetConn(conn), nil
 				},
 			},
-			"close": &tender.UserFunction{
+			"close": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					err := ln.Close()
 					if err != nil {

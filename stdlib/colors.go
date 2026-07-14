@@ -7,7 +7,7 @@ import (
 )
 
 var colorsModule = map[string]tender.Object{
-	"stdout": &tender.UserFunction{
+	"stdout": &tender.NativeFunction{
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
 				return nil, tender.ErrWrongNumArguments
@@ -15,7 +15,7 @@ var colorsModule = map[string]tender.Object{
 			return &IOWriter{Value: colorable.NewColorableStdout()}, nil
 		},
 	},	
-	"stderr": &tender.UserFunction{
+	"stderr": &tender.NativeFunction{
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
 				return nil, tender.ErrWrongNumArguments
@@ -23,7 +23,7 @@ var colorsModule = map[string]tender.Object{
 			return &IOWriter{Value: colorable.NewColorableStderr()}, nil
 		},
 	},
-	"style": &tender.UserFunction{
+	"style": &tender.NativeFunction{
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) < 1 {
 				return nil, tender.ErrWrongNumArguments

@@ -19,7 +19,7 @@ func eventToObject(event interface{}) tender.Object {
 					"type": &tender.String{Value: "lifecycle"},
 					"to": &tender.Int{Value: int64(e.To)},
 					"from": &tender.Int{Value: int64(e.From)},
-					"string": &tender.UserFunction{
+					"string": &tender.NativeFunction{
 						Value: FuncARS(e.String),
 					},
 				},
@@ -31,11 +31,11 @@ func eventToObject(event interface{}) tender.Object {
 					"x": &tender.Int{Value: int64(e.X)},
 					"y": &tender.Int{Value: int64(e.Y)},
 					"button": &tender.Int{Value: int64(e.Button)},
-					"is_wheel": &tender.UserFunction{
+					"is_wheel": &tender.NativeFunction{
 						Value: FuncARB(e.Button.IsWheel),
 					},
 					"direction": &tender.Int{Value: int64(e.Direction)},
-					"direction_string": &tender.UserFunction{
+					"direction_string": &tender.NativeFunction{
 						Value: FuncARS(e.Direction.String),
 					},
 					"modifiers": &tender.Int{Value: int64(e.Modifiers)},
@@ -49,7 +49,7 @@ func eventToObject(event interface{}) tender.Object {
 					"code": &tender.Int{Value: int64(e.Code)},
 					"direction": &tender.Int{Value: int64(e.Direction)},
 					"modifiers": &tender.Int{Value: int64(e.Modifiers)},
-					"string": &tender.UserFunction{
+					"string": &tender.NativeFunction{
 						Value: FuncARS(e.String),
 					},
 				},

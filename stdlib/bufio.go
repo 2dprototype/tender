@@ -7,9 +7,9 @@ import (
 )
 
 var bufioModule = map[string]tender.Object{
-	"readline": &tender.UserFunction{Name: "readline", Value: bufioReadline},
-	"readstring": &tender.UserFunction{Name: "readstring", Value: bufioReadString},
-	"readbytes": &tender.UserFunction{Name: "readbytes", Value: bufioReadBytes},
+	"readline": &tender.NativeFunction{Name: "readline", Value: bufioReadline},
+	"readstring": &tender.NativeFunction{Name: "readstring", Value: bufioReadString},
+	"readbytes": &tender.NativeFunction{Name: "readbytes", Value: bufioReadBytes},
 }
 
 func bufioReadline(args ...tender.Object) (ret tender.Object, err error) {

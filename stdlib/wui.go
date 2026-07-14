@@ -11,151 +11,151 @@ import (
 )
 
 var wuiModule = map[string]tender.Object{
-	"new_window": &tender.UserFunction{
+	"new_window": &tender.NativeFunction{
 		Name:  "new_window",
 		Value: wuiNewWindow,
 	}, // new_window() => Window
-	"message_box": &tender.UserFunction{
+	"message_box": &tender.NativeFunction{
 		Name:  "message_box",
 		Value: wuiMessageBox,
 	}, // message_box(caption, text) => nil
-	"message_box_error": &tender.UserFunction{
+	"message_box_error": &tender.NativeFunction{
 		Name:  "message_box_error",
 		Value: wuiMessageBoxError,
 	}, // message_box_error(caption, text) => nil
-	"message_box_info": &tender.UserFunction{
+	"message_box_info": &tender.NativeFunction{
 		Name:  "message_box_info",
 		Value: wuiMessageBoxInfo,
 	}, // message_box_info(caption, text) => nil
-	"message_box_warning": &tender.UserFunction{
+	"message_box_warning": &tender.NativeFunction{
 		Name:  "message_box_warning",
 		Value: wuiMessageBoxWarning,
 	}, // message_box_warning(caption, text) => nil
-	"message_box_question": &tender.UserFunction{
+	"message_box_question": &tender.NativeFunction{
 		Name:  "message_box_question",
 		Value: wuiMessageBoxQuestion,
 	}, // message_box_question(caption, text) => nil
-	"message_box_ok_cancel": &tender.UserFunction{
+	"message_box_ok_cancel": &tender.NativeFunction{
 		Name:  "message_box_ok_cancel",
 		Value: wuiMessageBoxOKCancel,
 	}, // message_box_ok_cancel(caption, text) => bool
-	"message_box_yes_no": &tender.UserFunction{
+	"message_box_yes_no": &tender.NativeFunction{
 		Name:  "message_box_yes_no",
 		Value: wuiMessageBoxYesNo,
 	}, // message_box_yes_no(caption, text) => bool
-	"message_box_custom": &tender.UserFunction{
+	"message_box_custom": &tender.NativeFunction{
 		Name:  "message_box_custom",
 		Value: wuiMessageBoxCustom,
 	}, // message_box_custom(caption, text, flags) => int
-	"new_button": &tender.UserFunction{
+	"new_button": &tender.NativeFunction{
 		Name:  "new_button",
 		Value: wuiNewButton,
 	}, // new_button() => Button
-	"new_checkbox": &tender.UserFunction{
+	"new_checkbox": &tender.NativeFunction{
 		Name:  "new_checkbox",
 		Value: wuiNewCheckBox,
 	}, // new_checkbox() => CheckBox
-	"new_label": &tender.UserFunction{
+	"new_label": &tender.NativeFunction{
 		Name:  "new_label",
 		Value: wuiNewLabel,
 	}, // new_label() => Label
-	"new_editline": &tender.UserFunction{
+	"new_editline": &tender.NativeFunction{
 		Name:  "new_editline",
 		Value: wuiNewEditLine,
 	}, // new_edit_line() => EditLine
-	"new_textedit": &tender.UserFunction{
+	"new_textedit": &tender.NativeFunction{
 		Name:  "new_textedit",
 		Value: wuiNewTextEdit,
 	}, // new_text_edit() => TextEdit
-	"new_combobox": &tender.UserFunction{
+	"new_combobox": &tender.NativeFunction{
 		Name:  "new_combo_box",
 		Value: wuiNewComboBox,
 	}, // new_combo_box() => ComboBox
-	"new_stringlist": &tender.UserFunction{
+	"new_stringlist": &tender.NativeFunction{
 		Name:  "new_stringlist",
 		Value: wuiNewStringList,
 	}, // new_string_list() => StringList
-	"new_stringtable": &tender.UserFunction{
+	"new_stringtable": &tender.NativeFunction{
 		Name:  "new_stringtable",
 		Value: wuiNewStringTable,
 	}, // new_string_table(header1, ...) => StringTable
-	"new_slider": &tender.UserFunction{
+	"new_slider": &tender.NativeFunction{
 		Name:  "new_slider",
 		Value: wuiNewSlider,
 	}, // new_slider() => Slider
-	"new_progressbar": &tender.UserFunction{
+	"new_progressbar": &tender.NativeFunction{
 		Name:  "new_progressbar",
 		Value: wuiNewProgressBar,
 	}, // new_progress_bar() => ProgressBar
-	"new_radiobutton": &tender.UserFunction{
+	"new_radiobutton": &tender.NativeFunction{
 		Name:  "new_radiobutton",
 		Value: wuiNewRadioButton,
 	}, // new_radio_button() => RadioButton
-	"new_intupdown": &tender.UserFunction{
+	"new_intupdown": &tender.NativeFunction{
 		Name:  "new_intupdown",
 		Value: wuiNewIntUpDown,
 	}, // new_int_up_down() => IntUpDown
-	"new_floatupdown": &tender.UserFunction{
+	"new_floatupdown": &tender.NativeFunction{
 		Name:  "new_floatupdown",
 		Value: wuiNewFloatUpDown,
 	}, // new_float_up_down() => FloatUpDown
-	"new_panel": &tender.UserFunction{
+	"new_panel": &tender.NativeFunction{
 		Name:  "new_panel",
 		Value: wuiNewPanel,
 	}, // new_panel() => Panel
-	"new_paintbox": &tender.UserFunction{
+	"new_paintbox": &tender.NativeFunction{
 		Name:  "new_paintbox",
 		Value: wuiNewPaintBox,
 	}, // new_paint_box() => PaintBox
-	"new_file_open_dialog": &tender.UserFunction{
+	"new_file_open_dialog": &tender.NativeFunction{
 		Name:  "new_file_open_dialog",
 		Value: wuiNewFileOpenDialog,
 	}, // new_file_open_dialog() => FileOpenDialog
-	"new_file_save_dialog": &tender.UserFunction{
+	"new_file_save_dialog": &tender.NativeFunction{
 		Name:  "new_file_save_dialog",
 		Value: wuiNewFileSaveDialog,
 	}, // new_file_save_dialog() => FileSaveDialog
-	"new_folder_select_dialog": &tender.UserFunction{
+	"new_folder_select_dialog": &tender.NativeFunction{
 		Name:  "new_folder_select_dialog",
 		Value: wuiNewFolderSelectDialog,
 	}, // new_folder_select_dialog() => FolderSelectDialog
-	"rgb_color": &tender.UserFunction{
+	"rgb_color": &tender.NativeFunction{
 		Name:  "rgb_color",
 		Value: wuiRGBColor,
 	}, // rgb_color(r, g, b) => Color
-	"new_font": &tender.UserFunction{
+	"new_font": &tender.NativeFunction{
 		Name:  "new_font",
 		Value: wuiNewFont,
 	}, // new_font(desc) => Font/error
-	"new_cursor_from_image": &tender.UserFunction{
+	"new_cursor_from_image": &tender.NativeFunction{
 		Name:  "new_cursor_from_image",
 		Value: wuiNewCursorFromImage,
 	}, // new_cursor_from_image(image_bytes, x, y) => Cursor/error
-	"new_icon_from_image": &tender.UserFunction{
+	"new_icon_from_image": &tender.NativeFunction{
 		Name:  "new_icon_from_image",
 		Value: wuiNewIconFromImage,
 	}, // new_icon_from_image(image_bytes) => Icon/error
-	"new_menu": &tender.UserFunction{
+	"new_menu": &tender.NativeFunction{
 		Name:  "new_menu",
 		Value: wuiNewMenu,
 	}, // new_menu(name) => Menu
-	"new_menu_string": &tender.UserFunction{
+	"new_menu_string": &tender.NativeFunction{
 		Name:  "new_menu_string",
 		Value: wuiNewMenuString,
 	}, // new_menu_string(text) => MenuString
-	"new_menu_separator": &tender.UserFunction{
+	"new_menu_separator": &tender.NativeFunction{
 		Name:  "new_menu_separator",
 		Value: wuiNewMenuSeparator,
 	}, // new_menu_separator() => MenuItem
-	"new_main_menu": &tender.UserFunction{
+	"new_main_menu": &tender.NativeFunction{
 		Name:  "new_main_menu",
 		Value: wuiNewMainMenu,
 	}, // new_main_menu() => Menu
-	"enabled": &tender.UserFunction{
+	"enabled": &tender.NativeFunction{
 		Name:  "enabled",
 		Value: wuiEnabled,
 	}, // enabled(control) => bool
-	"visible": &tender.UserFunction{
+	"visible": &tender.NativeFunction{
 		Name:  "visible",
 		Value: wuiVisible,
 	}, // visible(control) => bool
@@ -619,7 +619,7 @@ func (w *WUIWindow) IndexGet(index tender.Object) (res tender.Object, err error)
 
 	switch strIdx.Value {
 	case "show":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -632,7 +632,7 @@ func (w *WUIWindow) IndexGet(index tender.Object) (res tender.Object, err error)
 			},
 		}
 	case "show_modal":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -645,19 +645,19 @@ func (w *WUIWindow) IndexGet(index tender.Object) (res tender.Object, err error)
 			},
 		}
 	case "close":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncAR(w.Value.Close),
 		}
 	case "set_title":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncASR(w.Value.SetTitle),
 		}
 	case "title":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncARS(w.Value.Title),
 		}
 	case "set_size":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 2 {
 					return nil, tender.ErrWrongNumArguments
@@ -669,7 +669,7 @@ func (w *WUIWindow) IndexGet(index tender.Object) (res tender.Object, err error)
 			},
 		}
 	case "size":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -684,7 +684,7 @@ func (w *WUIWindow) IndexGet(index tender.Object) (res tender.Object, err error)
 			},
 		}
 	case "add":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 1 {
 					return nil, tender.ErrWrongNumArguments
@@ -702,7 +702,7 @@ func (w *WUIWindow) IndexGet(index tender.Object) (res tender.Object, err error)
 			},
 		}
 	case "remove":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 1 {
 					return nil, tender.ErrWrongNumArguments
@@ -720,7 +720,7 @@ func (w *WUIWindow) IndexGet(index tender.Object) (res tender.Object, err error)
 			},
 		}
 	case "set_position":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 2 {
 					return nil, tender.ErrWrongNumArguments
@@ -732,7 +732,7 @@ func (w *WUIWindow) IndexGet(index tender.Object) (res tender.Object, err error)
 			},
 		}
 	case "position":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 0 {
 					return nil, tender.ErrWrongNumArguments
@@ -758,7 +758,7 @@ func (w *WUIWindow) IndexGet(index tender.Object) (res tender.Object, err error)
 
 	// switch strIdx.Value {
 	// case "execute":
-		// res = &tender.BuiltinFunction{
+		// res = &tender.NativeFunction{
 			// Value: func(args ...tender.Object) (tender.Object, error) {
 				// if len(args) != 0 {
 					// return nil, tender.ErrWrongNumArguments
@@ -770,7 +770,7 @@ func (w *WUIWindow) IndexGet(index tender.Object) (res tender.Object, err error)
 			// },
 		// }
 	// case "file":
-		// res = &tender.BuiltinFunction{
+		// res = &tender.NativeFunction{
 			// Value: func(args ...tender.Object) (tender.Object, error) {
 				// if len(args) != 0 {
 					// return nil, tender.ErrWrongNumArguments
@@ -779,11 +779,11 @@ func (w *WUIWindow) IndexGet(index tender.Object) (res tender.Object, err error)
 			// },
 		// }
 	// case "set_file":
-		// res = &tender.BuiltinFunction{
+		// res = &tender.NativeFunction{
 			// Value: FuncASR(f.Value.SetFile),
 		// }
 	// case "set_filter":
-		// res = &tender.BuiltinFunction{
+		// res = &tender.NativeFunction{
 			// Value: FuncASR(f.Value.SetFilter),
 		// }
 	// }
@@ -798,7 +798,7 @@ func (w *WUIWindow) IndexGet(index tender.Object) (res tender.Object, err error)
 
 	// switch strIdx.Value {
 	// case "execute":
-		// res = &tender.BuiltinFunction{
+		// res = &tender.NativeFunction{
 			// Value: func(args ...tender.Object) (tender.Object, error) {
 				// if len(args) != 0 {
 					// return nil, tender.ErrWrongNumArguments
@@ -810,7 +810,7 @@ func (w *WUIWindow) IndexGet(index tender.Object) (res tender.Object, err error)
 			// },
 		// }
 	// case "file":
-		// res = &tender.BuiltinFunction{
+		// res = &tender.NativeFunction{
 			// Value: func(args ...tender.Object) (tender.Object, error) {
 				// if len(args) != 0 {
 					// return nil, tender.ErrWrongNumArguments
@@ -819,11 +819,11 @@ func (w *WUIWindow) IndexGet(index tender.Object) (res tender.Object, err error)
 			// },
 		// }
 	// case "set_file":
-		// res = &tender.BuiltinFunction{
+		// res = &tender.NativeFunction{
 			// Value: FuncASR(f.Value.SetFile),
 		// }
 	// case "set_filter":
-		// res = &tender.BuiltinFunction{
+		// res = &tender.NativeFunction{
 			// Value: FuncASR(f.Value.SetFilter),
 		// }
 	// }
@@ -838,7 +838,7 @@ func (w *WUIWindow) IndexGet(index tender.Object) (res tender.Object, err error)
 
 	// switch strIdx.Value {
 	// case "execute":
-		// res = &tender.BuiltinFunction{
+		// res = &tender.NativeFunction{
 			// Value: func(args ...tender.Object) (tender.Object, error) {
 				// if len(args) != 0 {
 					// return nil, tender.ErrWrongNumArguments
@@ -850,7 +850,7 @@ func (w *WUIWindow) IndexGet(index tender.Object) (res tender.Object, err error)
 			// },
 		// }
 	// case "folder":
-		// res = &tender.BuiltinFunction{
+		// res = &tender.NativeFunction{
 			// Value: func(args ...tender.Object) (tender.Object, error) {
 				// if len(args) != 0 {
 					// return nil, tender.ErrWrongNumArguments
@@ -859,7 +859,7 @@ func (w *WUIWindow) IndexGet(index tender.Object) (res tender.Object, err error)
 			// },
 		// }
 	// case "set_folder":
-		// res = &tender.BuiltinFunction{
+		// res = &tender.NativeFunction{
 			// Value: FuncASR(f.Value.SetFolder),
 		// }
 	// }
@@ -891,7 +891,7 @@ func (c *WUIColor) IndexGet(index tender.Object) (res tender.Object, err error) 
 
 	// switch strIdx.Value {
 	// case "height":
-		// res = &tender.BuiltinFunction{
+		// res = &tender.NativeFunction{
 			// Value: func(args ...tender.Object) (tender.Object, error) {
 				// if len(args) != 0 {
 					// return nil, tender.ErrWrongNumArguments
@@ -931,7 +931,7 @@ func (m *WUIMenu) IndexGet(index tender.Object) (res tender.Object, err error) {
 
 	switch strIdx.Value {
 	case "add":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 1 {
 					return nil, tender.ErrWrongNumArguments
@@ -960,15 +960,15 @@ func (m *WUIMenuString) IndexGet(index tender.Object) (res tender.Object, err er
 
 	switch strIdx.Value {
 	case "set_text":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncASR(m.Value.SetText),
 		}
 	case "text":
-		res = &tender.BuiltinFunction{
+		res = &tender.NativeFunction{
 			Value: FuncARS(m.Value.Text),
 		}
 	// case "set_on_click":
-		// res = &tender.BuiltinFunction{
+		// res = &tender.NativeFunction{
 			// Value: FuncAFR(m.Value.SetOnClick),
 		// }
 	}

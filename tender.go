@@ -141,7 +141,7 @@ func ToStringPretty(vm *VM, o Object) string {
 	m, ok := o.(*Map)
 	if ok {
 		if val, ok := m.Value["__print__"]; ok {
-			fn, ok := val.(*CompiledFunction)
+			fn, ok := val.(*Function)
 			if ok {
 				vv, _ := WrapFuncCall(vm, fn)
 				s, ok := vv.(*String)
@@ -422,7 +422,7 @@ func writeObjectPrettyColored(builder *strings.Builder, o Object, indentLevel in
 		builder.WriteString("\033[33m'" + obj.String() + "'\033[0m")
 	case *Bool:
 		builder.WriteString("\033[35m" + obj.String() + "\033[0m")
-	case *Bytes, *UserFunction, *BuiltinFunction, *CompiledFunction:
+	case *Bytes, *NativeFunction, *Function:
 		builder.WriteString("\033[36m" + obj.String() + "\033[0m")
 	case *Null:
 		builder.WriteString("\033[90mnull\033[0m")
@@ -437,7 +437,7 @@ func ToStringPrettyColored(vm *VM, o Object) string {
 	m, ok := o.(*Map)
 	if ok {
 		if val, ok := m.Value["__print__"]; ok {
-			fn, ok := val.(*CompiledFunction)
+			fn, ok := val.(*Function)
 			if ok {
 				vv, _ := WrapFuncCall(vm, fn)
 				s, ok := vv.(*String)
@@ -988,7 +988,7 @@ func FromInterface(v interface{}) (Object, error) {
 	case Object:
 		return v, nil
 	case CallableFunc:
-		return &UserFunction{Value: v}, nil
+		return &NativeFunction{Value: v}, nil
 	}
 	return nil, fmt.Errorf("cannot convert to object: %T", v)
 }

@@ -40,144 +40,144 @@ var timesModule = map[string]tender.Object{
 	"october":             &tender.Int{Value: int64(time.October)},
 	"november":            &tender.Int{Value: int64(time.November)},
 	"december":            &tender.Int{Value: int64(time.December)},
-	"sleep": &tender.BuiltinFunction{
+	"sleep": &tender.NativeFunction{
 		Name:      "sleep",
 		Value:     timesSleep,
 		NeedVMObj: true,
 	}, // sleep(int)
-	"parse_duration": &tender.UserFunction{
+	"parse_duration": &tender.NativeFunction{
 		Name:  "parse_duration",
 		Value: timesParseDuration,
 	}, // parse_duration(str) => int
-	"since": &tender.UserFunction{
+	"since": &tender.NativeFunction{
 		Name:  "since",
 		Value: timesSince,
 	}, // since(time) => int
-	"until": &tender.UserFunction{
+	"until": &tender.NativeFunction{
 		Name:  "until",
 		Value: timesUntil,
 	}, // until(time) => int
-	"duration_hours": &tender.UserFunction{
+	"duration_hours": &tender.NativeFunction{
 		Name:  "duration_hours",
 		Value: timesDurationHours,
 	}, // duration_hours(int) => float
-	"duration_minutes": &tender.UserFunction{
+	"duration_minutes": &tender.NativeFunction{
 		Name:  "duration_minutes",
 		Value: timesDurationMinutes,
 	}, // duration_minutes(int) => float
-	"duration_nanoseconds": &tender.UserFunction{
+	"duration_nanoseconds": &tender.NativeFunction{
 		Name:  "duration_nanoseconds",
 		Value: timesDurationNanoseconds,
 	}, // duration_nanoseconds(int) => int
-	"duration_seconds": &tender.UserFunction{
+	"duration_seconds": &tender.NativeFunction{
 		Name:  "duration_seconds",
 		Value: timesDurationSeconds,
 	}, // duration_seconds(int) => float
-	"duration_string": &tender.UserFunction{
+	"duration_string": &tender.NativeFunction{
 		Name:  "duration_string",
 		Value: timesDurationString,
 	}, // duration_string(int) => string
-	"month_string": &tender.UserFunction{
+	"month_string": &tender.NativeFunction{
 		Name:  "month_string",
 		Value: timesMonthString,
 	}, // month_string(int) => string
-	"date": &tender.UserFunction{
+	"date": &tender.NativeFunction{
 		Name:  "date",
 		Value: timesDate,
 	}, // date(year, month, day, hour, min, sec, nsec) => time
-	"now": &tender.UserFunction{
+	"now": &tender.NativeFunction{
 		Name:  "now",
 		Value: timesNow,
 	}, // now() => time
-	"parse": &tender.UserFunction{
+	"parse": &tender.NativeFunction{
 		Name:  "parse",
 		Value: timesParse,
 	}, // parse(format, str) => time
-	"unix": &tender.UserFunction{
+	"unix": &tender.NativeFunction{
 		Name:  "unix",
 		Value: timesUnix,
 	}, // unix(sec, nsec) => time
-	"add": &tender.UserFunction{
+	"add": &tender.NativeFunction{
 		Name:  "add",
 		Value: timesAdd,
 	}, // add(time, int) => time
-	"add_date": &tender.UserFunction{
+	"add_date": &tender.NativeFunction{
 		Name:  "add_date",
 		Value: timesAddDate,
 	}, // add_date(time, years, months, days) => time
-	"sub": &tender.UserFunction{
+	"sub": &tender.NativeFunction{
 		Name:  "sub",
 		Value: timesSub,
 	}, // sub(t time, u time) => int
-	"after": &tender.UserFunction{
+	"after": &tender.NativeFunction{
 		Name:  "after",
 		Value: timesAfter,
 	}, // after(t time, u time) => bool
-	"before": &tender.UserFunction{
+	"before": &tender.NativeFunction{
 		Name:  "before",
 		Value: timesBefore,
 	}, // before(t time, u time) => bool
-	"time_year": &tender.UserFunction{
+	"time_year": &tender.NativeFunction{
 		Name:  "time_year",
 		Value: timesTimeYear,
 	}, // time_year(time) => int
-	"time_month": &tender.UserFunction{
+	"time_month": &tender.NativeFunction{
 		Name:  "time_month",
 		Value: timesTimeMonth,
 	}, // time_month(time) => int
-	"time_day": &tender.UserFunction{
+	"time_day": &tender.NativeFunction{
 		Name:  "time_day",
 		Value: timesTimeDay,
 	}, // time_day(time) => int
-	"time_weekday": &tender.UserFunction{
+	"time_weekday": &tender.NativeFunction{
 		Name:  "time_weekday",
 		Value: timesTimeWeekday,
 	}, // time_weekday(time) => int
-	"time_hour": &tender.UserFunction{
+	"time_hour": &tender.NativeFunction{
 		Name:  "time_hour",
 		Value: timesTimeHour,
 	}, // time_hour(time) => int
-	"time_minute": &tender.UserFunction{
+	"time_minute": &tender.NativeFunction{
 		Name:  "time_minute",
 		Value: timesTimeMinute,
 	}, // time_minute(time) => int
-	"time_second": &tender.UserFunction{
+	"time_second": &tender.NativeFunction{
 		Name:  "time_second",
 		Value: timesTimeSecond,
 	}, // time_second(time) => int
-	"time_nanosecond": &tender.UserFunction{
+	"time_nanosecond": &tender.NativeFunction{
 		Name:  "time_nanosecond",
 		Value: timesTimeNanosecond,
 	}, // time_nanosecond(time) => int
-	"time_unix": &tender.UserFunction{
+	"time_unix": &tender.NativeFunction{
 		Name:  "time_unix",
 		Value: timesTimeUnix,
 	}, // time_unix(time) => int
-	"time_unix_nano": &tender.UserFunction{
+	"time_unix_nano": &tender.NativeFunction{
 		Name:  "time_unix_nano",
 		Value: timesTimeUnixNano,
 	}, // time_unix_nano(time) => int
-	"time_format": &tender.UserFunction{
+	"time_format": &tender.NativeFunction{
 		Name:  "time_format",
 		Value: timesTimeFormat,
 	}, // time_format(time, format) => string
-	"time_location": &tender.UserFunction{
+	"time_location": &tender.NativeFunction{
 		Name:  "time_location",
 		Value: timesTimeLocation,
 	}, // time_location(time) => string
-	"time_string": &tender.UserFunction{
+	"time_string": &tender.NativeFunction{
 		Name:  "time_string",
 		Value: timesTimeString,
 	}, // time_string(time) => string
-	"is_zero": &tender.UserFunction{
+	"is_zero": &tender.NativeFunction{
 		Name:  "is_zero",
 		Value: timesIsZero,
 	}, // is_zero(time) => bool
-	"to_local": &tender.UserFunction{
+	"to_local": &tender.NativeFunction{
 		Name:  "to_local",
 		Value: timesToLocal,
 	}, // to_local(time) => time
-	"to_utc": &tender.UserFunction{
+	"to_utc": &tender.NativeFunction{
 		Name:  "to_utc",
 		Value: timesToUTC,
 	}, // to_utc(time) => time

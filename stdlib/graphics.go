@@ -45,7 +45,7 @@ type contextState struct {
 
 // graphicsModule defines the standard package interface mapping for Tender
 var graphicsModule = map[string]tender.Object{
-	"get_context": &tender.BuiltinFunction{
+	"get_context": &tender.NativeFunction{
 		Name: "get_context",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -69,7 +69,7 @@ var graphicsModule = map[string]tender.Object{
 			return &tender.Map{Value: ctxMap}, nil
 		},
 	},	
-	"new_context": &tender.BuiltinFunction{
+	"new_context": &tender.NativeFunction{
 		Name: "new_context",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -111,7 +111,7 @@ var graphicsModule = map[string]tender.Object{
 			return &tender.Map{Value: ctxMap}, nil
 		},
 	},
-	"new_window": &tender.BuiltinFunction{
+	"new_window": &tender.NativeFunction{
 		Name:      "new_window",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -164,7 +164,7 @@ var graphicsModule = map[string]tender.Object{
 			ctxMap := createDrawingMethods(state)
 
 			// Add window specific event functions
-			ctxMap["on_draw"] = &tender.BuiltinFunction{
+			ctxMap["on_draw"] = &tender.NativeFunction{
 				Name: "on_draw",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
@@ -192,7 +192,7 @@ var graphicsModule = map[string]tender.Object{
 				},
 			}
 
-			ctxMap["on_update"] = &tender.BuiltinFunction{
+			ctxMap["on_update"] = &tender.NativeFunction{
 				Name: "on_update",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
@@ -215,7 +215,7 @@ var graphicsModule = map[string]tender.Object{
 				},
 			}
 
-			ctxMap["on_key"] = &tender.BuiltinFunction{
+			ctxMap["on_key"] = &tender.NativeFunction{
 				Name: "on_key",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
@@ -256,7 +256,7 @@ var graphicsModule = map[string]tender.Object{
 				},
 			}
 
-			ctxMap["on_mouse"] = &tender.BuiltinFunction{
+			ctxMap["on_mouse"] = &tender.NativeFunction{
 				Name: "on_mouse",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
@@ -286,7 +286,7 @@ var graphicsModule = map[string]tender.Object{
 				},
 			}
 
-			ctxMap["on_mouse_move"] = &tender.BuiltinFunction{
+			ctxMap["on_mouse_move"] = &tender.NativeFunction{
 				Name: "on_mouse_move",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
@@ -317,7 +317,7 @@ var graphicsModule = map[string]tender.Object{
 				},
 			}
 
-			ctxMap["run"] = &tender.BuiltinFunction{
+			ctxMap["run"] = &tender.NativeFunction{
 				Name: "run",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					glut.MainLoop()
@@ -694,7 +694,7 @@ func getOrCreateImageBytesTexture(data []byte) (imageTexInfo, error) {
 
 func createDrawingMethods(state *contextState) map[string]tender.Object {
 	return map[string]tender.Object{
-		"hex": &tender.BuiltinFunction{
+		"hex": &tender.NativeFunction{
 			Name: "hex",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 1 {
@@ -706,7 +706,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"rgb": &tender.BuiltinFunction{
+		"rgb": &tender.NativeFunction{
 			Name: "rgb",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 3 {
@@ -719,7 +719,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"rgba": &tender.BuiltinFunction{
+		"rgba": &tender.NativeFunction{
 			Name: "rgba",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 4 {
@@ -732,7 +732,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"move_to": &tender.BuiltinFunction{
+		"move_to": &tender.NativeFunction{
 			Name: "move_to",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 2 {
@@ -747,7 +747,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"line_to": &tender.BuiltinFunction{
+		"line_to": &tender.NativeFunction{
 			Name: "line_to",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 2 {
@@ -762,7 +762,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"quadratic_to": &tender.BuiltinFunction{
+		"quadratic_to": &tender.NativeFunction{
 			Name: "quadratic_to",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 4 {
@@ -800,7 +800,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"cubic_to": &tender.BuiltinFunction{
+		"cubic_to": &tender.NativeFunction{
 			Name: "cubic_to",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 6 {
@@ -843,7 +843,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"arc": &tender.BuiltinFunction{
+		"arc": &tender.NativeFunction{
 			Name: "arc",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 5 {
@@ -859,7 +859,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"elliptical_arc": &tender.BuiltinFunction{
+		"elliptical_arc": &tender.NativeFunction{
 			Name: "elliptical_arc",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 6 {
@@ -876,7 +876,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"close_path": &tender.BuiltinFunction{
+		"close_path": &tender.NativeFunction{
 			Name: "close_path",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(state.CurrentSubpath) > 0 {
@@ -888,7 +888,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"rect": &tender.BuiltinFunction{
+		"rect": &tender.NativeFunction{
 			Name: "rect",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 4 {
@@ -914,7 +914,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"roundrect": &tender.BuiltinFunction{
+		"roundrect": &tender.NativeFunction{
 			Name: "roundrect",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 6 {
@@ -931,7 +931,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"circle": &tender.BuiltinFunction{
+		"circle": &tender.NativeFunction{
 			Name: "circle",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 3 {
@@ -958,7 +958,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"line": &tender.BuiltinFunction{
+		"line": &tender.NativeFunction{
 			Name: "line",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 4 {
@@ -981,7 +981,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"point": &tender.BuiltinFunction{
+		"point": &tender.NativeFunction{
 			Name: "point",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 2 {
@@ -997,7 +997,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"clear": &tender.BuiltinFunction{
+		"clear": &tender.NativeFunction{
 			Name: "clear",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) == 1 {
@@ -1020,7 +1020,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"stroke": &tender.BuiltinFunction{
+		"stroke": &tender.NativeFunction{
 			Name: "stroke",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				gl.Color4f(state.R, state.G, state.B, state.A)
@@ -1047,7 +1047,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"fill": &tender.BuiltinFunction{
+		"fill": &tender.NativeFunction{
 			Name: "fill",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				gl.Color4f(state.R, state.G, state.B, state.A)
@@ -1073,21 +1073,21 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"push": &tender.BuiltinFunction{
+		"push": &tender.NativeFunction{
 			Name: "push",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				gl.PushMatrix()
 				return tender.NullValue, nil
 			},
 		},
-		"pop": &tender.BuiltinFunction{
+		"pop": &tender.NativeFunction{
 			Name: "pop",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				gl.PopMatrix()
 				return tender.NullValue, nil
 			},
 		},
-		"translate": &tender.BuiltinFunction{
+		"translate": &tender.NativeFunction{
 			Name: "translate",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 2 {
@@ -1097,7 +1097,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"scale": &tender.BuiltinFunction{
+		"scale": &tender.NativeFunction{
 			Name: "scale",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 2 {
@@ -1107,7 +1107,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"rotate": &tender.BuiltinFunction{
+		"rotate": &tender.NativeFunction{
 			Name: "rotate",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 1 {
@@ -1118,7 +1118,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"set_line_width": &tender.BuiltinFunction{
+		"set_line_width": &tender.NativeFunction{
 			Name: "set_line_width",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 1 {
@@ -1128,7 +1128,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"load_image": &tender.BuiltinFunction{
+		"load_image": &tender.NativeFunction{
 			Name: "load_image",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 1 {
@@ -1175,7 +1175,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return &tender.ImmutableMap{Value: texMap}, nil
 			},
 		},
-		"draw_image": &tender.BuiltinFunction{
+		"draw_image": &tender.NativeFunction{
 			Name: "draw_image",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 3 {
@@ -1243,7 +1243,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"draw_image_rect": &tender.BuiltinFunction{
+		"draw_image_rect": &tender.NativeFunction{
 			Name: "draw_image_rect",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 9 {
@@ -1322,7 +1322,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"load_font": &tender.BuiltinFunction{
+		"load_font": &tender.NativeFunction{
 			Name: "load_font",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 2 {
@@ -1352,7 +1352,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"load_font_face": &tender.BuiltinFunction{
+		"load_font_face": &tender.NativeFunction{
 			Name: "load_font_face",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 2 {
@@ -1382,7 +1382,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"set_font_size": &tender.BuiltinFunction{
+		"set_font_size": &tender.NativeFunction{
 			Name: "set_font_size",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 1 {
@@ -1400,7 +1400,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"measure_string": &tender.BuiltinFunction{
+		"measure_string": &tender.NativeFunction{
 			Name: "measure_string",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 1 {
@@ -1434,7 +1434,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return &tender.ImmutableMap{Value: resMap}, nil
 			},
 		},
-		"draw_string": &tender.BuiltinFunction{
+		"draw_string": &tender.NativeFunction{
 			Name: "draw_string",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 3 {
@@ -1482,7 +1482,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"draw_string_anchored": &tender.BuiltinFunction{
+		"draw_string_anchored": &tender.NativeFunction{
 			Name: "draw_string_anchored",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 5 {
@@ -1541,7 +1541,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"draw_string_wrapped": &tender.BuiltinFunction{
+		"draw_string_wrapped": &tender.NativeFunction{
 			Name: "draw_string_wrapped",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) < 4 {
@@ -1612,7 +1612,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"encode": &tender.BuiltinFunction{
+		"encode": &tender.NativeFunction{
 			Name: "encode",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				format := "png"
@@ -1642,7 +1642,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return &tender.Bytes{Value: buffer.Bytes()}, nil
 			},
 		},
-		"save": &tender.BuiltinFunction{
+		"save": &tender.NativeFunction{
 			Name: "save",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) < 1 {
@@ -1687,7 +1687,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"image": &tender.BuiltinFunction{
+		"image": &tender.NativeFunction{
 			Name: "image",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				img := captureGLImage(state.Width, state.Height)

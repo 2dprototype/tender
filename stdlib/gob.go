@@ -8,8 +8,8 @@ import (
 
 
 var gobModule = map[string]tender.Object{
-	"encode": &tender.UserFunction{Name: "encode", Value: gobEncode},
-	"decode": &tender.UserFunction{Name: "decode", Value: gobDecode},
+	"encode": &tender.NativeFunction{Name: "encode", Value: gobEncode},
+	"decode": &tender.NativeFunction{Name: "decode", Value: gobDecode},
 }
 
 type Gob struct {

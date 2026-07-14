@@ -16,7 +16,7 @@ import (
 
 // frame represents a function call frame.
 type frame struct {
-	fn          *CompiledFunction
+	fn          *Function
 	freeVars    []*ObjectPtr
 	ip          int
 	basePointer int
@@ -147,7 +147,7 @@ func concatInsts(instructions ...[]byte) []byte {
 	return concat
 }
 
-var emptyEntry = &CompiledFunction{
+var emptyEntry = &Function{
 	Instructions: MakeInstruction(parser.OpSuspend),
 }
 
@@ -179,7 +179,7 @@ func (v *VM) ShallowClone() *VM {
 }
 
 // constract wrapper function func(fn, ...args){ return fn(args...) }
-var funcWrapper = &CompiledFunction{
+var funcWrapper = &Function{
 	Instructions: concatInsts(
 		MakeInstruction(parser.OpGetLocal, 0),
 		MakeInstruction(parser.OpGetLocal, 1),
@@ -197,13 +197,13 @@ func (v *VM) releaseSpace() {
 }
 
 // RunCompiled run the VM with user supplied function fn.
-func (v *VM) RunCompiled(fn *CompiledFunction, args ...Object) (val Object, err error) {
+func (v *VM) RunCompiled(fn *Function, args ...Object) (val Object, err error) {
 	v.stack = make([]Object, initialStackSize)
 	if fn == nil { // normal Run
 		// reset VM states
 		v.sp = 0
 	} else { // run user supplied function
-		entry := &CompiledFunction{
+		entry := &Function{
 			Instructions: concatInsts(
 				MakeInstruction(parser.OpCall, 1+len(args), 0),
 				MakeInstruction(parser.OpSuspend),
@@ -957,7 +957,7 @@ func (v *VM) run() {
 				}
 			}
 
-			if callee, ok := value.(*CompiledFunction); ok {
+			if callee, ok := value.(*Function); ok {
 				if callee.VarArgs {
 					// if the closure is variadic,
 					// roll up all variadic parameters into an array
@@ -1022,7 +1022,7 @@ func (v *VM) run() {
 				v.sp = v.sp - numArgs + callee.NumLocals
 			} else {
 				var args []Object
-				if bltnfn, ok := value.(*BuiltinFunction); ok {
+				if bltnfn, ok := value.(*NativeFunction); ok {
 					if bltnfn.NeedVMObj {
 						// pass VM as the first para to builtin functions
 						args = append(args, v.selfObject())
@@ -1145,7 +1145,7 @@ func (v *VM) run() {
 			v.ip += 3
 			constIndex := int(v.curInsts[v.ip-1]) | int(v.curInsts[v.ip-2])<<8
 			numFree := int(v.curInsts[v.ip])
-			fn, ok := v.constants[constIndex].(*CompiledFunction)
+			fn, ok := v.constants[constIndex].(*Function)
 			if !ok {
 				v.err = fmt.Errorf("not function: %s", fn.TypeName())
 				return
@@ -1162,7 +1162,7 @@ func (v *VM) run() {
 				}
 			}
 			v.sp -= numFree
-			cl := &CompiledFunction{
+			cl := &Function{
 				Instructions:  fn.Instructions,
 				NumLocals:     fn.NumLocals,
 				NumParameters: fn.NumParameters,

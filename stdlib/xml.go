@@ -6,19 +6,19 @@ import (
 )
 
 var xmlModule = map[string]tender.Object{
-	"decode": &tender.UserFunction{
+	"decode": &tender.NativeFunction{
 		Name:  "decode",
 		Value: xmlDecode,
 	},
-	"encode": &tender.UserFunction{
+	"encode": &tender.NativeFunction{
 		Name:  "encode",
 		Value: xmlEncode,
 	},
-	"escape": &tender.UserFunction{
+	"escape": &tender.NativeFunction{
 		Name:  "escape",
 		Value: xmlEscape,
 	},
-	"unescape": &tender.UserFunction{
+	"unescape": &tender.NativeFunction{
 		Name:  "unescape",
 		Value: xmlUnescape,
 	},

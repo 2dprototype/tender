@@ -16,7 +16,7 @@ var osModule = map[string]tender.Object{
 	// "stdout":              &IOWriter{Value: os.Stdout},
 	// "stderr":              &IOWriter{Value: os.Stderr},
 	// "stdin":               &IOReader{Value: os.Stdin},
-	"stdout": &tender.UserFunction{
+	"stdout": &tender.NativeFunction{
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
 				return nil, tender.ErrWrongNumArguments
@@ -24,7 +24,7 @@ var osModule = map[string]tender.Object{
 			return &IOWriter{Value: os.Stdout}, nil
 		},
 	},	
-	"stderr": &tender.UserFunction{
+	"stderr": &tender.NativeFunction{
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
 				return nil, tender.ErrWrongNumArguments
@@ -32,7 +32,7 @@ var osModule = map[string]tender.Object{
 			return &IOWriter{Value: os.Stderr}, nil
 		},
 	},
-	"stdin": &tender.UserFunction{
+	"stdin": &tender.NativeFunction{
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
 				return nil, tender.ErrWrongNumArguments
@@ -70,17 +70,17 @@ var osModule = map[string]tender.Object{
 	"seek_set":            &tender.Int{Value: int64(io.SeekStart)},
 	"seek_cur":            &tender.Int{Value: int64(io.SeekCurrent)},
 	"seek_end":            &tender.Int{Value: int64(io.SeekEnd)},
-	"args": &tender.BuiltinFunction{
+	"args": &tender.NativeFunction{
 		Name:      "args",
 		Value:     osArgs,
 		NeedVMObj: true,
 	}, // args() => array(string)
-	"chdir": &tender.UserFunction{
+	"chdir": &tender.NativeFunction{
 		Name:  "chdir",
 		Value: FuncASRE(os.Chdir),
 	}, // chdir(dir string) => error
 	"chmod": osFuncASFmRE("chmod", os.Chmod), // chmod(name string, mode int) => error
-	"chtimes": &tender.UserFunction{
+	"chtimes": &tender.NativeFunction{
 		Name:  "chtimes",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -96,165 +96,165 @@ var osModule = map[string]tender.Object{
 			return nil, nil
 		},
 	},
-	"chown": &tender.UserFunction{
+	"chown": &tender.NativeFunction{
 		Name:  "chown",
 		Value: FuncASIIRE(os.Chown),
 	},
-	"clearenv": &tender.UserFunction{
+	"clearenv": &tender.NativeFunction{
 		Name:  "clearenv",
 		Value: FuncAR(os.Clearenv),
 	}, // clearenv()
-	"copy": &tender.UserFunction{
+	"copy": &tender.NativeFunction{
 		Name:  "copy",
 		Value: osCopy,
 	}, // copy(src string, dest string) => error
-	"environ": &tender.UserFunction{
+	"environ": &tender.NativeFunction{
 		Name:  "environ",
 		Value: FuncARSs(os.Environ),
 	}, // environ() => array(string)
-	"exit": &tender.UserFunction{
+	"exit": &tender.NativeFunction{
 		Name:  "exit",
 		Value: FuncAIR(os.Exit),
 	}, // exit(code int)
-	"executable": &tender.UserFunction{
+	"executable": &tender.NativeFunction{
 		Name:  "executable",
 		Value: FuncARSE(os.Executable),
 	}, 
-	"expand_env": &tender.UserFunction{
+	"expand_env": &tender.NativeFunction{
 		Name:  "expand_env",
 		Value: osExpandEnv,
 	}, // expand_env(s string) => string
-	"getegid": &tender.UserFunction{
+	"getegid": &tender.NativeFunction{
 		Name:  "getegid",
 		Value: FuncARI(os.Getegid),
 	}, // getegid() => int
-	"getenv": &tender.UserFunction{
+	"getenv": &tender.NativeFunction{
 		Name:  "getenv",
 		Value: FuncASRS(os.Getenv),
 	}, // getenv(s string) => string
-	"geteuid": &tender.UserFunction{
+	"geteuid": &tender.NativeFunction{
 		Name:  "geteuid",
 		Value: FuncARI(os.Geteuid),
 	}, // geteuid() => int
-	"getgid": &tender.UserFunction{
+	"getgid": &tender.NativeFunction{
 		Name:  "getgid",
 		Value: FuncARI(os.Getgid),
 	}, // getgid() => int
-	"getgroups": &tender.UserFunction{
+	"getgroups": &tender.NativeFunction{
 		Name:  "getgroups",
 		Value: FuncARIsE(os.Getgroups),
 	}, // getgroups() => array(string)/error
-	"getpagesize": &tender.UserFunction{
+	"getpagesize": &tender.NativeFunction{
 		Name:  "getpagesize",
 		Value: FuncARI(os.Getpagesize),
 	}, // getpagesize() => int
-	"getpid": &tender.UserFunction{
+	"getpid": &tender.NativeFunction{
 		Name:  "getpid",
 		Value: FuncARI(os.Getpid),
 	}, // getpid() => int
-	"getppid": &tender.UserFunction{
+	"getppid": &tender.NativeFunction{
 		Name:  "getppid",
 		Value: FuncARI(os.Getppid),
 	}, // getppid() => int
-	"getuid": &tender.UserFunction{
+	"getuid": &tender.NativeFunction{
 		Name:  "getuid",
 		Value: FuncARI(os.Getuid),
 	}, // getuid() => int
-	"getwd": &tender.UserFunction{
+	"getwd": &tender.NativeFunction{
 		Name:  "getwd",
 		Value: FuncARSE(os.Getwd),
 	}, // getwd() => string/error
-	"hostname": &tender.UserFunction{
+	"hostname": &tender.NativeFunction{
 		Name:  "hostname",
 		Value: FuncARSE(os.Hostname),
 	}, // hostname() => string/error
-	"lchown": &tender.UserFunction{
+	"lchown": &tender.NativeFunction{
 		Name:  "lchown",
 		Value: FuncASIIRE(os.Lchown),
 	}, // lchown(name string, uid int, gid int) => error
-	"link": &tender.UserFunction{
+	"link": &tender.NativeFunction{
 		Name:  "link",
 		Value: FuncASSRE(os.Link),
 	}, // link(oldname string, newname string) => error
-	"lookup_env": &tender.UserFunction{
+	"lookup_env": &tender.NativeFunction{
 		Name:  "lookup_env",
 		Value: osLookupEnv,
 	}, // lookup_env(key string) => string/false
 	"mkdir":     osFuncASFmRE("mkdir", os.Mkdir),        // mkdir(name string, perm int) => error
 	"mkdir_all": osFuncASFmRE("mkdir_all", os.MkdirAll), // mkdir_all(name string, perm int) => error
-	"readlink": &tender.UserFunction{
+	"readlink": &tender.NativeFunction{
 		Name:  "readlink",
 		Value: FuncASRSE(os.Readlink),
 	}, // readlink(name string) => string/error
-	"remove": &tender.UserFunction{
+	"remove": &tender.NativeFunction{
 		Name:  "remove",
 		Value: FuncASRE(os.Remove),
 	}, // remove(name string) => error
-	"remove_all": &tender.UserFunction{
+	"remove_all": &tender.NativeFunction{
 		Name:  "remove_all",
 		Value: FuncASRE(os.RemoveAll),
 	}, // remove_all(name string) => error
-	"rename": &tender.UserFunction{
+	"rename": &tender.NativeFunction{
 		Name:  "rename",
 		Value: FuncASSRE(os.Rename),
 	}, // rename(oldpath string, newpath string) => error
-	"setenv": &tender.UserFunction{
+	"setenv": &tender.NativeFunction{
 		Name:  "setenv",
 		Value: FuncASSRE(os.Setenv),
 	}, // setenv(key string, value string) => error
-	"symlink": &tender.UserFunction{
+	"symlink": &tender.NativeFunction{
 		Name:  "symlink",
 		Value: FuncASSRE(os.Symlink),
 	}, // symlink(oldname string newname string) => error
-	"temp_dir": &tender.UserFunction{
+	"temp_dir": &tender.NativeFunction{
 		Name:  "temp_dir",
 		Value: FuncARS(os.TempDir),
 	}, // temp_dir() => string
-	"truncate": &tender.UserFunction{
+	"truncate": &tender.NativeFunction{
 		Name:  "truncate",
 		Value: FuncASI64RE(os.Truncate),
 	}, // truncate(name string, size int) => error
-	"unsetenv": &tender.UserFunction{
+	"unsetenv": &tender.NativeFunction{
 		Name:  "unsetenv",
 		Value: FuncASRE(os.Unsetenv),
 	}, // unsetenv(key string) => error
-	"create": &tender.UserFunction{
+	"create": &tender.NativeFunction{
 		Name:  "create",
 		Value: osCreate,
 	}, // create(name string) => imap(file)/error
-	"open": &tender.UserFunction{
+	"open": &tender.NativeFunction{
 		Name:  "open",
 		Value: osOpen,
 	}, // open(name string) => imap(file)/error
-	"open_file": &tender.UserFunction{
+	"open_file": &tender.NativeFunction{
 		Name:  "open_file",
 		Value: osOpenFile,
 	}, // open_file(name string, flag int, perm int) => imap(file)/error
-	"find_process": &tender.UserFunction{
+	"find_process": &tender.NativeFunction{
 		Name:  "find_process",
 		Value: osFindProcess,
 	}, // find_process(pid int) => imap(process)/error
-	"start_process": &tender.UserFunction{
+	"start_process": &tender.NativeFunction{
 		Name:  "start_process",
 		Value: osStartProcess,
 	}, // start_process(name string, argv array(string), dir string, env array(string)) => imap(process)/error
-	"exec_look_path": &tender.UserFunction{
+	"exec_look_path": &tender.NativeFunction{
 		Name:  "exec_look_path",
 		Value: FuncASRSE(exec.LookPath),
 	}, // exec_look_path(file) => string/error
-	"exec": &tender.UserFunction{
+	"exec": &tender.NativeFunction{
 		Name:  "exec",
 		Value: osExec,
 	}, // exec(name, args...) => command
-	"stat": &tender.UserFunction{
+	"stat": &tender.NativeFunction{
 		Name:  "stat",
 		Value: osStat,
 	}, // stat(name) => imap(fileinfo)/error
-	"read_file": &tender.UserFunction{
+	"read_file": &tender.NativeFunction{
 		Name:  "read_file",
 		Value: osReadFile,
 	}, // readfile(name) => array(byte)/error
-	"read_dir": &tender.UserFunction{
+	"read_dir": &tender.NativeFunction{
 		Name:  "read_dir",
 		Value: osReadDir,
 	},
@@ -544,8 +544,8 @@ func osArgs(args ...tender.Object) (tender.Object, error) {
 func osFuncASFmRE(
 	name string,
 	fn func(string, os.FileMode) error,
-) *tender.UserFunction {
-	return &tender.UserFunction{
+) *tender.NativeFunction {
+	return &tender.NativeFunction{
 		Name: name,
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {

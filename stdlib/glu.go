@@ -33,7 +33,7 @@ var gluModule = map[string]tender.Object{
 
 	// ==================== Core GLU Functions ====================
 
-	"build_2d_mipmaps": &tender.BuiltinFunction{
+	"build_2d_mipmaps": &tender.NativeFunction{
 		Name: "build_2d_mipmaps",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 7 {
@@ -76,7 +76,7 @@ var gluModule = map[string]tender.Object{
 		},
 	},
 
-	"look_at": &tender.BuiltinFunction{
+	"look_at": &tender.NativeFunction{
 		Name: "look_at",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 9 {
@@ -99,7 +99,7 @@ var gluModule = map[string]tender.Object{
 		},
 	},
 
-	"perspective": &tender.BuiltinFunction{
+	"perspective": &tender.NativeFunction{
 		Name: "perspective",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 {
@@ -117,7 +117,7 @@ var gluModule = map[string]tender.Object{
 		},
 	},
 
-	"project": &tender.BuiltinFunction{
+	"project": &tender.NativeFunction{
 		Name: "project",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 38 {
@@ -164,7 +164,7 @@ var gluModule = map[string]tender.Object{
 		},
 	},
 
-	"unproject": &tender.BuiltinFunction{
+	"unproject": &tender.NativeFunction{
 		Name: "unproject",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 38 {
@@ -211,7 +211,7 @@ var gluModule = map[string]tender.Object{
 		},
 	},
 
-	"error_string": &tender.BuiltinFunction{
+	"error_string": &tender.NativeFunction{
 		Name: "error_string",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -231,7 +231,7 @@ var gluModule = map[string]tender.Object{
 
 	// ==================== Quadric Functions ====================
 
-	"new_quadric": &tender.BuiltinFunction{
+	"new_quadric": &tender.NativeFunction{
 		Name: "new_quadric",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -242,7 +242,7 @@ var gluModule = map[string]tender.Object{
 		},
 	},
 
-	"sphere": &tender.BuiltinFunction{
+	"sphere": &tender.NativeFunction{
 		Name: "sphere",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 4 {
@@ -270,7 +270,7 @@ var gluModule = map[string]tender.Object{
 		},
 	},
 
-	"cylinder": &tender.BuiltinFunction{
+	"cylinder": &tender.NativeFunction{
 		Name: "cylinder",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 6 {
@@ -306,7 +306,7 @@ var gluModule = map[string]tender.Object{
 		},
 	},
 
-	"disk": &tender.BuiltinFunction{
+	"disk": &tender.NativeFunction{
 		Name: "disk",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 5 {
@@ -338,7 +338,7 @@ var gluModule = map[string]tender.Object{
 		},
 	},
 
-	"partial_disk": &tender.BuiltinFunction{
+	"partial_disk": &tender.NativeFunction{
 		Name: "partial_disk",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 7 {

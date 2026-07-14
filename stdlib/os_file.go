@@ -11,7 +11,7 @@ func makeOSFile(file *os.File) *tender.ImmutableMap {
 		Value: map[string]tender.Object{
 			// "writer": &IOWriter{Value: file},
 			// "reader": &IOReader{Value: file},
-			"writer": &tender.UserFunction{
+			"writer": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 0 {
 						return nil, tender.ErrWrongNumArguments
@@ -19,7 +19,7 @@ func makeOSFile(file *os.File) *tender.ImmutableMap {
 					return &IOWriter{Value: file}, nil
 				},
 			},	
-			"reader": &tender.UserFunction{
+			"reader": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 0 {
 						return nil, tender.ErrWrongNumArguments
@@ -27,41 +27,41 @@ func makeOSFile(file *os.File) *tender.ImmutableMap {
 					return &IOReader{Value:file}, nil
 				},
 			},
-			"chdir": &tender.UserFunction{
+			"chdir": &tender.NativeFunction{
 				Value: FuncARE(file.Chdir),
 			},
-			"chown": &tender.UserFunction{
+			"chown": &tender.NativeFunction{
 				Value: FuncAIIRE(file.Chown),
 			},
-			"close": &tender.UserFunction{
+			"close": &tender.NativeFunction{
 				Value: FuncARE(file.Close),
 			},
-			"name": &tender.UserFunction{
+			"name": &tender.NativeFunction{
 				Value: FuncARS(file.Name),
 			},
-			"readdirnames": &tender.UserFunction{
+			"readdirnames": &tender.NativeFunction{
 				Value: FuncAIRSsE(file.Readdirnames),
 			}, 
-			"sync": &tender.UserFunction{
+			"sync": &tender.NativeFunction{
 				Value: FuncARE(file.Sync),
 			}, 
-			"write": &tender.UserFunction{
+			"write": &tender.NativeFunction{
 				Value: FuncAYRIE(file.Write),
 			}, 
-			"write_string": &tender.UserFunction{
+			"write_string": &tender.NativeFunction{
 				Value: FuncASRIE(file.WriteString),
 			}, 
-			"read": &tender.UserFunction{
+			"read": &tender.NativeFunction{
 				Value: FuncAYRIE(file.Read),
 			}, 	
-			"read_at": &tender.UserFunction{
+			"read_at": &tender.NativeFunction{
 				Value: FuncAYI64RIE(file.ReadAt),
 			}, 	
-			// "truncate": &tender.UserFunction{
+			// "truncate": &tender.NativeFunction{
 				// Name:  "truncate",
 				// Value: FuncAI64RE(file.Truncate),
 			// }, 
-			"chmod": &tender.UserFunction{
+			"chmod": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
 						return nil, tender.ErrWrongNumArguments
@@ -78,7 +78,7 @@ func makeOSFile(file *os.File) *tender.ImmutableMap {
 				},
 			},
 			// seek(offset int, whence int) => int/error
-			"seek": &tender.UserFunction{
+			"seek": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 2 {
 						return nil, tender.ErrWrongNumArguments
@@ -107,7 +107,7 @@ func makeOSFile(file *os.File) *tender.ImmutableMap {
 				},
 			},
 			// stat() => imap(fileinfo)/error
-			"stat": &tender.UserFunction{
+			"stat": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 0 {
 						return nil, tender.ErrWrongNumArguments

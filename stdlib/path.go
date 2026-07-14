@@ -7,21 +7,21 @@ import (
 )
 
 var pathModule = map[string]tender.Object{
-	"join":        &tender.UserFunction{Name: "join", Value: pathJoin},
-	"base":        &tender.UserFunction{Name: "base", Value: FuncASRS(filepath.Base)},
-	"ext":         &tender.UserFunction{Name: "ext", Value: FuncASRS(filepath.Ext)},
-	"clean":       &tender.UserFunction{Name: "clean", Value: FuncASRS(filepath.Clean)},
-	"dir":         &tender.UserFunction{Name: "dir", Value: FuncASRS(filepath.Dir)},
-	"isabs":       &tender.UserFunction{Name: "isabs", Value: FuncASRB(filepath.IsAbs)},
-	// "islocal":       &tender.UserFunction{Name: "islocal", Value: FuncASRB(filepath.IsLocal)},
-	"abs":         &tender.UserFunction{Name: "abs", Value: FuncASRSE(filepath.Abs)},
-	"to_slash":    &tender.UserFunction{Name: "to_slash", Value: FuncASRS(filepath.ToSlash)},
-	"from_slash":  &tender.UserFunction{Name: "from_slash", Value: FuncASRS(filepath.FromSlash)},
-	"vol":         &tender.UserFunction{Name: "vol", Value: FuncASRS(filepath.VolumeName)},
+	"join":        &tender.NativeFunction{Name: "join", Value: pathJoin},
+	"base":        &tender.NativeFunction{Name: "base", Value: FuncASRS(filepath.Base)},
+	"ext":         &tender.NativeFunction{Name: "ext", Value: FuncASRS(filepath.Ext)},
+	"clean":       &tender.NativeFunction{Name: "clean", Value: FuncASRS(filepath.Clean)},
+	"dir":         &tender.NativeFunction{Name: "dir", Value: FuncASRS(filepath.Dir)},
+	"isabs":       &tender.NativeFunction{Name: "isabs", Value: FuncASRB(filepath.IsAbs)},
+	// "islocal":       &tender.NativeFunction{Name: "islocal", Value: FuncASRB(filepath.IsLocal)},
+	"abs":         &tender.NativeFunction{Name: "abs", Value: FuncASRSE(filepath.Abs)},
+	"to_slash":    &tender.NativeFunction{Name: "to_slash", Value: FuncASRS(filepath.ToSlash)},
+	"from_slash":  &tender.NativeFunction{Name: "from_slash", Value: FuncASRS(filepath.FromSlash)},
+	"vol":         &tender.NativeFunction{Name: "vol", Value: FuncASRS(filepath.VolumeName)},
 	
-	"walklist":   &tender.UserFunction{Name: "walklist", Value: pathWalkList},
-	"splitlist":  &tender.UserFunction{Name: "splitlist", Value: FuncASRSs(filepath.SplitList)},
-	"resolve": &tender.UserFunction{
+	"walklist":   &tender.NativeFunction{Name: "walklist", Value: pathWalkList},
+	"splitlist":  &tender.NativeFunction{Name: "splitlist", Value: FuncASRSs(filepath.SplitList)},
+	"resolve": &tender.NativeFunction{
 		Name: "resolve", 
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -41,7 +41,7 @@ var pathModule = map[string]tender.Object{
 		},
 	},
 
-	"resolve_from": &tender.UserFunction{
+	"resolve_from": &tender.NativeFunction{
 		Name: "resolve_from",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {

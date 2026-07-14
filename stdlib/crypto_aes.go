@@ -11,8 +11,8 @@ import (
 
 var cryptoAESModule =  &tender.ImmutableMap{
 	Value: map[string]tender.Object{
-		"encrypt":    &tender.UserFunction{Name: "encrypt", Value: aesEncrypt},
-		"decrypt":    &tender.UserFunction{Name: "decrypt", Value: aesDecrypt},
+		"encrypt":    &tender.NativeFunction{Name: "encrypt", Value: aesEncrypt},
+		"decrypt":    &tender.NativeFunction{Name: "decrypt", Value: aesDecrypt},
 		"block_size": &tender.Int{Value: aes.BlockSize},
 	},
 }

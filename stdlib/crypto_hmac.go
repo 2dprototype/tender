@@ -17,13 +17,13 @@ import (
 
 var cryptoHMACModule = &tender.ImmutableMap{
 	Value: map[string]tender.Object{
-		"md5":      &tender.UserFunction{Name: "md5", Value: hmacMD5},
-		"sha1":     &tender.UserFunction{Name: "sha1", Value: hmacSHA1},
-		"sha256":   &tender.UserFunction{Name: "sha256", Value: hmacSHA256},
-		"sha384":   &tender.UserFunction{Name: "sha384", Value: hmacSHA384},
-		"sha512":   &tender.UserFunction{Name: "sha512", Value: hmacSHA512},
-		"sha3_256": &tender.UserFunction{Name: "sha3_256", Value: hmacSHA3_256},
-		"sha3_512": &tender.UserFunction{Name: "sha3_512", Value: hmacSHA3_512},
+		"md5":      &tender.NativeFunction{Name: "md5", Value: hmacMD5},
+		"sha1":     &tender.NativeFunction{Name: "sha1", Value: hmacSHA1},
+		"sha256":   &tender.NativeFunction{Name: "sha256", Value: hmacSHA256},
+		"sha384":   &tender.NativeFunction{Name: "sha384", Value: hmacSHA384},
+		"sha512":   &tender.NativeFunction{Name: "sha512", Value: hmacSHA512},
+		"sha3_256": &tender.NativeFunction{Name: "sha3_256", Value: hmacSHA3_256},
+		"sha3_512": &tender.NativeFunction{Name: "sha3_512", Value: hmacSHA3_512},
 	},
 }
 

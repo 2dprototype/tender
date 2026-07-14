@@ -8,8 +8,8 @@ import (
 )
 
 var zipModule = map[string]tender.Object{
-	"writer":       &tender.UserFunction{Name: "writer", Value: zipNewWriter},
-	"reader":       &tender.UserFunction{Name: "reader", Value: zipNewReader},
+	"writer":       &tender.NativeFunction{Name: "writer", Value: zipNewWriter},
+	"reader":       &tender.NativeFunction{Name: "reader", Value: zipNewReader},
 }
 
 func zipNewWriter(args ...tender.Object) (tender.Object, error) {
@@ -22,7 +22,7 @@ func zipNewWriter(args ...tender.Object) (tender.Object, error) {
 
 	return &tender.ImmutableMap{
 		Value: map[string]tender.Object{
-			"create": &tender.UserFunction{
+			"create": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 2 {
 						return nil, tender.ErrWrongNumArguments
@@ -49,7 +49,7 @@ func zipNewWriter(args ...tender.Object) (tender.Object, error) {
 					return nil, nil
 				},
 			},
-			"bytes": &tender.UserFunction{
+			"bytes": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 0 {
 						return nil, tender.ErrWrongNumArguments
@@ -57,16 +57,16 @@ func zipNewWriter(args ...tender.Object) (tender.Object, error) {
 					return &tender.Bytes{Value: zipBuffer.Bytes()}, nil
 				},
 			},
-			"close": &tender.UserFunction{
+			"close": &tender.NativeFunction{
 				Value: FuncARE(zipWriter.Close),
 			},	
-			"flush": &tender.UserFunction{
+			"flush": &tender.NativeFunction{
 				Value: FuncARE(zipWriter.Flush),
 			},
-			"set_comment": &tender.UserFunction{
+			"set_comment": &tender.NativeFunction{
 				Value: FuncASRE(zipWriter.SetComment),
 			},
-			"set_offset": &tender.UserFunction{
+			"set_offset": &tender.NativeFunction{
 				Value: FuncAI64R(zipWriter.SetOffset),
 			},
 		},
@@ -114,7 +114,7 @@ func makeZipFile(file *zip.File) *tender.ImmutableMap {
 			"compressed_size" : &tender.Int{Value: int64(file.CompressedSize64)},
 			"uncompressed_size" : &tender.Int{Value: int64(file.UncompressedSize64)},
 			"extra" : &tender.Bytes{Value: file.Extra},
-			"read": &tender.UserFunction{
+			"read": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 0 {
 						return nil, tender.ErrWrongNumArguments

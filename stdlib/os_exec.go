@@ -9,7 +9,7 @@ import (
 func makeOSExecCommand(cmd *exec.Cmd) *tender.ImmutableMap {
 	return &tender.ImmutableMap{
 		Value: map[string]tender.Object{
-			"stderr": &tender.UserFunction{
+			"stderr": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
 						return nil, tender.ErrWrongNumArguments
@@ -26,7 +26,7 @@ func makeOSExecCommand(cmd *exec.Cmd) *tender.ImmutableMap {
 					return nil, nil
 				},
 			},	
-			"stdout": &tender.UserFunction{
+			"stdout": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
 						return nil, tender.ErrWrongNumArguments
@@ -43,7 +43,7 @@ func makeOSExecCommand(cmd *exec.Cmd) *tender.ImmutableMap {
 					return nil, nil
 				},
 			},	
-			"stdin": &tender.UserFunction{
+			"stdin": &tender.NativeFunction{
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
 						return nil, tender.ErrWrongNumArguments
@@ -60,41 +60,41 @@ func makeOSExecCommand(cmd *exec.Cmd) *tender.ImmutableMap {
 					return nil, nil
 				},
 			},
-			"string": &tender.UserFunction{
+			"string": &tender.NativeFunction{
 				Name:  "string",
 				Value: FuncARS(cmd.String),
 			},	
-			"environ": &tender.UserFunction{
+			"environ": &tender.NativeFunction{
 				Name:  "environ",
 				Value: FuncARSs(cmd.Environ),
 			},		
 			// combined_output() => bytes/error
-			"combined_output": &tender.UserFunction{
+			"combined_output": &tender.NativeFunction{
 				Name:  "combined_output",
 				Value: FuncARYE(cmd.CombinedOutput),
 			},
 			// output() => bytes/error
-			"output": &tender.UserFunction{
+			"output": &tender.NativeFunction{
 				Name:  "output",
 				Value: FuncARYE(cmd.Output),
 			}, //
 			// run() => error
-			"run": &tender.UserFunction{
+			"run": &tender.NativeFunction{
 				Name:  "run",
 				Value: FuncARE(cmd.Run),
 			}, //
 			// start() => error
-			"start": &tender.UserFunction{
+			"start": &tender.NativeFunction{
 				Name:  "start",
 				Value: FuncARE(cmd.Start),
 			}, //
 			// wait() => error
-			"wait": &tender.UserFunction{
+			"wait": &tender.NativeFunction{
 				Name:  "wait",
 				Value: FuncARE(cmd.Wait),
 			}, //
 			// set_path(path string)
-			"set_path": &tender.UserFunction{
+			"set_path": &tender.NativeFunction{
 				Name: "set_path",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
@@ -113,7 +113,7 @@ func makeOSExecCommand(cmd *exec.Cmd) *tender.ImmutableMap {
 				},
 			},
 			// set_dir(dir string)
-			"set_dir": &tender.UserFunction{
+			"set_dir": &tender.NativeFunction{
 				Name: "set_dir",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
@@ -132,7 +132,7 @@ func makeOSExecCommand(cmd *exec.Cmd) *tender.ImmutableMap {
 				},
 			},
 			// set_env(env array(string))
-			"set_env": &tender.UserFunction{
+			"set_env": &tender.NativeFunction{
 				Name: "set_env",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
@@ -164,7 +164,7 @@ func makeOSExecCommand(cmd *exec.Cmd) *tender.ImmutableMap {
 				},
 			},
 			// process() => imap(process)
-			"process": &tender.UserFunction{
+			"process": &tender.NativeFunction{
 				Name: "process",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 0 {

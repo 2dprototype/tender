@@ -15,7 +15,7 @@ import (
 )
 
 func init() {
-	canvasModule["new_window"] = &tender.BuiltinFunction{
+	canvasModule["new_window"] = &tender.NativeFunction{
 		Name:      "new_window",
 		NeedVMObj: true,
 		Value:     canvasNewWindow,
@@ -119,7 +119,7 @@ func canvasNewWindow(args ...tender.Object) (ret tender.Object, err error) {
 
 		wmap := &tender.ImmutableMap{
 			Value: map[string]tender.Object{
-				"release": &tender.UserFunction{
+				"release": &tender.NativeFunction{
 					Value: func(args ...tender.Object) (tender.Object, error) {
 						// Clean up the persistent image buffer before releasing the window
 						if screenImage != nil {
@@ -130,7 +130,7 @@ func canvasNewWindow(args ...tender.Object) (ret tender.Object, err error) {
 						return nil, nil
 					},
 				},
-				"new_context": &tender.UserFunction{
+				"new_context": &tender.NativeFunction{
 					Value: func(args ...tender.Object) (tender.Object, error) {
 						if len(args) != 2 {
 							return nil, tender.ErrWrongNumArguments
@@ -141,7 +141,7 @@ func canvasNewWindow(args ...tender.Object) (ret tender.Object, err error) {
 						return makeGGContext(ctx), nil
 					},
 				},
-				"update": &tender.UserFunction{
+				"update": &tender.NativeFunction{
 					Value: func(args ...tender.Object) (tender.Object, error) {
 						if len(args) != 2 {
 							return nil, tender.ErrWrongNumArguments
@@ -177,7 +177,7 @@ func canvasNewWindow(args ...tender.Object) (ret tender.Object, err error) {
 						return nil, nil
 					},
 				},
-				"next_event": &tender.UserFunction{
+				"next_event": &tender.NativeFunction{
 					Value: func(args ...tender.Object) (tender.Object, error) {
 						if len(args) != 0 {
 							return nil, tender.ErrWrongNumArguments

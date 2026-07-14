@@ -22,7 +22,7 @@ func init() {
 	gob.Register(&tender.Bool{})
 	gob.Register(&tender.Bytes{})
 	gob.Register(&tender.Char{})
-	gob.Register(&tender.CompiledFunction{})
+	gob.Register(&tender.Function{})
 	gob.Register(&tender.Error{})
 	gob.Register(&tender.Int{})
 	gob.Register(&tender.Float{})
@@ -35,8 +35,7 @@ func init() {
 	gob.Register(&tender.String{})
 	gob.Register(&tender.Time{})
 	gob.Register(&tender.Null{})
-	gob.Register(&tender.UserFunction{})
-	gob.Register(&tender.BuiltinFunction{})
+	gob.Register(&tender.NativeFunction{})
 	gob.Register(&tender.Tuple{})
 	gob.Register(&tender.Struct{})
 	gob.Register(&tender.StructType{})
@@ -100,7 +99,7 @@ func isKeyword(s string) bool {
 func preScanGlobals(bytecode *tender.Bytecode) {
 	globalNames = make(map[int]string)
 
-	scanFn := func(fn *tender.CompiledFunction) {
+	scanFn := func(fn *tender.Function) {
 		if fn == nil {
 			return
 		}
@@ -136,7 +135,7 @@ func preScanGlobals(bytecode *tender.Bytecode) {
 		scanFn(bytecode.MainFunction)
 	}
 	for _, c := range bytecode.Constants {
-		if fn, ok := c.(*tender.CompiledFunction); ok {
+		if fn, ok := c.(*tender.Function); ok {
 			scanFn(fn)
 		}
 	}
@@ -152,7 +151,7 @@ type LoopInfo struct {
 }
 
 type FunctionDecompiler struct {
-	fn             *tender.CompiledFunction
+	fn             *tender.Function
 	bytecode       *tender.Bytecode
 	constants      []string
 	localNames     map[int]string
@@ -161,7 +160,7 @@ type FunctionDecompiler struct {
 	definedGlobals map[int]bool // Tracks if a global has been declared
 }
 
-func NewFunctionDecompiler(fn *tender.CompiledFunction, bc *tender.Bytecode, freeNames []string) *FunctionDecompiler {
+func NewFunctionDecompiler(fn *tender.Function, bc *tender.Bytecode, freeNames []string) *FunctionDecompiler {
 	fd := &FunctionDecompiler{
 		fn:             fn,
 		bytecode:       bc,
@@ -233,7 +232,7 @@ func (fd *FunctionDecompiler) formatConstant(idx int, c tender.Object) string {
 			}
 		}
 		return fmt.Sprintf("immutable_map_const_%d", idx)
-	case *tender.CompiledFunction:
+	case *tender.Function:
 		return fmt.Sprintf("fn_const_%d", idx)
 	case *tender.StructType:
 		var fields []string
@@ -733,7 +732,7 @@ func (fd *FunctionDecompiler) decompileBlock(startIP, endIP int, stack []string,
 		case parser.OpConstant:
 			constIdx := operands[0]
 			cObj := fd.bytecode.Constants[constIdx]
-			if compiledFn, ok := cObj.(*tender.CompiledFunction); ok {
+			if compiledFn, ok := cObj.(*tender.Function); ok {
 				subFD := NewFunctionDecompiler(compiledFn, fd.bytecode, nil)
 				lines := subFD.Decompile()
 				body := "fn() {\n"
@@ -1087,7 +1086,7 @@ func (fd *FunctionDecompiler) decompileBlock(startIP, endIP int, stack []string,
 					stack = stack[:len(stack)-1]
 				}
 			}
-			compiledFn := fd.bytecode.Constants[constIdx].(*tender.CompiledFunction)
+			compiledFn := fd.bytecode.Constants[constIdx].(*tender.Function)
 
 			var subFreeNames []string
 			for _, capName := range captured {
@@ -1387,7 +1386,7 @@ func main() {
 		if c == nil {
 			continue
 		}
-		if fn, ok := c.(*tender.CompiledFunction); ok {
+		if fn, ok := c.(*tender.Function); ok {
 			fileName := "unknown.td"
 			for _, pos := range fn.SourceMap {
 				if f := bytecode.FileSet.File(pos); f != nil {

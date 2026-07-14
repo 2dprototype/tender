@@ -10,8 +10,8 @@ import (
 
 var cryptoArgon2Module = &tender.ImmutableMap{
 	Value: map[string]tender.Object{
-		"id":   &tender.UserFunction{Name: "id", Value: argon2id},
-		"i":    &tender.UserFunction{Name: "i", Value: argon2i},
+		"id":   &tender.NativeFunction{Name: "id", Value: argon2id},
+		"i":    &tender.NativeFunction{Name: "i", Value: argon2i},
 	},
 }
 

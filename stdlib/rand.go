@@ -7,35 +7,35 @@ import (
 )
 
 var randModule = map[string]tender.Object{
-	"int": &tender.UserFunction{
+	"int": &tender.NativeFunction{
 		Name:  "int",
 		Value: FuncARI64(rand.Int63),
 	},
-	"float": &tender.UserFunction{
+	"float": &tender.NativeFunction{
 		Name:  "float",
 		Value: FuncARF(rand.Float64),
 	},
-	"intn": &tender.UserFunction{
+	"intn": &tender.NativeFunction{
 		Name:  "intn",
 		Value: FuncAI64RI64(rand.Int63n),
 	},
-	"exp_float": &tender.UserFunction{
+	"exp_float": &tender.NativeFunction{
 		Name:  "exp_float",
 		Value: FuncARF(rand.ExpFloat64),
 	},
-	"norm_float": &tender.UserFunction{
+	"norm_float": &tender.NativeFunction{
 		Name:  "norm_float",
 		Value: FuncARF(rand.NormFloat64),
 	},
-	"perm": &tender.UserFunction{
+	"perm": &tender.NativeFunction{
 		Name:  "perm",
 		Value: FuncAIRIs(rand.Perm),
 	},
-	"seed": &tender.UserFunction{
+	"seed": &tender.NativeFunction{
 		Name:  "seed",
 		Value: FuncAI64R(rand.Seed),
 	},
-	"read": &tender.UserFunction{
+	"read": &tender.NativeFunction{
 		Name: "read",
 		Value: func(args ...tender.Object) (ret tender.Object, err error) {
 			if len(args) != 1 {
@@ -57,7 +57,7 @@ var randModule = map[string]tender.Object{
 			return &tender.Int{Value: int64(res)}, nil
 		},
 	},
-	"rand": &tender.UserFunction{
+	"rand": &tender.NativeFunction{
 		Name: "rand",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -80,35 +80,35 @@ var randModule = map[string]tender.Object{
 func randRand(r *rand.Rand) *tender.ImmutableMap {
 	return &tender.ImmutableMap{
 		Value: map[string]tender.Object{
-			"int": &tender.UserFunction{
+			"int": &tender.NativeFunction{
 				Name:  "int",
 				Value: FuncARI64(r.Int63),
 			},
-			"float": &tender.UserFunction{
+			"float": &tender.NativeFunction{
 				Name:  "float",
 				Value: FuncARF(r.Float64),
 			},
-			"intn": &tender.UserFunction{
+			"intn": &tender.NativeFunction{
 				Name:  "intn",
 				Value: FuncAI64RI64(r.Int63n),
 			},
-			"exp_float": &tender.UserFunction{
+			"exp_float": &tender.NativeFunction{
 				Name:  "exp_float",
 				Value: FuncARF(r.ExpFloat64),
 			},
-			"norm_float": &tender.UserFunction{
+			"norm_float": &tender.NativeFunction{
 				Name:  "norm_float",
 				Value: FuncARF(r.NormFloat64),
 			},
-			"perm": &tender.UserFunction{
+			"perm": &tender.NativeFunction{
 				Name:  "perm",
 				Value: FuncAIRIs(r.Perm),
 			},
-			"seed": &tender.UserFunction{
+			"seed": &tender.NativeFunction{
 				Name:  "seed",
 				Value: FuncAI64R(r.Seed),
 			},
-			"read": &tender.UserFunction{
+			"read": &tender.NativeFunction{
 				Name: "read",
 				Value: func(args ...tender.Object) (
 					ret tender.Object,

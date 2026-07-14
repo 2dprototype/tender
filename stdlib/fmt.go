@@ -7,13 +7,13 @@ import (
 )
 
 var fmtModule = map[string]tender.Object{
-	"fprint":   &tender.UserFunction{Name: "fprint",  Value: fmtFprint},
-	"fprintln": &tender.UserFunction{Name: "fprint",  Value: fmtFprintln},
-	"print":    &tender.UserFunction{Name: "print",   Value: fmtPrint},
-	"printf":   &tender.UserFunction{Name: "printf",  Value: fmtPrintf},
-	"println":  &tender.UserFunction{Name: "println", Value: fmtPrintln},
-	"sprintf":  &tender.UserFunction{Name: "sprintf", Value: fmtSprintf},
-	"scanln":   &tender.UserFunction{Name: "scanln",  Value: fmtScanln},
+	"fprint":   &tender.NativeFunction{Name: "fprint",  Value: fmtFprint},
+	"fprintln": &tender.NativeFunction{Name: "fprint",  Value: fmtFprintln},
+	"print":    &tender.NativeFunction{Name: "print",   Value: fmtPrint},
+	"printf":   &tender.NativeFunction{Name: "printf",  Value: fmtPrintf},
+	"println":  &tender.NativeFunction{Name: "println", Value: fmtPrintln},
+	"sprintf":  &tender.NativeFunction{Name: "sprintf", Value: fmtSprintf},
+	"scanln":   &tender.NativeFunction{Name: "scanln",  Value: fmtScanln},
 }
 
 func fmtFprintln(args ...tender.Object) (ret tender.Object, err error) {

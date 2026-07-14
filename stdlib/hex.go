@@ -6,7 +6,7 @@ import (
 )
 
 var hexModule = map[string]tender.Object{
-	"encode": &tender.UserFunction{Value: FuncAYRS(hex.EncodeToString)},
-	"decode": &tender.UserFunction{Value: FuncASRYE(hex.DecodeString)},
-	"dump": &tender.UserFunction{Value: FuncAYRS(hex.Dump)},
+	"encode": &tender.NativeFunction{Value: FuncAYRS(hex.EncodeToString)},
+	"decode": &tender.NativeFunction{Value: FuncASRYE(hex.DecodeString)},
+	"dump": &tender.NativeFunction{Value: FuncAYRS(hex.Dump)},
 }

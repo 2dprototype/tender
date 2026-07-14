@@ -20,7 +20,7 @@ var glfwModule = map[string]tender.Object{
 	"VERSION_MINOR":    &tender.Int{Value: int64(glfw.VersionMinor)},
 	"VERSION_REVISION": &tender.Int{Value: int64(glfw.VersionRevision)},
 
-	"init": &tender.BuiltinFunction{
+	"init": &tender.NativeFunction{
 		Name: "init",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -33,7 +33,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"terminate": &tender.BuiltinFunction{
+	"terminate": &tender.NativeFunction{
 		Name: "terminate",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -44,7 +44,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"poll_events": &tender.BuiltinFunction{
+	"poll_events": &tender.NativeFunction{
 		Name: "poll_events",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -55,7 +55,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"wait_events": &tender.BuiltinFunction{
+	"wait_events": &tender.NativeFunction{
 		Name: "wait_events",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -66,7 +66,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"get_time": &tender.BuiltinFunction{
+	"get_time": &tender.NativeFunction{
 		Name: "get_time",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -76,7 +76,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_time": &tender.BuiltinFunction{
+	"set_time": &tender.NativeFunction{
 		Name: "set_time",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -95,7 +95,7 @@ var glfwModule = map[string]tender.Object{
 	// WINDOW HINTS
 	// ================================================================
 
-	"window_hint": &tender.BuiltinFunction{
+	"window_hint": &tender.NativeFunction{
 		Name: "window_hint",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -111,7 +111,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"default_window_hints": &tender.BuiltinFunction{
+	"default_window_hints": &tender.NativeFunction{
 		Name: "default_window_hints",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -126,7 +126,7 @@ var glfwModule = map[string]tender.Object{
 	// WINDOW MANAGEMENT
 	// ================================================================
 
-	"create_window": &tender.BuiltinFunction{
+	"create_window": &tender.NativeFunction{
 		Name: "create_window",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -146,7 +146,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"destroy_window": &tender.BuiltinFunction{
+	"destroy_window": &tender.NativeFunction{
 		Name: "destroy_window",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -161,7 +161,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"window_should_close": &tender.BuiltinFunction{
+	"window_should_close": &tender.NativeFunction{
 		Name: "window_should_close",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -176,7 +176,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_window_should_close": &tender.BuiltinFunction{
+	"set_window_should_close": &tender.NativeFunction{
 		Name: "set_window_should_close",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -192,7 +192,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_window_title": &tender.BuiltinFunction{
+	"set_window_title": &tender.NativeFunction{
 		Name: "set_window_title",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -208,7 +208,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"get_window_size": &tender.BuiltinFunction{
+	"get_window_size": &tender.NativeFunction{
 		Name: "get_window_size",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -226,7 +226,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_window_size": &tender.BuiltinFunction{
+	"set_window_size": &tender.NativeFunction{
 		Name: "set_window_size",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -243,7 +243,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"get_framebuffer_size": &tender.BuiltinFunction{
+	"get_framebuffer_size": &tender.NativeFunction{
 		Name: "get_framebuffer_size",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -261,7 +261,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"get_window_pos": &tender.BuiltinFunction{
+	"get_window_pos": &tender.NativeFunction{
 		Name: "get_window_pos",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -279,7 +279,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_window_pos": &tender.BuiltinFunction{
+	"set_window_pos": &tender.NativeFunction{
 		Name: "set_window_pos",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -296,7 +296,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"iconify_window": &tender.BuiltinFunction{
+	"iconify_window": &tender.NativeFunction{
 		Name: "iconify_window",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -311,7 +311,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"restore_window": &tender.BuiltinFunction{
+	"restore_window": &tender.NativeFunction{
 		Name: "restore_window",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -326,7 +326,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"maximize_window": &tender.BuiltinFunction{
+	"maximize_window": &tender.NativeFunction{
 		Name: "maximize_window",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -341,7 +341,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"show_window": &tender.BuiltinFunction{
+	"show_window": &tender.NativeFunction{
 		Name: "show_window",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -356,7 +356,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"hide_window": &tender.BuiltinFunction{
+	"hide_window": &tender.NativeFunction{
 		Name: "hide_window",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -371,7 +371,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"focus_window": &tender.BuiltinFunction{
+	"focus_window": &tender.NativeFunction{
 		Name: "focus_window",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -390,7 +390,7 @@ var glfwModule = map[string]tender.Object{
 	// CONTEXT MANAGEMENT
 	// ================================================================
 
-	"make_context_current": &tender.BuiltinFunction{
+	"make_context_current": &tender.NativeFunction{
 		Name: "make_context_current",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -405,7 +405,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"get_current_context": &tender.BuiltinFunction{
+	"get_current_context": &tender.NativeFunction{
 		Name: "get_current_context",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -419,7 +419,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"swap_buffers": &tender.BuiltinFunction{
+	"swap_buffers": &tender.NativeFunction{
 		Name: "swap_buffers",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -434,7 +434,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"swap_interval": &tender.BuiltinFunction{
+	"swap_interval": &tender.NativeFunction{
 		Name: "swap_interval",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -453,7 +453,7 @@ var glfwModule = map[string]tender.Object{
 	// INPUT HANDLING (Simple)
 	// ================================================================
 
-	"get_key": &tender.BuiltinFunction{
+	"get_key": &tender.NativeFunction{
 		Name: "get_key",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -468,7 +468,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"get_mouse_button": &tender.BuiltinFunction{
+	"get_mouse_button": &tender.NativeFunction{
 		Name: "get_mouse_button",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -483,7 +483,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"get_cursor_pos": &tender.BuiltinFunction{
+	"get_cursor_pos": &tender.NativeFunction{
 		Name: "get_cursor_pos",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -501,7 +501,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_cursor_pos": &tender.BuiltinFunction{
+	"set_cursor_pos": &tender.NativeFunction{
 		Name: "set_cursor_pos",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -518,7 +518,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_input_mode": &tender.BuiltinFunction{
+	"set_input_mode": &tender.NativeFunction{
 		Name: "set_input_mode",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -539,7 +539,7 @@ var glfwModule = map[string]tender.Object{
 	// CLIPBOARD
 	// ================================================================
 
-	"get_clipboard_string": &tender.BuiltinFunction{
+	"get_clipboard_string": &tender.NativeFunction{
 		Name: "get_clipboard_string",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -549,7 +549,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_clipboard_string": &tender.BuiltinFunction{
+	"set_clipboard_string": &tender.NativeFunction{
 		Name: "set_clipboard_string",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -568,7 +568,7 @@ var glfwModule = map[string]tender.Object{
 	// MONITORS
 	// ================================================================
 
-	"get_primary_monitor": &tender.BuiltinFunction{
+	"get_primary_monitor": &tender.NativeFunction{
 		Name: "get_primary_monitor",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -582,7 +582,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"get_monitor_pos": &tender.BuiltinFunction{
+	"get_monitor_pos": &tender.NativeFunction{
 		Name: "get_monitor_pos",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -601,7 +601,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"get_monitor_name": &tender.BuiltinFunction{
+	"get_monitor_name": &tender.NativeFunction{
 		Name: "get_monitor_name",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -616,7 +616,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"get_video_mode": &tender.BuiltinFunction{
+	"get_video_mode": &tender.NativeFunction{
 		Name: "get_video_mode",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -642,7 +642,7 @@ var glfwModule = map[string]tender.Object{
 	// CALLBACKS (VM-Aware)
 	// ================================================================
 
-	"set_window_size_callback": &tender.BuiltinFunction{
+	"set_window_size_callback": &tender.NativeFunction{
 		Name:      "set_window_size_callback",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -672,7 +672,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_framebuffer_size_callback": &tender.BuiltinFunction{
+	"set_framebuffer_size_callback": &tender.NativeFunction{
 		Name:      "set_framebuffer_size_callback",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -702,7 +702,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_window_close_callback": &tender.BuiltinFunction{
+	"set_window_close_callback": &tender.NativeFunction{
 		Name:      "set_window_close_callback",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -729,7 +729,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_key_callback": &tender.BuiltinFunction{
+	"set_key_callback": &tender.NativeFunction{
 		Name:      "set_key_callback",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -761,7 +761,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_char_callback": &tender.BuiltinFunction{
+	"set_char_callback": &tender.NativeFunction{
 		Name:      "set_char_callback",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -790,7 +790,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_mouse_button_callback": &tender.BuiltinFunction{
+	"set_mouse_button_callback": &tender.NativeFunction{
 		Name:      "set_mouse_button_callback",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -821,7 +821,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_cursor_pos_callback": &tender.BuiltinFunction{
+	"set_cursor_pos_callback": &tender.NativeFunction{
 		Name:      "set_cursor_pos_callback",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -851,7 +851,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_scroll_callback": &tender.BuiltinFunction{
+	"set_scroll_callback": &tender.NativeFunction{
 		Name:      "set_scroll_callback",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -1111,7 +1111,7 @@ var glfwModule = map[string]tender.Object{
 	// EXTRA HELPERS
 	// ================================================================
 
-	"get_version": &tender.BuiltinFunction{
+	"get_version": &tender.NativeFunction{
 		Name: "get_version",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -1128,7 +1128,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"get_version_string": &tender.BuiltinFunction{
+	"get_version_string": &tender.NativeFunction{
 		Name: "get_version_string",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -1138,7 +1138,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"vulkan_supported": &tender.BuiltinFunction{
+	"vulkan_supported": &tender.NativeFunction{
 		Name: "vulkan_supported",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -1153,7 +1153,7 @@ var glfwModule = map[string]tender.Object{
 	// WINDOW ATTRIBUTES & QUERIES
 	// ================================================================
 
-	"get_input_mode": &tender.BuiltinFunction{
+	"get_input_mode": &tender.NativeFunction{
 		Name: "get_input_mode",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1169,7 +1169,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"get_window_monitor": &tender.BuiltinFunction{
+	"get_window_monitor": &tender.NativeFunction{
 		Name: "get_window_monitor",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1188,7 +1188,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_window_monitor": &tender.BuiltinFunction{
+	"set_window_monitor": &tender.NativeFunction{
 		Name: "set_window_monitor",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 7 {
@@ -1220,7 +1220,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"get_window_attrib": &tender.BuiltinFunction{
+	"get_window_attrib": &tender.NativeFunction{
 		Name: "get_window_attrib",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1236,7 +1236,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_window_attrib": &tender.BuiltinFunction{
+	"set_window_attrib": &tender.NativeFunction{
 		Name: "set_window_attrib",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -1254,7 +1254,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"get_window_content_scale": &tender.BuiltinFunction{
+	"get_window_content_scale": &tender.NativeFunction{
 		Name: "get_window_content_scale",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1273,7 +1273,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"get_window_opacity": &tender.BuiltinFunction{
+	"get_window_opacity": &tender.NativeFunction{
 		Name: "get_window_opacity",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1288,7 +1288,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_window_opacity": &tender.BuiltinFunction{
+	"set_window_opacity": &tender.NativeFunction{
 		Name: "set_window_opacity",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1305,7 +1305,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_window_size_limits": &tender.BuiltinFunction{
+	"set_window_size_limits": &tender.NativeFunction{
 		Name: "set_window_size_limits",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 5 {
@@ -1325,7 +1325,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_window_aspect_ratio": &tender.BuiltinFunction{
+	"set_window_aspect_ratio": &tender.NativeFunction{
 		Name: "set_window_aspect_ratio",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 3 {
@@ -1343,7 +1343,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"request_window_attention": &tender.BuiltinFunction{
+	"request_window_attention": &tender.NativeFunction{
 		Name: "request_window_attention",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1359,7 +1359,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_window_icon": &tender.BuiltinFunction{
+	"set_window_icon": &tender.NativeFunction{
 		Name: "set_window_icon",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1384,7 +1384,7 @@ var glfwModule = map[string]tender.Object{
 	// CURSORS
 	// ================================================================
 
-	"create_standard_cursor": &tender.BuiltinFunction{
+	"create_standard_cursor": &tender.NativeFunction{
 		Name: "create_standard_cursor",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1402,7 +1402,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"destroy_cursor": &tender.BuiltinFunction{
+	"destroy_cursor": &tender.NativeFunction{
 		Name: "destroy_cursor",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1418,7 +1418,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_window_cursor": &tender.BuiltinFunction{
+	"set_window_cursor": &tender.NativeFunction{
 		Name: "set_window_cursor",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1446,7 +1446,7 @@ var glfwModule = map[string]tender.Object{
 	// TIMER
 	// ================================================================
 
-	"get_timer_frequency": &tender.BuiltinFunction{
+	"get_timer_frequency": &tender.NativeFunction{
 		Name: "get_timer_frequency",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -1456,7 +1456,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"get_timer_value": &tender.BuiltinFunction{
+	"get_timer_value": &tender.NativeFunction{
 		Name: "get_timer_value",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -1470,7 +1470,7 @@ var glfwModule = map[string]tender.Object{
 	// GAMEPAD & JOYSTICK
 	// ================================================================
 
-	"update_gamepad_mappings": &tender.BuiltinFunction{
+	"update_gamepad_mappings": &tender.NativeFunction{
 		Name: "update_gamepad_mappings",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1484,7 +1484,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"joystick_present": &tender.BuiltinFunction{
+	"joystick_present": &tender.NativeFunction{
 		Name: "joystick_present",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1498,7 +1498,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"joystick_get_name": &tender.BuiltinFunction{
+	"joystick_get_name": &tender.NativeFunction{
 		Name: "joystick_get_name",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1516,7 +1516,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"joystick_is_gamepad": &tender.BuiltinFunction{
+	"joystick_is_gamepad": &tender.NativeFunction{
 		Name: "joystick_is_gamepad",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1530,7 +1530,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"joystick_get_gamepad_name": &tender.BuiltinFunction{
+	"joystick_get_gamepad_name": &tender.NativeFunction{
 		Name: "joystick_get_gamepad_name",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1548,7 +1548,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"joystick_get_gamepad_state": &tender.BuiltinFunction{
+	"joystick_get_gamepad_state": &tender.NativeFunction{
 		Name: "joystick_get_gamepad_state",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1581,7 +1581,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"joystick_get_axes": &tender.BuiltinFunction{
+	"joystick_get_axes": &tender.NativeFunction{
 		Name: "joystick_get_axes",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1603,7 +1603,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"joystick_get_buttons": &tender.BuiltinFunction{
+	"joystick_get_buttons": &tender.NativeFunction{
 		Name: "joystick_get_buttons",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1625,7 +1625,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"joystick_get_hats": &tender.BuiltinFunction{
+	"joystick_get_hats": &tender.NativeFunction{
 		Name: "joystick_get_hats",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1647,7 +1647,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"joystick_get_guid": &tender.BuiltinFunction{
+	"joystick_get_guid": &tender.NativeFunction{
 		Name: "joystick_get_guid",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1665,7 +1665,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_joystick_callback": &tender.BuiltinFunction{
+	"set_joystick_callback": &tender.NativeFunction{
 		Name:      "set_joystick_callback",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -1694,7 +1694,7 @@ var glfwModule = map[string]tender.Object{
 	// MONITOR EXTENDED INFO
 	// ================================================================
 
-	"get_monitor_video_modes": &tender.BuiltinFunction{
+	"get_monitor_video_modes": &tender.NativeFunction{
 		Name: "get_monitor_video_modes",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1720,7 +1720,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"get_monitor_physical_size": &tender.BuiltinFunction{
+	"get_monitor_physical_size": &tender.NativeFunction{
 		Name: "get_monitor_physical_size",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1739,7 +1739,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"get_monitor_workarea": &tender.BuiltinFunction{
+	"get_monitor_workarea": &tender.NativeFunction{
 		Name: "get_monitor_workarea",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1760,7 +1760,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"get_monitor_gamma_ramp": &tender.BuiltinFunction{
+	"get_monitor_gamma_ramp": &tender.NativeFunction{
 		Name: "get_monitor_gamma_ramp",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {
@@ -1794,7 +1794,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_monitor_gamma_ramp": &tender.BuiltinFunction{
+	"set_monitor_gamma_ramp": &tender.NativeFunction{
 		Name: "set_monitor_gamma_ramp",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1837,7 +1837,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_monitor_gamma": &tender.BuiltinFunction{
+	"set_monitor_gamma": &tender.NativeFunction{
 		Name: "set_monitor_gamma",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -1861,7 +1861,7 @@ var glfwModule = map[string]tender.Object{
 	// ADDITIONAL EVENT CALLBACKS
 	// ================================================================
 
-	"set_cursor_enter_callback": &tender.BuiltinFunction{
+	"set_cursor_enter_callback": &tender.NativeFunction{
 		Name:      "set_cursor_enter_callback",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -1890,7 +1890,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_drop_callback": &tender.BuiltinFunction{
+	"set_drop_callback": &tender.NativeFunction{
 		Name:      "set_drop_callback",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -1923,7 +1923,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_focus_callback": &tender.BuiltinFunction{
+	"set_focus_callback": &tender.NativeFunction{
 		Name:      "set_focus_callback",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -1952,7 +1952,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_iconify_callback": &tender.BuiltinFunction{
+	"set_iconify_callback": &tender.NativeFunction{
 		Name:      "set_iconify_callback",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -1981,7 +1981,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_maximize_callback": &tender.BuiltinFunction{
+	"set_maximize_callback": &tender.NativeFunction{
 		Name:      "set_maximize_callback",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -2010,7 +2010,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_content_scale_callback": &tender.BuiltinFunction{
+	"set_content_scale_callback": &tender.NativeFunction{
 		Name:      "set_content_scale_callback",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -2040,7 +2040,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_pos_callback": &tender.BuiltinFunction{
+	"set_pos_callback": &tender.NativeFunction{
 		Name:      "set_pos_callback",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -2070,7 +2070,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"set_refresh_callback": &tender.BuiltinFunction{
+	"set_refresh_callback": &tender.NativeFunction{
 		Name:      "set_refresh_callback",
 		NeedVMObj: true,
 		Value: func(args ...tender.Object) (tender.Object, error) {
@@ -2101,7 +2101,7 @@ var glfwModule = map[string]tender.Object{
 	// UTILITY FUNCTIONS
 	// ================================================================
 
-	"post_empty_event": &tender.BuiltinFunction{
+	"post_empty_event": &tender.NativeFunction{
 		Name: "post_empty_event",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -2112,7 +2112,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"raw_mouse_motion_supported": &tender.BuiltinFunction{
+	"raw_mouse_motion_supported": &tender.NativeFunction{
 		Name: "raw_mouse_motion_supported",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 0 {
@@ -2122,7 +2122,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"get_key_name": &tender.BuiltinFunction{
+	"get_key_name": &tender.NativeFunction{
 		Name: "get_key_name",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 2 {
@@ -2141,7 +2141,7 @@ var glfwModule = map[string]tender.Object{
 		},
 	},
 
-	"get_key_scancode": &tender.BuiltinFunction{
+	"get_key_scancode": &tender.NativeFunction{
 		Name: "get_key_scancode",
 		Value: func(args ...tender.Object) (tender.Object, error) {
 			if len(args) != 1 {

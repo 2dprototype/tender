@@ -9,9 +9,9 @@ import (
 
 var cryptoEd25519Module = &tender.ImmutableMap{
 	Value: map[string]tender.Object{
-		"generate_key": &tender.UserFunction{Name: "generate_key", Value: ed25519GenerateKey},
-		"sign":         &tender.UserFunction{Name: "sign", Value: ed25519Sign},
-		"verify":       &tender.UserFunction{Name: "verify", Value: ed25519Verify},
+		"generate_key": &tender.NativeFunction{Name: "generate_key", Value: ed25519GenerateKey},
+		"sign":         &tender.NativeFunction{Name: "sign", Value: ed25519Sign},
+		"verify":       &tender.NativeFunction{Name: "verify", Value: ed25519Verify},
 	},
 }
 
