@@ -343,31 +343,3 @@ func inferModuleName(mod *ImmutableMap) string {
 	}
 	return ""
 }
-
-// func init() {
-	// gob.Register(&parser.SourceFileSet{})
-	// gob.Register(&parser.SourceFile{})
-	// gob.Register(&Array{})
-	// gob.Register(&Bool{})
-	// gob.Register(&Bytes{})
-	// gob.Register(&Char{})
-	// gob.Register(&Function{})
-	// gob.Register(&Error{})
-	// gob.Register(&Float{})
-	// gob.Register(&BigFloat{})
-	// gob.Register(&ImmutableArray{})
-	// gob.Register(&ImmutableMap{})
-	// gob.Register(&Int{})
-	// gob.Register(&BigInt{})
-	// gob.Register(&Map{})
-	// gob.Register(&String{})
-	// gob.Register(&Time{})
-	// gob.Register(&Null{})
-	// gob.Register(&NativeFunction{})
-	// gob.Register(&NativeFunction{})
-	// gob.Register(&Struct{})
-	// gob.Register(&StructType{})
-	// gob.Register(&BoundMethod{})
-	// // gob.Register(&IOWriter{})
-	// // gob.Register(&IOReader{})
-// }

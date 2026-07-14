@@ -196,6 +196,17 @@ func (v *VM) releaseSpace() {
 	v.frames = append(make([]*frame, 0, initialFrames), v.frames[0])
 }
 
+func (v *VM) GetIP() int {
+    return v.ip
+}
+
+func (v *VM) GetCurrentFunction() *Function {
+    if v.curFrame != nil {
+        return v.curFrame.fn
+    }
+    return nil
+}
+
 // RunCompiled run the VM with user supplied function fn.
 func (v *VM) RunCompiled(fn *Function, args ...Object) (val Object, err error) {
 	v.stack = make([]Object, initialStackSize)

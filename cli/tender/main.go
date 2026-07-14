@@ -45,7 +45,6 @@ func init() {
 	gob.Register(&tender.Time{})
 	gob.Register(&tender.Null{})
 	gob.Register(&tender.NativeFunction{})
-	gob.Register(&tender.NativeFunction{})
 	gob.Register(&tender.Tuple{})
 	gob.Register(&tender.Struct{})
 	gob.Register(&tender.StructType{})
@@ -313,6 +312,7 @@ func RunREPL(modules *tender.ModuleMap, in io.Reader, out io.Writer) {
 			for k, _ := range stdlib.BuiltinModules {
 				fmt.Println("stdlib." + k)
 			}
+			continue
 		}
 		srcFile := fileSet.AddFile("repl", -1, len(line))
 		p := parser.NewParser(srcFile, []byte(line), nil)

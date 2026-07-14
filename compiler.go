@@ -345,10 +345,24 @@ func (c *Compiler) Compile(node parser.Node) error {
 			panic(fmt.Errorf("invalid branch statement: %s",
 				node.Token.String()))
 		}
-	case *parser.FuncStmt:	
-		err := c.compileAssign(node, []parser.Expr{node.Ident}, []parser.Expr{node.Expr}, token.Define)
-		if err != nil {
+	case *parser.FuncStmt:
+		symbol, depth, exists := c.symbolTable.Resolve(node.Ident.Name, false)
+		if depth == 0 && exists {
+			return c.errorf(node, "'%s' redeclared in this block", node.Ident.Name)
+		}
+		symbol = c.symbolTable.Define(node.Ident.Name)
+		if err := c.Compile(node.Expr); err != nil {
 			return err
+		}
+		if symbol.Scope == ScopeGlobal {
+			c.emit(node, parser.OpSetGlobal, symbol.Index)
+		} else {
+			if !symbol.LocalAssigned {
+				c.emit(node, parser.OpDefineLocal, symbol.Index)
+			} else {
+				c.emit(node, parser.OpSetLocal, symbol.Index)
+			}
+			symbol.LocalAssigned = true
 		}
 	case *parser.TypeDeclStmt:
 		structType := c.makeStructType(node.Ident.Name, node.StructType.(*parser.StructTypeExpr))
@@ -862,6 +876,49 @@ func (c *Compiler) compileAssign(node parser.Node, lhs, rhs []parser.Expr, op to
 		if !anyNew {
 			return c.errorf(node, "no new variables on left side of :=")
 		}
+	}
+
+	isOpAssign := op != token.Assign && op != token.Define && op != token.Var && op != token.Const
+	if isOpAssign {
+		if err := c.Compile(lhs[0]); err != nil {
+			return err
+		}
+		if err := c.Compile(rhs[0]); err != nil {
+			return err
+		}
+		var binaryOp token.Token
+		switch op {
+		case token.AddAssign:
+			binaryOp = token.Add
+		case token.SubAssign:
+			binaryOp = token.Sub
+		case token.MulAssign:
+			binaryOp = token.Mul
+		case token.QuoAssign:
+			binaryOp = token.Quo
+		case token.RemAssign:
+			binaryOp = token.Rem
+		case token.AndAssign:
+			binaryOp = token.And
+		case token.OrAssign:
+			binaryOp = token.Or
+		case token.AndNotAssign:
+			binaryOp = token.AndNot
+		case token.XorAssign:
+			binaryOp = token.Xor
+		case token.ShlAssign:
+			binaryOp = token.Shl
+		case token.ShrAssign:
+			binaryOp = token.Shr
+		default:
+			return c.errorf(node, "invalid operator: %s", op.String())
+		}
+		c.emit(node, parser.OpBinaryOp, int(binaryOp))
+
+		if err := c.compileSingleAssign(node, lhs[0], token.Assign); err != nil {
+			return err
+		}
+		return nil
 	}
 
 	// Case 1: numLHS == numRHS

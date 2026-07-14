@@ -342,7 +342,10 @@ func (o *NativeFunction) TypeName() string {
 }
 
 func (o *NativeFunction) String() string {
-	return "<native-function>"
+	if o.Name == "" {
+		return "<native-function>"
+	}
+	return "<native-function:" + o.Name + ">"
 }
 
 // Copy returns a copy of the type.
