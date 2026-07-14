@@ -590,6 +590,40 @@ func (v *VM) run() {
 
 			v.stack[v.sp] = tuple
 			v.sp++
+		case parser.OpUnpack:
+			v.ip++
+			numToUnpack := int(v.curInsts[v.ip])
+
+			val := v.stack[v.sp-1]
+			v.sp--
+
+			var elems []Object
+			switch obj := val.(type) {
+			case *Tuple:
+				elems = obj.Value
+			case *Array:
+				elems = obj.Value
+			case *ImmutableArray:
+				elems = obj.Value
+			default:
+				v.err = fmt.Errorf("cannot unpack non-iterable type '%s'", val.TypeName())
+				return
+			}
+
+			if len(elems) != numToUnpack {
+				v.err = fmt.Errorf("unpack count mismatch: expected %d, got %d", numToUnpack, len(elems))
+				return
+			}
+
+			v.checkGrowStack(numToUnpack)
+			if v.err != nil {
+				return
+			}
+
+			for i := 0; i < numToUnpack; i++ {
+				v.stack[v.sp] = elems[i]
+				v.sp++
+			}
 		case parser.OpMap:
 			v.ip += 2
 			numElements := int(v.curInsts[v.ip]) | int(v.curInsts[v.ip-1])<<8

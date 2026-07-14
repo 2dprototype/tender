@@ -838,26 +838,84 @@ func (c *Compiler) compileTemplateLit(node *parser.TemplateLit) error {
 
 func (c *Compiler) compileAssign(node parser.Node, lhs, rhs []parser.Expr, op token.Token) error {
 	numLHS, numRHS := len(lhs), len(rhs)
-	if numLHS > 1 || numRHS > 1 {
-		return c.errorf(node, "tuple assignment not allowed")
+	
+	if op != token.Assign && op != token.Define && op != token.Var && op != token.Const {
+		if numLHS > 1 {
+			return c.errorf(node, "operator assignment with multiple variables not allowed")
+		}
 	}
 
-	// resolve and compile left-hand side
-	ident, selectors := resolveAssignLHS(lhs[0])
+	if numLHS != numRHS && numRHS != 1 {
+		return c.errorf(node, "assignment count mismatch: %d = %d", numLHS, numRHS)
+	}
+
+	if op == token.Define {
+		anyNew := false
+		for _, expr := range lhs {
+			ident, _ := resolveAssignLHS(expr)
+			_, depth, exists := c.symbolTable.Resolve(ident, false)
+			if depth != 0 || !exists {
+				anyNew = true
+				break
+			}
+		}
+		if !anyNew {
+			return c.errorf(node, "no new variables on left side of :=")
+		}
+	}
+
+	// Case 1: numLHS == numRHS
+	if numLHS == numRHS {
+		for _, expr := range rhs {
+			if err := c.Compile(expr); err != nil {
+				return err
+			}
+		}
+
+		for i := numLHS - 1; i >= 0; i-- {
+			if err := c.compileSingleAssign(node, lhs[i], op); err != nil {
+				return err
+			}
+		}
+		return nil
+	}
+
+	// Case 2: numLHS > 1 && numRHS == 1
+	if err := c.Compile(rhs[0]); err != nil {
+		return err
+	}
+
+	c.emit(node, parser.OpUnpack, numLHS)
+
+	for i := numLHS - 1; i >= 0; i-- {
+		if err := c.compileSingleAssign(node, lhs[i], op); err != nil {
+			return err
+		}
+	}
+
+	return nil
+}
+
+func (c *Compiler) compileSingleAssign(node parser.Node, lhs parser.Expr, op token.Token) error {
+	ident, selectors := resolveAssignLHS(lhs)
 	numSel := len(selectors)
 
-	if op == token.Define && numSel > 0 {
-		// using selector on new variable does not make sense
-		// return c.errorf(node, "operator ':=' not allowed with selector")
+	if (op == token.Define || op == token.Var || op == token.Const) && numSel > 0 {
 		return c.errorf(node, "variable declaration not allowed with selector")
 	}
 
 	symbol, depth, exists := c.symbolTable.Resolve(ident, false)
-	if op == token.Define || op == token.Var || op == token.Const {
+	
+	effOp := op
+	if op == token.Define && depth == 0 && exists {
+		effOp = token.Assign
+	}
+
+	if effOp == token.Define || effOp == token.Var || effOp == token.Const {
 		if depth == 0 && exists {
 			return c.errorf(node, "'%s' redeclared in this block", ident)
 		}
-		if op == token.Const {
+		if effOp == token.Const {
 			symbol = c.symbolTable.DefineConst(ident)
 		} else {
 			symbol = c.symbolTable.Define(ident)
@@ -872,24 +930,17 @@ func (c *Compiler) compileAssign(node parser.Node, lhs, rhs []parser.Expr, op to
 	}
 
 	// +=, -=, *=, /=
-	if op != token.Assign && op != token.Define && op != token.Var && op != token.Const {
-		if err := c.Compile(lhs[0]); err != nil {
+	if effOp != token.Assign && effOp != token.Define && effOp != token.Var && effOp != token.Const {
+		if err := c.Compile(lhs); err != nil {
 			return err
 		}
 	}
 
-	// compile RHSs
-	for _, expr := range rhs {
-		if err := c.Compile(expr); err != nil {
-			return err
-		}
-	}
-
-	if op == token.Const {
+	if effOp == token.Const {
 		c.emit(node, parser.OpImmutable)
 	}
 
-	switch op {
+	switch effOp {
 		case token.AddAssign:
 			c.emit(node, parser.OpBinaryOp, int(token.Add))
 		case token.SubAssign:
@@ -932,7 +983,7 @@ func (c *Compiler) compileAssign(node parser.Node, lhs, rhs []parser.Expr, op to
 		if numSel > 0 {
 			c.emit(node, parser.OpSetSelLocal, symbol.Index, numSel)
 		} else {
-			if (op == token.Define || op == token.Var || op == token.Const) && !symbol.LocalAssigned {
+			if (effOp == token.Define || effOp == token.Var || effOp == token.Const) && !symbol.LocalAssigned {
 				c.emit(node, parser.OpDefineLocal, symbol.Index)
 			} else {
 				c.emit(node, parser.OpSetLocal, symbol.Index)
@@ -947,9 +998,8 @@ func (c *Compiler) compileAssign(node parser.Node, lhs, rhs []parser.Expr, op to
 		} else {
 			c.emit(node, parser.OpSetFree, symbol.Index)
 		}
-	default:
-		panic(fmt.Errorf("invalid assignment variable scope: %s", symbol.Scope))
 	}
+
 	return nil
 }
 

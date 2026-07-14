@@ -1275,11 +1275,23 @@ func (p *Parser) parseIfStmt() Stmt {
 
 	pos := p.expect(token.If)
 	init, cond := p.parseIfHeader()
-	body := p.parseBlockStmt()
-	// fmt.Printf("%+v", p)
-	is_semi := true
 	
-	if(p.token == token.Semicolon) {
+	var body *BlockStmt
+	bracedBody := false
+	if p.token == token.LBrace {
+		body = p.parseBlockStmt()
+		bracedBody = true
+	} else {
+		stmt := p.parseStmt()
+		body = &BlockStmt{
+			Stmts:  []Stmt{stmt},
+			LBrace: stmt.Pos(),
+			RBrace: stmt.End(),
+		}
+	}
+
+	is_semi := true
+	if p.token == token.Semicolon {
 		is_semi = false
 		p.next()
 	}
@@ -1287,18 +1299,20 @@ func (p *Parser) parseIfStmt() Stmt {
 	var elseStmt Stmt
 	if p.token == token.Else {
 		p.next()
-		switch p.token {
-			case token.If:
-				elseStmt = p.parseIfStmt()
-			case token.LBrace:
-				elseStmt = p.parseBlockStmt()
-				p.expectSemi()
-			default:
-				// fmt.Println("---ghatagta")
-				p.errorExpected(p.pos, "if or {")
-				elseStmt = &BadStmt{From: p.pos, To: p.pos}
+		if p.token == token.If {
+			elseStmt = p.parseIfStmt()
+		} else if p.token == token.LBrace {
+			elseStmt = p.parseBlockStmt()
+			p.expectSemi()
+		} else {
+			stmt := p.parseStmt()
+			elseStmt = &BlockStmt{
+				Stmts:  []Stmt{stmt},
+				LBrace: stmt.Pos(),
+				RBrace: stmt.End(),
+			}
 		}
-	} else if is_semi {
+	} else if bracedBody && is_semi {
 		p.expectSemi()
 	}
 	return &IfStmt{
@@ -1349,7 +1363,8 @@ func (p *Parser) parseIfHeader() (init Stmt, cond Expr) {
 
 		condStmt = p.parseSimpleStmt(false)
 	} else {
-		p.error(p.pos, "missing condition in if statement")
+		condStmt = init
+		init = nil
 	}
 
 	if condStmt != nil {
@@ -1389,7 +1404,16 @@ func (p *Parser) parseReturnStmt() Stmt {
 
 	var x Expr
 	if p.token != token.Semicolon && p.token != token.RBrace {
-		x = p.parseExpr()
+		list := p.parseExprList()
+		if len(list) > 1 {
+			x = &TupleLit{
+				Elements: list,
+				LParen:   pos,
+				RParen:   NoPos,
+			}
+		} else if len(list) == 1 {
+			x = list[0]
+		}
 	}
 	p.expectSemi()
 	return &ReturnStmt{
@@ -1573,8 +1597,8 @@ func (p *Parser) expect(token token.Token) Pos {
 
 func (p *Parser) expectSemi() {
 	switch p.token {
-	case token.RParen, token.RBrace:
-		// semicolon is optional before a closing ')' or '}'
+	case token.RParen, token.RBrace, token.Else:
+		// semicolon is optional before a closing ')', '}', or 'else'
 	case token.Comma:
 		// permit a ',' instead of a ';' but complain
 		p.errorExpected(p.pos, "';'")

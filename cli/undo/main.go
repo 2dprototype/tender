@@ -1007,6 +1007,16 @@ func (fd *FunctionDecompiler) decompileBlock(startIP, endIP int, stack []string,
 				stack = append(stack, "("+strings.Join(items, ", ")+")")
 			}
 
+		case parser.OpUnpack:
+			num := operands[0]
+			if len(stack) > 0 {
+				val := stack[len(stack)-1]
+				stack = stack[:len(stack)-1]
+				for k := 0; k < num; k++ {
+					stack = append(stack, fmt.Sprintf("%s[%d]", val, k))
+				}
+			}
+
 		case parser.OpMap:
 			num := operands[0]
 			var pairs []string
