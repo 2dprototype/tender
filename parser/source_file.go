@@ -308,3 +308,8 @@ func FormatErrorFrame(fileSet *SourceFileSet, pos Pos, endPos Pos) string {
 
 	return sb.String()
 }
+
+// SetFileSet sets the parent SourceFileSet for this file.
+func (f *SourceFile) SetFileSet(s *SourceFileSet) {
+	f.set = s
+}

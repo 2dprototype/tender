@@ -1,6 +1,7 @@
 package tender
 
 import (
+	"bufio"
 	"encoding/gob"
 	"math/big"
 	"io"
@@ -85,7 +86,14 @@ func (b *Bytecode) Decode(r io.Reader, modules *ModuleMap) error {
 		modules = NewModuleMap()
 	}
 
-	dec := gob.NewDecoder(r)
+	br := bufio.NewReader(r)
+	magic, err := br.Peek(4)
+	if err == nil && len(magic) == 4 && magic[0] == 'T' && magic[1] == 'D' && magic[2] == 'C' && magic[3] == 1 {
+		_, _, err = b.DecodeTDC(br, modules)
+		return err
+	}
+
+	dec := gob.NewDecoder(br)
 	if err := dec.Decode(&b.FileSet); err != nil {
 		return err
 	}

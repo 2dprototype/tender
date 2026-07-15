@@ -80,6 +80,7 @@ func init() {
     }
 	flag.BoolVar(&showHelp, "help", false, "Show help")
 	flag.StringVar(&compileOutput, "o", "", "Compile output file")
+	flag.StringVar(&compileOutput, "c", "", "Compile output file")
 	flag.StringVar(&parseOutput, "parse", "", "Parse output file")
 	flag.BoolVar(&showVersion, "version", false, "Show version")
 	flag.BoolVar(&showVersion, "v", false, "Show version")
@@ -204,8 +205,13 @@ func CompileOnly(modules *tender.ModuleMap, data []byte, inputFile, outputFile s
 		return
 	}
 	
-	if filepath.Ext(outputFile) == "." {
-		outputFile = inputFile[:len(inputFile)-len(filepath.Ext(inputFile))] + ".tdo"
+	isTDC := true
+	if filepath.Ext(outputFile) == ".tdo" {
+		isTDC = false
+	}
+	if filepath.Ext(outputFile) == "." || filepath.Ext(outputFile) == "" {
+		outputFile = inputFile[:len(inputFile)-len(filepath.Ext(inputFile))] + ".tdc"
+		isTDC = true
 	}
 
 	out, err := os.OpenFile(outputFile, os.O_CREATE|os.O_WRONLY, os.ModePerm)
@@ -220,7 +226,11 @@ func CompileOnly(modules *tender.ModuleMap, data []byte, inputFile, outputFile s
 		}
 	}()
 	
-	err = bytecode.Encode(out)
+	if isTDC {
+		err = bytecode.EncodeTDC(out, version)
+	} else {
+		err = bytecode.Encode(out)
+	}
 	if err != nil {
 		return
 	}
@@ -373,7 +383,7 @@ func doHelp() {
 	fmt.Println()
 	fmt.Println("Flags:")
 	fmt.Println()
-	fmt.Println("    -o        compile output file")
+	fmt.Println("    -c, -o    compile output file")
 	fmt.Println("              Specify the name of the output file when compiling.")
 	fmt.Println("    -version  show version")
 	fmt.Println("              Display the current version of the Tender tool.")

@@ -249,7 +249,7 @@ func NewDebugger(inputFile string, modules *tender.ModuleMap) (*Debugger, error)
 	}
 
 	ext := filepath.Ext(inputFile)
-	if ext == ".tdo" {
+	if ext == ".tdo" || ext == ".tdc" {
 		d.isCompiled = true
 		data, err := os.ReadFile(inputFile)
 		if err != nil {
