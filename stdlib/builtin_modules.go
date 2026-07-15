@@ -17,7 +17,7 @@ var BuiltinModules = map[string]map[string]tender.Object{
 	"json":         jsonModule,
 	"base64":       base64Module,
 	"hex":          hexModule,
-	"colors":       colorsModule,
+	"console":      consoleModule,
 	"gzip":         gzipModule,
 	"zip":          zipModule,
 	"tar":          tarModule,
