@@ -25,7 +25,23 @@ var (
 
 	// NullValue represents an null value.
 	NullValue Object = &Null{}
+
+	intCache [1025]*Int
 )
+
+func init() {
+	for i := 0; i <= 1024; i++ {
+		intCache[i] = &Int{Value: int64(i)}
+	}
+}
+
+// MakeInt returns an *Int instance, using pre-allocated singletons for small integers.
+func MakeInt(v int64) *Int {
+	if v >= 0 && v <= 1024 {
+		return intCache[v]
+	}
+	return &Int{Value: v}
+}
 
 // Object represents an object in the VM.
 type Object interface {

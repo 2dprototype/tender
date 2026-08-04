@@ -387,7 +387,7 @@ func (v *VM) selfObject() Object {
 }
 
 func (v *VM) run() {
-	for atomic.LoadInt64(&v.aborting) == 0 {
+	for v.aborting == 0 {
 		v.ip++
 
 		switch v.curInsts[v.ip] {
@@ -405,6 +405,102 @@ func (v *VM) run() {
 			right := v.stack[v.sp-1]
 			left := v.stack[v.sp-2]
 			tok := token.Token(v.curInsts[v.ip])
+
+			lInt, lOk := left.(*Int)
+			rInt, rOk := right.(*Int)
+			if lOk && rOk {
+				var resVal int64
+				switch tok {
+				case token.Add:
+					resVal = lInt.Value + rInt.Value
+				case token.Sub:
+					resVal = lInt.Value - rInt.Value
+				case token.Mul:
+					resVal = lInt.Value * rInt.Value
+				case token.Quo:
+					if rInt.Value == 0 {
+						v.err = ErrDivideByZero
+						return
+					}
+					resVal = lInt.Value / rInt.Value
+				case token.Rem:
+					if rInt.Value == 0 {
+						v.err = ErrDivideByZero
+						return
+					}
+					resVal = lInt.Value % rInt.Value
+				case token.Less:
+					v.sp -= 2
+					if lInt.Value < rInt.Value {
+						v.stack[v.sp] = TrueValue
+					} else {
+						v.stack[v.sp] = FalseValue
+					}
+					v.sp++
+					continue
+				case token.LessEq:
+					v.sp -= 2
+					if lInt.Value <= rInt.Value {
+						v.stack[v.sp] = TrueValue
+					} else {
+						v.stack[v.sp] = FalseValue
+					}
+					v.sp++
+					continue
+				case token.Greater:
+					v.sp -= 2
+					if lInt.Value > rInt.Value {
+						v.stack[v.sp] = TrueValue
+					} else {
+						v.stack[v.sp] = FalseValue
+					}
+					v.sp++
+					continue
+				case token.GreaterEq:
+					v.sp -= 2
+					if lInt.Value >= rInt.Value {
+						v.stack[v.sp] = TrueValue
+					} else {
+						v.stack[v.sp] = FalseValue
+					}
+					v.sp++
+					continue
+				case token.And:
+					resVal = lInt.Value & rInt.Value
+				case token.Or:
+					resVal = lInt.Value | rInt.Value
+				case token.Xor:
+					resVal = lInt.Value ^ rInt.Value
+				default:
+					goto fallbackBinary
+				}
+				v.stack[v.sp-2] = MakeInt(resVal)
+				v.sp--
+				continue
+			}
+
+			if lFl, ok1 := left.(*Float); ok1 {
+				if rFl, ok2 := right.(*Float); ok2 {
+					var resVal float64
+					switch tok {
+					case token.Add:
+						resVal = lFl.Value + rFl.Value
+					case token.Sub:
+						resVal = lFl.Value - rFl.Value
+					case token.Mul:
+						resVal = lFl.Value * rFl.Value
+					case token.Quo:
+						resVal = lFl.Value / rFl.Value
+					default:
+						goto fallbackBinary
+					}
+					v.stack[v.sp-2] = &Float{Value: resVal}
+					v.sp--
+					continue
+				}
+			}
+
+		fallbackBinary:
 			res, e := left.BinaryOp(tok, right)
 			if e != nil {
 				v.sp -= 2

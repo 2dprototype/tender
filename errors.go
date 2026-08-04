@@ -57,6 +57,8 @@ var (
 	ErrInvalidArgCount     = errors.New("invalid number of arguments")
 	ErrNotCallable         = errors.New("runtime error: object is not callable")
 	ErrInvalidArgument     = errors.New("invalid argument type")
+	
+	ErrDivideByZero        = errors.New("divided by zero")
 )
 
 // ErrInvalidArgumentType represents an invalid argument value type error.
