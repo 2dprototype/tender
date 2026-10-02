@@ -106,11 +106,25 @@ var graphicsModule = map[string]tender.Object{
 			
 			ctxMap := createDrawingMethods(state)
 
-			ctxMap["width"] = &tender.Int{Value: int64(state.Width)}
-			ctxMap["height"] = &tender.Int{Value: int64(state.Height)}
-
 			return &tender.Map{Value: ctxMap}, nil
 		},
+	},
+	"load_image": &tender.NativeFunction{
+		Name: "load_image",
+		Value: func(args ...tender.Object) (tender.Object, error) {
+			if len(args) != 1 {
+				return nil, tender.ErrInvalidArgCount
+			}
+			return glLoadImage(args[0])
+		},
+	},
+	"radians": &tender.NativeFunction{
+		Name:  "radians",
+		Value: FuncAFRF(func(deg float64) float64 { return deg * math.Pi / 180.0 }),
+	},
+	"degrees": &tender.NativeFunction{
+		Name:  "degrees",
+		Value: FuncAFRF(func(rad float64) float64 { return rad * 180.0 / math.Pi }),
 	},
 	"new_window": &tender.NativeFunction{
 		Name:      "new_window",
@@ -417,10 +431,6 @@ var graphicsModule = map[string]tender.Object{
 					return tender.NullValue, nil
 				},
 			}
-
-			// Add width and height getters dynamically as fields
-			ctxMap["width"] = &tender.Int{Value: int64(state.Width)}
-			ctxMap["height"] = &tender.Int{Value: int64(state.Height)}
 
 			return &tender.Map{Value: ctxMap}, nil
 		},
@@ -785,8 +795,99 @@ func getOrCreateImageBytesTexture(data []byte) (imageTexInfo, error) {
 	return info, nil
 }
 
+func glLoadImage(obj tender.Object) (tender.Object, error) {
+	var imgData []byte
+	if strVal, ok := obj.(*tender.String); ok {
+		var err error
+		imgData, err = os.ReadFile(tender.ResolvePath(strVal.Value))
+		if err != nil {
+			return nil, err
+		}
+	} else if bytesVal, ok := obj.(*tender.Bytes); ok {
+		imgData = bytesVal.Value
+	} else if slice, ok := tender.ToByteSlice(obj); ok {
+		imgData = slice
+	} else {
+		return nil, tender.ErrInvalidArgument
+	}
+
+	info, err := getOrCreateImageBytesTexture(imgData)
+	if err != nil {
+		return nil, err
+	}
+
+	texMap := map[string]tender.Object{
+		"id":     &tender.Int{Value: int64(info.id)},
+		"width":  &tender.Int{Value: int64(info.width)},
+		"height": &tender.Int{Value: int64(info.height)},
+	}
+	return &tender.ImmutableMap{Value: texMap}, nil
+}
+
+func extractGLTexture(obj tender.Object) (uint32, float32, float32, error) {
+	if bytesObj, ok := obj.(*tender.Bytes); ok {
+		info, err := getOrCreateImageBytesTexture(bytesObj.Value)
+		if err != nil {
+			return 0, 0, 0, err
+		}
+		return info.id, float32(info.width), float32(info.height), nil
+	}
+	if strObj, ok := obj.(*tender.String); ok {
+		data, err := os.ReadFile(tender.ResolvePath(strObj.Value))
+		if err != nil {
+			return 0, 0, 0, err
+		}
+		info, err := getOrCreateImageBytesTexture(data)
+		if err != nil {
+			return 0, 0, 0, err
+		}
+		return info.id, float32(info.width), float32(info.height), nil
+	}
+	if bytesSlice, ok := tender.ToByteSlice(obj); ok {
+		info, err := getOrCreateImageBytesTexture(bytesSlice)
+		if err != nil {
+			return 0, 0, 0, err
+		}
+		return info.id, float32(info.width), float32(info.height), nil
+	}
+
+	var texMap *tender.ImmutableMap
+	if m, ok := obj.(*tender.ImmutableMap); ok {
+		texMap = m
+	} else if mutableMap, ok := obj.(*tender.Map); ok {
+		texMap = &tender.ImmutableMap{Value: mutableMap.Value}
+	} else {
+		return 0, 0, 0, tender.ErrInvalidArgument
+	}
+
+	var texID uint32
+	var tw, th float32
+	if idVal, ok := texMap.Value["id"].(*tender.Int); ok {
+		texID = uint32(idVal.Value)
+	}
+	if wVal, ok := texMap.Value["width"].(*tender.Int); ok {
+		tw = float32(wVal.Value)
+	}
+	if hVal, ok := texMap.Value["height"].(*tender.Int); ok {
+		th = float32(hVal.Value)
+	}
+	return texID, tw, th, nil
+}
+
 func createDrawingMethods(state *contextState) map[string]tender.Object {
 	return map[string]tender.Object{
+		"width": &tender.NativeFunction{
+			Name: "width",
+			Value: func(args ...tender.Object) (tender.Object, error) {
+				return &tender.Int{Value: int64(state.Width)}, nil
+			},
+		},
+		"height": &tender.NativeFunction{
+			Name: "height",
+			Value: func(args ...tender.Object) (tender.Object, error) {
+				return &tender.Int{Value: int64(state.Height)}, nil
+			},
+		},
 		"hex": &tender.NativeFunction{
 			Name: "hex",
 			Value: func(args ...tender.Object) (tender.Object, error) {
@@ -1007,6 +1108,24 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
+		"clear_path": &tender.NativeFunction{
+			Name: "clear_path",
+			Value: func(args ...tender.Object) (tender.Object, error) {
+				state.CurrentSubpath = nil
+				state.Subpaths = nil
+				return tender.NullValue, nil
+			},
+		},
+		"new_subpath": &tender.NativeFunction{
+			Name: "new_subpath",
+			Value: func(args ...tender.Object) (tender.Object, error) {
+				if len(state.CurrentSubpath) > 0 {
+					state.Subpaths = append(state.Subpaths, state.CurrentSubpath)
+					state.CurrentSubpath = nil
+				}
+				return tender.NullValue, nil
+			},
+		},
 		"rect": &tender.NativeFunction{
 			Name: "rect",
 			Value: func(args ...tender.Object) (tender.Object, error) {
@@ -1036,7 +1155,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 		"round_rect": &tender.NativeFunction{
 			Name: "round_rect",
 			Value: func(args ...tender.Object) (tender.Object, error) {
-				if len(args) != 6 {
+				if len(args) != 5 && len(args) != 6 {
 					return nil, tender.ErrInvalidArgCount
 				}
 				x := toFloat32(args[0])
@@ -1044,7 +1163,10 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				w := toFloat32(args[2])
 				h := toFloat32(args[3])
 				rx := toFloat32(args[4])
-				ry := toFloat32(args[5])
+				ry := rx
+				if len(args) == 6 {
+					ry = toFloat32(args[5])
+				}
 
 				drawRoundRect(state, x, y, w, h, rx, ry)
 				return tender.NullValue, nil
@@ -1068,6 +1190,50 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				state.CurrentSubpath = make([]Point, 0, steps+1)
 				for i := 0; i <= steps; i++ {
 					angle := float64(i) * 2.0 * math.Pi / float64(steps)
+					px := cx + r*float32(math.Cos(angle))
+					py := cy + r*float32(math.Sin(angle))
+					state.CurrentSubpath = append(state.CurrentSubpath, Point{X: px, Y: py})
+				}
+				state.Subpaths = append(state.Subpaths, state.CurrentSubpath)
+				state.CurrentSubpath = nil
+				return tender.NullValue, nil
+			},
+		},
+		"ellipse": &tender.NativeFunction{
+			Name: "ellipse",
+			Value: func(args ...tender.Object) (tender.Object, error) {
+				if len(args) != 4 {
+					return nil, tender.ErrInvalidArgCount
+				}
+				cx := toFloat32(args[0])
+				cy := toFloat32(args[1])
+				rx := toFloat32(args[2])
+				ry := toFloat32(args[3])
+				drawEllipticalArc(state, cx, cy, rx, ry, 0, float32(2.0*math.Pi))
+				return tender.NullValue, nil
+			},
+		},
+		"polygon": &tender.NativeFunction{
+			Name: "polygon",
+			Value: func(args ...tender.Object) (tender.Object, error) {
+				if len(args) != 5 {
+					return nil, tender.ErrInvalidArgCount
+				}
+				n := toInt(args[0])
+				cx := toFloat32(args[1])
+				cy := toFloat32(args[2])
+				r := toFloat32(args[3])
+				rot := toFloat32(args[4])
+
+				if n < 3 {
+					return tender.NullValue, nil
+				}
+				if len(state.CurrentSubpath) > 0 {
+					state.Subpaths = append(state.Subpaths, state.CurrentSubpath)
+				}
+				state.CurrentSubpath = make([]Point, 0, n+1)
+				for i := 0; i <= n; i++ {
+					angle := float64(rot) + float64(i)*2.0*math.Pi/float64(n)
 					px := cx + r*float32(math.Cos(angle))
 					py := cy + r*float32(math.Sin(angle))
 					state.CurrentSubpath = append(state.CurrentSubpath, Point{X: px, Y: py})
@@ -1116,9 +1282,30 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
+		"set_pixel": &tender.NativeFunction{
+			Name: "set_pixel",
+			Value: func(args ...tender.Object) (tender.Object, error) {
+				if len(args) != 2 {
+					return nil, tender.ErrInvalidArgCount
+				}
+				x := toFloat32(args[0])
+				y := toFloat32(args[1])
+
+				gl.Color4f(state.R, state.G, state.B, state.A)
+				gl.Begin(gl.POINTS)
+				gl.Vertex2f(x, y)
+				gl.End()
+				return tender.NullValue, nil
+			},
+		},
 		"clear": &tender.NativeFunction{
 			Name: "clear",
 			Value: func(args ...tender.Object) (tender.Object, error) {
+				if len(args) == 0 {
+					gl.ClearColor(state.R, state.G, state.B, state.A)
+					gl.Clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT)
+					return tender.NullValue, nil
+				}
 				if len(args) == 1 {
 					if str, ok := args[0].(*tender.String); ok {
 						parseHexColor(str.Value, state)
@@ -1166,6 +1353,31 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
+		"stroke_preserve": &tender.NativeFunction{
+			Name: "stroke_preserve",
+			Value: func(args ...tender.Object) (tender.Object, error) {
+				gl.Color4f(state.R, state.G, state.B, state.A)
+				gl.LineWidth(state.LineWidth)
+
+				allPaths := append([][]Point{}, state.Subpaths...)
+				if len(state.CurrentSubpath) > 0 {
+					allPaths = append(allPaths, state.CurrentSubpath)
+				}
+
+				if len(allPaths) > 0 {
+					gl.EnableClientState(gl.VERTEX_ARRAY)
+					for _, path := range allPaths {
+						if len(path) < 2 {
+							continue
+						}
+						gl.VertexPointer(2, gl.FLOAT, 0, unsafe.Pointer(&path[0]))
+						gl.DrawArrays(gl.LINE_STRIP, 0, int32(len(path)))
+					}
+					gl.DisableClientState(gl.VERTEX_ARRAY)
+				}
+				return tender.NullValue, nil
+			},
+		},
 		"fill": &tender.NativeFunction{
 			Name: "fill",
 			Value: func(args ...tender.Object) (tender.Object, error) {
@@ -1192,6 +1404,30 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
+		"fill_preserve": &tender.NativeFunction{
+			Name: "fill_preserve",
+			Value: func(args ...tender.Object) (tender.Object, error) {
+				gl.Color4f(state.R, state.G, state.B, state.A)
+
+				allPaths := append([][]Point{}, state.Subpaths...)
+				if len(state.CurrentSubpath) > 0 {
+					allPaths = append(allPaths, state.CurrentSubpath)
+				}
+
+				if len(allPaths) > 0 {
+					gl.EnableClientState(gl.VERTEX_ARRAY)
+					for _, path := range allPaths {
+						if len(path) < 3 {
+							continue
+						}
+						gl.VertexPointer(2, gl.FLOAT, 0, unsafe.Pointer(&path[0]))
+						gl.DrawArrays(gl.TRIANGLE_FAN, 0, int32(len(path)))
+					}
+					gl.DisableClientState(gl.VERTEX_ARRAY)
+				}
+				return tender.NullValue, nil
+			},
+		},
 		"push": &tender.NativeFunction{
 			Name: "push",
 			Value: func(args ...tender.Object) (tender.Object, error) {
@@ -1203,6 +1439,13 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 			Name: "pop",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				gl.PopMatrix()
+				return tender.NullValue, nil
+			},
+		},
+		"identity": &tender.NativeFunction{
+			Name: "identity",
+			Value: func(args ...tender.Object) (tender.Object, error) {
+				gl.LoadIdentity()
 				return tender.NullValue, nil
 			},
 		},
@@ -1237,6 +1480,98 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
+		"scale_about": &tender.NativeFunction{
+			Name: "scale_about",
+			Value: func(args ...tender.Object) (tender.Object, error) {
+				if len(args) != 4 {
+					return nil, tender.ErrInvalidArgCount
+				}
+				sx := toFloat32(args[0])
+				sy := toFloat32(args[1])
+				x := toFloat32(args[2])
+				y := toFloat32(args[3])
+				gl.Translatef(x, y, 0)
+				gl.Scalef(sx, sy, 1.0)
+				gl.Translatef(-x, -y, 0)
+				return tender.NullValue, nil
+			},
+		},
+		"rotate_about": &tender.NativeFunction{
+			Name: "rotate_about",
+			Value: func(args ...tender.Object) (tender.Object, error) {
+				if len(args) != 3 {
+					return nil, tender.ErrInvalidArgCount
+				}
+				angle := toFloat32(args[0])
+				x := toFloat32(args[1])
+				y := toFloat32(args[2])
+				deg := angle * (180.0 / math.Pi)
+				gl.Translatef(x, y, 0)
+				gl.Rotatef(deg, 0, 0, 1)
+				gl.Translatef(-x, -y, 0)
+				return tender.NullValue, nil
+			},
+		},
+		"shear": &tender.NativeFunction{
+			Name: "shear",
+			Value: func(args ...tender.Object) (tender.Object, error) {
+				if len(args) != 2 {
+					return nil, tender.ErrInvalidArgCount
+				}
+				sx := toFloat32(args[0])
+				sy := toFloat32(args[1])
+				m := [16]float32{
+					1, sy, 0, 0,
+					sx, 1, 0, 0,
+					0, 0, 1, 0,
+					0, 0, 0, 1,
+				}
+				gl.MultMatrixf(&m[0])
+				return tender.NullValue, nil
+			},
+		},
+		"shear_about": &tender.NativeFunction{
+			Name: "shear_about",
+			Value: func(args ...tender.Object) (tender.Object, error) {
+				if len(args) != 4 {
+					return nil, tender.ErrInvalidArgCount
+				}
+				sx := toFloat32(args[0])
+				sy := toFloat32(args[1])
+				x := toFloat32(args[2])
+				y := toFloat32(args[3])
+				m := [16]float32{
+					1, sy, 0, 0,
+					sx, 1, 0, 0,
+					0, 0, 1, 0,
+					0, 0, 0, 1,
+				}
+				gl.Translatef(x, y, 0)
+				gl.MultMatrixf(&m[0])
+				gl.Translatef(-x, -y, 0)
+				return tender.NullValue, nil
+			},
+		},
+		"transform_point": &tender.NativeFunction{
+			Name: "transform_point",
+			Value: func(args ...tender.Object) (tender.Object, error) {
+				if len(args) != 2 {
+					return nil, tender.ErrInvalidArgCount
+				}
+				x := toFloat32(args[0])
+				y := toFloat32(args[1])
+				var m [16]float32
+				gl.GetFloatv(gl.MODELVIEW_MATRIX, &m[0])
+				tx := m[0]*x + m[4]*y + m[12]
+				ty := m[1]*x + m[5]*y + m[13]
+				return &tender.Array{
+					Value: []tender.Object{
+						&tender.Float{Value: float64(tx)},
+						&tender.Float{Value: float64(ty)},
+					},
+				}, nil
+			},
+		},
 		"line_width": &tender.NativeFunction{
 			Name: "line_width",
 			Value: func(args ...tender.Object) (tender.Object, error) {
@@ -1253,45 +1588,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				if len(args) != 1 {
 					return nil, tender.ErrInvalidArgCount
 				}
-				var imgData []byte
-				if strVal, ok := args[0].(*tender.String); ok {
-					var err error
-					imgData, err = os.ReadFile(tender.ResolvePath(strVal.Value))
-					if err != nil {
-						return nil, err
-					}
-				} else if bytesVal, ok := args[0].(*tender.Bytes); ok {
-					imgData = bytesVal.Value
-				} else {
-					return nil, tender.ErrInvalidArgument
-				}
-
-				img, _, err := image.Decode(bytes.NewReader(imgData))
-				if err != nil {
-					return nil, err
-				}
-
-				rgba := image.NewRGBA(img.Bounds())
-				draw.Draw(rgba, rgba.Bounds(), img, image.Point{0, 0}, draw.Src)
-
-				var textureID uint32
-				gl.GenTextures(1, &textureID)
-				gl.BindTexture(gl.TEXTURE_2D, textureID)
-				gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR)
-				gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR)
-				gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE)
-				gl.TexParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE)
-
-				w := int32(rgba.Bounds().Dx())
-				h := int32(rgba.Bounds().Dy())
-				gl.TexImage2D(gl.TEXTURE_2D, 0, gl.RGBA8, w, h, 0, gl.RGBA, gl.UNSIGNED_BYTE, unsafe.Pointer(&rgba.Pix[0]))
-
-				texMap := map[string]tender.Object{
-					"id":     &tender.Int{Value: int64(textureID)},
-					"width":  &tender.Int{Value: int64(w)},
-					"height": &tender.Int{Value: int64(h)},
-				}
-				return &tender.ImmutableMap{Value: texMap}, nil
+				return glLoadImage(args[0])
 			},
 		},
 		"draw_image": &tender.NativeFunction{
@@ -1300,48 +1597,10 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				if len(args) != 3 {
 					return nil, tender.ErrInvalidArgCount
 				}
-
-				var texID uint32
-				var tw, th float32
-
-				// Support bytes drawing (like canvas drawimage)
-				if bytesObj, ok := args[0].(*tender.Bytes); ok {
-					info, err := getOrCreateImageBytesTexture(bytesObj.Value)
-					if err != nil {
-						return nil, err
-					}
-					texID = info.id
-					tw = float32(info.width)
-					th = float32(info.height)
-				} else if bytesSlice, ok := tender.ToByteSlice(args[0]); ok {
-					info, err := getOrCreateImageBytesTexture(bytesSlice)
-					if err != nil {
-						return nil, err
-					}
-					texID = info.id
-					tw = float32(info.width)
-					th = float32(info.height)
-				} else {
-					var texMap *tender.ImmutableMap
-					if m, ok := args[0].(*tender.ImmutableMap); ok {
-						texMap = m
-					} else if mutableMap, ok := args[0].(*tender.Map); ok {
-						texMap = &tender.ImmutableMap{Value: mutableMap.Value}
-					} else {
-						return nil, tender.ErrInvalidArgument
-					}
-
-					if idVal, ok := texMap.Value["id"].(*tender.Int); ok {
-						texID = uint32(idVal.Value)
-					}
-					if wVal, ok := texMap.Value["width"].(*tender.Int); ok {
-						tw = float32(wVal.Value)
-					}
-					if hVal, ok := texMap.Value["height"].(*tender.Int); ok {
-						th = float32(hVal.Value)
-					}
+				texID, tw, th, err := extractGLTexture(args[0])
+				if err != nil {
+					return nil, err
 				}
-
 				x := toFloat32(args[1])
 				y := toFloat32(args[2])
 
@@ -1362,54 +1621,51 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
+		"draw_image_anchored": &tender.NativeFunction{
+			Name: "draw_image_anchored",
+			Value: func(args ...tender.Object) (tender.Object, error) {
+				if len(args) != 5 {
+					return nil, tender.ErrInvalidArgCount
+				}
+				texID, tw, th, err := extractGLTexture(args[0])
+				if err != nil {
+					return nil, err
+				}
+				x := toFloat32(args[1])
+				y := toFloat32(args[2])
+				ax := toFloat32(args[3])
+				ay := toFloat32(args[4])
+
+				dx := x - ax*tw
+				dy := y - ay*th
+
+				gl.Enable(gl.TEXTURE_2D)
+				gl.Enable(gl.BLEND)
+				gl.BlendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA)
+				gl.BindTexture(gl.TEXTURE_2D, texID)
+				gl.Color4f(1, 1, 1, 1)
+
+				gl.Begin(gl.QUADS)
+				gl.TexCoord2f(0, 0); gl.Vertex2f(dx, dy)
+				gl.TexCoord2f(1, 0); gl.Vertex2f(dx+tw, dy)
+				gl.TexCoord2f(1, 1); gl.Vertex2f(dx+tw, dy+th)
+				gl.TexCoord2f(0, 1); gl.Vertex2f(dx, dy+th)
+				gl.End()
+
+				gl.Disable(gl.TEXTURE_2D)
+				return tender.NullValue, nil
+			},
+		},
 		"draw_image_rect": &tender.NativeFunction{
 			Name: "draw_image_rect",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 9 {
 					return nil, tender.ErrInvalidArgCount
 				}
-
-				var texID uint32
-				var tw, th float32
-
-				// Support bytes drawing
-				if bytesObj, ok := args[0].(*tender.Bytes); ok {
-					info, err := getOrCreateImageBytesTexture(bytesObj.Value)
-					if err != nil {
-						return nil, err
-					}
-					texID = info.id
-					tw = float32(info.width)
-					th = float32(info.height)
-				} else if bytesSlice, ok := tender.ToByteSlice(args[0]); ok {
-					info, err := getOrCreateImageBytesTexture(bytesSlice)
-					if err != nil {
-						return nil, err
-					}
-					texID = info.id
-					tw = float32(info.width)
-					th = float32(info.height)
-				} else {
-					var texMap *tender.ImmutableMap
-					if m, ok := args[0].(*tender.ImmutableMap); ok {
-						texMap = m
-					} else if mutableMap, ok := args[0].(*tender.Map); ok {
-						texMap = &tender.ImmutableMap{Value: mutableMap.Value}
-					} else {
-						return nil, tender.ErrInvalidArgument
-					}
-
-					if idVal, ok := texMap.Value["id"].(*tender.Int); ok {
-						texID = uint32(idVal.Value)
-					}
-					if wVal, ok := texMap.Value["width"].(*tender.Int); ok {
-						tw = float32(wVal.Value)
-					}
-					if hVal, ok := texMap.Value["height"].(*tender.Int); ok {
-						th = float32(hVal.Value)
-					}
+				texID, tw, th, err := extractGLTexture(args[0])
+				if err != nil {
+					return nil, err
 				}
-
 				sx := toFloat32(args[1])
 				sy := toFloat32(args[2])
 				sw := toFloat32(args[3])
@@ -1481,8 +1737,8 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return tender.NullValue, nil
 			},
 		},
-		"measure_string": &tender.NativeFunction{
-			Name: "measure_string",
+		"measure_text": &tender.NativeFunction{
+			Name: "measure_text",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 1 {
 					return nil, tender.ErrInvalidArgCount
@@ -1515,20 +1771,35 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				return &tender.ImmutableMap{Value: resMap}, nil
 			},
 		},
+		"font_height": &tender.NativeFunction{
+			Name: "font_height",
+			Value: func(args ...tender.Object) (tender.Object, error) {
+				face := state.FontFace
+				if face == nil {
+					face = basicfont.Face7x13
+				}
+				metrics := face.Metrics()
+				h := float64(metrics.Height) / 64.0
+				if h == 0 {
+					h = float64(metrics.Ascent + metrics.Descent) / 64.0
+				}
+				return &tender.Float{Value: h}, nil
+			},
+		},
 		"text": &tender.NativeFunction{
 			Name: "text",
 			Value: func(args ...tender.Object) (tender.Object, error) {
 				if len(args) != 3 {
 					return nil, tender.ErrInvalidArgCount
 				}
-				x := toFloat32(args[0])
-				y := toFloat32(args[1])
 				text := ""
-				if strObj, ok := args[2].(*tender.String); ok {
+				if strObj, ok := args[0].(*tender.String); ok {
 					text = strObj.Value
 				} else {
-					text = fmt.Sprint(args[2])
+					text = fmt.Sprint(args[0])
 				}
+				x := toFloat32(args[1])
+				y := toFloat32(args[2])
 
 				if text == "" {
 					return tender.NullValue, nil
@@ -1569,14 +1840,14 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				if len(args) != 5 {
 					return nil, tender.ErrInvalidArgCount
 				}
-				x := toFloat32(args[0])
-				y := toFloat32(args[1])
 				text := ""
-				if strObj, ok := args[2].(*tender.String); ok {
+				if strObj, ok := args[0].(*tender.String); ok {
 					text = strObj.Value
 				} else {
-					text = fmt.Sprint(args[2])
+					text = fmt.Sprint(args[0])
 				}
+				x := toFloat32(args[1])
+				y := toFloat32(args[2])
 				ax := toFloat32(args[3])
 				ay := toFloat32(args[4])
 
@@ -1628,14 +1899,14 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				if len(args) < 4 {
 					return nil, tender.ErrInvalidArgCount
 				}
-				x := toFloat32(args[0])
-				y := toFloat32(args[1])
 				text := ""
-				if strObj, ok := args[2].(*tender.String); ok {
+				if strObj, ok := args[0].(*tender.String); ok {
 					text = strObj.Value
 				} else {
-					text = fmt.Sprint(args[2])
+					text = fmt.Sprint(args[0])
 				}
+				x := toFloat32(args[1])
+				y := toFloat32(args[2])
 				width := toFloat32(args[3])
 
 				lineSpacing := float32(1.5)
@@ -1691,6 +1962,31 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 					currentY += fontHeight * lineSpacing
 				}
 				return tender.NullValue, nil
+			},
+		},
+		"wordwrap": &tender.NativeFunction{
+			Name: "wordwrap",
+			Value: func(args ...tender.Object) (tender.Object, error) {
+				if len(args) != 2 {
+					return nil, tender.ErrInvalidArgCount
+				}
+				text := ""
+				if strObj, ok := args[0].(*tender.String); ok {
+					text = strObj.Value
+				} else {
+					text = fmt.Sprint(args[0])
+				}
+				w := toFloat32(args[1])
+				face := state.FontFace
+				if face == nil {
+					face = basicfont.Face7x13
+				}
+				lines := wordWrap(face, text, float64(w))
+				items := make([]tender.Object, len(lines))
+				for i, l := range lines {
+					items[i] = &tender.String{Value: l}
+				}
+				return &tender.Array{Value: items}, nil
 			},
 		},
 		"save_png": &tender.NativeFunction{
