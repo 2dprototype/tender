@@ -1,34 +1,152 @@
 package stdlib
 
 import (
-	// "fmt"
-	"image"
-	jpeg "image/jpeg"
-	bmp "golang.org/x/image/bmp"
-	tiff "golang.org/x/image/tiff"
-	_ "golang.org/x/image/webp"
-	"image/png"
-	"image/color"
-	"image/draw"
-	"os"
 	"bytes"
 	"fmt"
-	
+	"image"
+	"image/color"
+	"image/draw"
+	jpeg "image/jpeg"
+	"image/png"
+	"math"
+	"os"
+	"path/filepath"
+	"strings"
+
 	"github.com/2dprototype/tender"
+	bmp "golang.org/x/image/bmp"
+	xdraw "golang.org/x/image/draw"
+	tiff "golang.org/x/image/tiff"
+	_ "golang.org/x/image/webp"
 )
 
 var imageModule = map[string]tender.Object{
-	"new": &tender.NativeFunction{Value: imageNew},
-	"load" : &tender.NativeFunction{Value: imageLoad},
-	"decode" : &tender.NativeFunction{Value: imageDecode},
-	"formats" : &tender.ImmutableArray{Value: []tender.Object{
-			&tender.String{Value: "png"},
-			&tender.String{Value: "jpeg"},
-			&tender.String{Value: "bmp"},
-			&tender.String{Value: "tiff"},
-			&tender.String{Value: "webp"},
+	"new":        &tender.NativeFunction{Value: imageNew},
+	"load":       &tender.NativeFunction{Value: imageLoad},
+	"decode":     &tender.NativeFunction{Value: imageDecode},
+	"from_bytes": &tender.NativeFunction{Value: imageFromBytes},
+	"dimensions": &tender.NativeFunction{Value: imageDimensions},
+	"save":       &tender.NativeFunction{Value: imageModuleSave},
+	"formats": &tender.ImmutableArray{Value: []tender.Object{
+		&tender.String{Value: "png"},
+		&tender.String{Value: "jpeg"},
+		&tender.String{Value: "jpg"},
+		&tender.String{Value: "bmp"},
+		&tender.String{Value: "tiff"},
+		&tender.String{Value: "webp"},
+	}},
+}
+
+func normalizeFormat(format string) string {
+	f := strings.ToLower(strings.TrimSpace(format))
+	f = strings.TrimPrefix(f, ".")
+	switch f {
+	case "jpg", "jpeg":
+		return "jpeg"
+	case "png":
+		return "png"
+	case "bmp":
+		return "bmp"
+	case "tiff", "tif":
+		return "tiff"
+	}
+	return f
+}
+
+func detectFormatFromPath(path string) string {
+	ext := filepath.Ext(path)
+	return normalizeFormat(ext)
+}
+
+func encodeImage(img image.Image, format string, quality int) ([]byte, error) {
+	fmtNorm := normalizeFormat(format)
+	var buf bytes.Buffer
+	switch fmtNorm {
+	case "png":
+		if err := png.Encode(&buf, img); err != nil {
+			return nil, err
+		}
+	case "jpeg":
+		opt := &jpeg.Options{Quality: 85}
+		if quality > 0 && quality <= 100 {
+			opt.Quality = quality
+		}
+		if err := jpeg.Encode(&buf, img, opt); err != nil {
+			return nil, err
+		}
+	case "tiff":
+		if err := tiff.Encode(&buf, img, nil); err != nil {
+			return nil, err
+		}
+	case "bmp":
+		if err := bmp.Encode(&buf, img); err != nil {
+			return nil, err
+		}
+	default:
+		return nil, fmt.Errorf("unsupported image format: %s", format)
+	}
+	return buf.Bytes(), nil
+}
+
+func imageDimensions(args ...tender.Object) (tender.Object, error) {
+	if len(args) != 1 {
+		return nil, tender.ErrWrongNumArguments
+	}
+
+	b, err := ToFileData(args[0])
+	if err != nil {
+		return nil, tender.ErrInvalidArgumentType{Name: "src", Expected: "string or bytes"}
+	}
+
+	cfg, format, err := image.DecodeConfig(bytes.NewReader(b))
+	if err != nil {
+		return wrapError(err), nil
+	}
+
+	return &tender.ImmutableMap{
+		Value: map[string]tender.Object{
+			"width":  &tender.Int{Value: int64(cfg.Width)},
+			"height": &tender.Int{Value: int64(cfg.Height)},
+			"format": &tender.String{Value: format},
 		},
-	},
+	}, nil
+}
+
+func imageFromBytes(args ...tender.Object) (tender.Object, error) {
+	if len(args) != 3 {
+		return nil, tender.ErrWrongNumArguments
+	}
+	data, ok := tender.ToByteSlice(args[0])
+	if !ok {
+		return nil, tender.ErrInvalidArgumentType{Name: "bytes", Expected: "bytes"}
+	}
+	w, ok1 := tender.ToInt(args[1])
+	h, ok2 := tender.ToInt(args[2])
+	if !ok1 || !ok2 {
+		return nil, tender.ErrInvalidArgumentType{Name: "width/height", Expected: "int"}
+	}
+	expectedLen := w * h * 4
+	if len(data) < expectedLen {
+		return nil, fmt.Errorf("insufficient byte length: got %d, expected %d for %dx%d RGBA", len(data), expectedLen, w, h)
+	}
+	rgba := image.NewRGBA(image.Rect(0, 0, w, h))
+	copy(rgba.Pix, data[:expectedLen])
+	return makeImage(rgba), nil
+}
+
+func imageModuleSave(args ...tender.Object) (tender.Object, error) {
+	if len(args) < 2 {
+		return nil, tender.ErrWrongNumArguments
+	}
+	imgObj, ok := args[0].(*tender.ImmutableMap)
+	if !ok {
+		return nil, tender.ErrInvalidArgumentType{Name: "image", Expected: "image"}
+	}
+	saveFn, ok := imgObj.Value["save"].(*tender.NativeFunction)
+	if !ok {
+		return nil, fmt.Errorf("invalid image object: missing save method")
+	}
+	return saveFn.Value(args[1:]...)
 }
 
 func imageDecode(args ...tender.Object) (tender.Object, error) {
@@ -103,22 +221,409 @@ func imageNew(args ...tender.Object) (ret tender.Object, err error) {
 	return makeImage(img), nil
 }
 
+func parseColorArg(obj tender.Object) (color.RGBA, bool) {
+	if arr, ok := obj.(*tender.Array); ok {
+		if len(arr.Value) >= 3 {
+			r, _ := tender.ToInt(arr.Value[0])
+			g, _ := tender.ToInt(arr.Value[1])
+			b, _ := tender.ToInt(arr.Value[2])
+			a := 255
+			if len(arr.Value) >= 4 {
+				a, _ = tender.ToInt(arr.Value[3])
+			}
+			return color.RGBA{uint8(r), uint8(g), uint8(b), uint8(a)}, true
+		}
+	}
+	if str, ok := tender.ToString(obj); ok {
+		hex := strings.TrimPrefix(str, "#")
+		var r, g, b, a uint32 = 0, 0, 0, 255
+		if len(hex) == 3 {
+			fmt.Sscanf(hex, "%1x%1x%1x", &r, &g, &b)
+			r |= r << 4
+			g |= g << 4
+			b |= b << 4
+		} else if len(hex) == 4 {
+			fmt.Sscanf(hex, "%1x%1x%1x%1x", &r, &g, &b, &a)
+			r |= r << 4
+			g |= g << 4
+			b |= b << 4
+			a |= a << 4
+		} else if len(hex) == 6 {
+			fmt.Sscanf(hex, "%02x%02x%02x", &r, &g, &b)
+		} else if len(hex) == 8 {
+			fmt.Sscanf(hex, "%02x%02x%02x%02x", &r, &g, &b, &a)
+		} else {
+			return color.RGBA{}, false
+		}
+		return color.RGBA{uint8(r), uint8(g), uint8(b), uint8(a)}, true
+	}
+	return color.RGBA{}, false
+}
+
+func cropImage(rgba *image.RGBA, x, y, w, h int) *image.RGBA {
+	bounds := rgba.Bounds()
+	reqRect := image.Rect(x, y, x+w, y+h)
+	intersect := reqRect.Intersect(bounds)
+	if intersect.Empty() {
+		return image.NewRGBA(image.Rect(0, 0, w, h))
+	}
+	dst := image.NewRGBA(image.Rect(0, 0, intersect.Dx(), intersect.Dy()))
+	draw.Draw(dst, dst.Bounds(), rgba, intersect.Min, draw.Src)
+	return dst
+}
+
+func resizeImage(src image.Image, w, h int, filter string) *image.RGBA {
+	dst := image.NewRGBA(image.Rect(0, 0, w, h))
+	var scaler xdraw.Scaler = xdraw.BiLinear
+	switch strings.ToLower(strings.TrimSpace(filter)) {
+	case "nearest", "point":
+		scaler = xdraw.NearestNeighbor
+	case "approx_bilinear":
+		scaler = xdraw.ApproxBiLinear
+	case "catmull_rom", "bicubic":
+		scaler = xdraw.CatmullRom
+	}
+	scaler.Scale(dst, dst.Bounds(), src, src.Bounds(), draw.Over, nil)
+	return dst
+}
+
+func flipHorizontal(src *image.RGBA) *image.RGBA {
+	bounds := src.Bounds()
+	w, h := bounds.Dx(), bounds.Dy()
+	dst := image.NewRGBA(image.Rect(0, 0, w, h))
+	for y := 0; y < h; y++ {
+		for x := 0; x < w; x++ {
+			c := src.RGBAAt(bounds.Min.X+x, bounds.Min.Y+y)
+			dst.SetRGBA(w-1-x, y, c)
+		}
+	}
+	return dst
+}
+
+func flipVertical(src *image.RGBA) *image.RGBA {
+	bounds := src.Bounds()
+	w, h := bounds.Dx(), bounds.Dy()
+	dst := image.NewRGBA(image.Rect(0, 0, w, h))
+	for y := 0; y < h; y++ {
+		for x := 0; x < w; x++ {
+			c := src.RGBAAt(bounds.Min.X+x, bounds.Min.Y+y)
+			dst.SetRGBA(x, h-1-y, c)
+		}
+	}
+	return dst
+}
+
+func rotate90(src *image.RGBA) *image.RGBA {
+	bounds := src.Bounds()
+	w, h := bounds.Dx(), bounds.Dy()
+	dst := image.NewRGBA(image.Rect(0, 0, h, w))
+	for y := 0; y < h; y++ {
+		for x := 0; x < w; x++ {
+			c := src.RGBAAt(bounds.Min.X+x, bounds.Min.Y+y)
+			dst.SetRGBA(h-1-y, x, c)
+		}
+	}
+	return dst
+}
+
+func rotate180(src *image.RGBA) *image.RGBA {
+	bounds := src.Bounds()
+	w, h := bounds.Dx(), bounds.Dy()
+	dst := image.NewRGBA(image.Rect(0, 0, w, h))
+	for y := 0; y < h; y++ {
+		for x := 0; x < w; x++ {
+			c := src.RGBAAt(bounds.Min.X+x, bounds.Min.Y+y)
+			dst.SetRGBA(w-1-x, h-1-y, c)
+		}
+	}
+	return dst
+}
+
+func rotate270(src *image.RGBA) *image.RGBA {
+	bounds := src.Bounds()
+	w, h := bounds.Dx(), bounds.Dy()
+	dst := image.NewRGBA(image.Rect(0, 0, h, w))
+	for y := 0; y < h; y++ {
+		for x := 0; x < w; x++ {
+			c := src.RGBAAt(bounds.Min.X+x, bounds.Min.Y+y)
+			dst.SetRGBA(y, w-1-x, c)
+		}
+	}
+	return dst
+}
+
+func rotateAngle(src *image.RGBA, angleRad float64) *image.RGBA {
+	bounds := src.Bounds()
+	w, h := float64(bounds.Dx()), float64(bounds.Dy())
+	sin, cos := math.Abs(math.Sin(angleRad)), math.Abs(math.Cos(angleRad))
+	newW := int(math.Ceil(w*cos + h*sin))
+	newH := int(math.Ceil(w*sin + h*cos))
+	dst := image.NewRGBA(image.Rect(0, 0, newW, newH))
+
+	cx, cy := w/2.0, h/2.0
+	ncx, ncy := float64(newW)/2.0, float64(newH)/2.0
+	c, s := math.Cos(-angleRad), math.Sin(-angleRad)
+
+	for dy := 0; dy < newH; dy++ {
+		for dx := 0; dx < newW; dx++ {
+			ox := float64(dx) - ncx
+			oy := float64(dy) - ncy
+			sx := ox*c - oy*s + cx
+			sy := ox*s + oy*c + cy
+			isx := int(math.Round(sx))
+			isy := int(math.Round(sy))
+			if isx >= 0 && isx < int(w) && isy >= 0 && isy < int(h) {
+				dst.SetRGBA(dx, dy, src.RGBAAt(bounds.Min.X+isx, bounds.Min.Y+isy))
+			}
+		}
+	}
+	return dst
+}
+
+func cloneRGBA(src *image.RGBA) *image.RGBA {
+	dst := image.NewRGBA(src.Bounds())
+	copy(dst.Pix, src.Pix)
+	return dst
+}
+
+func compositeImage(base *image.RGBA, overlay image.Image, x, y int, op draw.Op) *image.RGBA {
+	dst := cloneRGBA(base)
+	oBounds := overlay.Bounds()
+	rect := image.Rect(x, y, x+oBounds.Dx(), y+oBounds.Dy())
+	draw.Draw(dst, rect, overlay, oBounds.Min, op)
+	return dst
+}
+
 func makeImage(img image.Image) *tender.ImmutableMap {
 	// Convert the image to *image.RGBA if it's not already
-	if _, ok := img.(*image.RGBA); !ok {
+	var rgbaImage *image.RGBA
+	if r, ok := img.(*image.RGBA); ok {
+		rgbaImage = r
+	} else {
 		bounds := img.Bounds()
-		newImg := image.NewRGBA(bounds)
-		draw.Draw(newImg, bounds, img, bounds.Min, draw.Src)
-		img = newImg
-	}	
+		rgbaImage = image.NewRGBA(bounds)
+		draw.Draw(rgbaImage, bounds, img, bounds.Min, draw.Src)
+		img = rgbaImage
+	}
 
 	return &tender.ImmutableMap{
 		Value: map[string]tender.Object{
-			"filters": makeImageFilters(img),
-			"encode" : &tender.NativeFunction{
-				Name: "encode",
+			"filters": makeImageFilters(rgbaImage),
+			"width": &tender.NativeFunction{
+				Name: "width",
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					return &tender.Int{Value: int64(rgbaImage.Bounds().Dx())}, nil
+				},
+			},
+			"height": &tender.NativeFunction{
+				Name: "height",
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					return &tender.Int{Value: int64(rgbaImage.Bounds().Dy())}, nil
+				},
+			},
+			"size": &tender.NativeFunction{
+				Name: "size",
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					return &tender.ImmutableMap{
+						Value: map[string]tender.Object{
+							"width":  &tender.Int{Value: int64(rgbaImage.Bounds().Dx())},
+							"height": &tender.Int{Value: int64(rgbaImage.Bounds().Dy())},
+						},
+					}, nil
+				},
+			},
+			"crop": &tender.NativeFunction{
+				Name: "crop",
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					if len(args) != 4 {
+						return nil, tender.ErrWrongNumArguments
+					}
+					x, _ := tender.ToInt(args[0])
+					y, _ := tender.ToInt(args[1])
+					w, _ := tender.ToInt(args[2])
+					h, _ := tender.ToInt(args[3])
+					return makeImage(cropImage(rgbaImage, x, y, w, h)), nil
+				},
+			},
+			"sub_image": &tender.NativeFunction{
+				Name: "sub_image",
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					if len(args) != 4 {
+						return nil, tender.ErrWrongNumArguments
+					}
+					x, _ := tender.ToInt(args[0])
+					y, _ := tender.ToInt(args[1])
+					w, _ := tender.ToInt(args[2])
+					h, _ := tender.ToInt(args[3])
+					return makeImage(cropImage(rgbaImage, x, y, w, h)), nil
+				},
+			},
+			"resize": &tender.NativeFunction{
+				Name: "resize",
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					if len(args) < 2 {
+						return nil, tender.ErrWrongNumArguments
+					}
+					w, _ := tender.ToInt(args[0])
+					h, _ := tender.ToInt(args[1])
+					filter := "bilinear"
+					if len(args) >= 3 {
+						filter, _ = tender.ToString(args[2])
+					}
+					return makeImage(resizeImage(rgbaImage, w, h, filter)), nil
+				},
+			},
+			"scale": &tender.NativeFunction{
+				Name: "scale",
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					if len(args) < 1 {
+						return nil, tender.ErrWrongNumArguments
+					}
+					factor, _ := tender.ToFloat64(args[0])
+					if factor <= 0 {
+						return nil, fmt.Errorf("scale factor must be positive, got %f", factor)
+					}
+					w := int(math.Round(float64(rgbaImage.Bounds().Dx()) * factor))
+					h := int(math.Round(float64(rgbaImage.Bounds().Dy()) * factor))
+					if w < 1 {
+						w = 1
+					}
+					if h < 1 {
+						h = 1
+					}
+					filter := "bilinear"
+					if len(args) >= 2 {
+						filter, _ = tender.ToString(args[1])
+					}
+					return makeImage(resizeImage(rgbaImage, w, h, filter)), nil
+				},
+			},
+			"flip_h": &tender.NativeFunction{
+				Name: "flip_h",
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					return makeImage(flipHorizontal(rgbaImage)), nil
+				},
+			},
+			"flip_v": &tender.NativeFunction{
+				Name: "flip_v",
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					return makeImage(flipVertical(rgbaImage)), nil
+				},
+			},
+			"rotate90": &tender.NativeFunction{
+				Name: "rotate90",
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					return makeImage(rotate90(rgbaImage)), nil
+				},
+			},
+			"rotate180": &tender.NativeFunction{
+				Name: "rotate180",
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					return makeImage(rotate180(rgbaImage)), nil
+				},
+			},
+			"rotate270": &tender.NativeFunction{
+				Name: "rotate270",
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					return makeImage(rotate270(rgbaImage)), nil
+				},
+			},
+			"rotate": &tender.NativeFunction{
+				Name: "rotate",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 1 {
+						return nil, tender.ErrWrongNumArguments
+					}
+					deg, _ := tender.ToFloat64(args[0])
+					return makeImage(rotateAngle(rgbaImage, deg*math.Pi/180.0)), nil
+				},
+			},
+			"clone": &tender.NativeFunction{
+				Name: "clone",
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					return makeImage(cloneRGBA(rgbaImage)), nil
+				},
+			},
+			"copy": &tender.NativeFunction{
+				Name: "copy",
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					return makeImage(cloneRGBA(rgbaImage)), nil
+				},
+			},
+			"composite": &tender.NativeFunction{
+				Name: "composite",
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					if len(args) < 3 {
+						return nil, tender.ErrWrongNumArguments
+					}
+					overlay, err := decodeImageArg(args[0])
+					if err != nil {
+						return wrapError(err), nil
+					}
+					x, _ := tender.ToInt(args[1])
+					y, _ := tender.ToInt(args[2])
+					op := draw.Over
+					if len(args) >= 4 {
+						if opStr, ok := tender.ToString(args[3]); ok && strings.ToLower(opStr) == "src" {
+							op = draw.Src
+						}
+					}
+					res := compositeImage(rgbaImage, overlay, x, y, op)
+					return makeImage(res), nil
+				},
+			},
+			"fill": &tender.NativeFunction{
+				Name: "fill",
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					if len(args) < 1 {
+						return nil, tender.ErrWrongNumArguments
+					}
+					c, ok := parseColorArg(args[0])
+					if !ok {
+						return nil, tender.ErrInvalidArgumentType{Name: "color", Expected: "array or hex string"}
+					}
+					bounds := rgbaImage.Bounds()
+					fillBounds := bounds
+					if len(args) >= 5 {
+						x, _ := tender.ToInt(args[1])
+						y, _ := tender.ToInt(args[2])
+						w, _ := tender.ToInt(args[3])
+						h, _ := tender.ToInt(args[4])
+						fillBounds = image.Rect(x, y, x+w, y+h).Intersect(bounds)
+					}
+					draw.Draw(rgbaImage, fillBounds, &image.Uniform{C: c}, image.Point{}, draw.Src)
+					return tender.NullValue, nil
+				},
+			},
+			"clear": &tender.NativeFunction{
+				Name: "clear",
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					c := color.RGBA{0, 0, 0, 0}
+					if len(args) >= 1 {
+						if parsed, ok := parseColorArg(args[0]); ok {
+							c = parsed
+						}
+					}
+					draw.Draw(rgbaImage, rgbaImage.Bounds(), &image.Uniform{C: c}, image.Point{}, draw.Src)
+					return tender.NullValue, nil
+				},
+			},
+			"raw_bytes": &tender.NativeFunction{
+				Name: "raw_bytes",
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					return &tender.Bytes{Value: append([]byte(nil), rgbaImage.Pix...)}, nil
+				},
+			},
+			"bytes": &tender.NativeFunction{
+				Name: "bytes",
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					return &tender.Bytes{Value: append([]byte(nil), rgbaImage.Pix...)}, nil
+				},
+			},
+			"encode": &tender.NativeFunction{
+				Name: "encode",
+				Value: func(args ...tender.Object) (tender.Object, error) {
+					if len(args) < 1 {
 						return nil, tender.ErrWrongNumArguments
 					}
 					format, ok := tender.ToString(args[0])
@@ -129,31 +634,17 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 							Found:    args[0].TypeName(),
 						}
 					}
-					buffer := new(bytes.Buffer)
-
-					if format == "png" {
-						err := png.Encode(buffer, img)
-						if err != nil {
-							return wrapError(err), nil
-						}
-					} else if format == "jpeg" {
-						err := jpeg.Encode(buffer, img, nil)
-						if err != nil {
-							return wrapError(err), nil
-						}
-					} else if format == "tiff" {
-						err := tiff.Encode(buffer, img, nil)
-						if err != nil {
-							return wrapError(err), nil
-						}
-					} else if format == "bmp" {
-						err := bmp.Encode(buffer, img)
-						if err != nil {
-							return wrapError(err), nil
+					quality := 85
+					if len(args) >= 2 {
+						if q, ok := tender.ToInt(args[1]); ok {
+							quality = q
 						}
 					}
-
-					return &tender.Bytes{Value: buffer.Bytes()}, nil
+					data, err := encodeImage(rgbaImage, format, quality)
+					if err != nil {
+						return wrapError(err), nil
+					}
+					return &tender.Bytes{Value: data}, nil
 				},
 			},
 			"bounds": &tender.NativeFunction{
@@ -162,7 +653,7 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 					if len(args) != 0 {
 						return nil, tender.ErrWrongNumArguments
 					}
-					rect := img.Bounds()
+					rect := rgbaImage.Bounds()
 					return makeRectangle(rect), nil
 				},
 			},
@@ -184,7 +675,7 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 						}
 					}
 
-					color := img.At(x, y)
+					color := rgbaImage.At(x, y)
 					return makeColor(color), nil
 				},
 			},
@@ -194,20 +685,15 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 					if len(args) != 0 {
 						return nil, tender.ErrWrongNumArguments
 					}
-					bounds := img.Bounds()
+					bounds := rgbaImage.Bounds()
 					return &tender.Int{Value: int64((bounds.Max.X - bounds.Min.X) * (bounds.Max.Y - bounds.Min.Y))}, nil
 				},
-			},	
+			},
 			"get_pixels": &tender.NativeFunction{
 				Name: "get_pixels",
 				Value: func(args ...tender.Object) (tender.Object, error) {
 					if len(args) != 0 {
 						return nil, tender.ErrWrongNumArguments
-					}
-
-					rgbaImage, ok := img.(*image.RGBA)
-					if !ok {
-						return nil, nil
 					}
 
 					pixels := make([]tender.Object, len(rgbaImage.Pix))
@@ -217,7 +703,7 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 
 					return &tender.Array{Value: pixels}, nil
 				},
-			},	
+			},
 			"set_pixels": &tender.NativeFunction{
 				Name: "set_pixels",
 				Value: func(args ...tender.Object) (tender.Object, error) {
@@ -234,13 +720,8 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 						}
 					}
 
-					rgbaImage, ok := img.(*image.RGBA)
-					if !ok {
-						return nil, nil
-					}
-
 					if len(pixelArray.Value) > len(rgbaImage.Pix) {
-						return &tender.Error{Value: &tender.String{Value: "Failed to set pixels: Length of pixel array is greater than image dimensions"}}, nil 
+						return &tender.Error{Value: &tender.String{Value: "Failed to set pixels: Length of pixel array is greater than image dimensions"}}, nil
 					}
 
 					for i, pixel := range pixelArray.Value {
@@ -248,7 +729,7 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 						rgbaImage.Pix[i] = uint8(val)
 					}
 
-					return nil, nil
+					return tender.NullValue, nil
 				},
 			},
 			"set": &tender.NativeFunction{
@@ -269,32 +750,23 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 						}
 					}
 
-					arr, ok := args[2].(*tender.Array)
-					if !ok || len(arr.Value) != 4 {
+					col, ok := parseColorArg(args[2])
+					if !ok {
 						return nil, tender.ErrInvalidArgumentType{
 							Name:     "color",
-							Expected: "[4]array",
+							Expected: "array or hex string",
 							Found:    args[2].TypeName(),
 						}
 					}
 
-					red, ok1 := tender.ToUint8(arr.Value[0])
-					green, ok2 := tender.ToUint8(arr.Value[1])
-					blue, ok3 := tender.ToUint8(arr.Value[2])
-					alpha, ok4 := tender.ToUint8(arr.Value[3])
-
-					if !ok1 || !ok2 || !ok3 || !ok4 {
-						return nil, nil
-					}
-
-					img.(*image.RGBA).Set(x, y, color.RGBA{red, green, blue, alpha})
-					return nil, nil
+					rgbaImage.Set(x, y, col)
+					return tender.NullValue, nil
 				},
 			},
 			"save": &tender.NativeFunction{
 				Name: "save",
 				Value: func(args ...tender.Object) (tender.Object, error) {
-					if len(args) != 2 {
+					if len(args) < 1 {
 						return nil, tender.ErrWrongNumArguments
 					}
 
@@ -306,48 +778,36 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 							Found:    args[0].TypeName(),
 						}
 					}
-					format, ok := tender.ToString(args[1])
-					if !ok {
-						return nil, tender.ErrInvalidArgumentType{
-							Name:     "path",
-							Expected: "string",
-							Found:    args[1].TypeName(),
+					format := ""
+					if len(args) >= 2 {
+						format, _ = tender.ToString(args[1])
+					}
+					if format == "" {
+						format = detectFormatFromPath(path)
+						if format == "" {
+							format = "png"
+						}
+					}
+					quality := 85
+					if len(args) >= 3 {
+						if q, ok := tender.ToInt(args[2]); ok {
+							quality = q
 						}
 					}
 
-					file, err := os.Create(path)
+					data, err := encodeImage(rgbaImage, format, quality)
 					if err != nil {
 						return wrapError(err), nil
 					}
 
-					defer file.Close()
-
-					if format == "png" {
-						err = png.Encode(file, img)
-						if err != nil {
-							return wrapError(err), nil
-						}
-					} else if format == "jpeg" {
-						err = jpeg.Encode(file, img, nil)
-						if err != nil {
-							return wrapError(err), nil
-						}
-					} else if format == "tiff" {
-						err = tiff.Encode(file, img, nil)
-						if err != nil {
-							return wrapError(err), nil
-						}
-					} else if format == "bmp" {
-						err = bmp.Encode(file, img)
-						if err != nil {
-							return wrapError(err), nil
-						}
+					if err := os.WriteFile(tender.ResolvePath(path), data, 0666); err != nil {
+						return wrapError(err), nil
 					}
 
-					return nil, nil
+					return tender.NullValue, nil
 				},
 			},
-		
+
 			// Channel getters
 			"get_red": &tender.NativeFunction{
 				Name: "get_red",
@@ -355,16 +815,11 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 					if len(args) != 0 {
 						return nil, tender.ErrWrongNumArguments
 					}
-					
-					rgbaImage, ok := img.(*image.RGBA)
-					if !ok {
-						return nil, nil
-					}
-					
-					bounds := img.Bounds()
+
+					bounds := rgbaImage.Bounds()
 					width := bounds.Dx()
 					height := bounds.Dy()
-					
+
 					data := make([]int64, width*height)
 					for y := 0; y < height; y++ {
 						for x := 0; x < width; x++ {
@@ -372,7 +827,7 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 							data[idx] = int64(rgbaImage.RGBAAt(x, y).R)
 						}
 					}
-					
+
 					return &tender.Matrix[int64]{
 						Rows: height,
 						Cols: width,
@@ -386,16 +841,11 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 					if len(args) != 0 {
 						return nil, tender.ErrWrongNumArguments
 					}
-					
-					rgbaImage, ok := img.(*image.RGBA)
-					if !ok {
-						return nil, nil
-					}
-					
-					bounds := img.Bounds()
+
+					bounds := rgbaImage.Bounds()
 					width := bounds.Dx()
 					height := bounds.Dy()
-					
+
 					data := make([]int64, width*height)
 					for y := 0; y < height; y++ {
 						for x := 0; x < width; x++ {
@@ -403,7 +853,7 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 							data[idx] = int64(rgbaImage.RGBAAt(x, y).G)
 						}
 					}
-					
+
 					return &tender.Matrix[int64]{
 						Rows: height,
 						Cols: width,
@@ -417,16 +867,11 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 					if len(args) != 0 {
 						return nil, tender.ErrWrongNumArguments
 					}
-					
-					rgbaImage, ok := img.(*image.RGBA)
-					if !ok {
-						return nil, nil
-					}
-					
-					bounds := img.Bounds()
+
+					bounds := rgbaImage.Bounds()
 					width := bounds.Dx()
 					height := bounds.Dy()
-					
+
 					data := make([]int64, width*height)
 					for y := 0; y < height; y++ {
 						for x := 0; x < width; x++ {
@@ -434,7 +879,7 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 							data[idx] = int64(rgbaImage.RGBAAt(x, y).B)
 						}
 					}
-					
+
 					return &tender.Matrix[int64]{
 						Rows: height,
 						Cols: width,
@@ -448,16 +893,11 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 					if len(args) != 0 {
 						return nil, tender.ErrWrongNumArguments
 					}
-					
-					rgbaImage, ok := img.(*image.RGBA)
-					if !ok {
-						return nil, nil
-					}
-					
-					bounds := img.Bounds()
+
+					bounds := rgbaImage.Bounds()
 					width := bounds.Dx()
 					height := bounds.Dy()
-					
+
 					data := make([]int64, width*height)
 					for y := 0; y < height; y++ {
 						for x := 0; x < width; x++ {
@@ -465,7 +905,7 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 							data[idx] = int64(rgbaImage.RGBAAt(x, y).A)
 						}
 					}
-					
+
 					return &tender.Matrix[int64]{
 						Rows: height,
 						Cols: width,
@@ -481,7 +921,7 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 					if len(args) != 1 {
 						return nil, tender.ErrWrongNumArguments
 					}
-					
+
 					mat, ok := args[0].(*tender.Matrix[int64])
 					if !ok {
 						return nil, tender.ErrInvalidArgumentType{
@@ -490,26 +930,21 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 							Found:    args[0].TypeName(),
 						}
 					}
-					
-					rgbaImage, ok := img.(*image.RGBA)
-					if !ok {
-						return nil, nil
-					}
-					
-					bounds := img.Bounds()
+
+					bounds := rgbaImage.Bounds()
 					width := bounds.Dx()
 					height := bounds.Dy()
-					
+
 					// Check dimensions
 					if mat.Rows != height || mat.Cols != width {
 						return &tender.Error{
 							Value: &tender.String{
-								Value: fmt.Sprintf("matrix dimensions mismatch: expected %dx%d, got %dx%d", 
+								Value: fmt.Sprintf("matrix dimensions mismatch: expected %dx%d, got %dx%d",
 									height, width, mat.Rows, mat.Cols),
 							},
 						}, nil
 					}
-					
+
 					// Set red channel
 					for y := 0; y < height; y++ {
 						for x := 0; x < width; x++ {
@@ -527,8 +962,8 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 							rgbaImage.SetRGBA(x, y, c)
 						}
 					}
-					
-					return nil, nil
+
+					return tender.NullValue, nil
 				},
 			},
 			"set_green": &tender.NativeFunction{
@@ -537,7 +972,7 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 					if len(args) != 1 {
 						return nil, tender.ErrWrongNumArguments
 					}
-					
+
 					mat, ok := args[0].(*tender.Matrix[int64])
 					if !ok {
 						return nil, tender.ErrInvalidArgumentType{
@@ -546,25 +981,20 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 							Found:    args[0].TypeName(),
 						}
 					}
-					
-					rgbaImage, ok := img.(*image.RGBA)
-					if !ok {
-						return nil, nil
-					}
-					
-					bounds := img.Bounds()
+
+					bounds := rgbaImage.Bounds()
 					width := bounds.Dx()
 					height := bounds.Dy()
-					
+
 					if mat.Rows != height || mat.Cols != width {
 						return &tender.Error{
 							Value: &tender.String{
-								Value: fmt.Sprintf("matrix dimensions mismatch: expected %dx%d, got %dx%d", 
+								Value: fmt.Sprintf("matrix dimensions mismatch: expected %dx%d, got %dx%d",
 									height, width, mat.Rows, mat.Cols),
 							},
 						}, nil
 					}
-					
+
 					for y := 0; y < height; y++ {
 						for x := 0; x < width; x++ {
 							idx := y*width + x
@@ -581,8 +1011,8 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 							rgbaImage.SetRGBA(x, y, c)
 						}
 					}
-					
-					return nil, nil
+
+					return tender.NullValue, nil
 				},
 			},
 			"set_blue": &tender.NativeFunction{
@@ -591,7 +1021,7 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 					if len(args) != 1 {
 						return nil, tender.ErrWrongNumArguments
 					}
-					
+
 					mat, ok := args[0].(*tender.Matrix[int64])
 					if !ok {
 						return nil, tender.ErrInvalidArgumentType{
@@ -600,25 +1030,20 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 							Found:    args[0].TypeName(),
 						}
 					}
-					
-					rgbaImage, ok := img.(*image.RGBA)
-					if !ok {
-						return nil, nil
-					}
-					
-					bounds := img.Bounds()
+
+					bounds := rgbaImage.Bounds()
 					width := bounds.Dx()
 					height := bounds.Dy()
-					
+
 					if mat.Rows != height || mat.Cols != width {
 						return &tender.Error{
 							Value: &tender.String{
-								Value: fmt.Sprintf("matrix dimensions mismatch: expected %dx%d, got %dx%d", 
+								Value: fmt.Sprintf("matrix dimensions mismatch: expected %dx%d, got %dx%d",
 									height, width, mat.Rows, mat.Cols),
 							},
 						}, nil
 					}
-					
+
 					for y := 0; y < height; y++ {
 						for x := 0; x < width; x++ {
 							idx := y*width + x
@@ -635,8 +1060,8 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 							rgbaImage.SetRGBA(x, y, c)
 						}
 					}
-					
-					return nil, nil
+
+					return tender.NullValue, nil
 				},
 			},
 			"set_alpha": &tender.NativeFunction{
@@ -645,7 +1070,7 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 					if len(args) != 1 {
 						return nil, tender.ErrWrongNumArguments
 					}
-					
+
 					mat, ok := args[0].(*tender.Matrix[int64])
 					if !ok {
 						return nil, tender.ErrInvalidArgumentType{
@@ -654,25 +1079,20 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 							Found:    args[0].TypeName(),
 						}
 					}
-					
-					rgbaImage, ok := img.(*image.RGBA)
-					if !ok {
-						return nil, nil
-					}
-					
-					bounds := img.Bounds()
+
+					bounds := rgbaImage.Bounds()
 					width := bounds.Dx()
 					height := bounds.Dy()
-					
+
 					if mat.Rows != height || mat.Cols != width {
 						return &tender.Error{
 							Value: &tender.String{
-								Value: fmt.Sprintf("matrix dimensions mismatch: expected %dx%d, got %dx%d", 
+								Value: fmt.Sprintf("matrix dimensions mismatch: expected %dx%d, got %dx%d",
 									height, width, mat.Rows, mat.Cols),
 							},
 						}, nil
 					}
-					
+
 					for y := 0; y < height; y++ {
 						for x := 0; x < width; x++ {
 							idx := y*width + x
@@ -689,11 +1109,10 @@ func makeImage(img image.Image) *tender.ImmutableMap {
 							rgbaImage.SetRGBA(x, y, c)
 						}
 					}
-					
-					return nil, nil
+
+					return tender.NullValue, nil
 				},
 			},
-		
 		},
 	}
 }
@@ -724,22 +1143,11 @@ func makeRectangle(rect image.Rectangle) *tender.ImmutableMap {
 }
 
 func makeColor(col color.Color) *tender.Array {
-	// Check if the color is RGBA or NRGBA
-	if rgbaColor, ok := col.(color.RGBA); ok {
-		return &tender.Array{Value: []tender.Object{
-				&tender.Int{Value: int64(rgbaColor.R)},
-				&tender.Int{Value: int64(rgbaColor.G)},
-				&tender.Int{Value: int64(rgbaColor.B)},
-				&tender.Int{Value: int64(rgbaColor.A)},
-			},
-		}
-	} else {
-		return &tender.Array{Value: []tender.Object{
-				&tender.Int{Value: 0},
-				&tender.Int{Value: 0},
-				&tender.Int{Value: 0},
-				&tender.Int{Value: 0},
-			},
-		}
-	}
+	r, g, b, a := col.RGBA()
+	return &tender.Array{Value: []tender.Object{
+		&tender.Int{Value: int64(uint8(r >> 8))},
+		&tender.Int{Value: int64(uint8(g >> 8))},
+		&tender.Int{Value: int64(uint8(b >> 8))},
+		&tender.Int{Value: int64(uint8(a >> 8))},
+	}}
 }

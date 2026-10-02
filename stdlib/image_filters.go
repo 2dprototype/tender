@@ -237,6 +237,68 @@ func makeImageFilters(img image.Image) *tender.ImmutableMap {
                     return makeImage(applySobelEdgeDetection(img)), nil
                 },
             },
+            "gaussian_blur": &tender.NativeFunction{
+                Name: "gaussian_blur",
+                Value: func(args ...tender.Object) (tender.Object, error) {
+                    if len(args) != 1 {
+                        return nil, tender.ErrWrongNumArguments
+                    }
+                    r, _ := tender.ToInt(args[0])
+                    return makeImage(applyGaussianBlurParallel(img, r)), nil
+                },
+            },
+            "opacity": &tender.NativeFunction{
+                Name: "opacity",
+                Value: func(args ...tender.Object) (tender.Object, error) {
+                    if len(args) != 1 {
+                        return nil, tender.ErrWrongNumArguments
+                    }
+                    factor, ok := tender.ToFloat64(args[0])
+                    if !ok {
+                        return nil, tender.ErrInvalidArgumentType{Name: "factor", Expected: "float"}
+                    }
+                    return makeImage(applyOpacityParallel(img, factor)), nil
+                },
+            },
+            "gamma": &tender.NativeFunction{
+                Name: "gamma",
+                Value: func(args ...tender.Object) (tender.Object, error) {
+                    if len(args) != 1 {
+                        return nil, tender.ErrWrongNumArguments
+                    }
+                    gamma, ok := tender.ToFloat64(args[0])
+                    if !ok {
+                        return nil, tender.ErrInvalidArgumentType{Name: "gamma", Expected: "float"}
+                    }
+                    return makeImage(applyGammaParallel(img, gamma)), nil
+                },
+            },
+            "posterize": &tender.NativeFunction{
+                Name: "posterize",
+                Value: func(args ...tender.Object) (tender.Object, error) {
+                    if len(args) != 1 {
+                        return nil, tender.ErrWrongNumArguments
+                    }
+                    levels, ok := tender.ToInt(args[0])
+                    if !ok {
+                        return nil, tender.ErrInvalidArgumentType{Name: "levels", Expected: "int"}
+                    }
+                    return makeImage(applyPosterizeParallel(img, levels)), nil
+                },
+            },
+            "solarize": &tender.NativeFunction{
+                Name: "solarize",
+                Value: func(args ...tender.Object) (tender.Object, error) {
+                    if len(args) != 1 {
+                        return nil, tender.ErrWrongNumArguments
+                    }
+                    threshold, ok := tender.ToInt(args[0])
+                    if !ok {
+                        return nil, tender.ErrInvalidArgumentType{Name: "threshold", Expected: "int"}
+                    }
+                    return makeImage(applySolarizeParallel(img, threshold)), nil
+                },
+            },
         },
     }
 }
@@ -244,52 +306,286 @@ func makeImageFilters(img image.Image) *tender.ImmutableMap {
 // Filter Implementations
 // -------------------
 
-// applyBlurParallelOptimized applies a blur filter using a sliding window approach in parallel.
+// applyBlurParallelOptimized applies a 2-pass separable box blur in parallel for O(R) performance.
 func applyBlurParallelOptimized(img image.Image, radius int) image.Image {
+	if radius <= 0 {
+		return img
+	}
 	bounds := img.Bounds()
 	width, height := bounds.Dx(), bounds.Dy()
-	blurImg := image.NewRGBA(bounds)
-	pixels := blurImg.Pix
+	temp := image.NewRGBA(bounds)
+	dst := image.NewRGBA(bounds)
 
 	numWorkers := runtime.GOMAXPROCS(0)
 	var wg sync.WaitGroup
-	rowHeight := height / numWorkers
 
+	// Pass 1: Horizontal blur from img to temp
+	rowHeight := height / numWorkers
+	if rowHeight < 1 {
+		rowHeight = 1
+	}
 	for i := 0; i < numWorkers; i++ {
-		wg.Add(1)
 		startY := i * rowHeight
 		endY := (i + 1) * rowHeight
-		if i == numWorkers-1 {
+		if i == numWorkers-1 || endY > height {
 			endY = height
 		}
+		if startY >= endY {
+			continue
+		}
+		wg.Add(1)
 		go func(startY, endY int) {
 			defer wg.Done()
 			for y := startY; y < endY; y++ {
 				for x := 0; x < width; x++ {
-					var rSum, gSum, bSum, count float64
-					for ky := -radius; ky <= radius; ky++ {
-						for kx := -radius; kx <= radius; kx++ {
-							nx, ny := x+kx, y+ky
-							if nx >= 0 && nx < width && ny >= 0 && ny < height {
-								r, g, b, _ := img.At(nx+bounds.Min.X, ny+bounds.Min.Y).RGBA()
-								rSum += float64(r >> 8)
-								gSum += float64(g >> 8)
-								bSum += float64(b >> 8)
-								count++
-							}
+					var rSum, gSum, bSum, aSum, count float64
+					for kx := -radius; kx <= radius; kx++ {
+						nx := x + kx
+						if nx >= 0 && nx < width {
+							r, g, b, a := img.At(nx+bounds.Min.X, y+bounds.Min.Y).RGBA()
+							rSum += float64(r >> 8)
+							gSum += float64(g >> 8)
+							bSum += float64(b >> 8)
+							aSum += float64(a >> 8)
+							count++
 						}
 					}
-					offset := (y*width + x) * 4
-					pixels[offset] = uint8(clamp(rSum/count, 0, 255))
-					pixels[offset+1] = uint8(clamp(gSum/count, 0, 255))
-					pixels[offset+2] = uint8(clamp(bSum/count, 0, 255))
-					pixels[offset+3] = 255
+					off := (y*width + x) * 4
+					temp.Pix[off] = uint8(clamp(rSum/count, 0, 255))
+					temp.Pix[off+1] = uint8(clamp(gSum/count, 0, 255))
+					temp.Pix[off+2] = uint8(clamp(bSum/count, 0, 255))
+					temp.Pix[off+3] = uint8(clamp(aSum/count, 0, 255))
 				}
 			}
 		}(startY, endY)
 	}
 	wg.Wait()
-	return blurImg
+
+	// Pass 2: Vertical blur from temp to dst
+	colWidth := width / numWorkers
+	if colWidth < 1 {
+		colWidth = 1
+	}
+	for i := 0; i < numWorkers; i++ {
+		startX := i * colWidth
+		endX := (i + 1) * colWidth
+		if i == numWorkers-1 || endX > width {
+			endX = width
+		}
+		if startX >= endX {
+			continue
+		}
+		wg.Add(1)
+		go func(startX, endX int) {
+			defer wg.Done()
+			for x := startX; x < endX; x++ {
+				for y := 0; y < height; y++ {
+					var rSum, gSum, bSum, aSum, count float64
+					for ky := -radius; ky <= radius; ky++ {
+						ny := y + ky
+						if ny >= 0 && ny < height {
+							off := (ny*width + x) * 4
+							rSum += float64(temp.Pix[off])
+							gSum += float64(temp.Pix[off+1])
+							bSum += float64(temp.Pix[off+2])
+							aSum += float64(temp.Pix[off+3])
+							count++
+						}
+					}
+					off := (y*width + x) * 4
+					dst.Pix[off] = uint8(clamp(rSum/count, 0, 255))
+					dst.Pix[off+1] = uint8(clamp(gSum/count, 0, 255))
+					dst.Pix[off+2] = uint8(clamp(bSum/count, 0, 255))
+					dst.Pix[off+3] = uint8(clamp(aSum/count, 0, 255))
+				}
+			}
+		}(startX, endX)
+	}
+	wg.Wait()
+	return dst
+}
+
+func applyGaussianBlurParallel(img image.Image, radius int) image.Image {
+	if radius <= 0 {
+		return img
+	}
+	r := int(math.Round(float64(radius) * 0.577))
+	if r < 1 {
+		r = 1
+	}
+	p1 := applyBlurParallelOptimized(img, r)
+	p2 := applyBlurParallelOptimized(p1, r)
+	return applyBlurParallelOptimized(p2, r)
+}
+
+func applyOpacityParallel(img image.Image, factor float64) image.Image {
+	bounds := img.Bounds()
+	dst := image.NewRGBA(bounds)
+	numWorkers := runtime.GOMAXPROCS(0)
+	var wg sync.WaitGroup
+	rowHeight := bounds.Dy() / numWorkers
+	if rowHeight < 1 {
+		rowHeight = 1
+	}
+
+	for i := 0; i < numWorkers; i++ {
+		startY := bounds.Min.Y + i*rowHeight
+		endY := bounds.Min.Y + (i+1)*rowHeight
+		if i == numWorkers-1 || endY > bounds.Max.Y {
+			endY = bounds.Max.Y
+		}
+		if startY >= endY {
+			continue
+		}
+		wg.Add(1)
+		go func(startY, endY int) {
+			defer wg.Done()
+			for y := startY; y < endY; y++ {
+				for x := bounds.Min.X; x < bounds.Max.X; x++ {
+					r, g, b, a := img.At(x, y).RGBA()
+					newA := uint8(clamp(float64(a>>8)*factor, 0, 255))
+					dst.SetRGBA(x, y, color.RGBA{uint8(r >> 8), uint8(g >> 8), uint8(b >> 8), newA})
+				}
+			}
+		}(startY, endY)
+	}
+	wg.Wait()
+	return dst
+}
+
+func applyGammaParallel(img image.Image, gamma float64) image.Image {
+	if gamma <= 0 {
+		gamma = 1.0
+	}
+	invGamma := 1.0 / gamma
+	var lut [256]uint8
+	for i := 0; i < 256; i++ {
+		lut[i] = uint8(clamp(math.Pow(float64(i)/255.0, invGamma)*255.0, 0, 255))
+	}
+
+	bounds := img.Bounds()
+	dst := image.NewRGBA(bounds)
+	numWorkers := runtime.GOMAXPROCS(0)
+	var wg sync.WaitGroup
+	rowHeight := bounds.Dy() / numWorkers
+	if rowHeight < 1 {
+		rowHeight = 1
+	}
+
+	for i := 0; i < numWorkers; i++ {
+		startY := bounds.Min.Y + i*rowHeight
+		endY := bounds.Min.Y + (i+1)*rowHeight
+		if i == numWorkers-1 || endY > bounds.Max.Y {
+			endY = bounds.Max.Y
+		}
+		if startY >= endY {
+			continue
+		}
+		wg.Add(1)
+		go func(startY, endY int) {
+			defer wg.Done()
+			for y := startY; y < endY; y++ {
+				for x := bounds.Min.X; x < bounds.Max.X; x++ {
+					r, g, b, a := img.At(x, y).RGBA()
+					dst.SetRGBA(x, y, color.RGBA{
+						lut[uint8(r>>8)],
+						lut[uint8(g>>8)],
+						lut[uint8(b>>8)],
+						uint8(a >> 8),
+					})
+				}
+			}
+		}(startY, endY)
+	}
+	wg.Wait()
+	return dst
+}
+
+func applyPosterizeParallel(img image.Image, levels int) image.Image {
+	if levels < 2 {
+		levels = 2
+	}
+	step := 255.0 / float64(levels-1)
+	bounds := img.Bounds()
+	dst := image.NewRGBA(bounds)
+	numWorkers := runtime.GOMAXPROCS(0)
+	var wg sync.WaitGroup
+	rowHeight := bounds.Dy() / numWorkers
+	if rowHeight < 1 {
+		rowHeight = 1
+	}
+
+	for i := 0; i < numWorkers; i++ {
+		startY := bounds.Min.Y + i*rowHeight
+		endY := bounds.Min.Y + (i+1)*rowHeight
+		if i == numWorkers-1 || endY > bounds.Max.Y {
+			endY = bounds.Max.Y
+		}
+		if startY >= endY {
+			continue
+		}
+		wg.Add(1)
+		go func(startY, endY int) {
+			defer wg.Done()
+			for y := startY; y < endY; y++ {
+				for x := bounds.Min.X; x < bounds.Max.X; x++ {
+					r, g, b, a := img.At(x, y).RGBA()
+					pr := uint8(clamp(math.Round(float64(r>>8)/step)*step, 0, 255))
+					pg := uint8(clamp(math.Round(float64(g>>8)/step)*step, 0, 255))
+					pb := uint8(clamp(math.Round(float64(b>>8)/step)*step, 0, 255))
+					dst.SetRGBA(x, y, color.RGBA{pr, pg, pb, uint8(a >> 8)})
+				}
+			}
+		}(startY, endY)
+	}
+	wg.Wait()
+	return dst
+}
+
+func applySolarizeParallel(img image.Image, threshold int) image.Image {
+	bounds := img.Bounds()
+	dst := image.NewRGBA(bounds)
+	numWorkers := runtime.GOMAXPROCS(0)
+	var wg sync.WaitGroup
+	rowHeight := bounds.Dy() / numWorkers
+	if rowHeight < 1 {
+		rowHeight = 1
+	}
+
+	for i := 0; i < numWorkers; i++ {
+		startY := bounds.Min.Y + i*rowHeight
+		endY := bounds.Min.Y + (i+1)*rowHeight
+		if i == numWorkers-1 || endY > bounds.Max.Y {
+			endY = bounds.Max.Y
+		}
+		if startY >= endY {
+			continue
+		}
+		wg.Add(1)
+		go func(startY, endY int) {
+			defer wg.Done()
+			for y := startY; y < endY; y++ {
+				for x := bounds.Min.X; x < bounds.Max.X; x++ {
+					r, g, b, a := img.At(x, y).RGBA()
+					ur := uint8(r >> 8)
+					ug := uint8(g >> 8)
+					ub := uint8(b >> 8)
+					if int(ur) > threshold {
+						ur = 255 - ur
+					}
+					if int(ug) > threshold {
+						ug = 255 - ug
+					}
+					if int(ub) > threshold {
+						ub = 255 - ub
+					}
+					dst.SetRGBA(x, y, color.RGBA{ur, ug, ub, uint8(a >> 8)})
+				}
+			}
+		}(startY, endY)
+	}
+	wg.Wait()
+	return dst
 }
 
 // applyBnWParallel converts the image to black and white using a luminance threshold.

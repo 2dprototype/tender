@@ -7,7 +7,6 @@ import (
 	"image/draw"
 	_ "image/jpeg"
 	_ "image/png"
-	"os"
 
 	"github.com/2dprototype/tender"
 	"github.com/2dprototype/tender/v/gg"
@@ -97,41 +96,16 @@ func ggNewContext(args ...tender.Object) (ret tender.Object, err error) {
 }
 
 func decodeImageArg(obj tender.Object) (image.Image, error) {
-	if b, ok := tender.ToByteSlice(obj); ok {
-		img, _, err := image.Decode(bytes.NewReader(b))
-		return img, err
+	b, err := ToFileData(obj)
+	if err != nil {
+		return nil, fmt.Errorf("invalid image argument: expected bytes or file path")
 	}
-	if s, ok := tender.ToString(obj); ok {
-		data, err := os.ReadFile(tender.ResolvePath(s))
-		if err != nil {
-			return nil, err
-		}
-		img, _, err := image.Decode(bytes.NewReader(data))
-		return img, err
+	var img image.Image
+	img, _, err = image.Decode(bytes.NewReader(b))
+	if err != nil {
+		return nil, fmt.Errorf("invalid image format")
 	}
-	if m, ok := obj.(*tender.ImmutableMap); ok {
-		if enc, ok := m.Value["encode"].(*tender.NativeFunction); ok {
-			bytesObj, err := enc.Value(&tender.String{Value: "png"})
-			if err == nil {
-				if b, ok := tender.ToByteSlice(bytesObj); ok {
-					img, _, err := image.Decode(bytes.NewReader(b))
-					return img, err
-				}
-			}
-		}
-	}
-	if m, ok := obj.(*tender.Map); ok {
-		if enc, ok := m.Value["encode"].(*tender.NativeFunction); ok {
-			bytesObj, err := enc.Value(&tender.String{Value: "png"})
-			if err == nil {
-				if b, ok := tender.ToByteSlice(bytesObj); ok {
-					img, _, err := image.Decode(bytes.NewReader(b))
-					return img, err
-				}
-			}
-		}
-	}
-	return nil, fmt.Errorf("invalid image argument: expected bytes, file path, or image object")
+	return img, err
 }
 
 func drawEllipticalRoundedRect(dc *gg.Context, x, y, w, h, rx, ry float64) {
