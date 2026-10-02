@@ -4,6 +4,7 @@ package stdlib
 
 import (
 	"bytes"
+	"container/list"
 	"crypto/sha256"
 	"fmt"
 	"image"
@@ -22,8 +23,24 @@ import (
 	"github.com/golang/freetype/truetype"
 	"golang.org/x/image/font"
 	"golang.org/x/image/font/basicfont"
+	"golang.org/x/image/font/gofont/goregular"
 	"golang.org/x/image/math/fixed"
 )
+
+var (
+	defaultTTFFont     *truetype.Font
+	defaultTTFFontOnce sync.Once
+)
+
+func getDefaultTTFFont() *truetype.Font {
+	defaultTTFFontOnce.Do(func() {
+		f, err := truetype.Parse(goregular.TTF)
+		if err == nil {
+			defaultTTFFont = f
+		}
+	})
+	return defaultTTFFont
+}
 
 // Point tracks vertex geometry for stateful path accumulation
 type Point struct {
@@ -40,6 +57,66 @@ type contextState struct {
 	FontFace       font.Face
 	FontSize       float64
 	Font           *truetype.Font
+	FontFaces      map[float64]font.Face
+}
+
+func (s *contextState) setFontSize(size float64) {
+	if size <= 0 {
+		size = 13.0
+	}
+	s.FontSize = size
+	if s.Font == nil {
+		s.Font = getDefaultTTFFont()
+	}
+	if s.Font != nil {
+		if s.FontFaces == nil {
+			s.FontFaces = make(map[float64]font.Face)
+		}
+		if face, ok := s.FontFaces[size]; ok {
+			s.FontFace = face
+		} else {
+			face := truetype.NewFace(s.Font, &truetype.Options{
+				Size: size,
+			})
+			s.FontFaces[size] = face
+			s.FontFace = face
+		}
+	}
+}
+
+func (s *contextState) getFontFace() font.Face {
+	if s.FontFace != nil {
+		return s.FontFace
+	}
+	if s.Font != nil {
+		s.setFontSize(s.FontSize)
+		if s.FontFace != nil {
+			return s.FontFace
+		}
+	}
+	return basicfont.Face7x13
+}
+
+func newContextState(w, h int) *contextState {
+	defFont := getDefaultTTFFont()
+	state := &contextState{
+		Width:     w,
+		Height:    h,
+		R:         1.0,
+		G:         1.0,
+		B:         1.0,
+		A:         1.0,
+		LineWidth: 1.0,
+		Font:      defFont,
+		FontSize:  13.0,
+		FontFaces: make(map[float64]font.Face),
+	}
+	if defFont != nil {
+		face := truetype.NewFace(defFont, &truetype.Options{Size: 13.0})
+		state.FontFaces[13.0] = face
+		state.FontFace = face
+	}
+	return state
 }
 
 // graphicsModule defines the standard package interface mapping for Tender
@@ -54,15 +131,7 @@ var graphicsModule = map[string]tender.Object{
 			w := toInt(args[0])
 			h := toInt(args[1])
 
-			state := &contextState{
-				Width:     w,
-				Height:    h,
-				R:         1.0,
-				G:         1.0,
-				B:         1.0,
-				A:         1.0,
-				LineWidth: 1.0,
-			}
+			state := newContextState(w, h)
 
 			ctxMap := createDrawingMethods(state)
 			return &tender.Map{Value: ctxMap}, nil
@@ -85,15 +154,7 @@ var graphicsModule = map[string]tender.Object{
 			glut.HideWindow()
 			gl.Init()
 
-			state := &contextState{
-				Width:     w,
-				Height:    h,
-				R:         1.0,
-				G:         1.0,
-				B:         1.0,
-				A:         1.0,
-				LineWidth: 1.0,
-			}
+			state := newContextState(w, h)
 
 			gl.Viewport(0, 0, int32(w), int32(h))
 			gl.MatrixMode(gl.PROJECTION)
@@ -148,15 +209,7 @@ var graphicsModule = map[string]tender.Object{
 			glut.CreateWindow(title.Value)
 			gl.Init()
 
-			state := &contextState{
-				Width:     w,
-				Height:    h,
-				R:         1.0,
-				G:         1.0,
-				B:         1.0,
-				A:         1.0,
-				LineWidth: 1.0,
-			}
+			state := newContextState(w, h)
 
 			setupViewport := func() {
 				gl.Viewport(0, 0, int32(state.Width), int32(state.Height))
@@ -565,23 +618,34 @@ type textTexInfo struct {
 	ascent int
 }
 
+type textCacheEntry struct {
+	key  string
+	info textTexInfo
+}
+
+const maxTextCacheEntries = 512
+
 var (
 	textCacheMu sync.Mutex
-	textCache   = make(map[string]textTexInfo)
+	textCache   = make(map[string]*list.Element)
+	textLRU     = list.New()
 )
 
 func getOrCreateTextTexture(face font.Face, text string) textTexInfo {
+	metrics := face.Metrics()
+	key := fmt.Sprintf("%p_%d_%d_%s", face, int(metrics.Height), int(metrics.Ascent), text)
+
 	textCacheMu.Lock()
 	defer textCacheMu.Unlock()
 
-	key := fmt.Sprintf("%p_%s", face, text)
-	if info, ok := textCache[key]; ok {
-		return info
+	if elem, ok := textCache[key]; ok {
+		textLRU.MoveToFront(elem)
+		return elem.Value.(*textCacheEntry).info
 	}
 
 	d := &font.Drawer{Face: face}
-	ascent := int(math.Ceil(float64(face.Metrics().Ascent) / 64))
-	descent := int(math.Ceil(float64(face.Metrics().Descent) / 64))
+	ascent := int(math.Ceil(float64(metrics.Ascent) / 64))
+	descent := int(math.Ceil(float64(metrics.Descent) / 64))
 	width := int(math.Ceil(float64(d.MeasureString(text)) / 64))
 	height := ascent + descent
 	if width <= 0 {
@@ -621,7 +685,24 @@ func getOrCreateTextTexture(face font.Face, text string) textTexInfo {
 		height: height,
 		ascent: ascent,
 	}
-	textCache[key] = info
+
+	if textLRU.Len() >= maxTextCacheEntries {
+		oldest := textLRU.Back()
+		if oldest != nil {
+			textLRU.Remove(oldest)
+			oldEntry := oldest.Value.(*textCacheEntry)
+			delete(textCache, oldEntry.key)
+			gl.DeleteTextures(1, &oldEntry.info.id)
+		}
+	}
+
+	entry := &textCacheEntry{
+		key:  key,
+		info: info,
+	}
+	elem := textLRU.PushFront(entry)
+	textCache[key] = elem
+
 	return info
 }
 
@@ -1712,10 +1793,9 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 				if err != nil {
 					return wrapError(err), nil
 				}
-				face := truetype.NewFace(f, &truetype.Options{Size: size})
 				state.Font = f
-				state.FontFace = face
-				state.FontSize = size
+				state.FontFaces = make(map[float64]font.Face)
+				state.setFontSize(size)
 				return tender.NullValue, nil
 			},
 		},
@@ -1726,14 +1806,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 					return nil, tender.ErrInvalidArgCount
 				}
 				size, _ := tender.ToFloat64(args[0])
-				state.FontSize = size
-
-				if state.Font != nil {
-					face := truetype.NewFace(state.Font, &truetype.Options{
-						Size: size,
-					})
-					state.FontFace = face
-				}
+				state.setFontSize(size)
 				return tender.NullValue, nil
 			},
 		},
@@ -1750,10 +1823,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 					text = fmt.Sprint(args[0])
 				}
 
-				face := state.FontFace
-				if face == nil {
-					face = basicfont.Face7x13
-				}
+				face := state.getFontFace()
 
 				d := &font.Drawer{Face: face}
 				w := float64(d.MeasureString(text) >> 6)
@@ -1774,10 +1844,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 		"font_height": &tender.NativeFunction{
 			Name: "font_height",
 			Value: func(args ...tender.Object) (tender.Object, error) {
-				face := state.FontFace
-				if face == nil {
-					face = basicfont.Face7x13
-				}
+				face := state.getFontFace()
 				metrics := face.Metrics()
 				h := float64(metrics.Height) / 64.0
 				if h == 0 {
@@ -1805,10 +1872,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 					return tender.NullValue, nil
 				}
 
-				face := state.FontFace
-				if face == nil {
-					face = basicfont.Face7x13
-				}
+				face := state.getFontFace()
 
 				info := getOrCreateTextTexture(face, text)
 
@@ -1855,10 +1919,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 					return tender.NullValue, nil
 				}
 
-				face := state.FontFace
-				if face == nil {
-					face = basicfont.Face7x13
-				}
+				face := state.getFontFace()
 
 				info := getOrCreateTextTexture(face, text)
 
@@ -1918,10 +1979,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 					return tender.NullValue, nil
 				}
 
-				face := state.FontFace
-				if face == nil {
-					face = basicfont.Face7x13
-				}
+				face := state.getFontFace()
 
 				metrics := face.Metrics()
 				fontHeight := float32(metrics.Height) / 64.0
@@ -1977,10 +2035,7 @@ func createDrawingMethods(state *contextState) map[string]tender.Object {
 					text = fmt.Sprint(args[0])
 				}
 				w := toFloat32(args[1])
-				face := state.FontFace
-				if face == nil {
-					face = basicfont.Face7x13
-				}
+				face := state.getFontFace()
 				lines := wordWrap(face, text, float64(w))
 				items := make([]tender.Object, len(lines))
 				for i, l := range lines {
